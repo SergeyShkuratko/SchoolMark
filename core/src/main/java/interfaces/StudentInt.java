@@ -2,9 +2,9 @@ package interfaces;
 
 public interface StudentInt {
 
-    getMark();
-
-    getStudent();
-
-    loadWork();
+//    getMark();
+//
+//    getStudent();
+//
+//    loadWork();
 }
