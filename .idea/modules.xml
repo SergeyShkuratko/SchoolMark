@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/SchoolMark.iml" filepath="$PROJECT_DIR$/.idea/modules/SchoolMark.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/SchoolMark_main.iml" filepath="$PROJECT_DIR$/.idea/modules/SchoolMark_main.iml" group="SchoolMark" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/SchoolMark_test.iml" filepath="$PROJECT_DIR$/.idea/modules/SchoolMark_test.iml" group="SchoolMark" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/auth.iml" filepath="$PROJECT_DIR$/.idea/modules/auth.iml" group="auth" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/auth/auth_main.iml" filepath="$PROJECT_DIR$/.idea/modules/auth/auth_main.iml" group="auth" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/auth/auth_test.iml" filepath="$PROJECT_DIR$/.idea/modules/auth/auth_test.iml" group="auth" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/controller.iml" filepath="$PROJECT_DIR$/.idea/modules/controller.iml" group="controller" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Controller/controller_main.iml" filepath="$PROJECT_DIR$/.idea/modules/Controller/controller_main.iml" group="controller" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Controller/controller_test.iml" filepath="$PROJECT_DIR$/.idea/modules/Controller/controller_test.iml" group="controller" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/core.iml" filepath="$PROJECT_DIR$/.idea/modules/core.iml" group="core" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/core/core_main.iml" filepath="$PROJECT_DIR$/.idea/modules/core/core_main.iml" group="core" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/core/core_test.iml" filepath="$PROJECT_DIR$/.idea/modules/core/core_test.iml" group="core" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Director/director.iml" filepath="$PROJECT_DIR$/.idea/modules/Director/director.iml" group="director" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Director/director_main.iml" filepath="$PROJECT_DIR$/.idea/modules/Director/director_main.iml" group="director" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Director/director_test.iml" filepath="$PROJECT_DIR$/.idea/modules/Director/director_test.iml" group="director" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Organizer/organizer.iml" filepath="$PROJECT_DIR$/.idea/modules/Organizer/organizer.iml" group="organizer" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/organizer/Organizer_main.iml" filepath="$PROJECT_DIR$/.idea/modules/organizer/Organizer_main.iml" group="organizer" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/organizer/Organizer_test.iml" filepath="$PROJECT_DIR$/.idea/modules/organizer/Organizer_test.iml" group="organizer" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Student/student.iml" filepath="$PROJECT_DIR$/.idea/modules/Student/student.iml" group="student" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/student/student_main.iml" filepath="$PROJECT_DIR$/.idea/modules/student/student_main.iml" group="student" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/student/student_test.iml" filepath="$PROJECT_DIR$/.idea/modules/student/student_test.iml" group="student" />
+    </modules>
+  </component>
+</project>

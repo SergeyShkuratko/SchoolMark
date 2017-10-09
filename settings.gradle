@@ -1,0 +1,8 @@
+rootProject.name = 'SchoolMark'
+include 'core'
+include 'controller'
+include 'director'
+include 'student'
+include 'organizer'
+include 'auth'
+
