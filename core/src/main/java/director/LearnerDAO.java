@@ -1,7 +1,7 @@
 package director;
 
 import classes.Learner;
-import classes.Test;
+import classes.TestEvent;
 
 import java.util.List;
 
@@ -10,5 +10,5 @@ import java.util.List;
  */
 public interface LearnerDAO {
 
-    List<Learner> getLearnersWithMarksByTest(Test test);  //или добавить еще MarksDAO и там тянуть оценки по каждому студенту?
+    List<Learner> getLearnersWithMarksByTest(TestEvent test);  //или добавить еще MarksDAO и там тянуть оценки по каждому студенту?
 }

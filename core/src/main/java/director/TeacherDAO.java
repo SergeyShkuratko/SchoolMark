@@ -1,7 +1,7 @@
 package director;
 
-import classes.Director;
 import classes.Teacher;
+import classes.User;
 
 import java.util.List;
 
@@ -10,5 +10,5 @@ import java.util.List;
  */
 public interface TeacherDAO {
 
-    List<Teacher> getTeachersByDirector(Director director);
+    List<Teacher> getTeachersByDirector(User director);
 }
