@@ -1,14 +1,13 @@
 package classes;
 
-public class TestFile {
+public class WorkPage {
     private final int id;
     private final Work work;
-    private final String filePath;
+    private String filePath;
 
-    public TestFile(int id, Work work, String filePath) {
+    public WorkPage(int id, Work work) {
         this.id = id;
         this.work = work;
-        this.filePath = filePath;
     }
 
     public int getId() {
@@ -21,5 +20,9 @@ public class TestFile {
 
     public String getFilePath() {
         return filePath;
+    }
+
+    public void setFilePath(String filePath) {
+        this.filePath = filePath;
     }
 }

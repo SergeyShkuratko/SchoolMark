@@ -1,27 +1,32 @@
 package classes;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
 public class Teacher {
     private final int id;
-    private final int id_user;
+    private final int userId;
     private final String lastname;
     private final String firstname;
     private final String patronymic;
-    private final int id_school;
-    private final int id_subject;
-    private final int min_class;
-    private final int max_class;
+    private final School school;
+    private final List<SubjectTeacherConnector> subject;
+    private final int minClass;
+    private final int maxClass;
     private final String qualification;
 
-    public Teacher(int id, int id_user, String lastname, String firstname, String patronymic, int id_school, int id_subject, int min_class, int max_class, String qualification) {
+    public Teacher(int id, int userId, String lastname, String firstname, String patronymic, School school, Collection<SubjectTeacherConnector> subject, int minClass, int maxClass, String qualification) {
         this.id = id;
-        this.id_user = id_user;
+        this.userId = userId;
         this.lastname = lastname;
         this.firstname = firstname;
         this.patronymic = patronymic;
-        this.id_school = id_school;
-        this.id_subject = id_subject;
-        this.min_class = min_class;
-        this.max_class = max_class;
+        this.school = school;
+        this.subject = new ArrayList<>();
+        this.subject.addAll(subject);
+        this.minClass = minClass;
+        this.maxClass = maxClass;
         this.qualification = qualification;
     }
 
@@ -29,8 +34,8 @@ public class Teacher {
         return id;
     }
 
-    public int getId_user() {
-        return id_user;
+    public int getUserId() {
+        return userId;
     }
 
     public String getLastname() {
@@ -45,20 +50,20 @@ public class Teacher {
         return patronymic;
     }
 
-    public int getId_school() {
-        return id_school;
+    public School getSchool() {
+        return school;
     }
 
-    public int getId_subject() {
-        return id_subject;
+    public List<SubjectTeacherConnector> getSubject() {
+        return subject;
     }
 
-    public int getMin_class() {
-        return min_class;
+    public int getMinClass() {
+        return minClass;
     }
 
-    public int getMax_class() {
-        return max_class;
+    public int getMaxClass() {
+        return maxClass;
     }
 
     public String getQualification() {

@@ -2,24 +2,24 @@ package classes;
 
 public class SubjectTeacherConnector {
     private final int id;
-    private final int id_teacher;
-    private final int id_subject;
+    private final Teacher teacher;
+    private final Subject subject;
 
-    public SubjectTeacherConnector(int id, int id_teacher, int id_subject) {
+    public SubjectTeacherConnector(int id, Teacher teacher, Subject subject) {
         this.id = id;
-        this.id_teacher = id_teacher;
-        this.id_subject = id_subject;
+        this.teacher = teacher;
+        this.subject = subject;
     }
 
     public int getId() {
         return id;
     }
 
-    public int getId_teacher() {
-        return id_teacher;
+    public Teacher getTeacher() {
+        return teacher;
     }
 
-    public int getId_subject() {
-        return id_subject;
+    public Subject getSubject() {
+        return subject;
     }
 }

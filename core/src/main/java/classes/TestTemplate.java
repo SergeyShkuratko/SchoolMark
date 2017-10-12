@@ -1,18 +1,18 @@
 package classes;
 
-public class TestEventTemplate {
+public class TestTemplate {
     private final int id;
     private final String theme;
     private final String description;
-    private final int class_num;
-    private final int id_subject;
+    private final int classNum;
+    private final Subject subject;
 
-    public TestEventTemplate(int id, String theme, String description, int class_num, int id_subject) {
+    public TestTemplate(int id, String theme, String description, int classNum, Subject subject) {
         this.id = id;
         this.theme = theme;
         this.description = description;
-        this.class_num = class_num;
-        this.id_subject = id_subject;
+        this.classNum = classNum;
+        this.subject = subject;
     }
 
     public int getId() {
@@ -27,11 +27,11 @@ public class TestEventTemplate {
         return description;
     }
 
-    public int getClass_num() {
-        return class_num;
+    public int getClassNum() {
+        return classNum;
     }
 
-    public int getId_subject() {
-        return id_subject;
+    public Subject getSubject() {
+        return subject;
     }
 }

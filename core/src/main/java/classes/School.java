@@ -5,14 +5,14 @@ public class School {
     private final String name;
     private final String region;
     private final String city;
-    private final int id_schoolType;
+    private final SchoolType schoolTypeId;
 
-    public School(int id, String name, String region, String city, int id_schoolType) {
+    public School(int id, String name, String region, String city, SchoolType schoolTypeId) {
         this.id = id;
         this.name = name;
         this.region = region;
         this.city = city;
-        this.id_schoolType = id_schoolType;
+        this.schoolTypeId = schoolTypeId;
     }
 
     public int getId() {
@@ -31,7 +31,7 @@ public class School {
         return city;
     }
 
-    public int getId_schoolType() {
-        return id_schoolType;
+    public SchoolType getSchoolTypeId() {
+        return schoolTypeId;
     }
 }
