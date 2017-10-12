@@ -1,4 +1,4 @@
-package templates;
+package interfaces.dao;
 
 import classes.*;
 
@@ -6,13 +6,16 @@ import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
 
-public interface TestEventDAO {
+public interface TestDAO {
+
+    //TODO или лучше получать спиоск контрольных учителя вместе с учителем в TeacherDAO ??
+    List<Test> getTestsByTeacher(Teacher teacher);
 
     /**
      * Метод возвращает список всех работ учеников по контрольной
      * @return список работ учеников по контрольной
      */
-    List<LearnerTest> getGradingPapers();
+    List<Work> getWorks();
 
     /**
      * Метод возвращает список вопросов/ответов/критериев по контрольной работе
@@ -46,14 +49,14 @@ public interface TestEventDAO {
      * @param test - объект, содержащий ответы ученика
      * @return результат выполнения операции
      */
-    boolean addGradingPaper(LearnerTest test);
+    boolean addWork(Work test);
 
     /**
      * Метод позволяет отметить ученика как отсутствующего
-     * @param learner - ученик для которого устанавливается признак
+     * @param student - ученик для которого устанавливается признак
      * @return результат выполнения операции
      */
-    boolean markAbsentLearner(Learner learner);
+    boolean markAbsent(Student student);
 
     /**
      * Метод позволяет определить все ли ученики загрузили контрольные работы
@@ -66,5 +69,5 @@ public interface TestEventDAO {
      * Метод сохраняет контрольную работу как шаблон
      * @return результат выполнения операции
      */
-    boolean saveAsTemplate(TestEvent event);
+    boolean saveAsTemplate(Test event);
 }

@@ -1,17 +1,19 @@
-package controller;
+package interfaces;
 
-import classes.LearnerTest;
+import classes.Work;
 import classes.Teacher;
-import classes.TestEvent;
+import classes.Test;
 
 import java.util.List;
 
+
+//TODO спорный вопрос насчет package. Возможно это DAO
 public interface TestCheck {
 
     /**
      * Get all unchecked tests for specified teacher
      */
-    List<TestEvent> getUncheckedTest(Teacher teacher);
+    List<Test> getUncheckedTest(Teacher teacher);
 
     /**
      * Get all unchecked works for specified teacher
@@ -19,7 +21,7 @@ public interface TestCheck {
      * @param teacher
      * @return list of Works
      */
-    List<LearnerTest> getUncheckedWorks(Teacher teacher, int testId);
+    List<Work> getUncheckedWorks(Teacher teacher, int testId);
 
     /**
      * Set mark for one student's work
@@ -27,6 +29,6 @@ public interface TestCheck {
      * @param work
      * @return true if success, false if error while writing to database
      */
-    boolean setMark(LearnerTest work);
+    boolean setMark(Work work);
 
 }

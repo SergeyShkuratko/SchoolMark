@@ -1,4 +1,4 @@
-package templates;
+package interfaces;
 
 import classes.Teacher;
 

@@ -17,13 +17,13 @@
           <element id="dir-copy" path="$PROJECT_DIR$/organizer/out/production/resources" />
         </element>
         <element id="directory" name="lib">
-          <element id="archive" name="com.inno-core-1.0-SNAPSHOT.jar">
-            <element id="module-output" name="core_main" />
-            <element id="dir-copy" path="$PROJECT_DIR$/core/out/production/resources" />
-          </element>
           <element id="archive" name="com.inno-auth-1.0-SNAPSHOT.jar">
             <element id="module-output" name="auth_main" />
             <element id="dir-copy" path="$PROJECT_DIR$/auth/out/production/resources" />
+          </element>
+          <element id="archive" name="com.inno-core-1.0-SNAPSHOT.jar">
+            <element id="module-output" name="core_main" />
+            <element id="dir-copy" path="$PROJECT_DIR$/core/out/production/resources" />
           </element>
         </element>
       </element>

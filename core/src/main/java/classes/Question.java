@@ -1,26 +1,31 @@
 package classes;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
 public class Question {
     private final int id;
-    private final int id_sample;
+    private final TestTemplate template;
     private String question;
     private String answer;
-    private String criterion;
+    private List<String> criteria;
 
-    public Question(int id, int id_sample, String question, String answer, String criterion) {
+    public Question(int id, TestTemplate template, String question, String answer, Collection<String> criteria) {
         this.id = id;
-        this.id_sample = id_sample;
+        this.template = template;
         this.question = question;
         this.answer = answer;
-        this.criterion = criterion;
+        this.criteria = new ArrayList<>();
+        this.criteria.addAll(criteria);
     }
 
     public int getId() {
         return id;
     }
 
-    public int getId_sample() {
-        return id_sample;
+    public TestTemplate getTemplate() {
+        return template;
     }
 
     public String getQuestion() {
@@ -39,11 +44,11 @@ public class Question {
         this.answer = answer;
     }
 
-    public String getCriterion() {
-        return criterion;
+    public List<String> getCriteria() {
+        return criteria;
     }
 
-    public void setCriterion(String criterion) {
-        this.criterion = criterion;
+    public void addCritarion(String criterion) {
+        this.criteria.add(criterion);
     }
 }

@@ -7,14 +7,14 @@ public class User {
     private final int id;
     private final String login;
     private String password;
-    private final LocalDate date_reg;
-    private LocalDate date_last_login;
-    private Set<Role> userRoles;
+    private final LocalDate registrationDate;
+    private LocalDate lastLoginDate;
+    private Role role;
 
-    public User(int id, String login, int id_role, LocalDate date_reg) {
+    public User(int id, String login, LocalDate registrationDate) {
         this.id = id;
         this.login = login;
-        this.date_reg = date_reg;
+        this.registrationDate = registrationDate;
     }
 
     public int getId() {
@@ -33,23 +33,23 @@ public class User {
         this.password = password;
     }
 
-    public LocalDate getDate_reg() {
-        return date_reg;
+    public LocalDate getRegistrationDate() {
+        return registrationDate;
     }
 
-    public LocalDate getDate_last_login() {
-        return date_last_login;
+    public LocalDate getLastLoginDate() {
+        return lastLoginDate;
     }
 
-    public void setDate_last_login(LocalDate date_last_login) {
-        this.date_last_login = date_last_login;
+    public void setLastLoginDate(LocalDate lastLoginDate) {
+        this.lastLoginDate = lastLoginDate;
     }
 
-    public Set<Role> getUserRoles() {
-        return userRoles;
+    public Role getRole() {
+        return role;
     }
 
-    public void setUserRoles(Set<Role> userRoles) {
-        this.userRoles = userRoles;
+    public void setRole(Role role) {
+        this.role = role;
     }
 }
