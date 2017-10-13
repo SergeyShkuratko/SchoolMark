@@ -8,8 +8,22 @@ import java.util.List;
 
 public interface TestDAO {
 
-    //TODO или лучше получать спиоск контрольных учителя вместе с учителем в TeacherDAO ??
+    /**
+     * Получить работы в которых учитель является организатором
+     * @param teacher - ОРГАНИЗАТОР контрольной работы
+     * @return - список контрольных работ
+     */
     List<Test> getTestsByTeacher(Teacher teacher);
+
+    /**
+     * Получить работы за период с начала дня begin по конец дня end,
+     * в которых учитель является организатором
+     * @param teacher - ОРГАНИЗАТОР контрольной работы
+     * @param begin - дата начала
+     * @param end - дата окончания (включительно по конец дня)
+     * @return - список контрольных работ
+     */
+    List<Test> getTestsByTeacherDuringPeriod(Teacher teacher, LocalDate begin, LocalDate end);
 
     /**
      * Метод возвращает список всех работ учеников по контрольной
