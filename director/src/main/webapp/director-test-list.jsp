@@ -18,7 +18,8 @@
     <div class="row">
         <div class="form-check col-auto">
             <label class="form-check-label">
-                <input class="form-check-input" type="checkbox" value="" ${groupByOrganization ? 'checked' : ''}>
+                <input class="form-check-input" type="checkbox" name="groupByOrganization"
+                ${groupByOrganization ? 'checked' : ''} <%--onclick="this.form.submit()"--%>>
                 Группировать по организации
             </label>
         </div>
@@ -42,25 +43,23 @@
             </thead>
             <tbody>
             <c:forEach var="test" items="${tests}">
-                <a href="/director-test-view.jsp">
-                    <tr onclick="window.location.href='/director-test-view.jsp'">
-                        <td>
-                            <c:out value="${test.date}"/>
-                        </td>
-                        <td>
-                            <c:out value="${test.organizer}"/>
-                        </td>
-                        <td>
-                            <c:out value="${test.subject}"/>
-                        </td>
-                        <td>
-                            <c:out value="${test.className}"/>
-                        </td>
-                        <td>
-                            <c:out value="${test.averageMark}"/>
-                        </td>
-                    </tr>
-                </a>
+                <tr onclick="window.location.href='<c:url value='/director-test-view'/>'">
+                    <td>
+                        <c:out value="${test.date}"/>
+                    </td>
+                    <td>
+                        <c:out value="${test.organizer}"/>
+                    </td>
+                    <td>
+                        <c:out value="${test.subject}"/>
+                    </td>
+                    <td>
+                        <c:out value="${test.className}"/>
+                    </td>
+                    <td>
+                        <c:out value="${test.averageMark}"/>
+                    </td>
+                </tr>
             </c:forEach>
             </tbody>
         </table>

@@ -12,7 +12,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DirectorServlet extends HttpServlet {
+public class DirectorTestListServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         List<TestDto> tests = new ArrayList<>(2);
@@ -23,5 +23,10 @@ public class DirectorServlet extends HttpServlet {
 
         req.setAttribute("tests", tests);
         req.getRequestDispatcher("/director-test-list.jsp").forward(req, resp);
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        doGet(req, resp);
     }
 }
