@@ -10,8 +10,11 @@
 <html>
 <head>
     <title>Title</title>
-    <c:set var="context" value="${pageContext.request.contextPath}"/>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <form>
+        <button type="submit" formaction="/student/testlist">Список контрольных</button>
+    </form>
+    <%--<c:set var="context" value="${pageContext.request.contextPath}"/>--%>
+    <%--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>--%>
 </head>
 <body>
 
