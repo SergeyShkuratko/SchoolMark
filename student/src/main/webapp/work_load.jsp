@@ -92,11 +92,61 @@
 
                     </div>
                 </div>
+                <%--Блок с кнопкой отправки на статусе Новая--%>
+                <c:if test="${work.status.name.toString() eq 'Новая'}">
+                    <div class="panel panel-default text-left">
+                        <div class="panel-body">
+                            <button class="btn btn-success" type="submit">Сдать работу</button>
+                        </div>
+                    </div>
+                </c:if>
+
+                    <%--Блок с комментарием и оценкой после проверки или перепроверки--%>
+                <c:if test="${(work.status.name.toString() eq 'Проверена') || (work.status.name.toString() eq 'Перепроверена') }">
                 <div class="panel panel-default text-left">
                     <div class="panel-body">
-                        <button class="btn btn-success" type="submit">Сдать работу</button>
+                        <div class="row ifaceforworkcheck-row col-sm-12">
+                            <ul class="horizontal-slide">
+                                <c:forEach items="${teacher_files}" var="file">
+                                    <li>
+                                        <img alt="+" data-src="holder.js/100%x180" style="height: 180px; width: 100%; display: block;" src="<c:out value="${file}"/>" data-holder-rendered="true">
+                                    </li>
+                                </c:forEach>
+
+                            </ul>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-8">
+                                <textarea class="form-control" rows="11"></textarea>
+                            </div>
+                            <div class="col-sm-4">
+                                <ul class="ifaceforworkcheck-stars">
+                                    <c:forEach var="item" begin="1" end="${work.mark}">
+                                    <li>
+                                        <i class="fa fa-3x  fa-star"></i>
+                                    </li>
+                                    </c:forEach>
+                                </ul>
+                            </div>
+                        </div>
                     </div>
                 </div>
+                </c:if>
+                <%--Блок с комментарием  кнопкой отправки на перепроверку--%>
+                <c:if test="${work.status.name.toString() eq 'Проверена'}">
+                    <div class="panel panel-default text-left">
+                        <div class="panel-body">
+                            <form>
+                                <div class="form-group">
+                                    <label for="textarea">Причина перепроверки:</label>
+                                    <textarea id="textarea" class="form-control" rows="11"></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-danger">На перепроверку</button>
+                            </form>
+                        </div>
+                    </div>
+                </c:if>
+
 
             </div>
         </div>
