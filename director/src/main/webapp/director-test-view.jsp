@@ -24,7 +24,7 @@
 <body>
 
 <div class="container-fluid">
-    <div class="row border">
+    <div class="row border mt-3">
         <div class="container-fluid">
             <nav class="nav nav-tabs" id="myTab" role="tablist">
                 <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab"
@@ -32,7 +32,7 @@
                 <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab"
                    aria-controls="nav-profile">Критери оценки</a>
             </nav>
-            <div class="tab-content" id="nav-tabContent">
+            <div class="tab-content m-3" id="nav-tabContent">
                 <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
                     Текст с описанием заданий контрольной работы
                 </div>

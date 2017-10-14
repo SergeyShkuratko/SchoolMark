@@ -1,4 +1,4 @@
-package com.inno.dto;
+package com.inno.db.dto;
 
 import java.time.LocalDate;
 
