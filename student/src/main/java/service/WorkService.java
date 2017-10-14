@@ -42,13 +42,16 @@ public class WorkService {
         tests.add(test1);
         tests.add(test2);
         tests.add(test3);
-        int i=0;
-        for (Test test : tests) {
-            Work tWork = new Work(i++, test, student);
-            tWork.setStatus(verifiedStatus);
-            tWork.setMark(5);
-            works.add(tWork);
-        }
+        Work tWork1 = new Work(1, test1, student);
+        tWork1.setStatus(newStatus);
+        Work tWork2 = new Work(2, test2, student);
+        tWork2.setStatus(onVerifiedStatus);
+        Work tWork3 = new Work(3, test3, student);
+        tWork3.setStatus(verifiedStatus);
+        tWork3.setMark(3);
+        works.add(tWork1);
+        works.add(tWork2);
+        works.add(tWork3);
         return works;
     }
 
@@ -66,7 +69,7 @@ public class WorkService {
 
     public static List<String> getQuestionListByWorkId(int id) {
         List<String> fileList = new ArrayList<>();
-        for (int i = 1; i < 20; i++) {
+        for (int i = 1; i < 10; i++) {
             fileList.add("Вопрос "+i+". лдодлодлоыв тидловяа длоичвдл оиыдвлои ыдвоилдывмл оидлоыидломы июдлмтюоИмб ордлл орплорпло рплори");
         }
         return fileList;
