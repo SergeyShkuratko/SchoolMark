@@ -1,9 +1,9 @@
-package com.inno.db.dao;
+package com.inno.service;
 
 import com.inno.db.dto.TestDto;
 
 import java.util.List;
 
-public interface TestDao {
+public interface TestStatisticService {
     List<TestDto> findAll();
 }

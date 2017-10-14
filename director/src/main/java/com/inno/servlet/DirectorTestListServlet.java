@@ -1,6 +1,9 @@
 package com.inno.servlet;
 
+import com.inno.db.dao.FakeTestDao;
 import com.inno.db.dto.TestDto;
+import com.inno.service.TestStatisticService;
+import com.inno.service.TestStatisticServiceImpl;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -14,18 +17,14 @@ import java.util.List;
 import java.util.Map;
 
 public class DirectorTestListServlet extends HttpServlet {
+    private TestStatisticService testStatisticService = new TestStatisticServiceImpl(new FakeTestDao());
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String groupByOrganization = req.getParameter("groupByOrganization");
 
         if (!"on".equals(groupByOrganization)) {
-            List<TestDto> tests = new ArrayList<>(2);
-            tests.add(new TestDto(LocalDate.of(2017, 5, 23), "Иванов Иван Иванович",
-                    "Математика", "5a", 4.5f));
-            tests.add(new TestDto(LocalDate.of(2017, 7, 14), "Петр Петрович Петров",
-                    "Биология", "7б", 3.7f));
-
-            req.setAttribute("tests", tests);
+            req.setAttribute("tests", testStatisticService.findAll());
         } else {
             Map<String, List<TestDto>> teacherTestsMap = new HashMap<>();
 
