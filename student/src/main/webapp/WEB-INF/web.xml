@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<web-app>
+    <servlet>
+        <servlet-name>calendar</servlet-name>
+        <servlet-class>calendar.servlets.CalendarServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>calendar</servlet-name>
+        <url-pattern>/calendar</url-pattern>
+    </servlet-mapping>
+</web-app>
