@@ -2,9 +2,13 @@ package com.inno.service;
 
 import com.inno.db.dao.PgTestDao;
 import com.inno.db.dao.TestDao;
-import com.inno.db.dto.TestDto;
+import com.inno.db.dto.TestStatisticDto;
+import com.inno.db.dto.TestStatisticWithoutOrganizerDto;
 
 import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public class TestStatisticServiceImpl implements TestStatisticService {
     private TestDao testDao;
@@ -18,7 +22,17 @@ public class TestStatisticServiceImpl implements TestStatisticService {
     }
 
     @Override
-    public List<TestDto> findAll() {
-        return testDao.findAll();
+    public List<TestStatisticDto> getTestsStatistic() {
+        return testDao.getTestsStatistic();
+    }
+
+    @Override
+    public Map<String, List<TestStatisticWithoutOrganizerDto>> getTestsStatisticGroupedByOwner() {
+        return testDao.getTestsStatistic().stream()
+                .collect(Collectors.groupingBy(TestStatisticDto::getOrganizer,
+                        Collectors.mapping(it ->
+                                new TestStatisticWithoutOrganizerDto(it.getDate(), it.getSubject(), it.getClassName(),
+                                        it.getAverageMark()),
+                                Collectors.toList())));
     }
 }

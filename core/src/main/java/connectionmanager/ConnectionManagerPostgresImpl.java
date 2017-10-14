@@ -36,6 +36,10 @@ public class ConnectionManagerPostgresImpl implements ConnectionManager {
     }
 
     public Connection getConnection() throws SQLException {
+        if (connection == null) {
+            throw new SQLException("Can't get connection from pull");
+        }
+
         return connection;
     }
 }

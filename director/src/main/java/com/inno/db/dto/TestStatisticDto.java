@@ -2,14 +2,14 @@ package com.inno.db.dto;
 
 import java.time.LocalDate;
 
-public class TestDto {
+public class TestStatisticDto {
     private LocalDate date;
     private String organizer;
     private String subject;
     private String className;
     private float averageMark;
 
-    public TestDto(LocalDate date, String organizer, String subject, String className, float averageMark) {
+    public TestStatisticDto(LocalDate date, String organizer, String subject, String className, float averageMark) {
         this.date = date;
         this.organizer = organizer;
         this.subject = subject;

@@ -109,7 +109,6 @@
                                 <thead>
                                 <tr>
                                     <th>Дата</th>
-                                    <th>Организатор</th>
                                     <th>Предмет</th>
                                     <th>Класс</th>
                                     <th>Средний балл</th>
@@ -120,9 +119,6 @@
                                     <tr onclick="window.location.href='<c:url value='/director-test-view'/>'">
                                         <td>
                                             <c:out value="${test.date}"/>
-                                        </td>
-                                        <td>
-                                            <c:out value="${test.organizer}"/>
                                         </td>
                                         <td>
                                             <c:out value="${test.subject}"/>

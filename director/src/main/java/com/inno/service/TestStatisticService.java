@@ -1,9 +1,12 @@
 package com.inno.service;
 
-import com.inno.db.dto.TestDto;
+import com.inno.db.dto.TestStatisticDto;
+import com.inno.db.dto.TestStatisticWithoutOrganizerDto;
 
 import java.util.List;
+import java.util.Map;
 
 public interface TestStatisticService {
-    List<TestDto> findAll();
+    List<TestStatisticDto> getTestsStatistic();
+    Map<String, List<TestStatisticWithoutOrganizerDto>> getTestsStatisticGroupedByOwner();
 }

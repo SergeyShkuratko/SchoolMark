@@ -1,7 +1,7 @@
 package com.inno.servlet;
 
 import com.inno.db.dao.FakeTestDao;
-import com.inno.db.dto.TestDto;
+import com.inno.db.dto.TestStatisticDto;
 import com.inno.service.TestStatisticService;
 import com.inno.service.TestStatisticServiceImpl;
 
@@ -24,23 +24,9 @@ public class DirectorTestListServlet extends HttpServlet {
         String groupByOrganization = req.getParameter("groupByOrganization");
 
         if (!"on".equals(groupByOrganization)) {
-            req.setAttribute("tests", testStatisticService.findAll());
+            req.setAttribute("tests", testStatisticService.getTestsStatistic());
         } else {
-            Map<String, List<TestDto>> teacherTestsMap = new HashMap<>();
-
-            List<TestDto> ivanovTests = new ArrayList<>(2);
-            ivanovTests.add(new TestDto(LocalDate.of(2017, 5, 23), "Иванов Иван Иванович",
-                    "Математика", "5a", 4.5f));
-            ivanovTests.add(new TestDto(LocalDate.of(2017, 7, 14), "Иванов Иван Иванович",
-                    "Биология", "7б", 3.7f));
-            teacherTestsMap.put("Иванов Иван Иванович", ivanovTests);
-
-            List<TestDto> petronTests = new ArrayList<>(2);
-            petronTests.add(new TestDto(LocalDate.of(2017, 2, 2), "Петр Петрович Петров",
-                    "Математика", "3a", 4.3f));
-            teacherTestsMap.put("Петр Петрович Петров", petronTests);
-
-            req.setAttribute("teacherTestsMap", teacherTestsMap);
+            req.setAttribute("teacherTestsMap", testStatisticService.getTestsStatisticGroupedByOwner());
         }
 
         req.setAttribute("groupByOrganization", groupByOrganization);
