@@ -17,6 +17,7 @@ public class WorkLoadServlet extends HttpServlet{
         req.setAttribute("work", WorkService.getWorkById(id-1));
         req.setAttribute("questions", WorkService.getQuestionListByWorkId(id));
         req.setAttribute("files", WorkService.getFilesByWorkId(id));
+        req.setAttribute("teacher_files", WorkService.getFilesByWorkId(id));
         req.getRequestDispatcher("/work_load.jsp").forward(req, resp);
     }
 
