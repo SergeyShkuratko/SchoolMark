@@ -1,6 +1,8 @@
 package servlets;
 
+import classes.Work;
 import com.google.common.base.Strings;
+import service.TestService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -8,6 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 
 @SuppressWarnings("ALL")
 @WebServlet("/getHelp")
@@ -111,6 +114,8 @@ public class ControllerHelpServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+        List<Work> testService = new TestService().getWorks();
         String getWorkForTest = req.getParameter("getWorksForTest");
         doWork(resp, getWorkForTest);
 
