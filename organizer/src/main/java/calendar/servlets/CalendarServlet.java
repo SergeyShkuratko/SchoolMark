@@ -108,6 +108,6 @@ public class CalendarServlet extends HttpServlet {
         req.setAttribute("beginData", beginMonth);
         String monthName = beginMonth.getMonth().getDisplayName(TextStyle.FULL_STANDALONE, Locale.forLanguageTag("ru")).toUpperCase();
         req.setAttribute("monthName", monthName);
-        req.getRequestDispatcher("calendar/calendar.jsp").forward(req, resp);
+        req.getRequestDispatcher("/calendar.jsp").forward(req, resp);
     }
 }

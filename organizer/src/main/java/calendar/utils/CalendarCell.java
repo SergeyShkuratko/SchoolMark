@@ -79,8 +79,7 @@ public class CalendarCell {
         if (!subjects.isEmpty()) {
             StringBuilder sb = new StringBuilder();
             if(subjects.size()>0) sb.append(subjects.get(0)).append("<br>");
-            if(subjects.size()>1) sb.append(subjects.get(1)).append("<br>");
-            if(subjects.size()>2) sb.append("+ ").append(subjects.size()-2).append("...");
+            if(subjects.size()>1) sb.append("+ ").append(subjects.size()-1).append("...");
             result = sb.toString();
         }
         return result;
