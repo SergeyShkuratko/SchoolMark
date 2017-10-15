@@ -1,30 +1,35 @@
 var application_context = "/SM";
 var ac = application_context;
-
+var servletName = "/getInfo"
 
 
 $(":button.test").click(function () {
-        $.get(ac + "/getHelp?getWorksForTest=" + $(this).attr('testId'), function (data) {
-            var tests = JSON.parse(data);
-            $('.description').text(tests.description)
+        $.get(ac + servletName + "?getWorksForTest=" + $(this).attr('testId'), function (data) {
             $(".works-list").empty();
-            $.each(tests.works, function () {
-                $(".works-list").append("<li> <button workId =\"" + this.workid + "\" class=\"btn btn-success control-work-sidebar-button work\" type=\"submit\">" + this.firstname + this.surname + "</button>  </li>")
+            $('.description').empty();
+            if (data === "") {
+                return;
+            }
+            var tests = JSON.parse(data);
+            $('.description').append(" <p>" + tests.topic + "</p><p>" + tests.description + "</p>");
+            $(".works-list").empty();
+            $.each(tests.workIds, function () {
+                $(".works-list").append("<li> <button workId =\"" + this + "\" class=\"btn control-work-sidebar-button work not-checked\" type=\"submit\">Control work</button>  </li>")
             })
         })
     }
 )
 
 $('#works-list-container').on('click', ':button.work', function () {
-    $.get(ac + "/getHelp?getImageForWork=" + $(this).attr('workId'), function (data) {
+    $.get(ac + servletName + "?getImageForWork=" + $(this).attr('workId'), function (data) {
         var works = JSON.parse(data);
         console.log(works)
         $(".work-image").empty();
-        $.each(works, function () {
+        $.each(works.urls, function () {
             $(".work-image").append("         <a data-toggle=\"modal\" data-target='#showImage' href='#showImage' class='open-showImage'><li>\n" +
-                "                             <img  imageId=\"" + this.workImageId + "\" alt=\"100%x180\" data-src=\"holder.js/100%x180\"\n" +
-                "                             style=\"height: 180px; width: 100%; display: block;\"\n" +
-                "                             src=\"" + this.picture + "\"\n" +
+                "                             <img  alt=\"100%x180\" " +
+                "                             style=\"height: 180px; width: 180px; display: block;\"\n" +
+                "                             src=\"" + this + "\"\n" +
                 "                             data-holder-rendered=\"true\"></li></a>");
         })
 
@@ -38,12 +43,20 @@ $('.work-image').on('click', 'img', function () {
 
 })
 
-$( '[data-role="ratingbar"]' )
+$('[data-role="ratingbar"]')
     .ratingbar()
-    .click(function() {
+    .click(function () {
 
         // Grab value
-        alert( $( this ).attr( 'data-value' ) );
+        // alert($(this).attr('data-value'));
 
         return false;
     });
+
+
+$(":button.send-result").click(function () {
+    var value = $('[data-role="ratingbar"]').attr('data-value')
+    if (value) {
+        alert(value);
+    }
+})
