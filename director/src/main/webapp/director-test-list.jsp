@@ -67,7 +67,11 @@
             </thead>
             <tbody>
             <c:forEach var="test" items="${tests}">
-                <tr onclick="window.location.href='<c:url value='/director-test-view'/>'">
+                <c:url value='/director-test-view' var="testViewLocation">
+                    <c:param name="testId" value="${test.id}"/>
+                </c:url>
+
+                <tr onclick="window.location.href='<c:out value='${testViewLocation}'/>'">
                     <td>
                         <c:out value="${test.date}"/>
                     </td>
@@ -116,8 +120,15 @@
                                 </thead>
                                 <tbody>
                                 <c:forEach var="test" items="${teacherTestsEntry.getValue()}">
-                                    <tr onclick="window.location.href='<c:url value='/director-test-view'/>'">
+                                    <c:url value='/director-test-view' var="testViewLocation">
+                                        <c:param name="testId" value="${test.id}"/>
+                                    </c:url>
+
+                                    <tr onclick="window.location.href='<c:out value='${testViewLocation}'/>'">
                                         <td>
+                                            <p>skdfjlskjdfklsjdlkfjslkj</p>
+                                            <c:out value='${testViewLocation}'/>
+                                            <a href="<c:out value='${testViewLocation}'/> ">test link</a>
                                             <c:out value="${test.date}"/>
                                         </td>
                                         <td>

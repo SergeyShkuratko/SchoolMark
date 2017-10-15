@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: mars
@@ -34,10 +35,15 @@
             </nav>
             <div class="tab-content m-3" id="nav-tabContent">
                 <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
-                    Текст с описанием заданий контрольной работы
+                    <c:forEach var="question" items="${testAndWorkInfo.questions}">
+                        <b>Вопрос: </b><c:out value="${question.question}"/>
+                        <b>Ответ: </b><c:out value="${question.answer}"/>
+                    </c:forEach>
                 </div>
                 <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
-                    Текст с описанием критериев оценки контрольной работы
+                    <c:forEach var="question" items="${testAndWorkInfo.questions}">
+                        <b>Критерий: </b><c:out value="${question.criteria}"/>
+                    </c:forEach>
                 </div>
             </div>
         </div>
@@ -53,21 +59,19 @@
             </tr>
             </thead>
             <tbody>
-            <tr>
-                <td>Лебедев Артемий</td>
-                <td>3</td>
-                <td>не было</td>
-            </tr>
-            <tr>
-                <td>Дуров Павел</td>
-                <td>4</td>
-                <td>была</td>
-            </tr>
-            <tr>
-                <td>Касперский Евгений</td>
-                <td>5</td>
-                <td>не было</td>
-            </tr>
+            <c:forEach var="work" items="${testAndWorkInfo.workList}">
+                <tr>
+                    <td>
+                        <c:out value="${work.student}"/>
+                    </td>
+                    <td>
+                        <c:out value="${work.mark}"/>
+                    </td>
+                    <td>
+                        <c:out value="${work.wasAppeal}"/>
+                    </td>
+                </tr>
+            </c:forEach>
             </tbody>
         </table>
     </div>

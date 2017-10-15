@@ -1,14 +1,16 @@
 package com.inno.db.dto;
 
 public class WorkDto {
+    private final int id;
     private String student;
     private int mark;
-    private boolean wasAppellation;
+    private boolean wasAppeal;
 
-    public WorkDto(String student, int mark, boolean wasAppellation) {
+    public WorkDto(int id, String student, int mark, boolean wasAppeal) {
+        this.id = id;
         this.student = student;
         this.mark = mark;
-        this.wasAppellation = wasAppellation;
+        this.wasAppeal = wasAppeal;
     }
 
     public String getStudent() {
@@ -19,7 +21,22 @@ public class WorkDto {
         return mark;
     }
 
-    public boolean isWasAppellation() {
-        return wasAppellation;
+    public boolean isWasAppeal() {
+        return wasAppeal;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        WorkDto workDto = (WorkDto) o;
+
+        return id == workDto.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return id;
     }
 }

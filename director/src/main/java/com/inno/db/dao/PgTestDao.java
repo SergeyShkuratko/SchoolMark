@@ -1,7 +1,9 @@
 package com.inno.db.dao;
 
-import com.inno.db.dto.TestAndWorksInfo;
+import com.inno.db.dto.QuestionDto;
+import com.inno.db.dto.TestAndWorksInfoDto;
 import com.inno.db.dto.TestStatisticDto;
+import com.inno.db.dto.WorkDto;
 import com.inno.db.exception.DaoException;
 import connectionmanager.ConnectionManager;
 import connectionmanager.ConnectionManagerPostgresImpl;
@@ -9,8 +11,7 @@ import connectionmanager.ConnectionManagerPostgresImpl;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class PgTestDao implements TestDao {
     private ConnectionManager connectionManager;
@@ -25,7 +26,7 @@ public class PgTestDao implements TestDao {
             ResultSet resultSet = connectionManager.getConnection()
                     .createStatement()
                     .executeQuery(
-                    "SELECT t.start_date_time::date as date, " +
+                    "SELECT t.id test_id, t.start_date_time::date as date, " +
                             "concat_ws(' ', tr.last_name, tr.first_name, tr.patronymic) as organizer, " +
                             "sbj.name as subject, cl.name as class_name, AVG(vr.mark) average_mark " +
                             "FROM tests t " +
@@ -41,6 +42,7 @@ public class PgTestDao implements TestDao {
             while (resultSet.next()) {
                 result.add(
                         new TestStatisticDto(
+                                resultSet.getInt("test_id"),
                                 resultSet.getDate("date").toLocalDate(),
                                 resultSet.getString("organizer"),
                                 resultSet.getString("subject"),
@@ -55,12 +57,12 @@ public class PgTestDao implements TestDao {
     }
 
     @Override
-    public TestAndWorksInfo getTestAndWorksInfo(int testId) {
+    public TestAndWorksInfoDto getTestAndWorksInfo(int testId) {
         try {
             PreparedStatement statement = connectionManager.getConnection()
-                    .prepareStatement("SELECT q.id, q.question, q.answer, q.criteria, " +
-                            "concat_ws(' ', st.last_name, st.first_name, st.patronymic), vr.mark, " +
-                            "w.status = work_status.  " +
+                    .prepareStatement("SELECT q.id AS question_id, q.question, q.answer, q.criteria, " +
+                            "w.id AS work_id, concat_ws(' ', st.last_name, st.first_name, st.patronymic) AS student, " +
+                            "vr.mark, w.status = work_status.reverification AS was_appellation " +
                             "FROM tests t " +
                             "JOIN works w ON w.test_id = t.id " +
                             "JOIN test_templates tt ON t.test_template_id = t.id " +
@@ -70,8 +72,24 @@ public class PgTestDao implements TestDao {
                             "WHERE t.id = ?");
             statement.setInt(1, testId);
             ResultSet resultSet = statement.executeQuery();
+
+            Set<QuestionDto> questions = new HashSet<>();
+            Set<WorkDto> workList = new HashSet<>();
+            while (resultSet.next()) {
+                QuestionDto question = new QuestionDto(resultSet.getInt("question_id"),
+                        resultSet.getString("question"), resultSet.getString("answer"),
+                        resultSet.getString("criteria"));
+                questions.add(question);
+
+                WorkDto work = new WorkDto(resultSet.getInt("work_id"),
+                        resultSet.getString("student"), resultSet.getInt("mark"),
+                        resultSet.getBoolean("was_appelation"));
+                workList.add(work);
+            }
+
+            return new TestAndWorksInfoDto(questions, workList);
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DaoException("Exception while getting test and works info", e);
         }
     }
 }
