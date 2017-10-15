@@ -8,4 +8,28 @@
         <servlet-name>calendar</servlet-name>
         <url-pattern>/calendar</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>TemplateList</servlet-name>
+        <servlet-class>template.servlets.TemplateListServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>TemplateList</servlet-name>
+        <url-pattern>/template-list</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>TestServlet</servlet-name>
+        <servlet-class>template.servlets.TestServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>TestServlet</servlet-name>
+        <url-pattern>/test</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>TestTemplateServlet</servlet-name>
+        <servlet-class>template.servlets.TestTemplateServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>TestTemplateServlet</servlet-name>
+        <url-pattern>/test-template</url-pattern>
+    </servlet-mapping>
 </web-app>
