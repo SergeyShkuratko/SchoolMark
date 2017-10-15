@@ -3,6 +3,7 @@ out/
 .gradle/
 gradle/
 build/
+student/pages/
 *.iml
 *.ipr
 *.iws
