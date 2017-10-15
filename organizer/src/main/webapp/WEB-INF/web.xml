@@ -11,7 +11,7 @@
 
     <servlet>
         <servlet-name>OrganizerModule</servlet-name>
-        <servlet-class>inno.OrganizerServlet</servlet-class>
+        <servlet-class>inno.servlets.OrganizerServlet</servlet-class>
     </servlet>
 
     <servlet-mapping>
