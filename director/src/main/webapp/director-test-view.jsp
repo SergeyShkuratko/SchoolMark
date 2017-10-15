@@ -25,6 +25,10 @@
 <body>
 
 <div class="container-fluid">
+    <div class="row mt-3">
+        <a class="col-md-auto ml-auto" href="<c:url value='/director-test-list'/> ">К списку тестов</a>
+    </div>
+
     <div class="row border mt-3">
         <div class="container-fluid">
             <nav class="nav nav-tabs" id="myTab" role="tablist">

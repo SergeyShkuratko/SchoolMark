@@ -29,29 +29,34 @@
 <body>
 <div class="container-fluid">
     <div class="row mb-3 mt-3">
-        <form method="get" action="<c:url value='/director-test-list'/>">
-            <div class="form-check col-md-auto">
+        <form class="col-md-auto" method="get" action="<c:url value='/director-test-list'/>">
+            <div class="form-check">
                 <label class="form-check-label">
                     <input class="form-check-input" type="checkbox"
-                           name="groupByOrganization" ${groupByOrganization == "on" ? 'checked' : ''} onclick="this.form.submit()">
+                           name="groupByOrganization" ${groupByOrganization == "on" ? 'checked' : ''}
+                           onclick="this.form.submit()">
                     Группировать по организации
                 </label>
             </div>
         </form>
 
-            <div class="input-group date col-md-2 ml-auto" data-provide="datepicker">
-                <input type="text" class="form-control" placeholder="Дата с">
-                <div class="input-group-addon">
-                    <span class="fa fa-th"></span>
+        <form class="col-md-auto ml-auto" method="get" action="<c:url value='/director-test-list'/>">
+            <div class="row">
+                <div class="input-group date col-md-4" data-provide="datepicker">
+                    <input type="text" class="form-control" placeholder="Дата с">
+                    <div class="input-group-addon">
+                        <span class="fa fa-th"></span>
+                    </div>
                 </div>
-            </div>
-
-            <div class="input-group date col-md-2" data-provide="datepicker">
-                <input type="text" class="form-control" placeholder="Дата по">
-                <div class="input-group-addon">
-                    <span class="fa fa-th"></span>
+                <div class="input-group date col-md-4" data-provide="datepicker">
+                    <input type="text" class="form-control" placeholder="Дата по">
+                    <div class="input-group-addon">
+                        <span class="fa fa-th"></span>
+                    </div>
                 </div>
+                <input class="button col-md-4" type="submit" value="Отфильтровать"/>
             </div>
+        </form>
     </div>
 
     <c:if test="${groupByOrganization != 'on'}">

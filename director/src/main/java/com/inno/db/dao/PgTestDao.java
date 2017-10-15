@@ -26,9 +26,9 @@ public class PgTestDao implements TestDao {
             ResultSet resultSet = connectionManager.getConnection()
                     .createStatement()
                     .executeQuery(
-                    "SELECT t.id test_id, t.start_date_time::date as date, " +
-                            "concat_ws(' ', tr.last_name, tr.first_name, tr.patronymic) as organizer, " +
-                            "sbj.name as subject, cl.name as class_name, AVG(vr.mark) average_mark " +
+                    "SELECT t.id AS test_id, t.start_date_time::date AS date, " +
+                            "concat_ws(' ', tr.last_name, tr.first_name, tr.patronymic) AS organizer, " +
+                            "sbj.name AS subject, cl.name AS class_name, AVG(vr.mark) AS average_mark " +
                             "FROM tests t " +
                             "JOIN teachers tr ON t.owner_id = tr.id " +
                             "JOIN works w ON w.test_id = t.id " +
@@ -36,7 +36,7 @@ public class PgTestDao implements TestDao {
                             "JOIN school_classes cl ON t.school_class_id = cl.id " +
                             "JOIN verification_results vr ON vr.work_id = w.id " +
                             "JOIN subjects sbj ON tt.subject_id = sbj.id " +
-                            "GROUP BY date, organizer, subject, class_name");
+                            "GROUP BY t.id, date, organizer, subject, class_name");
 
             List<TestStatisticDto> result = new ArrayList<>();
             while (resultSet.next()) {
@@ -62,7 +62,7 @@ public class PgTestDao implements TestDao {
             PreparedStatement statement = connectionManager.getConnection()
                     .prepareStatement("SELECT q.id AS question_id, q.question, q.answer, q.criteria, " +
                             "w.id AS work_id, concat_ws(' ', st.last_name, st.first_name, st.patronymic) AS student, " +
-                            "vr.mark, w.status = work_status.reverification AS was_appellation " +
+                            "vr.mark, w.status = 'reverification' AS was_appellation " +
                             "FROM tests t " +
                             "JOIN works w ON w.test_id = t.id " +
                             "JOIN test_templates tt ON t.test_template_id = t.id " +
