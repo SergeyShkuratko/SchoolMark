@@ -11,12 +11,13 @@ public class Teacher {
     private final String firstname;
     private final String patronymic;
     private final School school;
-    private final List<SubjectTeacherConnector> subject;
+    private final List<Subject> subject;
     private final int minClass;
     private final int maxClass;
     private final String qualification;
 
-    public Teacher(int id, int userId, String lastname, String firstname, String patronymic, School school, Collection<SubjectTeacherConnector> subject, int minClass, int maxClass, String qualification) {
+    //TODO вернуть тип subject перед комитом
+    public Teacher(int id, int userId, String lastname, String firstname, String patronymic, School school, Collection<Subject> subject, int minClass, int maxClass, String qualification) {
         this.id = id;
         this.userId = userId;
         this.lastname = lastname;
@@ -54,7 +55,7 @@ public class Teacher {
         return school;
     }
 
-    public List<SubjectTeacherConnector> getSubject() {
+    public List<Subject> getSubject() {
         return subject;
     }
 
