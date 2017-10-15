@@ -31,18 +31,20 @@
                 <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab"
                    aria-controls="nav-home" aria-expanded="true">Описание работы</a>
                 <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab"
-                   aria-controls="nav-profile">Критери оценки</a>
+                   aria-controls="nav-profile">Критерии оценки</a>
             </nav>
             <div class="tab-content m-3" id="nav-tabContent">
-                <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
-                    <c:forEach var="question" items="${testAndWorkInfo.questions}">
-                        <b>Вопрос: </b><c:out value="${question.question}"/>
-                        <b>Ответ: </b><c:out value="${question.answer}"/>
+                <div ? class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                    <c:forEach var="question" items="${testAndWorkInfo.questions}" varStatus="loop">
+                        <p>
+                            <b>Вопрос ${loop.index + 1}: </b><c:out value="${question.question}"/> <br/>
+                            <b>Ответ: </b><c:out value="${question.answer}"/>
+                        </p>
                     </c:forEach>
                 </div>
                 <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
-                    <c:forEach var="question" items="${testAndWorkInfo.questions}">
-                        <b>Критерий: </b><c:out value="${question.criteria}"/>
+                    <c:forEach var="question" items="${testAndWorkInfo.questions}" varStatus="loop">
+                        <b>Для вопроса ${loop.index + 1}: </b><c:out value="${question.criteria}"/> <br/>
                     </c:forEach>
                 </div>
             </div>
@@ -68,7 +70,7 @@
                         <c:out value="${work.mark}"/>
                     </td>
                     <td>
-                        <c:out value="${work.wasAppeal}"/>
+                        <c:out value="${work.wasAppeal ? 'была' : 'не было'}"/>
                     </td>
                 </tr>
             </c:forEach>

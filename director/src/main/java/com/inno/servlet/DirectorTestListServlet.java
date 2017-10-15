@@ -17,7 +17,11 @@ import java.util.List;
 import java.util.Map;
 
 public class DirectorTestListServlet extends HttpServlet {
-    private TestStatisticService testStatisticService = new TestStatisticServiceImpl(new FakeTestDao());
+    private TestStatisticService testStatisticService;
+
+    public DirectorTestListServlet() {
+        testStatisticService = new TestStatisticServiceImpl();
+    }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -31,10 +35,5 @@ public class DirectorTestListServlet extends HttpServlet {
 
         req.setAttribute("groupByOrganization", groupByOrganization);
         req.getRequestDispatcher("/director-test-list.jsp").forward(req, resp);
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        doGet(req, resp);
     }
 }

@@ -29,7 +29,7 @@
 <body>
 <div class="container-fluid">
     <div class="row mb-3 mt-3">
-        <form method="post" action="<c:url value='/director-test-list'/>">
+        <form method="get" action="<c:url value='/director-test-list'/>">
             <div class="form-check col-md-auto">
                 <label class="form-check-label">
                     <input class="form-check-input" type="checkbox"
@@ -126,9 +126,6 @@
 
                                     <tr onclick="window.location.href='<c:out value='${testViewLocation}'/>'">
                                         <td>
-                                            <p>skdfjlskjdfklsjdlkfjslkj</p>
-                                            <c:out value='${testViewLocation}'/>
-                                            <a href="<c:out value='${testViewLocation}'/> ">test link</a>
                                             <c:out value="${test.date}"/>
                                         </td>
                                         <td>
