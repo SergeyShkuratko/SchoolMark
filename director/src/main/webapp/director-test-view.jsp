@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: mars
@@ -24,20 +25,31 @@
 <body>
 
 <div class="container-fluid">
-    <div class="row border">
+    <div class="row mt-3">
+        <a class="col-md-auto ml-auto" href="<c:url value='/director-test-list'/> ">К списку тестов</a>
+    </div>
+
+    <div class="row border mt-3">
         <div class="container-fluid">
             <nav class="nav nav-tabs" id="myTab" role="tablist">
                 <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab"
                    aria-controls="nav-home" aria-expanded="true">Описание работы</a>
                 <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab"
-                   aria-controls="nav-profile">Критери оценки</a>
+                   aria-controls="nav-profile">Критерии оценки</a>
             </nav>
-            <div class="tab-content" id="nav-tabContent">
-                <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
-                    Текст с описанием заданий контрольной работы
+            <div class="tab-content m-3" id="nav-tabContent">
+                <div ? class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                    <c:forEach var="question" items="${testAndWorkInfo.questions}" varStatus="loop">
+                        <p>
+                            <b>Вопрос ${loop.index + 1}: </b><c:out value="${question.question}"/> <br/>
+                            <b>Ответ: </b><c:out value="${question.answer}"/>
+                        </p>
+                    </c:forEach>
                 </div>
                 <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
-                    Текст с описанием критериев оценки контрольной работы
+                    <c:forEach var="question" items="${testAndWorkInfo.questions}" varStatus="loop">
+                        <b>Для вопроса ${loop.index + 1}: </b><c:out value="${question.criteria}"/> <br/>
+                    </c:forEach>
                 </div>
             </div>
         </div>
@@ -49,25 +61,23 @@
             <tr>
                 <th>Ученик</th>
                 <th>Оценка</th>
-                <th>Были ли переоценка</th>
+                <th>Была ли переоценка</th>
             </tr>
             </thead>
             <tbody>
-            <tr>
-                <td>Лебедев Артемий</td>
-                <td>3</td>
-                <td>не было</td>
-            </tr>
-            <tr>
-                <td>Дуров Павел</td>
-                <td>4</td>
-                <td>была</td>
-            </tr>
-            <tr>
-                <td>Касперский Евгений</td>
-                <td>5</td>
-                <td>не было</td>
-            </tr>
+            <c:forEach var="work" items="${testAndWorkInfo.workList}">
+                <tr>
+                    <td>
+                        <c:out value="${work.student}"/>
+                    </td>
+                    <td>
+                        <c:out value="${work.mark}"/>
+                    </td>
+                    <td>
+                        <c:out value="${work.wasAppeal ? 'была' : 'не было'}"/>
+                    </td>
+                </tr>
+            </c:forEach>
             </tbody>
         </table>
     </div>

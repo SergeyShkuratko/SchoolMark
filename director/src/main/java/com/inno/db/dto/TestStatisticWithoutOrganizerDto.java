@@ -1,28 +1,28 @@
-package com.inno.dto;
+package com.inno.db.dto;
 
 import java.time.LocalDate;
 
-public class TestDto {
+public class TestStatisticWithoutOrganizerDto {
+    private int id;
     private LocalDate date;
-    private String organizer;
     private String subject;
     private String className;
     private float averageMark;
 
-    public TestDto(LocalDate date, String organizer, String subject, String className, float averageMark) {
+    public TestStatisticWithoutOrganizerDto(int id, LocalDate date, String subject, String className, float averageMark) {
+        this.id = id;
         this.date = date;
-        this.organizer = organizer;
         this.subject = subject;
         this.className = className;
         this.averageMark = averageMark;
     }
 
-    public LocalDate getDate() {
-        return date;
+    public int getId() {
+        return id;
     }
 
-    public String getOrganizer() {
-        return organizer;
+    public LocalDate getDate() {
+        return date;
     }
 
     public String getSubject() {
