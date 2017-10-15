@@ -30,6 +30,8 @@
     <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.8.1/baguetteBox.min.css">
+    <link rel="stylesheet" href="fluid-gallery.css">
 </head>
 
 <body>
@@ -78,18 +80,18 @@
                         </c:forEach>
                     </div>
                 <div class="panel panel-default text-left">
-                    <div class="panel-body">
+                    <div class="panel-body tz-gallery">
                         <div class="row ifaceforworkcheck-row">
-
                             <ul class="horizontal-slide">
                                 <c:forEach items="${files}" var="file">
-                                <li>
-                                    <img alt="+" data-src="holder.js/100%x180" style="height: 180px; width: 100%; display: block;" src="<c:out value="${file}"/>" data-holder-rendered="true">
-                                </li>
+                                    <li>
+                                        <a class="lightbox" href="<c:out value="${file}"/>">
+                                            <img src="<c:out value="${file}" />" style="height: 100px; width: 100px; display: block;"  alt="">
+                                        </a>
+                                    </li>
                                 </c:forEach>
                             </ul>
                         </div>
-
                     </div>
                 </div>
                 <%--Блок с кнопкой отправки на статусе Новая--%>
@@ -104,14 +106,23 @@
                     <%--Блок с комментарием и оценкой после проверки или перепроверки--%>
                 <c:if test="${(work.status.name.toString() eq 'Проверена') || (work.status.name.toString() eq 'Перепроверена') }">
                 <div class="panel panel-default text-left">
-                    <div class="panel-body">
+                    <div class="panel-body tz-gallery">
                         <div class="row ifaceforworkcheck-row col-sm-12">
                             <ul class="horizontal-slide">
+                                <c:forEach items="${teacher_files}" var="file">
+                                    <li>
+                                        <a class="lightbox" href="<c:out value="${file}"/>">
+                                            <img src="<c:out value="${file}" />" style="height: 100px; width: 100px; display: block;"  alt="">
+                                        </a>
+                                    </li>
+                                </c:forEach>
+<%--
                                 <c:forEach items="${teacher_files}" var="file">
                                     <li>
                                         <img alt="+" data-src="holder.js/100%x180" style="height: 180px; width: 100%; display: block;" src="<c:out value="${file}"/>" data-holder-rendered="true">
                                     </li>
                                 </c:forEach>
+--%>
 
                             </ul>
                         </div>
@@ -158,5 +169,10 @@
 <!-- Placed at the end of the document so the pages load faster -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.8.1/baguetteBox.min.js"></script>
+<script>
+    baguetteBox.run('.tz-gallery');
+</script>
 </body>
 </html>
