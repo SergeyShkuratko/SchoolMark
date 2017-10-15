@@ -16,14 +16,4 @@
         <url-pattern>/controller</url-pattern>
     </servlet-mapping>
 
-
-    <servlet>
-        <servlet-name>justMenu</servlet-name>
-        <jsp-file>/justMenu.jsp</jsp-file>
-    </servlet>
-
-    <servlet-mapping>
-        <servlet-name>justMenu</servlet-name>
-        <url-pattern>/justMenu</url-pattern>
-    </servlet-mapping>
 </web-app>
