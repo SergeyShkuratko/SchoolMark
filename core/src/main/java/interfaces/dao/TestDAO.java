@@ -1,6 +1,7 @@
 package interfaces.dao;
 
 import classes.*;
+import exceptions.TestDAOException;
 
 import java.time.LocalDate;
 import java.util.Collection;
@@ -85,6 +86,6 @@ public interface TestDAO {
      */
     boolean saveAsTemplate(Test event);
 
-    
-    Test getById(int id);
+
+    Test getById(int id) throws TestDAOException;
 }
