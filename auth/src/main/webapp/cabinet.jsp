@@ -25,11 +25,9 @@
                     </a>
                 </div>
                 <div id='school<c:out value="${school.getId()}"/>' class="panel-collapse collapse in">
-                    <!--
-                    //TODO запилить отложенную инициализацию
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <a data-toggle="collapse" href='#classes<out value="{school.getId()}"/>'>
+                            <a data-toggle="collapse" href='#classes<c:out value="${school.getId()}"/>'>
                                 Классы
                             </a>
                         </div>
