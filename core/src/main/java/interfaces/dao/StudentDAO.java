@@ -12,6 +12,7 @@ import java.util.List;
 public interface StudentDAO {
 
     Student getStudent(String login);
+    Student getStudent(int id);
 
     boolean update(Student student);
 

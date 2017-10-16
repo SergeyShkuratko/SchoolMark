@@ -19,6 +19,11 @@
         <servlet-class>servlets.RegistrationServlet</servlet-class>
     </servlet>
 
+    <servlet>
+        <servlet-name>AdminCabinetServlet</servlet-name>
+        <servlet-class>servlets.AdministratorCabinetServlet</servlet-class>
+    </servlet>
+
     <!--    SERVLET MAPPING    -->
     
     <servlet-mapping>
@@ -28,6 +33,11 @@
     <servlet-mapping>
         <servlet-name>RegistrationServlet</servlet-name>
         <url-pattern>/register</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>AdminCabinetServlet</servlet-name>
+        <url-pattern>/admin/cabinet</url-pattern>
     </servlet-mapping>
 
 
