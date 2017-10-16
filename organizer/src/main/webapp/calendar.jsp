@@ -38,7 +38,7 @@
             document.myDiv.appendChild(iframe);
             document.body.appendChild(document.myDiv);
 
-            var src = "<html><head><title>" + cell.title + "</title></head><body bgcolor='#fff5ee'><div align='right'><input type='image' value='close' src='${pageContext.request.contextPath}/organizer/calendar/images/close.png' width='50' onClick='while (window.parent.document.myDiv.firstElementChild!=null)window.parent.document.myDiv.removeChild(window.parent.document.myDiv.firstElementChild);'/></div>"
+            var src = "<html><head><title>" + cell.title + "</title></head><body bgcolor='#fff5ee'><div align='right'><input type='image' value='close' src='${pageContext.request.contextPath}/resources/close.png' width='50' onClick='while (window.parent.document.myDiv.firstElementChild!=null)window.parent.document.myDiv.removeChild(window.parent.document.myDiv.firstElementChild);'/></div>"
                 + "<div align='center'>";
             for (var key in cell.subjects) {
                 src += cell.getSubject(key) + "<br>";
@@ -60,16 +60,17 @@
 <form method="post" action="${pageContext.request.contextPath}/organizer/calendar" id="mainForm">
     <input type="hidden" id="command" name="command" value=""/>
     <input type="hidden" name="beginData" value="${beginData}"/>
+
     <table cellspacing="5" border="0" align="center">
         <tr>
             <td></td>
             <td>
-                <input type="image" src="${pageContext.request.contextPath}/organizer/calendar/images/navigate-left.png" width="70" alt="<"
+                <input type="image" src="${pageContext.request.contextPath}/resources/navigate-left.png" width="70" alt="<"
                        onclick="document.getElementById('command').value='timeBack';this.form.submit();"/>
             </td>
             <td colspan="3" align="center"><c:out value="${monthName}"/></td>
             <td>
-                <input type="image" src="${pageContext.request.contextPath}/organizer/calendar/images/navigate-right.png" width="70" alt=">"
+                <input type="image" src="${pageContext.request.contextPath}/resources/navigate-right.png" width="70" alt=">"
                        onclick="document.getElementById('command').value='timeForward';this.form.submit();"/>
             </td>
             <td></td>

@@ -1,10 +1,13 @@
 package calendar.servlets;
 
+import calendar.dao.TeacherDAO;
+import calendar.dao.TeacherDAOPostgres;
+import calendar.dao.exceptions.TeacherDAOException;
+import calendar.dao.exceptions.TestDAOException;
+import calendar.dto.TestDTO;
+import calendar.services.CalendarServiceImpl;
 import calendar.utils.CalendarCell;
-import classes.SchoolClass;
-import classes.Subject;
-import classes.Test;
-import classes.TestTemplate;
+import classes.*;
 import calendar.services.CalendarService;
 
 import javax.servlet.ServletException;
@@ -21,34 +24,10 @@ import java.util.*;
 import static org.mockito.Mockito.*;
 
 public class CalendarServlet extends HttpServlet {
-    static CalendarService calendarService;
-
-    static {
-        Random r = new Random();
-        calendarService = mock(CalendarService.class);
-        LocalDate startIteration = LocalDate.now().with(TemporalAdjusters.firstDayOfMonth()).minusMonths(5);
-        LocalDate endIteration = LocalDate.now().with(TemporalAdjusters.firstDayOfMonth()).plusMonths(5);
-        for (LocalDate currBeginMonth = startIteration; currBeginMonth.compareTo(endIteration) <= 0; currBeginMonth = currBeginMonth.plusMonths(1)) {
-            LocalDate begin = currBeginMonth.with(TemporalAdjusters.dayOfWeekInMonth(0, DayOfWeek.MONDAY));
-            LocalDate end = currBeginMonth.plusMonths(1).with(TemporalAdjusters.dayOfWeekInMonth(1, DayOfWeek.SUNDAY));
-            List<Test> tests = new ArrayList<>();
-            tests.add(new Test(0, new TestTemplate(0, "Тема1", "", 11, new Subject(0, "Математика")), null, new SchoolClass(0, 11, "А")));
-            tests.add(new Test(0, new TestTemplate(0, "Тема2", "", 11, new Subject(0, "Русский")), null, new SchoolClass(0, 11, "А")));
-            tests.add(new Test(0, new TestTemplate(0, "Тема3", "", 11, new Subject(0, "География")), null, new SchoolClass(0, 11, "А")));
-            tests.add(new Test(0, new TestTemplate(0, "Тема4", "", 11, new Subject(0, "История")), null, new SchoolClass(0, 11, "А")));
-            tests.add(new Test(0, new TestTemplate(0, "Тема5", "", 11, new Subject(0, "Химия")), null, new SchoolClass(0, 11, "А")));
-            int daysInMonth = currBeginMonth.with(TemporalAdjusters.lastDayOfMonth()).getDayOfMonth();
-            int day3 = r.nextInt(daysInMonth);
-            tests.get(0).setStartDate(currBeginMonth.plusDays(day3));
-            tests.get(1).setStartDate(currBeginMonth.plusDays(day3));
-            tests.get(2).setStartDate(currBeginMonth.plusDays(day3));
-            tests.get(3).setStartDate(currBeginMonth.plusDays(r.nextInt(daysInMonth)));
-            tests.get(4).setStartDate(currBeginMonth.plusDays(r.nextInt(daysInMonth)));
-
-            when(calendarService.getTestsByTeacherDuringPeriod(null, begin, end)).thenReturn(tests);
-        }
-
-    }
+    static CalendarService calendarService = new CalendarServiceImpl();
+    //TODO: ИЗМЕНИТЬ НА КОРРЕКТНЫЕ ИМА АТРИБУТОВ
+    static final String TEACHER_SESSION_ATTRIBUTE_NAME = "Teacher";
+    static final String ID_SESSION_ATTRIBUTE_NAME = "id";
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -57,57 +36,94 @@ public class CalendarServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        LocalDate beginMonth = null;
-        LocalDate endMonth = null;
-        LocalDate begin = null;
-        LocalDate end = null;
-        String beginDataString = req.getParameter("beginData");
+        //TODO: ИЗМЕНИТЬ НА КОРРЕКТНОЕ ИМЯ АТРИБУТА
+        req.getSession().setAttribute(ID_SESSION_ATTRIBUTE_NAME, 4);
 
-        if (beginDataString == null)
-            begin = LocalDate.now();
-        else
-            begin = LocalDate.parse(beginDataString);
-        beginMonth = begin.with(TemporalAdjusters.firstDayOfMonth());
-
-        String command = req.getParameter("command");
-        if (command != null)
-            switch (command) {
-                case "timeBack":
-                    beginMonth = beginMonth.minusMonths(1);
-                    break;
-                case "timeForward":
-                    beginMonth = beginMonth.plusMonths(1);
-                    break;
+        List<String> errors = new LinkedList<>();
+        Teacher teacher = (Teacher) req.getSession().getAttribute(TEACHER_SESSION_ATTRIBUTE_NAME);
+        if (teacher == null) {
+            Integer id = (Integer) req.getSession().getAttribute(ID_SESSION_ATTRIBUTE_NAME);
+            if (id == null) {
+                errors.add("Ошибка идентификации пользователя");
+            } else {
+                try {
+                    teacher = calendarService.getByUserId(id);
+                    req.getSession().setAttribute(TEACHER_SESSION_ATTRIBUTE_NAME, teacher);
+                } catch (TeacherDAOException e) {
+                    errors.add(e.getLocalizedMessage() + " : " + e.toString());
+                }
             }
+        }
+        if (teacher == null)
+            errors.add("Пользователь не идентифицирован как учитель");
+        else {
+            LocalDate beginMonth = null;
+            LocalDate endMonth = null;
+            LocalDate begin = null;
+            LocalDate end = null;
+            String beginDataString = req.getParameter("beginData");
+
+            if (beginDataString == null)
+                begin = LocalDate.now();
+            else
+                begin = LocalDate.parse(beginDataString);
+            beginMonth = begin.with(TemporalAdjusters.firstDayOfMonth());
+
+            String command = req.getParameter("command");
+            if (command != null)
+                switch (command) {
+                    case "timeBack":
+                        beginMonth = beginMonth.minusMonths(1);
+                        break;
+                    case "timeForward":
+                        beginMonth = beginMonth.plusMonths(1);
+                        break;
+                }
 
 
-        endMonth = beginMonth.with(TemporalAdjusters.lastDayOfMonth());
-        begin = beginMonth.with(TemporalAdjusters.dayOfWeekInMonth(0, DayOfWeek.MONDAY));
-        end = beginMonth.plusMonths(1).with(TemporalAdjusters.dayOfWeekInMonth(1, DayOfWeek.SUNDAY));
+            endMonth = beginMonth.with(TemporalAdjusters.lastDayOfMonth());
+            begin = beginMonth;
+            if(begin.getDayOfWeek() != DayOfWeek.MONDAY)
+                begin = begin.with(TemporalAdjusters.previous(DayOfWeek.MONDAY));
 
-        List<Test> tests = new ArrayList<>(calendarService.getTestsByTeacherDuringPeriod(null, begin, end));
-        List<CalendarCell> calendar = new ArrayList<>();
+            end = beginMonth.with(TemporalAdjusters.lastDayOfMonth());
+            if(end.getDayOfWeek() != DayOfWeek.SUNDAY)
+                end = end.with(TemporalAdjusters.next(DayOfWeek.SUNDAY));
 
+            List<TestDTO> tests = null;
+            try {
+                tests = new ArrayList<>(calendarService.getSubjectsOfTestsByTeacherDuringPeriod(teacher, begin, end));
+            } catch (TestDAOException e) {
 
-        tests.sort(Comparator.comparing(Test::getStartDate).reversed());
-        LocalDate currentDate = begin;
-        while (currentDate.compareTo(end) <= 0) {
-            CalendarCell cc = new CalendarCell(currentDate,
-                    currentDate.compareTo(beginMonth) >= 0 && currentDate.compareTo(endMonth) <= 0,
-                    currentDate.getDayOfWeek() == DayOfWeek.SATURDAY || currentDate.getDayOfWeek() == DayOfWeek.SUNDAY,
-                    currentDate.getDayOfWeek() == DayOfWeek.SUNDAY);
-            while (!tests.isEmpty() && tests.get(tests.size() - 1).getStartDate().equals(currentDate)) {
-                cc.addSubject(tests.get(tests.size() - 1).getTemplate().getSubject().getName());
-                tests.remove(tests.size() - 1);
             }
-            calendar.add(cc);
-            currentDate = currentDate.plusDays(1);
+            List<CalendarCell> calendar = new ArrayList<>();
+
+
+            tests.sort(Comparator.comparing(TestDTO::getStartDate).reversed());
+            LocalDate currentDate = begin;
+            while (currentDate.compareTo(end) <= 0) {
+                CalendarCell cc = new CalendarCell(currentDate,
+                        currentDate.compareTo(beginMonth) >= 0 && currentDate.compareTo(endMonth) <= 0,
+                        currentDate.getDayOfWeek() == DayOfWeek.SATURDAY || currentDate.getDayOfWeek() == DayOfWeek.SUNDAY,
+                        currentDate.getDayOfWeek() == DayOfWeek.SUNDAY);
+                while (!tests.isEmpty() && tests.get(tests.size() - 1).getStartDate().equals(currentDate)) {
+                    cc.addSubject(tests.get(tests.size() - 1).getSubject());
+                    tests.remove(tests.size() - 1);
+                }
+                calendar.add(cc);
+                currentDate = currentDate.plusDays(1);
+            }
+            req.setAttribute("calendar", calendar);
+            req.setAttribute("beginData", beginMonth);
+            String monthName = beginMonth.getMonth().getDisplayName(TextStyle.FULL_STANDALONE, Locale.forLanguageTag("ru")).toUpperCase();
+            req.setAttribute("monthName", monthName);
+        }
+        if (errors.isEmpty())
+            req.getRequestDispatcher("/calendar.jsp").forward(req, resp);
+        else {
+            req.setAttribute("errors", errors);
+            req.getRequestDispatcher("/error.jsp").forward(req, resp);
         }
 
-        req.setAttribute("calendar", calendar);
-        req.setAttribute("beginData", beginMonth);
-        String monthName = beginMonth.getMonth().getDisplayName(TextStyle.FULL_STANDALONE, Locale.forLanguageTag("ru")).toUpperCase();
-        req.setAttribute("monthName", monthName);
-        req.getRequestDispatcher("/calendar.jsp").forward(req, resp);
     }
 }
