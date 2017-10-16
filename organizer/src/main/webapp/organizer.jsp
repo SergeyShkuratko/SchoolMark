@@ -90,7 +90,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr class="success">
+                        <tr>
                             <td>Принята</td>
                             <td><a href="#">Иванов Иван Иванович</a></td>
                             <td>
