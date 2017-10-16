@@ -84,4 +84,7 @@ public interface TestDAO {
      * @return результат выполнения операции
      */
     boolean saveAsTemplate(Test event);
+
+    
+    Test getById(int id);
 }
