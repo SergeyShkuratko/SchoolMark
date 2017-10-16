@@ -1,14 +1,13 @@
 package service;
 
-import DAOImplementation.TestDAOImpl;
-import classes.Work;
+import DAO.DTO.TestsDTO;
 
 import java.util.List;
 
-public class TestService {
+public interface TestService {
+    List<TestsDTO> getWorksForVerifier(int verifierId);
 
-    public List<Work> getWorks() {
+    String getTestInfoJsonByTestId(int testId);
 
-        return new TestDAOImpl().getWorks();
-    }
+    String getWorkPagesJsonByWorkId(int workId);
 }
