@@ -70,4 +70,13 @@ public class Teacher {
     public String getQualification() {
         return qualification;
     }
+
+    /**
+     * @return фамилия учителя + инициалы
+     */
+    public String getFullName() {
+        return lastname + " "
+                + firstname.substring(0, 1) + ". "
+                + patronymic.substring(0, 1) + ".";
+    }
 }
