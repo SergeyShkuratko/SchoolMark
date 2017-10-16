@@ -118,12 +118,22 @@
                         <div class="row ifaceforworkcheck-row">
                              <div class="col-sm-9">
                             <ul class="horizontal-slide text-left">
-
                                 <c:forEach items="${files}" var="file">
                                     <li>
+                                        <div style="position: relative; left: 0; top: 0;">
                                         <a class="lightbox" href="<c:out value="${file}"/>">
                                             <img src="${pageContext.request.contextPath}/<c:out value="${file}" />" style="height: 100px; width: 100px; display: block;"  alt="">
                                         </a>
+                                        <form id="form_del_photo" method="post" action="/student/workload">
+                                            <input type="hidden" name="command" value="del_photo">
+                                            <input type="hidden" name="file" value="<c:out value="${file}"/>">
+                                        </form>
+                                        <i class="glyphicon glyphicon-remove" aria-hidden="true"
+                                           onclick="document.getElementById('form_del_photo').submit()"
+                                           style="position: absolute; margin-top: 0px; margin-right: 0px;cursor:pointer;" width="20" height="20">
+
+                                        </i>
+                                        </div>
                                     </li>
                                 </c:forEach>
                             </ul>
@@ -133,9 +143,10 @@
                                 <div class="panel panel-default text-left">
                                     <div class="panel-body">
                                         <form id="drop" class="dropzone"  action="/student/workload" method="post" enctype="multipart/form-data">
+                                            <input type="hidden" name="command" value="send_photo">
                                             <label class="btn" for="my-file-selector">
                                                 <i class="fa fa fa-plus-square-o fa-5x" aria-hidden="true"></i>
-                                                <input type="hidden" name="command" value="send_photo">
+
                                                 <input id="my-file-selector" type="file" name="data" style="display:none"
                                                        onchange="document.getElementById('drop').submit()">
                                            </label>
@@ -228,8 +239,8 @@
                             <div class="row">
                                 <div class="col-sm-8">
                                     <div class="form-group">
-                                        <label for="teacher_comment">Комментарии учителя:</label>
-                                        <textarea id="teacher_comment" class="form-control" rows="11"></textarea>
+                                        <label for="teacher2_comment">Комментарии учителя:</label>
+                                        <textarea id="teacher2_comment" class="form-control" rows="11"></textarea>
                                     </div>
                                 </div>
                                 <div class="col-sm-4">

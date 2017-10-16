@@ -41,10 +41,26 @@ public class WorkLoadServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String command = request.getParameter("command");
+        if (command==null) command = "";
         switch (command) {
             case "send_work" : sendWork(request, response); break;
             case "recheck" : sendToRecheck(request, response);break;
+            case "del_photo" : delPhoto(request, response); break;
             default : loadPhoto(request, response);
+        }
+    }
+
+    private void delPhoto(HttpServletRequest request, HttpServletResponse response) {
+        String referer = request.getHeader("referer");
+        String fileName = request.getParameter("file");
+        WorkService.fileList.remove(fileName);
+        String path = getServletContext().getRealPath(fileName);
+        File file = new File(path);
+        if (!file.delete()) logger.error("Файл изображения не удален.");
+        try {
+            response.sendRedirect(referer);
+        } catch (IOException e) {
+            logger.error(e.getMessage());
         }
     }
 
