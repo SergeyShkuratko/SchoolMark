@@ -25,7 +25,7 @@
     <!-- Custom styles for this template -->
 
     <link rel="stylesheet" href="static/dashboard.css" type="text/css">
-
+    <meta http-equiv="Cache-Control" content="no-cache"/>
 </head>
 <body>
 
@@ -60,13 +60,13 @@
             <div class="row panel panel-default margin-bottom-null">
 
                 <div class="col-xs-18 col-sm-10 text-center">
-                    <h1 class="control-work-title">Тема контрольной работы</h1>
-                    <p class="control-work-relating-text">
-                        Сопроводительный текст Сопроводительный текст
+                    <h1 class="control-work-title">
+                        <c:out value="${testDTO.topic}" />
+                    </h1>
+                    <p class="control-work-relating-text" align="justify">
+                        <c:out value="${testDTO.description}" />
                     </p>
-                    <p class="control-work-relating-text">
-                        Сопроводительный текст Сопроводительный текст
-                    </p>
+
                 </div>
 
                 <div class="col-xs-6 col-sm-2">
