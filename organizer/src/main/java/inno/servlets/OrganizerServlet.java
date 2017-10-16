@@ -1,8 +1,7 @@
 package inno.servlets;
 
-import inno.dao.TestDAOImpl;
-import inno.dto.TestDTO;
-import inno.exceptions.TestDTOException;
+import inno.dao.OrganizerDAO;
+import inno.exceptions.OrganizerDAOexception;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -19,8 +18,8 @@ public class OrganizerServlet extends HttpServlet {
 
         if (test_id > 0) {
             try {
-                req.setAttribute("testDTO", TestDAOImpl.getById(test_id));
-            } catch (TestDTOException e) {
+                req.setAttribute("testDTO", OrganizerDAO.getTestById(test_id));
+            } catch (OrganizerDAOexception e) {
                 throw new ServletException(e);
             }
 

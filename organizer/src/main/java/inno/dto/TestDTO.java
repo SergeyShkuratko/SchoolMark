@@ -7,7 +7,6 @@ public class TestDTO {
    private String description;
    private int school_class_id;
 
-
     public TestDTO(int id, String status, String topic, String description, int school_class_id) {
         this.id = id;
         this.status = status;
