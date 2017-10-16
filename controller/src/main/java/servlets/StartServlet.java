@@ -29,11 +29,6 @@ public class StartServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-//        System.out.println(req);
-//        System.out.println(req);
-//        ServletInputStream inputStream = req.getInputStream();
-//        FileInputStream fileInputStream = new FileInputStream()
-//        System.out.println(req);
-//        System.out.println(req);
+
     }
 }
