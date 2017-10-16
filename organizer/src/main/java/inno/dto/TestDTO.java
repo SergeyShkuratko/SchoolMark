@@ -1,12 +1,9 @@
 package inno.dto;
 
-import classes.Test;
 import connectionmanager.ConnectionManager;
 import connectionmanager.ConnectionManagerPostgresImpl;
-import exceptions.TestDAOException;
 import inno.exceptions.TestDTOException;
 
-import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
