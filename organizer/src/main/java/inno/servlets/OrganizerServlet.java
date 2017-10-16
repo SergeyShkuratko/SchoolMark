@@ -18,6 +18,9 @@ public class OrganizerServlet extends HttpServlet {
 
         if (test_id > 0) {
             try {
+                //sout
+                System.out.println( OrganizerDAO.createWorksForTest(test_id));
+
                 req.setAttribute("testDTO", OrganizerDAO.getTestById(test_id));
             } catch (OrganizerDAOexception e) {
                 throw new ServletException(e);

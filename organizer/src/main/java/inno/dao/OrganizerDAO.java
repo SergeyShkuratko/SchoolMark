@@ -66,4 +66,15 @@ public class OrganizerDAO {
         }
     }
 
+    public static boolean isWorksExists(int test_id) throws OrganizerDAOexception{
+        String sql = "SELECT COUNT(id) >= 1 " +
+                "FROM works " +
+                "WHERE test_id="+test_id;
+        try {
+            return manager.getConnection().createStatement().execute(sql);
+        } catch (SQLException e) {
+            throw new OrganizerDAOexception(e);
+        }
+    }
+
 }

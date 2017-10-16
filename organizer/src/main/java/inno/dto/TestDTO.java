@@ -15,8 +15,6 @@ public class TestDTO {
         this.school_class_id = school_class_id;
     }
 
-
-
     public int getId() {
         return id;
     }
