@@ -16,15 +16,16 @@ public class OrganizerDAO {
     /**
      * Возвращает тест по его ID
      *
-     * @param id
+     * @param test_id
      * @return
      * @throws OrganizerDAOexception
      */
-    public static TestDTO getTestById(int id) throws OrganizerDAOexception {
+    public static TestDTO getTestById(int test_id) throws OrganizerDAOexception {
         String sql = "SELECT t.id, t.status, tt.topic, tt.description, sc.id AS school_class_id " +
                 "FROM tests AS t " +
                 "JOIN test_templates AS tt ON t.test_template_id = tt.id " +
-                "JOIN school_classes AS sc ON t.school_class_id = sc.id ";
+                "JOIN school_classes AS sc ON t.school_class_id = sc.id " +
+                "WHERE t.id="+test_id;
 
         try {
             Statement statement = manager.getConnection().createStatement();
@@ -48,7 +49,8 @@ public class OrganizerDAO {
      * Создает по работе для каждого ученика по указанному ID теста
      *
      * @param test_id
-     * @return
+     * @return true/false
+     * @throws OrganizerDAOexception
      */
     public static boolean createWorksForTest(int test_id) throws OrganizerDAOexception {
         String sql = "INSERT INTO works (test_id, student_id, status)" +
@@ -66,15 +68,25 @@ public class OrganizerDAO {
         }
     }
 
+    /**Проверяет, существуют ли работы для этой контрольной работы
+     *
+     * @param test_id
+     * @return true/false
+     * @throws OrganizerDAOexception
+     */
     public static boolean isWorksExists(int test_id) throws OrganizerDAOexception{
         String sql = "SELECT COUNT(id) >= 1 " +
                 "FROM works " +
                 "WHERE test_id="+test_id;
         try {
-            return manager.getConnection().createStatement().execute(sql);
+            ResultSet rs = manager.getConnection().createStatement().executeQuery(sql);
+            if (rs.next()){
+                return rs.getBoolean(1);
+            }
         } catch (SQLException e) {
             throw new OrganizerDAOexception(e);
         }
+        return false;
     }
 
 }

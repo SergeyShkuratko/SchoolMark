@@ -18,8 +18,7 @@ public class OrganizerServlet extends HttpServlet {
 
         if (test_id > 0) {
             try {
-                //sout
-                System.out.println( OrganizerDAO.createWorksForTest(test_id));
+               if(!OrganizerDAO.isWorksExists(test_id)) OrganizerDAO.createWorksForTest(test_id); //создаем работы, если еще нет
 
                 req.setAttribute("testDTO", OrganizerDAO.getTestById(test_id));
             } catch (OrganizerDAOexception e) {
