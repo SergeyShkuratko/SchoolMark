@@ -4,9 +4,26 @@
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
          version="3.1">
     <welcome-file-list>
-        <welcome-file>index.jsp</welcome-file>
+        <welcome-file>start</welcome-file>
     </welcome-file-list>
 
+    <servlet>
+        <servlet-name>controller</servlet-name>
+        <jsp-file>/controller.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>controller</servlet-name>
+        <url-pattern>/controller</url-pattern>
+    </servlet-mapping>
 
 
+    <servlet>
+        <servlet-name>justMenu</servlet-name>
+        <jsp-file>/justMenu.jsp</jsp-file>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>justMenu</servlet-name>
+        <url-pattern>/justMenu</url-pattern>
+    </servlet-mapping>
 </web-app>

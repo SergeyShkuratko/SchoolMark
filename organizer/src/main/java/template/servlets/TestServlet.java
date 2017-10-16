@@ -24,11 +24,11 @@ public class TestServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setCharacterEncoding("utf-8");
 
-//        Test test = testService.getTestFromReq(req);
-        Test test = null;
+        Test test = testService.getTestFromReq(req);
+//        Test test = null;
 
         req.getSession().setAttribute("test", test);
-        //        getServletContext().getRequestDispatcher("/test-template").forward(req, resp);
-        resp.sendRedirect(getServletContext().getContextPath() + "/test-template");
+        getServletContext().getRequestDispatcher("/test-template").forward(req, resp);
+        //resp.sendRedirect(getServletContext().getContextPath() + "/test-template");
     }
 }

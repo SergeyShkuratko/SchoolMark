@@ -1,5 +1,6 @@
 package template.servlets;
 
+import template.dao.TestDAOImplementation;
 import template.dto.Test;
 import template.dto.TestVariant;
 import template.services.TestTemplateService;
@@ -16,6 +17,7 @@ import java.util.List;
  */
 public class TestTemplateServlet extends HttpServlet {
     public static TestTemplateService testTemplateService = new TestTemplateService();
+    public TestDAOImplementation testDAOImplementation = new TestDAOImplementation();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -24,11 +26,12 @@ public class TestTemplateServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        getServletContext().getRequestDispatcher("/test-template.jsp").forward(req, resp);
 
         List<TestVariant> testVariants = testTemplateService.getTestVariantsFromReq(req);
         Test test = (Test)req.getAttribute("test");
-//        test.getTestVariants().addAll(testVariants);
+        test.getTestTemplate().getTestVariants().addAll(testVariants);
 
-        //TestDAOImplementation.createTest(test);
+        testDAOImplementation.createTest(test);
     }
 }

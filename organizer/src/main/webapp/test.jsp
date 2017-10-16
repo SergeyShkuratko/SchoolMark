@@ -65,10 +65,17 @@
                 </div>
             </div>
             <div class="form-group">
-                <label for="classnum">Класс</label>
-                <input type="text" class="form-control input-xxlarge" id="classnum" placeholder="11" name="classNum">
+                <label for="classNum">Класс</label>
+                <input type="text" class="form-control input-xxlarge" id="classNum" placeholder="11" name="classNum">
             </div>
-
+            <div class="form-group">
+                <label for="className">Буква</label>
+                <select class="form-control input-xxlarge" id="className" name="className">
+                    <option>"А"</option>
+                    <option>"Б"</option>
+                    <option>"В"</option>
+                </select>
+            </div>
             <div class="form-group">
                 <label for="difficulty">Сложность</label>
                 <select class="form-control input-xxlarge" id="difficulty" name="difficulty">

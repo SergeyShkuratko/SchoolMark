@@ -1,33 +1,43 @@
 package template.dto;
 
+import classes.SchoolClass;
+
 import java.time.LocalDate;
 
 /**
  * Created by nkm on 15.10.2017.
  */
-public class Test extends TestTemplate {
-    private int classNum;
+public class Test {
+    private TestTemplate testTemplate;
+    private SchoolClass schoolClass;
     private LocalDate testDate;
     private LocalDate deadlineDate;
-
-    public Test(String testTheme, String subject, String difficulty, int classNum, LocalDate testDate, LocalDate deadlineDate) {
-        super(testTheme, subject, difficulty);
-        this.classNum = classNum;
-        this.testDate = testDate;
-        this.deadlineDate = deadlineDate;
-    }
 
     public Test() {
 
     }
 
-
-    public int getClassNum() {
-        return classNum;
+    public Test(TestTemplate testTemplate, SchoolClass schoolClass, LocalDate testDate, LocalDate deadlineDate) {
+        this.testTemplate = testTemplate;
+        this.schoolClass = schoolClass;
+        this.testDate = testDate;
+        this.deadlineDate = deadlineDate;
     }
 
-    public void setClassNum(int classNum) {
-        this.classNum = classNum;
+    public TestTemplate getTestTemplate() {
+        return testTemplate;
+    }
+
+    public void setTestTemplate(TestTemplate testTemplate) {
+        this.testTemplate = testTemplate;
+    }
+
+    public SchoolClass getSchoolClass() {
+        return schoolClass;
+    }
+
+    public void setSchoolClass(SchoolClass schoolClass) {
+        this.schoolClass = schoolClass;
     }
 
     public LocalDate getTestDate() {
