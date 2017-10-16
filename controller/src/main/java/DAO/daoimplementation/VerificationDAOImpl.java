@@ -26,10 +26,10 @@ public class VerificationDAOImpl implements VerificationDAO {
                     "             date_time, comment, mark, work_id, verifier_id)\n" +
                     "    VALUES (?, ?, ?, ?, ?);\n");
             preparedStatement.setTimestamp(1, new Timestamp(Calendar.getInstance().getTimeInMillis()));
-            preparedStatement.setString(2, result.comment);
-            preparedStatement.setInt(3, result.mark);
-            preparedStatement.setInt(4, result.workId);
-            preparedStatement.setInt(5, result.verifierId);
+            preparedStatement.setString(2, result.getComment());
+            preparedStatement.setInt(3, result.getMark());
+            preparedStatement.setInt(4, result.getWorkId());
+            preparedStatement.setInt(5, result.getVerifierId());
             int i = preparedStatement.executeUpdate();
             if (i == 1) {
                 return true;
