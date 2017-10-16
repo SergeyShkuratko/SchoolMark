@@ -19,9 +19,10 @@ $(":button.test").click(function () {
         })
     }
 )
-
+var selectedWorkId;
 $('#works-list-container').on('click', ':button.work', function () {
-    $.get(ac + servletName + "?getImageForWork=" + $(this).attr('workId'), function (data) {
+    selectedWorkId = $(this).attr('workId');
+    $.get(ac + servletName + "?getImageForWork=" + selectedWorkId, function (data) {
         var works = JSON.parse(data);
         console.log(works)
         $(".work-image").empty();
@@ -45,18 +46,25 @@ $('.work-image').on('click', 'img', function () {
 
 $('[data-role="ratingbar"]')
     .ratingbar()
-    .click(function () {
-
-        // Grab value
-        // alert($(this).attr('data-value'));
-
-        return false;
-    });
 
 
 $(":button.send-result").click(function () {
-    var value = $('[data-role="ratingbar"]').attr('data-value')
-    if (value) {
-        alert(value);
+    var mark = $('[data-role="ratingbar"]').attr('data-value')
+    var comment = $('#comment').val();
+    var data = {
+        mark: mark,
+        comment: comment,
+        workId: selectedWorkId
     }
+    $.post(ac + '/persistVerificationResult', data, function (data) {
+        var result = JSON.parse(data);
+        if (result.result === 'ok') {
+            alert('all ok')
+        } else {
+            alert('error')
+        }
+    })
+    // if (value) {
+    //     alert(value);
+    // }
 })
