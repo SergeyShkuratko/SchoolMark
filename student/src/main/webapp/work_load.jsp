@@ -31,7 +31,40 @@
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.8.1/baguetteBox.min.css">
-    <link rel="stylesheet" href="fluid-gallery.css">
+
+    <style>
+
+        .dropzone {
+            display: flex;
+            justify-content: center;
+            align-content: space-between;
+            align-items: center;
+            flex-direction: column;
+        }
+        #drop{
+            width:100px;
+            height:100px;
+            padding:5px;
+            border-style:dashed;
+            border-color:#ccc;
+            border-width:2px;
+            background-color:#fdfbfb;
+            color:#aaa;
+        }
+
+        #drop a{
+            color:#aaa;
+        }
+
+        #drop a:hover{
+            color:#777;
+        }
+
+        /*body {*/
+            /*padding-top:40px;*/
+        /*}*/
+
+    </style>
 </head>
 
 <body>
@@ -81,16 +114,47 @@
                     </div>
                 <div class="panel panel-default text-left">
                     <div class="panel-body tz-gallery">
+                        <p class="bg-primary">Файлы с ответами:</p>
                         <div class="row ifaceforworkcheck-row">
-                            <ul class="horizontal-slide">
+                             <div class="col-sm-9">
+                            <ul class="horizontal-slide text-left">
                                 <c:forEach items="${files}" var="file">
                                     <li>
+                                        <div style="position: relative; left: 0; top: 0;">
                                         <a class="lightbox" href="<c:out value="${file}"/>">
-                                            <img src="<c:out value="${file}" />" style="height: 100px; width: 100px; display: block;"  alt="">
+                                            <img src="${pageContext.request.contextPath}/<c:out value="${file}" />" style="height: 100px; width: 100px; display: block;"  alt="">
                                         </a>
+                                        <form id="form_del_photo" method="post" action="/student/workload">
+                                            <input type="hidden" name="command" value="del_photo">
+                                            <input type="hidden" name="file" value="<c:out value="${file}"/>">
+                                        </form>
+                                        <i class="glyphicon glyphicon-remove" aria-hidden="true"
+                                           onclick="document.getElementById('form_del_photo').submit()"
+                                           style="position: absolute; margin-top: 0px; margin-right: 0px;cursor:pointer;" width="20" height="20">
+
+                                        </i>
+                                        </div>
                                     </li>
                                 </c:forEach>
                             </ul>
+                            </div>
+                            <div class="col-sm-3">
+                            <c:if test="${work.status.name.toString() eq 'Новая'}">
+                                <div class="panel panel-default text-left">
+                                    <div class="panel-body">
+                                        <form id="drop" class="dropzone"  action="/student/workload" method="post" enctype="multipart/form-data">
+                                            <input type="hidden" name="command" value="send_photo">
+                                            <label class="btn" for="my-file-selector">
+                                                <i class="fa fa fa-plus-square-o fa-5x" aria-hidden="true"></i>
+
+                                                <input id="my-file-selector" type="file" name="data" style="display:none"
+                                                       onchange="document.getElementById('drop').submit()">
+                                           </label>
+                                        </form>
+                                    </div>
+                                </div>
+                            </c:if>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -98,7 +162,10 @@
                 <c:if test="${work.status.name.toString() eq 'Новая'}">
                     <div class="panel panel-default text-left">
                         <div class="panel-body">
-                            <button class="btn btn-success" type="submit">Сдать работу</button>
+                            <form action="/student/workload" method="post">
+                            <button class="btn btn-success" name="command" value="send_work" type="submit" formaction="/student/workload">
+                                Сдать работу</button>
+                            </form>
                         </div>
                     </div>
                 </c:if>
@@ -116,19 +183,14 @@
                                         </a>
                                     </li>
                                 </c:forEach>
-<%--
-                                <c:forEach items="${teacher_files}" var="file">
-                                    <li>
-                                        <img alt="+" data-src="holder.js/100%x180" style="height: 180px; width: 100%; display: block;" src="<c:out value="${file}"/>" data-holder-rendered="true">
-                                    </li>
-                                </c:forEach>
---%>
-
                             </ul>
                         </div>
                         <div class="row">
                             <div class="col-sm-8">
-                                <textarea class="form-control" rows="11"></textarea>
+                                <div class="form-group">
+                                    <label for="teacher_comment">Комментарии учителя:</label>
+                                    <textarea id="teacher_comment" class="form-control" rows="11"></textarea>
+                                </div>
                             </div>
                             <div class="col-sm-4">
                                 <ul class="ifaceforworkcheck-stars">
@@ -147,13 +209,50 @@
                 <c:if test="${work.status.name.toString() eq 'Проверена'}">
                     <div class="panel panel-default text-left">
                         <div class="panel-body">
-                            <form>
+                            <form action="/student/workload" method="post">
                                 <div class="form-group">
-                                    <label for="textarea">Причина перепроверки:</label>
-                                    <textarea id="textarea" class="form-control" rows="11"></textarea>
+                                    <label for="student_comment">Причина перепроверки:</label>
+                                    <textarea id="student_comment" class="form-control" rows="11"></textarea>
                                 </div>
-                                <button type="submit" class="btn btn-danger">На перепроверку</button>
+                                <button type="submit" name="command" value="recheck" class="btn btn-danger">
+                                    На перепроверку
+                                </button>
                             </form>
+                        </div>
+                    </div>
+                </c:if>
+                <%--Блок с комментарием и оценкой после перепроверки--%>
+                <c:if test="${(work.status.name.toString() eq 'Перепроверена')}">
+                    <div class="panel panel-default text-left">
+                        <div class="panel-body tz-gallery">
+                            <div class="row ifaceforworkcheck-row col-sm-12">
+                                <ul class="horizontal-slide">
+                                    <c:forEach items="${teacher_files}" var="file">
+                                        <li>
+                                            <a class="lightbox" href="<c:out value="${file}"/>">
+                                                <img src="<c:out value="${file}" />" style="height: 100px; width: 100px; display: block;"  alt="">
+                                            </a>
+                                        </li>
+                                    </c:forEach>
+                                </ul>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-8">
+                                    <div class="form-group">
+                                        <label for="teacher2_comment">Комментарии учителя:</label>
+                                        <textarea id="teacher2_comment" class="form-control" rows="11"></textarea>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <ul class="ifaceforworkcheck-stars">
+                                        <c:forEach var="item" begin="1" end="${work.mark}">
+                                            <li>
+                                                <i class="fa fa-3x  fa-star"></i>
+                                            </li>
+                                        </c:forEach>
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </c:if>
