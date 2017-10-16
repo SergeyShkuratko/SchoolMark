@@ -2,6 +2,7 @@ group 'com.inno'
 version '1.0-SNAPSHOT'
 
 apply plugin: 'java'
+apply plugin: 'idea'
 
 sourceCompatibility = 1.8
 
@@ -13,8 +14,3 @@ dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
     compile group: 'log4j', name: 'log4j', version: '1.2.16'
 }
-//jar {
-//    from('src/main/java/connectionmanager/dbsettings.properties') {
-//        into('connectionmanager')
-//    }
-//}
