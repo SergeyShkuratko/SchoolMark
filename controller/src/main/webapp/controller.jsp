@@ -123,15 +123,16 @@
                 <br/>
             </div>
 
-            <div class="row ifaceforworkcheck-row work-image-container">
-                <ul class="horizontal-slide result-image">
-                </ul>
-            </div>
+            <%--<div class="row ifaceforworkcheck-row work-image-container">--%>
+                <%--<ul class="horizontal-slide result-image">--%>
+                <%--</ul>--%>
+            <%--</div>--%>
 
-            <div class="row">
-                <input id="fileupload" type="file" name="files[]" data-url="/SM/start" multiple>
-                <button class="btn btn-default control-work-sidebar-button" type="submit">Load images</button>
-            </div>
+            <%--<div class="row">--%>
+                <%--<input id="fileupload" type="file" name="files[]" data-url="/SM/start" multiple>--%>
+                <%--<button class="btn btn-default control-work-sidebar-button" type="submit">Load images</button>--%>
+            <%--</div>--%>
+
             <div class="row">
                 <button class="btn btn-default control-work-sidebar-button send-result" type="submit">Send result</button>
             </div>

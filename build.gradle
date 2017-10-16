@@ -3,6 +3,7 @@ version '1.0-SNAPSHOT'
 
 apply plugin: 'java'
 apply plugin: 'idea'
+apply plugin: 'war'
 
 sourceCompatibility = 1.8
 
@@ -12,5 +13,50 @@ repositories {
 
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
+    compile project(':controller')
+//    compile group: 'com.inno', name: 'controller', version: '1.0-SNAPSHOT'
+//    compile group: 'com.inno', name: 'auth', version: '1.0-SNAPSHOT'
+}
+war {
+
+    from {
+        'controller/build/libs/exploded/controller-1.0-SNAPSHOT.war'
+        'auth/build/libs/exploded/auth-1.0-SNAPSHOT.war'
+    }
+//    webXml = file('controller/src/main/webapp/WEB-INF/web.xml')
+}
+
+
+FilenameFilter filter = new FilenameFilter() {
+    @Override
+    boolean accept(File dir, String name) {
+        if ("out".equals(name)) {
+            return true
+        }
+    }
+}
+task cleanSubProjects(type: Delete) {
+    subprojects.each {
+        def list = it.projectDir.listFiles(filter)
+        list.each {
+            delete(it)
+        }
+        it.afterEvaluate {
+            def cleanTask = it.tasks.findByName('clean')
+            if (cleanTask) {
+                dependsOn(cleanTask)
+            }
+        }
+    }
+
+    def rootOut = rootProject.projectDir.listFiles(filter)
+    rootOut.each {
+        delete(it)
+    }
+    delete rootProject.buildDir
+}
+clean.dependsOn cleanSubProjects
+
+task mergeWebXmls {
 
 }
