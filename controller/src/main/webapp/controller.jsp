@@ -1,10 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: Sergey
-  Date: 12.10.2017
-  Time: 22:35
-  To change this template use File | Settings | File Templates.
---%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
@@ -20,45 +13,9 @@
 <body>
 <div class="container-fluid">
     <div class="row ifaceforworkcheck">
-        <%--<div class="col-sm-3 col-md-2 sidebar control-work-sidebar">--%>
-
-        <%--<jsp:include page="/justMenu.jsp"/>--%>
-        <%@ include file="justMenu.jsp" %>
-        <%--<div class="panel panel-default control-work-sidebar-photo">--%>
-        <%--<div class="panel-body">--%>
-
-        <%--</div>--%>
-        <%--</div>--%>
-        <%--<ul class="nav nav-sidebar control-work-sidebar-number">--%>
-        <%--<li>--%>
-        <%--<button onclick="window.location.href='/SM/justMenu'"--%>
-        <%--class="btn btn-default control-work-sidebar-button">Some--%>
-        <%--other(just menu)--%>
-        <%--</button>--%>
-        <%--</li>--%>
-        <%--<li>--%>
-        <%--<button class="btn btn-default control-work-sidebar-button" type="submit">Button</button>--%>
-        <%--</li>--%>
-        <%--<li>--%>
-        <%--<button class="btn btn-default control-work-sidebar-button"--%>
-        <%--onclick="window.location.href='/SM/start'" type="submit">На--%>
-        <%--проверку (<%=((List) request.getAttribute("tests")).size()%>)--%>
-        <%--</button>--%>
-        <%--</li>--%>
-        <%--<li>--%>
-        <%--<button class="btn btn-default control-work-sidebar-button" type="submit">Button</button>--%>
-        <%--</li>--%>
-        <%--<li class="control-work-sidebar-circle"><i class="fa fa-3x fa-circle-thin "></i></li>--%>
-        <%--<li>--%>
-        <%--<button class="btn btn-default control-work-sidebar-button" type="submit">Button</button>--%>
-        <%--</li>--%>
-        <%--</ul>--%>
-        <%--</div>--%>
-
-
+        <%@include file="/mystatic/justMenu.jsp" %>
         <div class="col-sm-3 col-md-3 col-md-offset-2 ifaceforworkcheck-column">
             <ul class="nav nav-sidebar control-work-sidebar-number">
-
                 <c:forEach items="#{tests}" var="test">
                     <c:out value="<li>
                     <button testId=\"${test.id}\" class=\"btn btn-success control-work-sidebar-button test\" type=\"submit\">${test.classNum} кл. ${test.subjectName} ${test.deadLine}</button>
@@ -103,8 +60,8 @@
                 <div class="panel panel-default">
                     <div class="panel-body">
                         <div class="form-group">
-                            <textarea class="form-control" rows="5" id="comment"
-                                      placeholder="Добавьте комментарии по работе здесь..."></textarea>
+    <textarea class="form-control" rows="5" id="comment"
+              placeholder="Добавьте комментарии по работе здесь..."></textarea>
                         </div>
                     </div>
                 </div>
@@ -124,17 +81,18 @@
             </div>
 
             <%--<div class="row ifaceforworkcheck-row work-image-container">--%>
-                <%--<ul class="horizontal-slide result-image">--%>
-                <%--</ul>--%>
+            <%--<ul class="horizontal-slide result-image">--%>
+            <%--</ul>--%>
             <%--</div>--%>
 
             <%--<div class="row">--%>
-                <%--<input id="fileupload" type="file" name="files[]" data-url="/SM/start" multiple>--%>
-                <%--<button class="btn btn-default control-work-sidebar-button" type="submit">Load images</button>--%>
+            <%--<input id="fileupload" type="file" name="files[]" data-url="/SM/start" multiple>--%>
+            <%--<button class="btn btn-default control-work-sidebar-button" type="submit">Load images</button>--%>
             <%--</div>--%>
 
             <div class="row">
-                <button class="btn btn-default control-work-sidebar-button send-result" type="submit">Send result</button>
+                <button class="btn btn-default control-work-sidebar-button send-result" type="submit">Send result
+                </button>
             </div>
 
 

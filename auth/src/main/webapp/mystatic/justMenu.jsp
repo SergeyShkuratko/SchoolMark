@@ -1,10 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: Sergey
-  Date: 13.10.2017
-  Time: 8:42
-  To change this template use File | Settings | File Templates.
---%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
@@ -27,6 +20,9 @@
                 </div>
             </div>
             <ul class="nav nav-sidebar control-work-sidebar-number">
+                <li>
+                    <%=Math.random()%>
+                </li>
                 <li>
                     <button class="btn btn-default control-work-sidebar-button"
                             onclick="window.location.href='/SM/justMenu'" type="submit">Some other(just menu)

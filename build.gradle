@@ -1,3 +1,5 @@
+import groovy.xml.XmlUtil
+
 group 'com.inno'
 version '1.0-SNAPSHOT'
 
@@ -13,50 +15,78 @@ repositories {
 
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
-    compile project(':controller')
-//    compile group: 'com.inno', name: 'controller', version: '1.0-SNAPSHOT'
-//    compile group: 'com.inno', name: 'auth', version: '1.0-SNAPSHOT'
 }
 war {
-
-    from {
-        'controller/build/libs/exploded/controller-1.0-SNAPSHOT.war'
-        'auth/build/libs/exploded/auth-1.0-SNAPSHOT.war'
-    }
-//    webXml = file('controller/src/main/webapp/WEB-INF/web.xml')
+    from 'controller/build/exploded', 'auth/build/exploded'
+    rootSpec.exclude("/WEB-INF/web.xml")
+    webXml = file('/web.xml')
+    archiveName = 'SM.war'
 }
 
 
 FilenameFilter filter = new FilenameFilter() {
     @Override
     boolean accept(File dir, String name) {
-        if ("out".equals(name)) {
+        if ("out".equals(name) || "build".equals("name")) {
             return true
         }
     }
 }
-task cleanSubProjects(type: Delete) {
-    subprojects.each {
-        def list = it.projectDir.listFiles(filter)
-        list.each {
+task cleanSubProjects() {
+    doLast {
+        def rootOut = rootProject.projectDir.listFiles(filter)
+        rootOut.each {
             delete(it)
         }
-        it.afterEvaluate {
-            def cleanTask = it.tasks.findByName('clean')
-            if (cleanTask) {
-                dependsOn(cleanTask)
+        subprojects.each {
+            def list = it.projectDir.listFiles(filter)
+            list.each {
+                delete(it)
             }
         }
     }
-
-    def rootOut = rootProject.projectDir.listFiles(filter)
-    rootOut.each {
-        delete(it)
-    }
-    delete rootProject.buildDir
 }
 clean.dependsOn cleanSubProjects
 
-task mergeWebXmls {
-
+task mergeWebXml() {
+    doLast {
+        println('Merge webXmls')
+        def header = '''<?xml version="1.0" encoding="UTF-8"?>
+                    <web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+                     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                     xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+                     version="3.1">'''
+        def footer = '''</web-app>'''
+        def resultPath = rootProject.projectDir.toString() + "\\web.xml"
+        println('Result webxml path: ' + resultPath)
+        def writer = new OutputStreamWriter(new FileOutputStream(resultPath), 'utf-8')
+        writer << header
+        subprojects.each {
+            def path = it.projectDir.toString() + "\\src\\main\\webapp\\WEB-INF\\web.xml"
+            def webXmlFile = new File(path)
+            if (webXmlFile.exists()) {
+                def xmlFile = new XmlParser().parse(webXmlFile)
+                xmlFile.each { node ->
+                    def val = XmlUtil.serialize(node)
+                    writer << val.replace('<?xml version="1.0" encoding="UTF-8"?>', '')
+                }
+            }
+        }
+        writer << footer
+        writer.flush()
+        writer.close()
+    }
 }
+tasks.war.dependsOn(mergeWebXml)
+
+war.doLast {
+    ant.unzip(src: war.archivePath, dest: "$buildDir/exploded")
+    ant.delete(file: 'web.xml')
+}
+
+task warModules {
+    println('War submodules')
+    dependsOn(":controller:war")
+    dependsOn(":auth:war")
+}
+war.dependsOn warModules
