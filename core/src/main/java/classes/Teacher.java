@@ -14,6 +14,7 @@ public class Teacher {
     private final List<SubjectTeacherConnector> subject;
     private final int minClass;
     private final int maxClass;
+    //TODO: квалификаций у учителя может быть много и каждая из них связана с предметом
     private final String qualification;
 
     public Teacher(int id, int userId, String lastname, String firstname, String patronymic, School school, Collection<SubjectTeacherConnector> subject, int minClass, int maxClass, String qualification) {
