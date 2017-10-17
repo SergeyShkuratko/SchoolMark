@@ -11,9 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-import static classes.CommonSettings.ADMIN_CABINET;
-import static classes.CommonSettings.AUTH_URL;
-import static classes.CommonSettings.TEACHER_CABINET;
+import static classes.CommonSettings.*;
 import static utils.Settings.*;
 
 public class AuthorizationServlet extends HttpServlet {

@@ -20,7 +20,7 @@
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-xs-12 col-sm-12 col-md-12 login-box">
-                                <form id="auth-form" role="form" action="${pageContext.request.contextPath}/register" method="POST">
+                                <form id="validate-form" role="form" action="${pageContext.request.contextPath}/register" method="POST">
                                     <div class="input-group has-feedback">
                                         <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
                                         <input type="text" name="login" class="form-control" placeholder="Ваш логин" pattern="[A-Za-z][A-Za-z0-9]{3,99}" required autofocus />
@@ -39,7 +39,7 @@
                     <div class="panel-footer">
                         <div class="row">
                             <div class="col-xs-12 col-sm-12">
-                                <button type="button" id="login" class="centered btn btn-labeled btn-success" onclick="validateAndSubmit()">Зарегистрироваться</button>
+                                <button type="button" id="login" class="centered btn btn-labeled btn-success" onclick="validateAuthAndSubmit()">Зарегистрироваться</button>
                                 <!--<button type="button" class="btn btn-labeled btn-danger">
                                     <span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span>Выход</button>
                                 -->

@@ -23,11 +23,16 @@ public class SchoolDAOImpl implements SchoolDAO {
         List<School> schools = new ArrayList<>();
 
         schools.add(new School(1, "Школа №1", "1", "1", new SchoolType(1, "1")));
-        schools.add(new School(1, "Школа №2", "1", "1", new SchoolType(1, "1")));
-        schools.add(new School(1, "Школа №3", "1", "1", new SchoolType(1, "1")));
-        schools.add(new School(1, "Школа №4", "1", "1", new SchoolType(1, "1")));
+        schools.add(new School(2, "Школа №2", "1", "1", new SchoolType(1, "1")));
+        schools.add(new School(3, "Школа №3", "1", "1", new SchoolType(1, "1")));
+        schools.add(new School(4, "Школа №4", "1", "1", new SchoolType(1, "1")));
 
         return schools;
+    }
+
+    @Override
+    public School getById(int id) {
+        return new School(id, "Школа №1", "1", "1", new SchoolType(1, "1"));
     }
 
     @Override

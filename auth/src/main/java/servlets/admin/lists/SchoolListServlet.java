@@ -1,4 +1,4 @@
-package servlets;
+package servlets.admin.lists;
 
 import classes.School;
 import dao.SchoolDAOImpl;
@@ -24,9 +24,7 @@ public class SchoolListServlet extends HttpServlet {
         if (city != null && region != null) {
             PrintWriter pw = resp.getWriter();
             List<School> schools = schoolDAO.getAllSchoolsInCity(city, region);
-            for (School school : schools) {
-                pw.println("<option value='" + school.getId() + "'>" + school.getName() + "</option>");
-            }
+            schools.stream().forEach((s) -> pw.println("<option value='" + s.getId() + "'>" + s.getName() + "</option>"));
         }
     }
 }

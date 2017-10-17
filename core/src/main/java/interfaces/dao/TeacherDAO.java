@@ -18,4 +18,5 @@ public interface TeacherDAO {
 
     List<Teacher> getTeachersByDirector(User director);
     List<Teacher> getTeacherBySchool(School school);
+    List<Teacher> getTeacherBySchool(int id);
 }

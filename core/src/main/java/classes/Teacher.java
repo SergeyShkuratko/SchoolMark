@@ -1,25 +1,33 @@
 package classes;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class Teacher extends User {
+public class Teacher {
     private final int id;
+    private final int userId;
     private final String lastname;
     private final String firstname;
     private final String patronymic;
-    private final School school;
-    private final List<Subject> subject;
-    private final int minClass;
-    private final int maxClass;
-    private final String qualification;
+    private School school;
+    private List<Subject> subject;
+    private int minClass;
+    private int maxClass;
+    private String qualification;
+
+    public Teacher(int id, int userId, String lastname, String firstname, String patronymic) {
+        this.id = id;
+        this.userId = userId;
+        this.lastname = lastname;
+        this.firstname = firstname;
+        this.patronymic = patronymic;
+    }
 
     //TODO вернуть тип subject перед комитом
-    public Teacher(int id, int userId, String login, LocalDate regDate, String lastname, String firstname, String patronymic, School school, Collection<Subject> subject, int minClass, int maxClass, String qualification) {
-        super(userId, login, regDate);
+    public Teacher(int id, int userId, String lastname, String firstname, String patronymic, School school, Collection<Subject> subject, int minClass, int maxClass, String qualification) {
         this.id = id;
+        this.userId = userId;
         this.lastname = lastname;
         this.firstname = firstname;
         this.patronymic = patronymic;
@@ -33,6 +41,10 @@ public class Teacher extends User {
 
     public int getId() {
         return id;
+    }
+
+    public int getUserId() {
+        return userId;
     }
 
     public String getLastname() {
@@ -65,6 +77,26 @@ public class Teacher extends User {
 
     public String getQualification() {
         return qualification;
+    }
+
+    public void setSchool(School school) {
+        this.school = school;
+    }
+
+    public void setSubject(List<Subject> subject) {
+        this.subject = subject;
+    }
+
+    public void setMinClass(int minClass) {
+        this.minClass = minClass;
+    }
+
+    public void setMaxClass(int maxClass) {
+        this.maxClass = maxClass;
+    }
+
+    public void setQualification(String qualification) {
+        this.qualification = qualification;
     }
 
     /**

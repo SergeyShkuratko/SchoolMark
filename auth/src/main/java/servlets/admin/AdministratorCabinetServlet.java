@@ -1,4 +1,4 @@
-package servlets;
+package servlets.admin;
 
 import classes.School;
 import dao.SchoolDAOImpl;

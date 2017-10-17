@@ -1,18 +1,17 @@
 package classes;
 
-import java.time.LocalDate;
-
-public class Student extends User {
+public class Student {
     private final int id;
+    private final int userId;
     private final String lastName;
     private final String firstName;
     private final String patronymic;
     private SchoolClass schoolClass;
     private final School school;
 
-    public Student(int id, int userId, String login, LocalDate regDate, String lastName, String firstName, String patronymic, SchoolClass schoolClass, School school) {
-        super(userId, login, regDate);
+    public Student(int id, int userId, String lastName, String firstName, String patronymic, SchoolClass schoolClass, School school) {
         this.id = id;
+        this.userId = userId;
         this.lastName = lastName;
         this.firstName = firstName;
         this.patronymic = patronymic;
@@ -22,6 +21,10 @@ public class Student extends User {
 
     public int getId() {
         return id;
+    }
+
+    public int getUserId() {
+        return userId;
     }
 
     public String getLastName() {
