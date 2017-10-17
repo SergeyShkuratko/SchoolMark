@@ -76,14 +76,7 @@
 
                 </div>
             </div>
-            <ul class="nav nav-sidebar control-work-sidebar-number">
-                <li><button class="btn btn-default control-work-sidebar-button" type="submit">Button</button></li>
-                <li><button class="btn btn-default control-work-sidebar-button" type="submit">Button</button></li>
-                <li><button class="btn btn-default control-work-sidebar-button" type="submit">Button</button></li>
-                <li><button class="btn btn-default control-work-sidebar-button" type="submit">Button</button></li>
-                <li class="control-work-sidebar-circle"><i class="fa fa-3x fa-circle-thin "></i></li>
-                <li><button class="btn btn-default control-work-sidebar-button" type="submit">Button</button></li>
-            </ul>
+            <%@include file="/mystatic/justMenu.jsp" %>
         </div>
         <c:set var="work" value="${work}" />
         <c:set var="subjectName" value="${work.test.template.subject.name}"/>

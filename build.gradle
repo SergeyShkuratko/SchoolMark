@@ -17,13 +17,13 @@ dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
 }
 
-def dependsOnModules = [":controller:war", ":auth:war"]
+def dependsOnModules = [":controller:war", ":auth:war", ":director:war", ":organizer:war", ":student:war"]
 dependsOnModules.each {
     war.dependsOn(it)
 }
 
 war {
-    from 'controller/build/exploded', 'auth/build/exploded'
+    from 'controller/build/exploded', 'auth/build/exploded', 'director/build/exploded', 'organizer/build/exploded', 'student/build/exploded'
     rootSpec.exclude("/WEB-INF/web.xml")
     webXml = file('/web.xml')
     archiveName = 'SM.war'
