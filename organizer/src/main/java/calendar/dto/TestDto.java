@@ -2,7 +2,7 @@ package calendar.dto;
 
 import java.time.LocalDate;
 
-public class TestDTO {
+public class TestDto {
     private final int id;
     private int templateId;
     private int ownerId;
@@ -12,11 +12,11 @@ public class TestDTO {
     private LocalDate verificationDate;
     private String subject;
 
-    public TestDTO(int id) {
+    public TestDto(int id) {
         this.id = id;
     }
 
-    public TestDTO(int id, int templateId, int ownerId, int schoolClassId, String status, LocalDate startDate, LocalDate verificationDate) {
+    public TestDto(int id, int templateId, int ownerId, int schoolClassId, String status, LocalDate startDate, LocalDate verificationDate) {
         this.id = id;
         this.templateId = templateId;
         this.ownerId = ownerId;

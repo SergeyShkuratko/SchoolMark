@@ -1,18 +1,18 @@
 package calendar.dao.exceptions;
 
-public class TestDAOException extends Exception {
-    public TestDAOException() {
+public class TestDaoException extends Exception {
+    public TestDaoException() {
     }
 
-    public TestDAOException(String message) {
+    public TestDaoException(String message) {
         super(message);
     }
 
-    public TestDAOException(String message, Throwable cause) {
+    public TestDaoException(String message, Throwable cause) {
         super(message, cause);
     }
 
-    public TestDAOException(Throwable cause) {
+    public TestDaoException(Throwable cause) {
         super(cause);
     }
 }
