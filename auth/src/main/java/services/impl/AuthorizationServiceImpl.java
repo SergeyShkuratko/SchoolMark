@@ -1,15 +1,9 @@
 package services.impl;
 
-import classes.Student;
-import classes.Teacher;
 import classes.User;
 import classes.UserCredentials;
-import dao.StudentDAOImpl;
-import dao.TeacherDAOImpl;
 import dao.UserDAOImpl;
 import exceptions.UserNotFoundException;
-import interfaces.dao.StudentDAO;
-import interfaces.dao.TeacherDAO;
 import interfaces.dao.UserDAO;
 import services.AuthorizationService;
 
@@ -21,8 +15,6 @@ import static utils.PasswordEncoder.encode;
 public class AuthorizationServiceImpl implements AuthorizationService {
 
     private static UserDAO userDAO = new UserDAOImpl();
-    private static TeacherDAO teacherDAO = new TeacherDAOImpl();
-    private static StudentDAO studentDAO = new StudentDAOImpl();
 
     @Override
     public User auth(String login, String password) throws UserNotFoundException {
@@ -54,23 +46,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 
     @Override
     public void saveUserToSession(User user, HttpSession session) {
-        session.setAttribute(AUTH_ATTRIBUTE, true);
-        switch (user.getRole().getName()) {
-            case 0 :
-                Teacher teacher = teacherDAO.getTeacher(user.getId());
-                session.setAttribute(TEACHER_ATTRIBUTE, teacher);
-                break;
-            case 1 :
-                Student student = studentDAO.getStudent(user.getId());
-                session.setAttribute(STUDENT_ATTRIBUTE, student);
-                break;
-            case 2 :
-                Teacher director = teacherDAO.getTeacher(user.getId());
-                session.setAttribute(DIRECTOR_ATTRIBUTE, director);
-                break;
-            case 3 :
-                session.setAttribute(ADMIN_ATTRIBUTE, user);
-                break;
-        }
+        session.setAttribute(AUTH_USER_ATTRIBUTE, user.getId());
+        session.setAttribute(AUTH_ROLE_ATTRIBUTE, user.getRole().getId());
     }
 }

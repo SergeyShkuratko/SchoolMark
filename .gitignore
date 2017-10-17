@@ -15,7 +15,6 @@ student/pages/
 .idea/**/workspace.xml
 .idea/**/tasks.xml
 .idea/dictionaries
-.idea/dictionaries
 .idea/artifacts
 .idea/vcs.xml
 .idea/jsLibraryMappings.xml
@@ -33,3 +32,8 @@ misk.xml
 # Gradle:
 .idea/**/gradle.xml
 .idea/**/libraries
+.idea/inspectionProfiles/
+.idea/modules.xml
+.idea/modules/
+auth/src/main/resources/
+gradlew.bat

@@ -5,11 +5,11 @@
     <title>Кабинет директора</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="${pageContext.request.contextPath}/css/bootstrap.min.css" rel="stylesheet">
-    <link href="${pageContext.request.contextPath}/css/auth.css" rel="stylesheet">
-    <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-3.2.1.min.js"></script>
-    <script type="text/javascript" src="${pageContext.request.contextPath}/js/collapse.js"></script>
-    <script type="text/javascript" src="${pageContext.request.contextPath}/js/validate.js"></script>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/auth.css" rel="stylesheet">
+    <script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="js/collapse.js"></script>
+    <script type="text/javascript" src="js/validate.js"></script>
 </head>
 <body>
 

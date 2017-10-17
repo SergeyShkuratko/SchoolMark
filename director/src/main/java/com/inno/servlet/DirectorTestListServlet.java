@@ -22,7 +22,7 @@ public class DirectorTestListServlet extends HttpServlet {
     private TestStatisticService testStatisticService;
 
     public DirectorTestListServlet() {
-        testStatisticService = new TestStatisticServiceImpl();
+        testStatisticService = new TestStatisticServiceImpl(new FakeTestDao());
     }
 
     @Override

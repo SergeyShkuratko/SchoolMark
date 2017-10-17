@@ -14,7 +14,7 @@ public class DirectorTestViewServlet extends HttpServlet {
     private TestStatisticService testStatisticService;
 
     public DirectorTestViewServlet() {
-        testStatisticService = new TestStatisticServiceImpl();
+        testStatisticService = new TestStatisticServiceImpl(new FakeTestDao());
     }
 
     @Override
