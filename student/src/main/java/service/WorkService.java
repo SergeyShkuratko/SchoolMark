@@ -28,7 +28,7 @@ public class WorkService {
         List<Subject> subjects = new ArrayList<>();
         subjects.add(subject);
 
-        Teacher teacher = new Teacher(1, 1, "Мария", "Голубец", "Петровна", student.getSchool(), new ArrayList<>(), 5, 10, "80 левел");
+        Teacher teacher = new Teacher(1, 1, "login", LocalDate.now(), "Мария", "Голубец", "Петровна", student.getSchool(), new ArrayList<>(), 5, 10, "80 левел");
         teacher.getSubject().add(new SubjectTeacherConnector(1, teacher, subject));
 
         Status newStatus = new Status(1, "Новая");

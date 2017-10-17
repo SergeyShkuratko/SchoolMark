@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.List;
 
 
@@ -20,7 +21,7 @@ public class TestListServlet extends HttpServlet{
         SchoolType schoolType = new SchoolType(1, "крутяцкая");
         School school = new School(1, "Школа №20", "Татарстан", "Казань", schoolType);
         SchoolClass schoolClass = new SchoolClass(1, 5, "5");
-        Student student = new Student(1, 1, "Иван", "Иванов", "Иванович", schoolClass, school);
+        Student student = new Student(1, 1, "login", LocalDate.now(),"Иван", "Иванов", "Иванович", schoolClass, school);
 
         List<Work> works = WorkService.getAllWork(student);
 
