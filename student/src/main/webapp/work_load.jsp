@@ -68,16 +68,12 @@
 </head>
 
 <body>
+<c:set var="context" value="${pageContext.request.contextPath}"/>
 <div class="container-fluid">
     <div class="row">
-        <div class="col-sm-3 col-md-2 sidebar control-work-sidebar">
-            <div class="panel panel-default control-work-sidebar-photo">
-                <div class="panel-body">
 
-                </div>
-            </div>
-            <%@include file="/mystatic/justMenu.jsp" %>
-        </div>
+        <%@include file="/mystatic/justMenu.jsp" %>
+
         <c:set var="work" value="${work}" />
         <c:set var="subjectName" value="${work.test.template.subject.name}"/>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
@@ -107,25 +103,27 @@
                     </div>
                 <div class="panel panel-default text-left">
                     <div class="panel-body tz-gallery">
-                        <p class="bg-primary">Файлы с ответами:</p>
+                        <p class="bg-primary">Файлы с ответами ученика:</p>
                         <div class="row ifaceforworkcheck-row">
                              <div class="col-sm-9">
                             <ul class="horizontal-slide text-left">
                                 <c:forEach items="${files}" var="file">
                                     <li>
                                         <div style="position: relative; left: 0; top: 0;">
-                                        <a class="lightbox" href="<c:out value="${file}"/>">
-                                            <img src="${pageContext.request.contextPath}/<c:out value="${file}" />" style="height: 100px; width: 100px; display: block;"  alt="">
-                                        </a>
-                                        <form id="form_del_photo" method="post" action="/student/workload">
-                                            <input type="hidden" name="command" value="del_photo">
-                                            <input type="hidden" name="file" value="<c:out value="${file}"/>">
-                                        </form>
-                                        <i class="glyphicon glyphicon-remove" aria-hidden="true"
-                                           onclick="document.getElementById('form_del_photo').submit()"
-                                           style="position: absolute; margin-top: 0px; margin-right: 0px;cursor:pointer;" width="20" height="20">
+                                            <a class="lightbox" href="<c:out value="${file}"/>">
+                                                <img src="${context}/<c:out value="${file}" />" style="height: 100px; width: 100px; display: block;"  alt="">
+                                            </a>
+                                            <c:if test="${work.status.name.toString() eq 'Новая'}">
+                                                <form id="form_del_photo" method="post" action="${context}/workload">
+                                                    <input type="hidden" name="command" value="del_photo">
+                                                    <input type="hidden" name="file" value="<c:out value="${file}"/>">
+                                                </form>
+                                                <i class="glyphicon glyphicon-remove" aria-hidden="true"
+                                                   onclick="document.getElementById('form_del_photo').submit()"
+                                                   style="position: absolute; margin-top: 0px; margin-right: 0px;cursor:pointer;" width="20" height="20">
 
-                                        </i>
+                                                </i>
+                                            </c:if>
                                         </div>
                                     </li>
                                 </c:forEach>
@@ -135,12 +133,13 @@
                             <c:if test="${work.status.name.toString() eq 'Новая'}">
                                 <div class="panel panel-default text-left">
                                     <div class="panel-body">
-                                        <form id="drop" class="dropzone"  action="/student/workload" method="post" enctype="multipart/form-data">
+                                        <form id="drop" class="dropzone"  action="${context}/workload" method="post" enctype="multipart/form-data">
                                             <input type="hidden" name="command" value="send_photo">
                                             <label class="btn" for="my-file-selector">
                                                 <i class="fa fa fa-plus-square-o fa-5x" aria-hidden="true"></i>
 
-                                                <input id="my-file-selector" type="file" name="data" style="display:none"
+                                                <input id="my-file-selector" type="file" accept="image/jpeg,image/png"
+                                                       name="data" style="display:none"
                                                        onchange="document.getElementById('drop').submit()">
                                            </label>
                                         </form>
@@ -155,8 +154,8 @@
                 <c:if test="${work.status.name.toString() eq 'Новая'}">
                     <div class="panel panel-default text-left">
                         <div class="panel-body">
-                            <form action="/student/workload" method="post">
-                            <button class="btn btn-success" name="command" value="send_work" type="submit" formaction="/student/workload">
+                            <form action="${context}/workload" method="post">
+                            <button class="btn btn-success" name="command" value="send_work" type="submit" formaction="${context}/workload">
                                 Сдать работу</button>
                             </form>
                         </div>
@@ -167,6 +166,7 @@
                 <c:if test="${(work.status.name.toString() eq 'Проверена') || (work.status.name.toString() eq 'Перепроверена') }">
                 <div class="panel panel-default text-left">
                     <div class="panel-body tz-gallery">
+                        <p class="bg-primary">Файлы учителя:</p>
                         <div class="row ifaceforworkcheck-row col-sm-12">
                             <ul class="horizontal-slide">
                                 <c:forEach items="${teacher_files}" var="file">
@@ -202,7 +202,7 @@
                 <c:if test="${work.status.name.toString() eq 'Проверена'}">
                     <div class="panel panel-default text-left">
                         <div class="panel-body">
-                            <form action="/student/workload" method="post">
+                            <form action="${context}/workload" method="post">
                                 <div class="form-group">
                                     <label for="student_comment">Причина перепроверки:</label>
                                     <textarea id="student_comment" class="form-control" rows="11"></textarea>
