@@ -1,5 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html>
 <head>
     <meta charset="utf-8">
@@ -48,7 +48,7 @@
                 $('#variantTabContent').append($(
                     '<div class="tab-pane" id="variant' + variantNum + '">' +
                     '<button type="button" class="btn btn-success" value="Добавить вопрос" onclick="addQuestionBlock(\'variant' + variantNum + '\')">Добавить вопрос</button>' +
-                    '<button type="button" class="btn btn-danger" value="Удалить вопрос" onclick="removeQuestionBlock(\'variant' + variantNum + '\')">Удалить вопрос</button>' +
+                    '<button type="button" class="btn btn-danger" value="Удалить вопрос" onclick="addQuestionBlock()">Удалить вопрос</button>' +
                     '</div>'
                 ));
 
@@ -104,21 +104,45 @@
 <div class="container">
     <div>
         <h2>Создание контрольной работы</h2>
-        <input type="text" class="input-xxlarge form-control" placeholder="Тема контрольной работы" name="templateTopic"/>
+        <input type="text" class="input-xxlarge form-control" placeholder="Тема контрольной работы"
+               name="templateTopic"/>
         <form action="/test-template" id="mainform" method="post" name="mainform">
             <div class="container">
-                <p></p>
                 <a href="javascript:;" id="btnAddVariant" role="button">Добавить вариант</a>
                 <span class="container">
                     <ul id="variantTab" class="nav nav-tabs">
-                        <li class="active"><a href="#variant1" data-toggle="tab">Вариант 1</a></li>
+                        <c:forEach items="${variants}" var="variant">
+                            <li class="active"><a href="#variant1" data-toggle="tab">${variant.variant}</a></li>
+                        </c:forEach>
                     </ul>
                 </span>
                 <div id="variantTabContent" class="tab-content">
-                    <div class="tab-pane active" id="variant1">
-                        <button type="button" class="btn btn-success" value="Добавить вопрос" onclick="addQuestionBlock('variant1')">Добавить вопрос</button>
-                        <button type="button" class="btn btn-danger" value="Удалить вопрос" onclick="removeQuestionBlock('variant1')">Удалить вопрос</button>
-                    </div>
+                    <c:forEach items="${variants}" var="variant">
+                        <div class="tab-pane active" id="variant1">
+                            <button type="button" class="btn btn-success" value="Добавить вопрос"
+                                    onclick="addQuestionBlock('variant1')">Добавить вопрос
+                            </button>
+                            <button type="button" class="btn btn-danger" value="Удалить вопрос"
+                                    onclick="addQuestionBlock()">Удалить вопрос
+                            </button>
+
+                            <c:forEach items="${variant.getTestQuestions()}" var="question">
+                                <div id="variant1_question1" class="variant1_question">
+                                    <hr>
+                                    <h2>${question.id}</h2><input type="text" class="form-control input-xxlarge"
+                                                            placeholder="${question.questionText}"
+                                                            name="variant1_question1_text">
+                                    <p></p><textarea type="text" class="form-control input-xxlarge"
+                                                     placeholder="Текст ответа..."
+                                                     name="variant1_question1_answer"></textarea>
+                                    <p></p>
+                                    <button type="button" class="btn-sm btn-success"
+                                            onclick="addCriteriaElement('variant1_question1')">Добавить критерий
+                                    </button>
+                                </div>
+                            </c:forEach>
+                        </div>
+                    </c:forEach>
                 </div>
             </div>
             <div class="form-actions">

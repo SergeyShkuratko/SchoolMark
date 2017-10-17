@@ -7,6 +7,7 @@ import template.dto.TestVariant;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 /**
  * Created by nkm on 15.10.2017.
@@ -18,19 +19,15 @@ public class TestQuestionDAOImplementation {
         try {
             PreparedStatement preparedStatement = connectionManager.getConnection().prepareStatement(
                     "INSERT INTO questions(template_variant_id, question, answer) " +
-                            "VALUES (?,?,?)");
+                            "VALUES (?,?,?)",
+                                Statement.RETURN_GENERATED_KEYS);
             preparedStatement.setInt(1, variantId);
             preparedStatement.setString(2, testQuestion.getQuestionText());
             preparedStatement.setString(3, testQuestion.getAnswerText());
 
 
             if (preparedStatement.executeUpdate() == 1){
-                PreparedStatement preparedGetStatement = connectionManager.getConnection().prepareStatement(
-                        "SELECT * FROM questions WHERE template_variant_id = ? AND question = ?");
-                preparedGetStatement.setInt(1, variantId);
-                preparedGetStatement.setString(1, testQuestion.getQuestionText());
-
-                ResultSet resultSet = preparedGetStatement.executeQuery();
+                ResultSet resultSet = preparedStatement.getGeneratedKeys();
                 resultSet.next();
                 //получаем id только что добавленного вопроса
                 int questionId = resultSet.getInt(1);

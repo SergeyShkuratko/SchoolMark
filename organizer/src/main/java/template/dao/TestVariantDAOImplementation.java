@@ -7,6 +7,7 @@ import template.dto.TestVariant;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 /**
  * Created by nkm on 15.10.2017.
@@ -18,17 +19,13 @@ public class TestVariantDAOImplementation {
         try {
             PreparedStatement preparedStatement = connectionManager.getConnection().prepareStatement(
                     "INSERT INTO template_variants(variant, template_id) " +
-                            "VALUES (?,?,?,?)");
+                            "VALUES (?,?)",
+                                Statement.RETURN_GENERATED_KEYS);
             preparedStatement.setString(1, testVariant.getVariant()); //TODO поднять вопрос о целесообразности поля
             preparedStatement.setInt(2, templateId);
 
             if (preparedStatement.executeUpdate() == 1){
-                PreparedStatement preparedGetStatement = connectionManager.getConnection().prepareStatement(
-                        "SELECT * FROM template_variants WHERE variant = ? and template_id = ?");
-                preparedGetStatement.setString(1, testVariant.getVariant());
-                preparedGetStatement.setInt(2, templateId);
-
-                ResultSet resultSet = preparedGetStatement.executeQuery();
+                ResultSet resultSet = preparedStatement.getGeneratedKeys();
                 resultSet.next();
                 //возвращаем id только что добавленного вопроса
                 int variantId = resultSet.getInt(1);

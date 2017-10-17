@@ -15,6 +15,12 @@ public class TestVariant {
         this.testQuestions = new ArrayList<>();
     }
 
+    public TestVariant(int id, String variant) {
+        this.testQuestions = new ArrayList<>();
+        this.id = id;
+        this.variant = variant;
+    }
+
     public int getId() {
         return id;
     }

@@ -24,10 +24,10 @@ public class QuestionCriterionDAOImplementation {
 
 
             if (preparedStatement.executeUpdate() == 1){
-                ResultSet rs = preparedStatement.getGeneratedKeys();
-                rs.next();
+                ResultSet resultSet = preparedStatement.getGeneratedKeys();
+                resultSet.next();
                 //получаем id только что добавленного критерия
-                int criterionId = rs.getInt(1);
+                int criterionId = resultSet.getInt(1);
                 return criterionId;
             }
         } catch (SQLException e) {

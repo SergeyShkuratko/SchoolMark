@@ -2,6 +2,7 @@ package template.servlets;
 
 import template.dao.TestDAOImplementation;
 import template.dto.Test;
+import template.dto.TestTemplate;
 import template.dto.TestVariant;
 import template.services.TestTemplateService;
 
@@ -26,12 +27,26 @@ public class TestTemplateServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.setCharacterEncoding("utf-8");
+
+        if (req.getSession().getAttribute("templateFirstPost") != null) {
+
+            List<TestVariant> testVariants = testTemplateService.getTestVariantsFromReq(req);
+            Test test = (Test) req.getSession().getAttribute("test");
+            test.getTestTemplate().getTestVariants().addAll(testVariants);
+            test.getTestTemplate().setTopic(req.getParameter("templateTopic"));
+
+            testDAOImplementation.createTest(test);
+        }
+        if (req.getSession().getAttribute("testTemplate") != null)
+        {
+            List<TestVariant> variants = ((TestTemplate)req.getSession().
+                    getAttribute("testTemplate")).getTestVariants();
+            req.setAttribute("variants", variants);
+            getServletContext().getRequestDispatcher("/test-template-loaded.jsp").forward(req, resp);
+        }
+
+        req.getSession().setAttribute("templateFirstPost", false);
         getServletContext().getRequestDispatcher("/test-template.jsp").forward(req, resp);
-
-        List<TestVariant> testVariants = testTemplateService.getTestVariantsFromReq(req);
-        Test test = (Test)req.getAttribute("test");
-        test.getTestTemplate().getTestVariants().addAll(testVariants);
-
-        testDAOImplementation.createTest(test);
     }
 }

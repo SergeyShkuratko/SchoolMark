@@ -14,6 +14,7 @@ public class SubjectDAOImplementation {
     public static ConnectionManagerPostgresImpl connectionManager = ConnectionManagerPostgresImpl.getInstance();
 
     public static int getSubjectId(Subject subject) {
+        Subject tmpSubject = null;
         try {
             PreparedStatement preparedStatement = connectionManager.getConnection().prepareStatement(
                     "SELECT * FROM subjects WHERE name = ?");
@@ -21,15 +22,16 @@ public class SubjectDAOImplementation {
 
             ResultSet resultSet = preparedStatement.executeQuery();
             resultSet.next();
-            Subject tmpSubject = new Subject(
+            tmpSubject = new Subject(
                     resultSet.getInt("id"),
                     resultSet.getString("name"));
+            return tmpSubject.getId();
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        return subject.getId();
+        return 0;
     }
 
 }

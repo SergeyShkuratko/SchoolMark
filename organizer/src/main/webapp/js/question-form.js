@@ -29,20 +29,33 @@ function removeElement(elementId) {
     element.outerHTML = '';
 }
 
-function removeElement(parentDiv, childDiv) {
-    if (childDiv == parentDiv) {
-        alert("The parent div cannot be removed.");
-    }
-    else if (document.getElementById(childDiv)) {
-        var child = document.getElementById(childDiv);
-        var parent = document.getElementById(parentDiv);
-        parent.removeChild(child);
-    }
-    else {
-        alert("Child div has already been removed or does not exist.");
-        return false;
-    }
+function removeQuestionBlock(variantId) {
+    var lastQuestNum = document.getElementsByClassName(variantId + "_question").length;
+
+    removeElement(variantId + "_question" + lastQuestNum);
 }
+
+function removeCriteriaElement(questionId) {
+    var bootstrap = "form-control input-xxlarge";
+    var lastCritNum = document.getElementsByClassName(bootstrap + " " + questionId + "_criterion").length;
+
+    removeElement(questionId + "_criterion" + lastCritNum);
+}
+
+// function removeElement(parentDiv, childDiv) {
+//     if (childDiv == parentDiv) {variantId
+//         alert("The parent div cannot be removed.");
+//     }
+//     else if (document.getElementById(childDiv)) {
+//         var child = document.getElementById(childDiv);
+//         var parent = document.getElementById(parentDiv);
+//         parent.removeChild(child);
+//     }
+//     else {
+//         alert("Child div has already been removed or does not exist.");
+//         return false;
+//     }
+// }
 
 
 function addQuestionBlock() {
@@ -93,8 +106,16 @@ function createQuestDivFunction(parentDivId) {
     var questCriteriaAddButton = document.createElement("BUTTON");
     questCriteriaAddButton.innerText = "Добавить критерий"
     questCriteriaAddButton.setAttribute("type", "button");
+    questCriteriaAddButton.setAttribute("class", "btn-sm btn-success");
     questCriteriaAddButton.setAttribute("onclick", "addCriteriaElement('" + questId + "')");
     questDiv.appendChild(questCriteriaAddButton);
+
+    var questCriteriaRemoveButton = document.createElement("BUTTON");
+    questCriteriaRemoveButton.innerText = "Удалить критерий"
+    questCriteriaRemoveButton.setAttribute("type", "button");
+    questCriteriaRemoveButton.setAttribute("class", "btn-sm btn-danger");
+    questCriteriaRemoveButton.setAttribute("onclick", "removeCriteriaElement('" + questId + "')");
+    questDiv.appendChild(questCriteriaRemoveButton);
 
     return questDiv;
 

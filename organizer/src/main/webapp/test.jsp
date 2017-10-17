@@ -9,6 +9,12 @@
     <link rel="stylesheet" href="css/bootstrap-responsive.css"/>
     <script type="text/javascript" src="js/jquery.js"></script>
     <script type="text/javascript" src="js/bootstrap.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            document.getElementById('testDate').valueAsDate = new Date();
+            document.getElementById('deadlineDate').valueAsDate = new Date();
+        });
+    </script>
     <style>
         .form-actions {
             background-color: #f5f5f5;
@@ -42,7 +48,7 @@
     </style>
 </head>
 <body>
-<form action="#" method="post">
+<form action="/test" method="post">
     <div class="container">
         <h2>Заполнение информации о контрольной работе</h2>
         <span class="form-inline">
@@ -50,7 +56,7 @@
 
     </span>
 
-        <input type="text" class="input-xxlarge form-control" placeholder="Контрольная на тему..." name="testTheme"/>
+        <input type="text" class="input-xxlarge form-control" value="Контрольная на тему..." placeholder="Контрольная на тему..." name="testTheme"/>
 
         <p/>
         <div>
@@ -66,7 +72,7 @@
             </div>
             <div class="form-group">
                 <label for="classNum">Класс</label>
-                <input type="text" class="form-control input-xxlarge" id="classNum" placeholder="11" name="classNum">
+                <input type="text" class="form-control input-xxlarge" id="classNum" placeholder="11" value="11" name="classNum">
             </div>
             <div class="form-group">
                 <label for="className">Буква</label>

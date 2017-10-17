@@ -30,10 +30,10 @@ public class TestDAOImplementation {
 
 
             if (preparedStatement.executeUpdate() == 1){
-                ResultSet rs = preparedStatement.getGeneratedKeys();
-                rs.next();
+                ResultSet resultSet = preparedStatement.getGeneratedKeys();
+                resultSet.next();
                 //получаем и возвращаем id только что добавленного критерия
-                return rs.getInt(1);
+                return resultSet.getInt(1);
             }
         } catch (SQLException e) {
             e.printStackTrace();

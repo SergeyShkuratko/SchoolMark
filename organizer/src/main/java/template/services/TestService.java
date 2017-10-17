@@ -20,6 +20,7 @@ public class TestService {
         testTemplate.setSubject(new Subject(req.getParameter("subject")));
         testTemplate.setClassNum(new Integer(req.getParameter("classNum")));
         testTemplate.setDifficulty(req.getParameter("difficulty"));
+        testTemplate.setCreationDate(LocalDate.now());
 
         return testTemplate;
     }
