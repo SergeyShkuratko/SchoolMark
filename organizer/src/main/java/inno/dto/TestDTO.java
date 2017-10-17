@@ -1,11 +1,14 @@
 package inno.dto;
 
+import java.util.List;
+
 public class TestDTO {
    private int id;
    private String status;
    private String topic;
    private String description;
    private int school_class_id;
+   private List<WorkDTO> works;
 
     public TestDTO(int id, String status, String topic, String description, int school_class_id) {
         this.id = id;
@@ -53,5 +56,13 @@ public class TestDTO {
 
     public void setSchool_class_id(int school_class_id) {
         this.school_class_id = school_class_id;
+    }
+
+    public List<WorkDTO> getWorks() {
+        return works;
+    }
+
+    public void setWorks(List<WorkDTO> works) {
+        this.works = works;
     }
 }

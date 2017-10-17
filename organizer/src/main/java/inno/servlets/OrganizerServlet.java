@@ -1,6 +1,7 @@
 package inno.servlets;
 
 import inno.dao.OrganizerDAO;
+import inno.dto.TestDTO;
 import inno.exceptions.OrganizerDAOexception;
 
 import javax.servlet.ServletException;
@@ -20,7 +21,14 @@ public class OrganizerServlet extends HttpServlet {
             try {
                if(!OrganizerDAO.isWorksExists(test_id)) OrganizerDAO.createWorksForTest(test_id); //создаем работы, если еще нет
 
-                req.setAttribute("testDTO", OrganizerDAO.getTestById(test_id));
+                //получаем тест из БД
+                TestDTO test = OrganizerDAO.getTestById(test_id);
+
+                //добавляем работы
+                req.setAttribute("works", OrganizerDAO.getAllWorksByTestId(test.getId(), "new"));
+
+                //добавляем тест
+                req.setAttribute("test", test);
             } catch (OrganizerDAOexception e) {
                 throw new ServletException(e);
             }
