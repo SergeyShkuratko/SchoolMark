@@ -10,13 +10,12 @@
     </servlet-mapping>
 
     <servlet>
-        <servlet-name>OrganizerModule</servlet-name>
-        <servlet-class>inno.servlets.OrganizerServlet</servlet-class>
+        <servlet-name>RunTestServlet</servlet-name>
+        <servlet-class>inno.servlets.RunTestServlet</servlet-class>
     </servlet>
-
     <servlet-mapping>
-        <servlet-name>OrganizerModule</servlet-name>
-        <url-pattern>/</url-pattern>
+        <servlet-name>RunTestServlet</servlet-name>
+        <url-pattern>/run</url-pattern>
     </servlet-mapping>
 
     <servlet>
@@ -27,4 +26,25 @@
         <servlet-name>calendar</servlet-name>
         <url-pattern>/calendar</url-pattern>
     </servlet-mapping>
+
+
+    <servlet>
+        <servlet-name>NewTestServlet</servlet-name>
+        <servlet-class>inno.servlets.NewTestServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>NewTestServlet</servlet-name>
+        <url-pattern>/</url-pattern>
+    </servlet-mapping>
+
+
+    <servlet>
+        <servlet-name>StopTestServlet</servlet-name>
+        <servlet-class>inno.servlets.StopTestServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>StopTestServlet</servlet-name>
+        <url-pattern>/stop</url-pattern>
+    </servlet-mapping>
+
 </web-app>
