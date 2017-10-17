@@ -1,7 +1,8 @@
 package classes;
 
 public class CommonSettings {
-    public static final String AUTH_ATTRIBUTE = "userId";
+    public static final String AUTH_USER_ATTRIBUTE = "userId";
+    public static final String AUTH_ROLE_ATTRIBUTE = "userId";
     public static final String TEACHER_ATTRIBUTE = "teacher";
     public static final String STUDENT_ATTRIBUTE = "student";
     public static final String DIRECTOR_ATTRIBUTE = "director";
