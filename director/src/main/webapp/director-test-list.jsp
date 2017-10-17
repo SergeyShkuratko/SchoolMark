@@ -28,6 +28,7 @@
 </head>
 <body>
 <div class="container-fluid">
+    <%--<%@include file="/mystatic/justMenu.jsp" %>--%>
     <form class="row mb-3 mt-3 mr-3" method="get" action="<c:url value='/director-test-list'/>">
         <div class="col-md-auto form-check">
             <label class="form-check-label">
