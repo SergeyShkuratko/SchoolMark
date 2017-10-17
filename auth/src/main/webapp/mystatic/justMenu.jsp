@@ -21,30 +21,29 @@
             </div>
             <ul class="nav nav-sidebar control-work-sidebar-number">
                 <li>
-                    <%=Math.random()%>
-                </li>
-                <li>
-                    <%=Math.random()%>
-                </li>
-                <li>
                     <button class="btn btn-default control-work-sidebar-button"
-                            onclick="window.location.href='/SM/justMenu'" type="submit">Some other(just menu)
+                            onclick="window.location.href='/SM/student'" type="submit">
+                        Ученик
                     </button>
                 </li>
                 <li>
-                    <button class="btn btn-default control-work-sidebar-button" type="submit">Button</button>
-                </li>
-                <li>
                     <button class="btn btn-default control-work-sidebar-button"
-                            onclick="window.location.href='/SM/start'" type="submit">На проверке(X)
+                            onclick="window.location.href='/SM/organizer'" type="submit">Проведение контрольной
                     </button>
                 </li>
                 <li>
-                    <button class="btn btn-default control-work-sidebar-button" type="submit">Button</button>
+                    <button class="btn btn-default control-work-sidebar-button"
+                            onclick="window.location.href='/SM/controller'" type="submit">Проверка контрольной
+                    </button>
+                </li>
+                <li>
+                    <button class="btn btn-default control-work-sidebar-button"
+                            onclick="window.location.href='/SM/director'" type="submit">Директор
+                    </button>
                 </li>
                 <li class="control-work-sidebar-circle"><i class="fa fa-3x fa-circle-thin "></i></li>
                 <li>
-                    <button class="btn btn-default control-work-sidebar-button" type="submit">Button</button>
+                    <button class="btn btn-default control-work-sidebar-button" type="submit">Выход?</button>
                 </li>
             </ul>
         </div>
