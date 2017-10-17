@@ -152,11 +152,11 @@ public class TestTemplateDAOImplementation {
     public static int createTestTemplateCascade(TestTemplate testTemplate) {
         try {
             PreparedStatement preparedStatement = connectionManager.getConnection().prepareStatement(
-                    "INSERT INTO test_templates(topic, description, class_number, subject_id, difficulty) " +
+                    "INSERT INTO test_templates(topic, description, class_number, subject_id, difficulty, creation_date) " +
                             "VALUES (?,?,?,?,?,?)",
                     Statement.RETURN_GENERATED_KEYS);
-            preparedStatement.setString(1, ""); //TODO поднять вопрос о целесообразности поля
-            preparedStatement.setString(2, testTemplate.getDescription());
+            preparedStatement.setString(1, testTemplate.getTopic());
+            preparedStatement.setString(2, testTemplate.getDescription()); //TODO поднять вопрос о целесообразности поля
             preparedStatement.setInt(3, testTemplate.getClassNum());
             preparedStatement.setInt(4, SubjectDAOImplementation.getSubjectId(testTemplate.getSubject()));
             preparedStatement.setString(5, testTemplate.getDifficulty());

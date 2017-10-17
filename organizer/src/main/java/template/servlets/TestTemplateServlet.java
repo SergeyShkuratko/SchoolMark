@@ -37,16 +37,18 @@ public class TestTemplateServlet extends HttpServlet {
             test.getTestTemplate().setTopic(req.getParameter("templateTopic"));
 
             testDAOImplementation.createTest(test);
-        }
-        if (req.getSession().getAttribute("testTemplate") != null)
-        {
-            List<TestVariant> variants = ((TestTemplate)req.getSession().
+            getServletContext().getRequestDispatcher("/template-list").forward(req, resp);
+
+        } else if (req.getSession().getAttribute("testTemplate") != null) {
+            List<TestVariant> variants = ((TestTemplate) req.getSession().
                     getAttribute("testTemplate")).getTestVariants();
             req.setAttribute("variants", variants);
             getServletContext().getRequestDispatcher("/test-template-loaded.jsp").forward(req, resp);
-        }
 
-        req.getSession().setAttribute("templateFirstPost", false);
-        getServletContext().getRequestDispatcher("/test-template.jsp").forward(req, resp);
+        } else {
+
+            req.getSession().setAttribute("templateFirstPost", false);
+            getServletContext().getRequestDispatcher("/test-template.jsp").forward(req, resp);
+        }
     }
 }

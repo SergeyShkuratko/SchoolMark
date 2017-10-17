@@ -77,7 +77,9 @@
         </tbody>
     </table>
         <div class="form-actions">
-            <button type="submit" class="btn btn-primary ">Отмена</button>
+            <a href="/test">
+                <button type="button" class="btn btn-primary ">Отмена</button>
+            </a>
         </div>
     </div>
 </form>
