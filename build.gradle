@@ -25,7 +25,7 @@ dependsOnModules.each {
 war {
     from 'controller/build/exploded', 'auth/build/exploded', 'director/build/exploded', 'organizer/build/exploded', 'student/build/exploded'
     rootSpec.exclude("/WEB-INF/web.xml")
-    webXml = file('/web.xml')
+    webXml = file('web.xml')
     archiveName = 'SM.war'
 }
 
@@ -67,12 +67,13 @@ task mergeWebXml() {
                      xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
                      version="3.1">'''
         def footer = '''</web-app>'''
-        def resultPath = rootProject.projectDir.toString() + "\\web.xml"
+        def resultPath = rootProject.projectDir.toString() + File.separator + "web.xml"
         println('Result webxml path: ' + resultPath)
         def writer = new OutputStreamWriter(new FileOutputStream(resultPath), 'utf-8')
         writer << header
         subprojects.each {
-            def path = it.projectDir.toString() + "\\src\\main\\webapp\\WEB-INF\\web.xml"
+            def path = it.projectDir.toString() + String.join(File.separator, "", "src", "main", "webapp", "WEB-INF", "web.xml")
+            println path
             def webXmlFile = new File(path)
             if (webXmlFile.exists()) {
                 def xmlFile = new XmlParser().parse(webXmlFile)

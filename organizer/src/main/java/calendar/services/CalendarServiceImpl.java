@@ -2,7 +2,7 @@ package calendar.services;
 
 import calendar.dao.TestDao;
 import calendar.dao.PgTestDao;
-import calendar.dao.exceptions.TestDaoException;
+import calendar.dao.exceptions.TestDAOException;
 import calendar.utils.CalendarCell;
 import calendar.dto.TestDto;
 import org.apache.log4j.Logger;
@@ -33,7 +33,7 @@ public class CalendarServiceImpl implements CalendarService {
 
         try {
             tests = testDao.getTestsByUserIdDescOrder(userId, factBegin, factEnd);
-        } catch (TestDaoException e) {
+        } catch (TestDAOException e) {
             logger.error("Ошибка получения тестов. " + e.getLocalizedMessage(), e);
             return null;
         }

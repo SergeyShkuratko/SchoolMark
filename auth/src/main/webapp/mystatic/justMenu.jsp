@@ -22,13 +22,13 @@
             <ul class="nav nav-sidebar control-work-sidebar-number">
                 <li>
                     <button class="btn btn-default control-work-sidebar-button"
-                            onclick="window.location.href='/SM/student'" type="submit">
+                            onclick="window.location.href='/SM/testlist'" type="submit">
                         Ученик
                     </button>
                 </li>
                 <li>
                     <button class="btn btn-default control-work-sidebar-button"
-                            onclick="window.location.href='/SM/organizer'" type="submit">Проведение контрольной
+                            onclick="window.location.href='/SM/test'" type="submit">Проведение контрольной
                     </button>
                 </li>
                 <li>
@@ -38,7 +38,7 @@
                 </li>
                 <li>
                     <button class="btn btn-default control-work-sidebar-button"
-                            onclick="window.location.href='/SM/director'" type="submit">Директор
+                            onclick="window.location.href='/SM/director-test-list'" type="submit">Директор
                     </button>
                 </li>
                 <li class="control-work-sidebar-circle"><i class="fa fa-3x fa-circle-thin "></i></li>
