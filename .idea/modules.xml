@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/SchoolMark.iml" filepath="$PROJECT_DIR$/.idea/modules/SchoolMark.iml" />
-      <module fileurl="file://C:\Users\nkm\IdeaProjects\SchoolMark\SchoolMark.iml" filepath="C:\Users\nkm\IdeaProjects\SchoolMark\SchoolMark.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/SchoolMark_main.iml" filepath="$PROJECT_DIR$/.idea/modules/SchoolMark_main.iml" group="SchoolMark" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/SchoolMark_test.iml" filepath="$PROJECT_DIR$/.idea/modules/SchoolMark_test.iml" group="SchoolMark" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/auth/auth.iml" filepath="$PROJECT_DIR$/.idea/modules/auth/auth.iml" group="auth" />

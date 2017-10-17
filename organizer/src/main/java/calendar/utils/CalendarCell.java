@@ -1,26 +1,22 @@
 package calendar.utils;
 
-import classes.Subject;
-import classes.Test;
-
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
 public class CalendarCell {
     private byte day;
-    private boolean isCurrentMonth;
+    private boolean isCurrentPeriod;
     private List<String> subjects;
     private boolean isWeekend;
     private boolean isEOW;
     private LocalDate date;
 
 
-    public CalendarCell(LocalDate date, boolean isCurrentMonth, boolean isWeekend, boolean isEOW) {
+    public CalendarCell(LocalDate date, boolean isCurrentPeriod, boolean isWeekend, boolean isEOW) {
         this.day = (byte)date.getDayOfMonth();
         this.date = date;
-        this.isCurrentMonth = isCurrentMonth;
+        this.isCurrentPeriod = isCurrentPeriod;
         this.isWeekend = isWeekend;
         this.subjects = new LinkedList<>();
         this.isEOW = isEOW;
@@ -34,12 +30,12 @@ public class CalendarCell {
         this.day = day;
     }
 
-    public boolean isCurrentMonth() {
-        return isCurrentMonth;
+    public boolean isCurrentPeriod() {
+        return isCurrentPeriod;
     }
 
-    public void setCurrentMonth(boolean currentMonth) {
-        isCurrentMonth = currentMonth;
+    public void setCurrentPeriod(boolean currentPeriod) {
+        isCurrentPeriod = currentPeriod;
     }
 
     public boolean isWeekend() {
@@ -79,8 +75,7 @@ public class CalendarCell {
         if (!subjects.isEmpty()) {
             StringBuilder sb = new StringBuilder();
             if(subjects.size()>0) sb.append(subjects.get(0)).append("<br>");
-            if(subjects.size()>1) sb.append(subjects.get(1)).append("<br>");
-            if(subjects.size()>2) sb.append("+ ").append(subjects.size()-2).append("...");
+            if(subjects.size()>1) sb.append("+ ").append(subjects.size()-1).append("...");
             result = sb.toString();
         }
         return result;
@@ -89,7 +84,7 @@ public class CalendarCell {
     public String getColor() {
         String result = "lightgreen";
         if (!subjects.isEmpty()) result = "salmon";
-        else if (!isCurrentMonth) result = "bisque";
+        else if (!isCurrentPeriod) result = "bisque";
         else if (isWeekend) result = "violet";
         return result;
     }

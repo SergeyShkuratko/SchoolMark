@@ -11,6 +11,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+import static classes.CommonSettings.ADMIN_CABINET;
+import static classes.CommonSettings.AUTH_URL;
+import static classes.CommonSettings.TEACHER_CABINET;
 import static utils.Settings.*;
 
 public class AuthorizationServlet extends HttpServlet {
@@ -27,20 +30,29 @@ public class AuthorizationServlet extends HttpServlet {
         String login = req.getParameter("login");
         String password = req.getParameter("password");
         if (login == null && password == null) {
-            resp.sendRedirect(DEPLOY_PATH + AUTH_PAGE);
+            resp.sendRedirect(DEPLOY_PATH + AUTH_URL);
         }
-        /*
+
+        if ("test".equals(login)&&"test".equals(password)) {
+            req.getSession().setAttribute(AUTH_ATTRIBUTE, true);
+            resp.sendRedirect(DEPLOY_PATH + TEACHER_CABINET);
+        }
+
+        if ("admin".equals(login)&&"admin".equals(password)) {
+            req.getSession().setAttribute(AUTH_ATTRIBUTE, true);
+            resp.sendRedirect(DEPLOY_PATH + ADMIN_CABINET);
+        }
+
         User user = null;
 
         try {
             user = authService.auth(login, password);
         } catch (UserNotFoundException e) {
             e.printStackTrace();
-        }*/
-        //if (user != null) {
-        if ("test".equals(login)&&"test".equals(password)) {
+        }
+        if (user != null) {
             req.getSession().setAttribute(AUTH_ATTRIBUTE, true);
-            resp.sendRedirect(DEPLOY_PATH + MAIN_PAGE);
+            resp.sendRedirect(DEPLOY_PATH + authService.getCabinetUrl(user));
         }
 
 

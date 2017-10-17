@@ -14,6 +14,7 @@ public class Teacher {
     private final List<Subject> subject;
     private final int minClass;
     private final int maxClass;
+    //TODO: квалификаций у учителя может быть много и каждая из них связана с предметом
     private final String qualification;
 
     //TODO вернуть тип subject перед комитом
@@ -69,5 +70,14 @@ public class Teacher {
 
     public String getQualification() {
         return qualification;
+    }
+
+    /**
+     * @return фамилия учителя + инициалы
+     */
+    public String getFullName() {
+        return lastname + " "
+                + firstname.substring(0, 1) + ". "
+                + patronymic.substring(0, 1) + ".";
     }
 }

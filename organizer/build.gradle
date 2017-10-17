@@ -19,3 +19,7 @@ dependencies {
     compile project(':core')
     compile project(':auth')
 }
+
+war.doLast {
+    ant.unzip(src: war.archivePath, dest: "$buildDir/exploded")
+}
