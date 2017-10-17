@@ -1,16 +1,24 @@
 package com.inno.db.dto;
 
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
+
 public class QuestionDto {
     private final int id;
     private String question;
     private String answer;
-    private String criteria;
+    private Set<CriterionDto> criterionList = new HashSet<>();
 
-    public QuestionDto(int id, String question, String answer, String criteria) {
+    public QuestionDto(int id, String question, String answer) {
         this.id = id;
         this.question = question;
         this.answer = answer;
-        this.criteria = criteria;
+        this.criterionList = criterionList;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public String getQuestion() {
@@ -21,8 +29,12 @@ public class QuestionDto {
         return answer;
     }
 
-    public String getCriteria() {
-        return criteria;
+    public Set<CriterionDto> getCriterionList() {
+        return criterionList;
+    }
+
+    public boolean addAllCriterion(Collection<CriterionDto> newCriterionList) {
+        return criterionList.addAll(newCriterionList);
     }
 
     @Override
