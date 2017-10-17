@@ -9,7 +9,7 @@
 
     <servlet>
         <servlet-name>controller</servlet-name>
-        <jsp-file>/controller.jsp</jsp-file>
+        <servlet-class>servlets.StartServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>controller</servlet-name>

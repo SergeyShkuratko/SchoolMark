@@ -1,6 +1,6 @@
 package calendar.dao;
 
-import calendar.dao.exceptions.TestDaoException;
+import calendar.dao.exceptions.TestDAOException;
 import calendar.dto.TestDto;
 import connectionmanager.ConnectionManager;
 import connectionmanager.ConnectionManagerPostgresImpl;
@@ -16,7 +16,7 @@ import java.util.List;
 public class PgTestDao implements TestDao {
 
     @Override
-    public List<TestDto> getTestsByUserIdDescOrder(int userId, LocalDate begin, LocalDate end) throws TestDaoException {
+    public List<TestDto> getTestsByUserIdDescOrder(int userId, LocalDate begin, LocalDate end) throws TestDAOException {
         ConnectionManager connectionManager = ConnectionManagerPostgresImpl.getInstance();
         List<TestDto> result = new ArrayList<>();
         try {
@@ -43,7 +43,7 @@ public class PgTestDao implements TestDao {
                 }
             }
         } catch (SQLException e) {
-            throw new TestDaoException("Ошибка получения тестов. " + e.getLocalizedMessage(), e);
+            throw new TestDAOException("Ошибка получения тестов. " + e.getLocalizedMessage(), e);
         }
         return result;
     }
