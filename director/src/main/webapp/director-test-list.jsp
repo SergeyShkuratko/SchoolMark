@@ -28,127 +28,129 @@
 </head>
 <body>
 <div class="container-fluid">
-    <%--<%@include file="/mystatic/justMenu.jsp" %>--%>
-    <form class="row mb-3 mt-3 mr-3" method="get" action="<c:url value='/director-test-list'/>">
-        <div class="col-md-auto form-check">
-            <label class="form-check-label">
-                <input class="form-check-input" type="checkbox"
-                       name="groupByOrganization" ${param['groupByOrganization'] == "on" ? 'checked' : ''}
-                       onclick="this.form.submit()">
-                Группировать по организации
-            </label>
-        </div>
-
-        <div class="input-group date col-md-2 ml-auto" data-provide="datepicker">
-            <input type="text" class="form-control" placeholder="Дата с" name="dateFrom"
-                   value="${param['dateFrom']}">
-            <div class="input-group-addon">
-                <span class="fa fa-th"></span>
+    <%@include file="/mystatic/justMenu.jsp" %>
+    <div class="row col-md-offset-2 col-md-10">
+        <form class="row mb-3 mt-3 mr-3" method="get" action="<c:url value='/director-test-list'/>">
+            <div class="col-md-auto form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" type="checkbox"
+                           name="groupByOrganization" ${param['groupByOrganization'] == "on" ? 'checked' : ''}
+                           onclick="this.form.submit()">
+                    Группировать по организации
+                </label>
             </div>
-        </div>
-        <div class="input-group date col-md-2" data-provide="datepicker">
-            <input type="text" class="form-control" placeholder="Дата по" name="dateTo"
-                   value="${param['dateTo']}">
-            <div class="input-group-addon">
-                <span class="fa fa-th"></span>
+
+            <div class="input-group date col-md-2 ml-auto" data-provide="datepicker">
+                <input type="text" class="form-control" placeholder="Дата с" name="dateFrom"
+                       value="${param['dateFrom']}">
+                <div class="input-group-addon">
+                    <span class="fa fa-th"></span>
+                </div>
             </div>
-        </div>
-        <input class="button col-md-auto" type="submit" value="Отфильтровать"/>
-    </form>
+            <div class="input-group date col-md-2 ml-2" data-provide="datepicker">
+                <input type="text" class="form-control" placeholder="Дата по" name="dateTo"
+                       value="${param['dateTo']}">
+                <div class="input-group-addon">
+                    <span class="fa fa-th"></span>
+                </div>
+            </div>
+            <input class="button col-md-auto ml-2" type="submit" value="Отфильтровать"/>
+        </form>
 
-    <c:if test="${param['groupByOrganization'] != 'on'}">
-        <table class="table table-bordered table-hover">
-            <thead>
-            <tr>
-                <th>Дата</th>
-                <th>Организатор</th>
-                <th>Предмет</th>
-                <th>Класс</th>
-                <th>Средний балл</th>
-            </tr>
-            </thead>
-            <tbody>
-            <c:forEach var="test" items="${tests}">
-                <c:url value='/director-test-view' var="testViewLocation">
-                    <c:param name="testId" value="${test.id}"/>
-                </c:url>
-
-                <tr onclick="window.location.href='<c:out value='${testViewLocation}'/>'">
-                    <td>
-                        <c:out value="${test.date}"/>
-                    </td>
-                    <td>
-                        <c:out value="${test.organizer}"/>
-                    </td>
-                    <td>
-                        <c:out value="${test.subject}"/>
-                    </td>
-                    <td>
-                        <c:out value="${test.className}"/>
-                    </td>
-                    <td>
-                        <c:out value="${test.averageMark}"/>
-                    </td>
+        <c:if test="${param['groupByOrganization'] != 'on'}">
+            <table class="table table-bordered table-hover">
+                <thead>
+                <tr>
+                    <th>Дата</th>
+                    <th>Организатор</th>
+                    <th>Предмет</th>
+                    <th>Класс</th>
+                    <th>Средний балл</th>
                 </tr>
-            </c:forEach>
-            </tbody>
-        </table>
-    </c:if>
+                </thead>
+                <tbody>
+                <c:forEach var="test" items="${tests}">
+                    <c:url value='/director-test-view' var="testViewLocation">
+                        <c:param name="testId" value="${test.id}"/>
+                    </c:url>
 
-    <c:if test="${param['groupByOrganization'] == 'on'}">
-        <div id="accordion" role="tablist">
-            <c:forEach var="teacherTestsEntry" items="${teacherTestsMap}" varStatus="loop">
-                <div class="card">
-                    <div class="card-header" role="tab" id="heading${loop.index}">
-                        <h5 class="mb-0">
-                            <a data-toggle="collapse" href="#collapse${loop.index}"
-                               aria-expanded="true" aria-controls="collapse${loop.index}">
-                                ${teacherTestsEntry.getKey()}
-                            </a>
-                        </h5>
-                    </div>
+                    <tr onclick="window.location.href='<c:out value='${testViewLocation}'/>'">
+                        <td>
+                            <c:out value="${test.date}"/>
+                        </td>
+                        <td>
+                            <c:out value="${test.organizer}"/>
+                        </td>
+                        <td>
+                            <c:out value="${test.subject}"/>
+                        </td>
+                        <td>
+                            <c:out value="${test.className}"/>
+                        </td>
+                        <td>
+                            <c:out value="${test.averageMark}"/>
+                        </td>
+                    </tr>
+                </c:forEach>
+                </tbody>
+            </table>
+        </c:if>
 
-                    <div id="collapse${loop.index}" class="collapse" role="tabpanel"
-                         aria-labelledby="heading${loop.index}">
-                        <div class="card-body">
-                            <table class="table table-bordered">
-                                <thead>
-                                <tr>
-                                    <th>Дата</th>
-                                    <th>Предмет</th>
-                                    <th>Класс</th>
-                                    <th>Средний балл</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <c:forEach var="test" items="${teacherTestsEntry.getValue()}">
-                                    <c:url value='/director-test-view' var="testViewLocation">
-                                        <c:param name="testId" value="${test.id}"/>
-                                    </c:url>
+        <c:if test="${param['groupByOrganization'] == 'on'}">
+            <div id="accordion" role="tablist">
+                <c:forEach var="teacherTestsEntry" items="${teacherTestsMap}" varStatus="loop">
+                    <div class="card">
+                        <div class="card-header" role="tab" id="heading${loop.index}">
+                            <h5 class="mb-0">
+                                <a data-toggle="collapse" href="#collapse${loop.index}"
+                                   aria-expanded="true" aria-controls="collapse${loop.index}">
+                                        ${teacherTestsEntry.getKey()}
+                                </a>
+                            </h5>
+                        </div>
 
-                                    <tr onclick="window.location.href='<c:out value='${testViewLocation}'/>'">
-                                        <td>
-                                            <c:out value="${test.date}"/>
-                                        </td>
-                                        <td>
-                                            <c:out value="${test.subject}"/>
-                                        </td>
-                                        <td>
-                                            <c:out value="${test.className}"/>
-                                        </td>
-                                        <td>
-                                            <c:out value="${test.averageMark}"/>
-                                        </td>
+                        <div id="collapse${loop.index}" class="collapse" role="tabpanel"
+                             aria-labelledby="heading${loop.index}">
+                            <div class="card-body">
+                                <table class="table table-bordered">
+                                    <thead>
+                                    <tr>
+                                        <th>Дата</th>
+                                        <th>Предмет</th>
+                                        <th>Класс</th>
+                                        <th>Средний балл</th>
                                     </tr>
-                                </c:forEach>
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody>
+                                    <c:forEach var="test" items="${teacherTestsEntry.getValue()}">
+                                        <c:url value='/director-test-view' var="testViewLocation">
+                                            <c:param name="testId" value="${test.id}"/>
+                                        </c:url>
+
+                                        <tr onclick="window.location.href='<c:out value='${testViewLocation}'/>'">
+                                            <td>
+                                                <c:out value="${test.date}"/>
+                                            </td>
+                                            <td>
+                                                <c:out value="${test.subject}"/>
+                                            </td>
+                                            <td>
+                                                <c:out value="${test.className}"/>
+                                            </td>
+                                            <td>
+                                                <c:out value="${test.averageMark}"/>
+                                            </td>
+                                        </tr>
+                                    </c:forEach>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </c:forEach>
-        </div>
-    </c:if>
+                </c:forEach>
+            </div>
+        </c:if>
+    </div>
 </div>
 </body>
 </html>
