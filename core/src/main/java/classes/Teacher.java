@@ -11,10 +11,12 @@ public class Teacher extends User {
     private final String firstname;
     private final String patronymic;
     private final School school;
-    private final List<Subject> subject;
+    private final List<SubjectTeacherConnector> subject;
     private final int minClass;
     private final int maxClass;
+    //TODO: квалификаций у учителя может быть много и каждая из них связана с предметом
     private final String qualification;
+
 
     //TODO вернуть тип subject перед комитом
     public Teacher(int id, int userId, String login, LocalDate regDate, String lastname, String firstname, String patronymic, School school, Collection<Subject> subject, int minClass, int maxClass, String qualification) {
@@ -51,7 +53,7 @@ public class Teacher extends User {
         return school;
     }
 
-    public List<Subject> getSubject() {
+    public List<SubjectTeacherConnector> getSubject() {
         return subject;
     }
 

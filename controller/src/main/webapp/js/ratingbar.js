@@ -24,6 +24,7 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  *
  */
+var ratingValue;
 
 (function ($) {
 
@@ -52,7 +53,7 @@
 
         }
 
-        $me.on('mousemove', function (e) {
+        $me.on('click', function (e) {
 
             if (!ini) initialize();
 
@@ -82,7 +83,7 @@
                 ow = nw + ns * cw;
 
                 // The fractional part of the rating
-                vl += Math.round(Math.round(( ns / steps ) * 10) / 10);
+                //vl += (Math.round(( ns / steps ) * 10) / 10).substr(0, 1);
 
             }
             ow = Math.round(ow);
@@ -90,12 +91,14 @@
             for (var i = 0; i < keyValues.length; i++) {
                 if (ow < keyValues[i]) {
                     ow = keyValues[i];
+                    vl = i;
                     break;
                 }
             }
             vl = vl + 1;
             if (vl === 6) {
                 vl = 5;
+                ratingValue = vl;
             }
             $me.attr('data-value', vl);
             $fg.css('width', ow + 'px');

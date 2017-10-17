@@ -1,10 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: Sergey
-  Date: 13.10.2017
-  Time: 8:42
-  To change this template use File | Settings | File Templates.
---%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
@@ -29,23 +22,28 @@
             <ul class="nav nav-sidebar control-work-sidebar-number">
                 <li>
                     <button class="btn btn-default control-work-sidebar-button"
-                            onclick="window.location.href='/SM/justMenu'" type="submit">Some other(just menu)
+                            onclick="window.location.href='/SM/testlist'" type="submit">
+                        Ученик
                     </button>
-                </li>
-                <li>
-                    <button class="btn btn-default control-work-sidebar-button" type="submit">Button</button>
                 </li>
                 <li>
                     <button class="btn btn-default control-work-sidebar-button"
-                            onclick="window.location.href='/SM/start'" type="submit">На проверке(X)
+                            onclick="window.location.href='/SM/test'" type="submit">Проведение контрольной
                     </button>
                 </li>
                 <li>
-                    <button class="btn btn-default control-work-sidebar-button" type="submit">Button</button>
+                    <button class="btn btn-default control-work-sidebar-button"
+                            onclick="window.location.href='/SM/controller'" type="submit">Проверка контрольной
+                    </button>
+                </li>
+                <li>
+                    <button class="btn btn-default control-work-sidebar-button"
+                            onclick="window.location.href='/SM/director-test-list'" type="submit">Директор
+                    </button>
                 </li>
                 <li class="control-work-sidebar-circle"><i class="fa fa-3x fa-circle-thin "></i></li>
                 <li>
-                    <button class="btn btn-default control-work-sidebar-button" type="submit">Button</button>
+                    <button class="btn btn-default control-work-sidebar-button" type="submit">Выход?</button>
                 </li>
             </ul>
         </div>
