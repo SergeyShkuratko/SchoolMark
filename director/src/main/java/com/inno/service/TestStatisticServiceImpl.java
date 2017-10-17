@@ -6,6 +6,7 @@ import com.inno.db.dto.TestAndWorksInfoDto;
 import com.inno.db.dto.TestStatisticDto;
 import com.inno.db.dto.TestStatisticWithoutOrganizerDto;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -22,13 +23,14 @@ public class TestStatisticServiceImpl implements TestStatisticService {
     }
 
     @Override
-    public List<TestStatisticDto> getTestsStatistic() {
-        return testDao.getTestsStatistic();
+    public List<TestStatisticDto> getTestsStatistic(LocalDate dateFrom, LocalDate dateTo) {
+        return testDao.getTestsStatistic(dateFrom, dateTo);
     }
 
     @Override
-    public Map<String, List<TestStatisticWithoutOrganizerDto>> getTestsStatisticGroupedByOwner() {
-        return testDao.getTestsStatistic().stream()
+    public Map<String, List<TestStatisticWithoutOrganizerDto>> getTestsStatisticGroupedByOwner(LocalDate dateFrom,
+                                                                                               LocalDate dateTo) {
+        return testDao.getTestsStatistic(dateFrom, dateTo).stream()
                 .collect(Collectors.groupingBy(TestStatisticDto::getOrganizer,
                         Collectors.mapping(it ->
                                 new TestStatisticWithoutOrganizerDto(it.getId(), it.getDate(), it.getSubject(),

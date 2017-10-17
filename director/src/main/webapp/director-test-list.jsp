@@ -9,7 +9,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Title</title>
+    <title>Статистика по контрольным работам</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css"
           integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
@@ -28,39 +28,35 @@
 </head>
 <body>
 <div class="container-fluid">
-    <div class="row mb-3 mt-3">
-        <form class="col-md-auto" method="get" action="<c:url value='/director-test-list'/>">
-            <div class="form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" type="checkbox"
-                           name="groupByOrganization" ${groupByOrganization == "on" ? 'checked' : ''}
-                           onclick="this.form.submit()">
-                    Группировать по организации
-                </label>
-            </div>
-        </form>
+    <form class="row mb-3 mt-3 mr-3" method="get" action="<c:url value='/director-test-list'/>">
+        <div class="col-md-auto form-check">
+            <label class="form-check-label">
+                <input class="form-check-input" type="checkbox"
+                       name="groupByOrganization" ${param['groupByOrganization'] == "on" ? 'checked' : ''}
+                       onclick="this.form.submit()">
+                Группировать по организации
+            </label>
+        </div>
 
-        <form class="col-md-auto ml-auto" method="get" action="<c:url value='/director-test-list'/>">
-            <div class="row">
-                <div class="input-group date col-md-4" data-provide="datepicker">
-                    <input type="text" class="form-control" placeholder="Дата с">
-                    <div class="input-group-addon">
-                        <span class="fa fa-th"></span>
-                    </div>
-                </div>
-                <div class="input-group date col-md-4" data-provide="datepicker">
-                    <input type="text" class="form-control" placeholder="Дата по">
-                    <div class="input-group-addon">
-                        <span class="fa fa-th"></span>
-                    </div>
-                </div>
-                <input class="button col-md-4" type="submit" value="Отфильтровать"/>
+        <div class="input-group date col-md-2 ml-auto" data-provide="datepicker">
+            <input type="text" class="form-control" placeholder="Дата с" name="dateFrom"
+                   value="${param['dateFrom']}">
+            <div class="input-group-addon">
+                <span class="fa fa-th"></span>
             </div>
-        </form>
-    </div>
+        </div>
+        <div class="input-group date col-md-2" data-provide="datepicker">
+            <input type="text" class="form-control" placeholder="Дата по" name="dateTo"
+                   value="${param['dateTo']}">
+            <div class="input-group-addon">
+                <span class="fa fa-th"></span>
+            </div>
+        </div>
+        <input class="button col-md-auto" type="submit" value="Отфильтровать"/>
+    </form>
 
-    <c:if test="${groupByOrganization != 'on'}">
-        <table class="table table-bordered">
+    <c:if test="${param['groupByOrganization'] != 'on'}">
+        <table class="table table-bordered table-hover">
             <thead>
             <tr>
                 <th>Дата</th>
@@ -98,7 +94,7 @@
         </table>
     </c:if>
 
-    <c:if test="${groupByOrganization == 'on'}">
+    <c:if test="${param['groupByOrganization'] == 'on'}">
         <div id="accordion" role="tablist">
             <c:forEach var="teacherTestsEntry" items="${teacherTestsMap}" varStatus="loop">
                 <div class="card">

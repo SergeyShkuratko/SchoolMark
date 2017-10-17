@@ -3,16 +3,16 @@ package com.inno.db.dto;
 import java.util.Set;
 
 public class TestAndWorksInfoDto {
-    private Set<QuestionDto> questions;
+    private Set<TestVariantDto> testVariants;
     private Set<WorkDto> workList;
 
-    public TestAndWorksInfoDto(Set<QuestionDto> questions, Set<WorkDto> workList) {
-        this.questions = questions;
+    public TestAndWorksInfoDto(Set<TestVariantDto> testVariants, Set<WorkDto> workList) {
+        this.testVariants = testVariants;
         this.workList = workList;
     }
 
-    public Set<QuestionDto> getQuestions() {
-        return questions;
+    public Set<TestVariantDto> getTestVariants() {
+        return testVariants;
     }
 
     public Set<WorkDto> getWorkList() {
