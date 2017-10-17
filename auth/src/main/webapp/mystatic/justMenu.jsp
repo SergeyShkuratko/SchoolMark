@@ -24,6 +24,9 @@
                     <%=Math.random()%>
                 </li>
                 <li>
+                    <%=Math.random()%>
+                </li>
+                <li>
                     <button class="btn btn-default control-work-sidebar-button"
                             onclick="window.location.href='/SM/justMenu'" type="submit">Some other(just menu)
                     </button>

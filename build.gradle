@@ -16,6 +16,12 @@ repositories {
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
 }
+
+def dependsOnModules = [":controller:war", ":auth:war"]
+dependsOnModules.each {
+    war.dependsOn(it)
+}
+
 war {
     from 'controller/build/exploded', 'auth/build/exploded'
     rootSpec.exclude("/WEB-INF/web.xml")
@@ -23,6 +29,10 @@ war {
     archiveName = 'SM.war'
 }
 
+war.doLast {
+    ant.unzip(src: war.archivePath, dest: "$buildDir/exploded")
+    ant.delete(file: 'web.xml')
+}
 
 FilenameFilter filter = new FilenameFilter() {
     @Override
@@ -67,6 +77,9 @@ task mergeWebXml() {
             if (webXmlFile.exists()) {
                 def xmlFile = new XmlParser().parse(webXmlFile)
                 xmlFile.each { node ->
+
+                    println(node.value())
+
                     def val = XmlUtil.serialize(node)
                     writer << val.replace('<?xml version="1.0" encoding="UTF-8"?>', '')
                 }
@@ -78,15 +91,3 @@ task mergeWebXml() {
     }
 }
 tasks.war.dependsOn(mergeWebXml)
-
-war.doLast {
-    ant.unzip(src: war.archivePath, dest: "$buildDir/exploded")
-    ant.delete(file: 'web.xml')
-}
-
-task warModules {
-    println('War submodules')
-    dependsOn(":controller:war")
-    dependsOn(":auth:war")
-}
-war.dependsOn warModules
