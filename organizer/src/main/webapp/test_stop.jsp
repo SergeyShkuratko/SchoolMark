@@ -29,8 +29,7 @@
     <!-- maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css-->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap.min.css">
 
-    <!-- <link rel="stylesheet" href="static/dashboard.css" type="text/css"> -->
-    <script src="static/script.js"></script>
+
 
     <meta http-equiv="Cache-Control" content="no-cache"/>
 </head>
