@@ -9,21 +9,10 @@
 
     <servlet>
         <servlet-name>controller</servlet-name>
-        <jsp-file>/controller.jsp</jsp-file>
+        <servlet-class>servlets.StartServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>controller</servlet-name>
         <url-pattern>/controller</url-pattern>
-    </servlet-mapping>
-
-
-    <servlet>
-        <servlet-name>justMenu</servlet-name>
-        <jsp-file>/justMenu.jsp</jsp-file>
-    </servlet>
-
-    <servlet-mapping>
-        <servlet-name>justMenu</servlet-name>
-        <url-pattern>/justMenu</url-pattern>
     </servlet-mapping>
 </web-app>

@@ -33,23 +33,25 @@
 </head>
 
 <body>
+<c:set var="context" value="${pageContext.request.contextPath}"/>
     <div class="container-fluid">
         <div class="row">
-            <div class="col-sm-3 col-md-2 sidebar control-work-sidebar">
-                <div class="panel panel-default control-work-sidebar-photo">
-                    <div class="panel-body">
+            <%--<div class="col-sm-3 col-md-2 sidebar control-work-sidebar">--%>
+                <%--<div class="panel panel-default control-work-sidebar-photo">--%>
+                    <%--<div class="panel-body">--%>
 
-                    </div>
-                </div>
-                <ul class="nav nav-sidebar control-work-sidebar-number">
-                    <li><button class="btn btn-default control-work-sidebar-button" type="submit">Button</button></li>
-                    <li><button class="btn btn-default control-work-sidebar-button" type="submit">Button</button></li>
-                    <li><button class="btn btn-default control-work-sidebar-button" type="submit">Button</button></li>
-                    <li><button class="btn btn-default control-work-sidebar-button" type="submit">Button</button></li>
-                    <li class="control-work-sidebar-circle"><i class="fa fa-3x fa-circle-thin "></i></li>
-                    <li><button class="btn btn-default control-work-sidebar-button" type="submit">Button</button></li>
-                </ul>
-            </div>
+                    <%--</div>--%>
+                <%--</div>--%>
+                <%--<ul class="nav nav-sidebar control-work-sidebar-number">--%>
+                    <%--<li><button class="btn btn-default control-work-sidebar-button" type="submit">Button</button></li>--%>
+                    <%--<li><button class="btn btn-default control-work-sidebar-button" type="submit">Button</button></li>--%>
+                    <%--<li><button class="btn btn-default control-work-sidebar-button" type="submit">Button</button></li>--%>
+                    <%--<li><button class="btn btn-default control-work-sidebar-button" type="submit">Button</button></li>--%>
+                    <%--<li class="control-work-sidebar-circle"><i class="fa fa-3x fa-circle-thin "></i></li>--%>
+                    <%--<li><button class="btn btn-default control-work-sidebar-button" type="submit">Button</button></li>--%>
+                <%--</ul>--%>
+            <%--</div>--%>
+                <%@include file="/mystatic/justMenu.jsp" %>
             <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
                 <div class="row panel panel-default margin-bottom-null">
 
@@ -76,7 +78,7 @@
                                     <td><c:out value="${work.test.startDate}"/></td>
                                     <td><c:out value="${work.test.template.subject.name}"/></td>
                                     <td>
-                                        <a href="/student/workload?id=<c:out value="${work.test.id}"/>">
+                                        <a href="${context}/workload?id=<c:out value="${work.test.id}"/>">
                                             <c:out value="${work.test.template.theme}"/>
                                         </a>
                                     </td>

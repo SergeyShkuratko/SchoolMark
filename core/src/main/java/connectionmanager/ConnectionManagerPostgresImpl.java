@@ -29,6 +29,7 @@ public class ConnectionManagerPostgresImpl implements ConnectionManager {
             String dbConnStr = props.getProperty("url");
             String username = props.getProperty("dbLogin");
             String password = props.getProperty("dbPassword");
+            System.out.println(dbConnStr + " " + username + " " + password);
             connection = DriverManager.getConnection(dbConnStr, username, password);
         } catch (SQLException | ClassNotFoundException | IOException e) {
             logger.error(e.getMessage(), e);
@@ -36,6 +37,10 @@ public class ConnectionManagerPostgresImpl implements ConnectionManager {
     }
 
     public Connection getConnection() throws SQLException {
+        if (connection == null) {
+            throw new SQLException("Can't get connection from pool");
+        }
+
         return connection;
     }
 }

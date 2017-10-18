@@ -7,6 +7,9 @@ import exceptions.UserNotFoundException;
 import interfaces.dao.UserDAO;
 import services.AuthorizationService;
 
+import javax.servlet.http.HttpSession;
+
+import static classes.CommonSettings.*;
 import static utils.PasswordEncoder.encode;
 
 public class AuthorizationServiceImpl implements AuthorizationService {
@@ -24,5 +27,26 @@ public class AuthorizationServiceImpl implements AuthorizationService {
             }
         }
         return user;
+    }
+
+    @Override
+    public String getCabinetUrl(User user) {
+        switch (user.getRole().getName()) {
+            case 0 :
+                return TEACHER_CABINET;
+            case 1 :
+                return STUDENT_CABINET;
+            case 2 :
+                return DIRECTOR_CABINET;
+            case 3 :
+                return ADMIN_CABINET;
+        }
+        return AUTH_URL;
+    }
+
+    @Override
+    public void saveUserToSession(User user, HttpSession session) {
+        session.setAttribute(AUTH_USER_ATTRIBUTE, user.getId());
+        session.setAttribute(AUTH_ROLE_ATTRIBUTE, user.getRole().getId());
     }
 }
