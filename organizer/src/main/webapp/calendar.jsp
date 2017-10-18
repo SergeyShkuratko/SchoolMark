@@ -12,6 +12,14 @@
     <title>Календарь контрольных работ</title>
     <script>
 
+        function changeMonth(delta) {
+            var dateElement = document.getElementById('dayOfMonth');
+            var date = new Date(dateElement.value);
+            date.setMonth(date.getMonth() + delta);
+            dateElement.value = ("0000" + date.getFullYear()).slice(-4) + "-" +
+                ("00" + (date.getMonth() + 1)).slice(-2) + "-01";
+        }
+
         function newCell(title) {
             var cell = new Object();
             cell.title = title;
@@ -27,18 +35,20 @@
 
         function newSrcBuilder(title) {
             var object = new Object();
-            object.src = "<html><head><title>" + title + "</title></head>"+
-                "<body bgcolor='#fff5ee'><div align='right' style='top:0'>"+
-                "<input type='image' value='close' src='${pageContext.request.contextPath}/img/close.png' width='50' "+
+            object.src = "<html><head><title>" + title + "</title></head>" +
+                "<body bgcolor='#fff5ee'><div align='right' style='top:0'>" +
+                "<input type='image' value='close' src='${pageContext.request.contextPath}/img/close.png' width='50' " +
                 "onClick='  window.parent.document.myDiv.style.width=0;" +
                 "           while(window.parent.document.myDiv.firstElementChild!=null)" +
-                "               window.parent.document.myDiv.removeChild(window.parent.document.myDiv.firstElementChild);'>"+
+                "               window.parent.document.myDiv.removeChild(window.parent.document.myDiv.firstElementChild);'>" +
                 "</div><div align='center'>" + title + "<br><br>";
-            object.addSubject = function(subject){
-                    object.src+=subject+"</br>";
+            object.addSubject = function (subject) {
+                object.src += subject + "</br>";
             }
             object.getSrc = function () {
-                return object.src+"</div></body></html>";
+                return object.src +"<br><br>"+
+                        "<a href='${pageContext.request.contextPath}/test' target='_top'>+Добавить контрольную работу</a>"+
+                    "</div></body></html>";
             }
             return object;
         }
@@ -48,7 +58,7 @@
                 document.myDiv = document.createElement('div');
                 document.body.appendChild(document.myDiv);
             }
-            while(document.myDiv.firstElementChild!=null) {
+            while (document.myDiv.firstElementChild != null) {
                 document.myDiv.removeChild(document.myDiv.firstElementChild);
             }
 
@@ -77,52 +87,54 @@
         padding: 2px !important;
     }</style>
 </head>
-<form method="post" action="${pageContext.request.contextPath}/organizer/calendar" id="mainForm">
-    <input type="hidden" id="command" name="command" value=""/>
-    <input type="hidden" name="beginData" value="${beginData}"/>
+<body>
     <%@include file="/mystatic/justMenu.jsp" %>
-    <table cellspacing="5" border="0" align="center">
-        <tr>
-            <td></td>
-            <td>
-                <input type="image" src="${pageContext.request.contextPath}/img/navigate-left.png" width="70" alt="<"
-                       onclick="document.getElementById('command').value='timeBack';this.form.submit();"/>
-            </td>
-            <td colspan="3" align="center"><c:out value="${monthName}"/></td>
-            <td>
-                <input type="image" src="${pageContext.request.contextPath}/img/navigate-right.png" width="70" alt=">"
-                       onclick="document.getElementById('command').value='timeForward';this.form.submit();"/>
-            </td>
-            <td></td>
-        </tr>
-        <tr align="center">
-            <td>ПН</td>
-            <td>ВТ</td>
-            <td>СР</td>
-            <td>ЧТ</td>
-            <td>ПТ</td>
-            <td>СБ</td>
-            <td>ВС</td>
-        </tr>
-        <tr>
-            <c:forEach items="${calendar}" var="item">
-            <td>
-                <div style="width: 70;height: 60; vert-align: top; border: solid; border-width: 1; border-color: black; background-color: ${item.getColor()}"
-                     onclick="showCell(document.cells['${item.getDate().toString()}'])">
-                    <div style="text-align: right;"><c:out value="${item.getDay()}"/></div>
-                    <div style="text-align: center;">
-                        <c:out escapeXml="false" value="${item.getDisplayName()}"/>
+
+    <form method="get" action="${pageContext.request.contextPath}/organizer/calendar" id="mainForm">
+        <input type="hidden" name="dayOfMonth" id="dayOfMonth" value="${beginData}"/>
+
+        <table cellspacing="5" border="0" align="center">
+            <tr>
+                <td></td>
+                <td>
+                    <input type="image" src="${pageContext.request.contextPath}/img/navigate-left.png" width="70" alt="<"
+                           onclick="changeMonth(-1);this.form.submit();"/>
+                </td>
+                <td colspan="3" align="center"><c:out value="${monthName}"/></td>
+                <td>
+                    <input type="image" src="${pageContext.request.contextPath}/img/navigate-right.png" width="70" alt=">"
+                           onclick="changeMonth(1);this.form.submit();"/>
+                </td>
+                <td></td>
+            </tr>
+            <tr align="center">
+                <td>ПН</td>
+                <td>ВТ</td>
+                <td>СР</td>
+                <td>ЧТ</td>
+                <td>ПТ</td>
+                <td>СБ</td>
+                <td>ВС</td>
+            </tr>
+            <tr>
+                <c:forEach items="${calendar}" var="item">
+                <td>
+                    <div style="width: 70;height: 60; vert-align: top; border: solid; border-width: 1; border-color: black; background-color: ${item.getColor()}"
+                         onclick="showCell(document.cells['${item.getDate().toString()}'])">
+                        <div style="text-align: right;"><c:out value="${item.getDay()}"/></div>
+                        <div style="text-align: center;">
+                            <c:out escapeXml="false" value="${item.getDisplayName()}"/>
+                        </div>
                     </div>
-                </div>
-            </td>
+                </td>
 
-            <c:if test="${item.isEOW()}">
-        </tr>
-        <tr>
-            </c:if>
-            </c:forEach>
-        </tr>
-    </table>
-</form>
-
+                <c:if test="${item.isEOW()}">
+            </tr>
+            <tr>
+                </c:if>
+                </c:forEach>
+            </tr>
+        </table>
+    </form>
+</body>
 </html>

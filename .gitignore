@@ -1,42 +1,15 @@
-.out/
-out/
-.gradle/
-gradle/
-build/
 student/pages/
+web.xml
+
+# Intellij project files
 *.iml
 *.ipr
 *.iws
+.idea/
 
+#Gradle
+.gradletasknamecache
+.gradle/
 **/build/
-
-
-# User-specific stuff:
-.idea/**/workspace.xml
-.idea/**/tasks.xml
-.idea/dictionaries
-.idea/artifacts
-.idea/vcs.xml
-.idea/jsLibraryMappings.xml
-misk.xml
-
-# Sensitive or high-churn files:
-.idea/**/dataSources/
-.idea/**/dataSources.ids
-.idea/**/dataSources.xml
-.idea/**/dataSources.local.xml
-.idea/**/sqlDataSources.xml
-.idea/**/dynamic.xml
-.idea/**/uiDesigner.xml
-
-# Gradle:
-.idea/**/gradle.xml
-.idea/**/libraries
-
-/student/log4j-application.log
-.idea/inspectionProfiles/
-.idea/modules/
-web.xml
-.idea/modules.xml
-auth/src/main/resources/
-gradlew.bat
+bin/
+**/out/
