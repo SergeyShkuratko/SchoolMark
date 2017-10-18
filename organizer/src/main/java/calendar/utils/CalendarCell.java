@@ -1,6 +1,9 @@
 package calendar.utils;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
+import java.time.temporal.TemporalAdjusters;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -62,6 +65,9 @@ public class CalendarCell {
         isEOW = EOW;
     }
 
+    public String getFormatDate() {
+        return DateTimeFormatter.ofLocalizedDate(FormatStyle.FULL).format(date);
+    }
     public LocalDate getDate() {
         return date;
     }
@@ -74,8 +80,7 @@ public class CalendarCell {
         String result = "";
         if (!subjects.isEmpty()) {
             StringBuilder sb = new StringBuilder();
-            if(subjects.size()>0) sb.append(subjects.get(0)).append("<br>");
-            if(subjects.size()>1) sb.append("+ ").append(subjects.size()-1).append("...");
+            if(subjects.size()>0) sb.append(subjects.size()).append(" к.р.");
             result = sb.toString();
         }
         return result;
