@@ -1,6 +1,8 @@
 package inno.servlets;
 
 import inno.dao.OrganizerDAO;
+import inno.dao.TestDAO;
+import inno.dao.WorkDAO;
 import inno.dto.TestDTO;
 import inno.exceptions.OrganizerDAOexception;
 
@@ -18,7 +20,8 @@ public class RunTestServlet extends HttpServlet {
                 Integer.parseInt(req.getParameter("test_id")) : 0;
         if (test_id > 0) {
             try {
-               if(!OrganizerDAO.isWorksExists(test_id)) OrganizerDAO.createWorksForTest(test_id); //создаем работы, если еще нет
+                if (!OrganizerDAO.isWorksExists(test_id))
+                    OrganizerDAO.createWorksForTest(test_id); //создаем работы, если еще нет
 
                 //получаем тест из БД
                 TestDTO test = OrganizerDAO.getTestById(test_id);
@@ -33,5 +36,22 @@ public class RunTestServlet extends HttpServlet {
             }
         }
         req.getRequestDispatcher("test_run.jsp").forward(req, resp);
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        if (req.getAttribute("work_id") != null) {
+            if (req.getAttribute("presence") != null) {
+                try {
+                   resp.getWriter().print(
+                           WorkDAO.updatePresenceStatusByID(
+                            Integer.parseInt((String) req.getAttribute("work_id")),
+                            Boolean.parseBoolean((String) req.getAttribute("presence")))
+                    );
+                } catch (OrganizerDAOexception organizerDAOexception) {
+                    organizerDAOexception.printStackTrace();
+                }
+            }
+        }
     }
 }

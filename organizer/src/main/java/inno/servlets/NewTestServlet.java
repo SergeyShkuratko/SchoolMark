@@ -18,8 +18,6 @@ public class NewTestServlet extends HttpServlet {
                 Integer.parseInt(req.getParameter("test_id")) : 0;
         if (test_id > 0) {
             try {
-                if(!OrganizerDAO.isWorksExists(test_id)) OrganizerDAO.createWorksForTest(test_id); //создаем работы, если еще нет
-
                 //получаем тест из БД
                 TestDTO test = OrganizerDAO.getTestById(test_id);
 
