@@ -1,3 +1,8 @@
+<%@ page import="classes.Student" %>
+<%@ page import="java.time.LocalDate" %>
+<%@ page import="classes.SchoolClass" %>
+<%@ page import="classes.User" %>
+<%@ page import="classes.Role" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
@@ -16,6 +21,18 @@
         <div class="col-sm-3 col-md-2 sidebar control-work-sidebar">
             <div class="panel panel-default control-work-sidebar-photo">
                 <div class="panel-body">
+
+
+                    <p>Counting to three:</p>
+                    <%
+                        User user = new User(1, "login", LocalDate.now());
+                        user.setRole(new Role(1, 1));
+                    %>
+                    <% for (int i=1; i<4; i++) { %>
+                    <p>This number is <%= i %>.</p>
+                    <% } %>
+                    <p>OK.</p>
+
 
                 </div>
             </div>
