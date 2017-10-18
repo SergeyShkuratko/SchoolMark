@@ -32,8 +32,11 @@ misk.xml
 # Gradle:
 .idea/**/gradle.xml
 .idea/**/libraries
+
+/student/log4j-application.log
 .idea/inspectionProfiles/
-.idea/modules.xml
 .idea/modules/
+web.xml
+.idea/modules.xml
 auth/src/main/resources/
 gradlew.bat
