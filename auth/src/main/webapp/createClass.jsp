@@ -12,10 +12,9 @@
     <script type="text/javascript" src="js/validate.js"></script>
     <script type="text/javascript">
         function loadSchoolList() {
-            var region = $('#region').value;
-            var city = $('#city').value;
-            if (region !== "" && city !== "") {
-
+            var region = $('#region').val();
+            var city = $('#city').val();
+            if (region && city) {
                 $('#school').html('<option value="">Loading...</option>');
 
 
@@ -35,30 +34,37 @@
 <body>
 <div class="container">
     <div class="row">
-        <form class="form-horizontal" role="form" action="${pageContext.request.contextPath}/class" method="post">
-            <div class="form-group">
+        <div class="col-xs-12 col-sm-12 col-md-12">
+        <form id="validate-form" class="form-horizontal" role="form" action="${pageContext.request.contextPath}/admin/class" method="post">
+            <div class="form-group has-feedback">
                 <label for="region">Укажите регион:</label>
-                <input id="region" placeholder="Регион" class="form-control" type="text" name="region" onchange="loadSchoolList()" required/>
+                <input id="region" placeholder="Регион" class="form-control" type="text" name="region" onchange="loadSchoolList()" pattern="[А-Яа-я., -]+" required/>
             </div>
-            <div class="form-group">
+            <div class="form-group has-feedback">
                 <label for="city">Укажите город:</label>
-                <input id="city" placeholder="Город" class="form-control" type="text" name="city" onchange="loadSchoolList()" required/>
+                <input id="city" placeholder="Город" class="form-control" type="text" name="city" onchange="loadSchoolList()" pattern="[А-Яа-я., -]+" required/>
             </div>
             <div class="form-group">
-                <label for="school" class="col-sm-3 col-xs-3">Выберите школу из списка </label>
-                <select id="school" class="col-sm-3 col-xs-3">
+                <label for="school">Выберите школу из списка </label>
+                <select id="school" class="form-control">
                 </select>
             </div>
-            <div class="form-group">
+            <div class="form-group has-feedback">
                 <label for="school-class">Укажите класс:</label>
-                <input id="school-class" placeholder="Класс" class="form-control" type="text" name="school-class" required/>
+                <input id="school-class" placeholder="Класс" class="form-control" type="text" name="school-class" pattern="[1-9][1]?" required/>
             </div>
-            <div class="form-group">
+            <div class="form-group has-feedback">
                 <label for="letter">Укажите букву класса:</label>
-                <input id="letter" placeholder="Буква класса" class="form-control" type="text" name="letter" required/>
+                <input id="letter" placeholder="Буква класса" class="form-control" type="text" name="letter" pattern="[А-Яа-я]" required/>
             </div>
         </form>
-
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-12">
+        <button type="button" id="login" class="btn btn-labeled btn-success" onclick="validateAndSubmit()">Добавить класс</button>
+        <!--<button type="button" class="btn btn-labeled btn-danger">
+            <span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span>Выход</button>
+        -->
     </div>
 </div>
 </body>
