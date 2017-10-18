@@ -17,7 +17,7 @@ public class TestService {
         TestTemplate testTemplate = new TestTemplate();
 
         testTemplate.setDescription(req.getParameter("testTheme"));
-        testTemplate.setSubject(new Subject(req.getParameter("subject")));
+        testTemplate.setSubject(new Subject(1, req.getParameter("subject")));
         testTemplate.setClassNum(new Integer(req.getParameter("classNum")));
         testTemplate.setDifficulty(req.getParameter("difficulty"));
         testTemplate.setCreationDate(LocalDate.now());

@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
 
 public class DAOUtils {
 
@@ -50,6 +51,9 @@ public class DAOUtils {
         return new Student(
                 rs.getInt("id"),
                 rs.getInt("user_id"),
+                //TODO join on users table
+                "login",
+                LocalDate.now(),
                 rs.getString("last_name"),
                 rs.getString("first_name"),
                 rs.getString("patronymic"),
