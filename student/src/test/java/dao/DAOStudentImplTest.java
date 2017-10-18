@@ -13,6 +13,7 @@ import org.junit.jupiter.api.TestInstance;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.concurrent.ConcurrentNavigableMap;
 
@@ -47,6 +48,8 @@ class DAOStudentImplTest {
                     new Student(
                             NULL_POINTER_DB,
                             1,
+                            "login",
+                            LocalDate.now(),
                             "Иванов",
                             "Иван",
                             "Иванович",

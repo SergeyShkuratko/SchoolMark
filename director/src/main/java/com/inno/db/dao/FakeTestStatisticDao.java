@@ -6,7 +6,7 @@ import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class FakeTestDao implements TestDao {
+public class FakeTestStatisticDao implements TestStatisticDao {
     @Override
     public List<TestStatisticDto> getTestsStatistic(LocalDate dateFrom, LocalDate dateTo) {
         List<TestStatisticDto> result = new ArrayList<>(2);
