@@ -22,6 +22,12 @@
             <ul class="nav nav-sidebar control-work-sidebar-number">
                 <li>
                     <button class="btn btn-default control-work-sidebar-button"
+                            onclick="window.location.href='/SM/organizer/caledar'" type="submit">
+                        Календарь организатора
+                    </button>
+                </li>
+                <li>
+                    <button class="btn btn-default control-work-sidebar-button"
                             onclick="window.location.href='/SM/testlist'" type="submit">
                         Ученик
                     </button>
