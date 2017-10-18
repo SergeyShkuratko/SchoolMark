@@ -46,7 +46,9 @@
                 object.src += subject + "</br>";
             }
             object.getSrc = function () {
-                return object.src + "</div></body></html>";
+                return object.src +"<br><br>"+
+                        "<a href='${pageContext.request.contextPath}/test' target='_top'>+Добавить контрольную работу</a>"+
+                    "</div></body></html>";
             }
             return object;
         }
