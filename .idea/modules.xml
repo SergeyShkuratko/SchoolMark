@@ -3,47 +3,47 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/SchoolMark.iml" filepath="$PROJECT_DIR$/.idea/modules/SchoolMark.iml" />
-      <module fileurl="file://C:\Users\nkm\IdeaProjects\SchoolMark\SchoolMark.iml" filepath="C:\Users\nkm\IdeaProjects\SchoolMark\SchoolMark.iml" />
+      <module fileurl="file://C:/Users/nkm/IdeaProjects/SchoolMark/SchoolMark.iml" filepath="C:/Users/nkm/IdeaProjects/SchoolMark/SchoolMark.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/SchoolMark_main.iml" filepath="$PROJECT_DIR$/.idea/modules/SchoolMark_main.iml" group="SchoolMark" />
-      <module fileurl="file://C:\Users\nkm\IdeaProjects\SchoolMark\.idea\modules\SchoolMark_main.iml" filepath="C:\Users\nkm\IdeaProjects\SchoolMark\.idea\modules\SchoolMark_main.iml" group="SchoolMark" />
+      <module fileurl="file://C:/Users/nkm/IdeaProjects/SchoolMark/.idea/modules/SchoolMark_main.iml" filepath="C:/Users/nkm/IdeaProjects/SchoolMark/.idea/modules/SchoolMark_main.iml" group="SchoolMark" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/SchoolMark_test.iml" filepath="$PROJECT_DIR$/.idea/modules/SchoolMark_test.iml" group="SchoolMark" />
-      <module fileurl="file://C:\Users\nkm\IdeaProjects\SchoolMark\.idea\modules\SchoolMark_test.iml" filepath="C:\Users\nkm\IdeaProjects\SchoolMark\.idea\modules\SchoolMark_test.iml" group="SchoolMark" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/auth/auth.iml" filepath="$PROJECT_DIR$/.idea/modules/auth/auth.iml" group="auth" />
-      <module fileurl="file://C:\Users\nkm\IdeaProjects\SchoolMark\.idea\modules\auth\auth.iml" filepath="C:\Users\nkm\IdeaProjects\SchoolMark\.idea\modules\auth\auth.iml" group="auth" />
+      <module fileurl="file://C:/Users/nkm/IdeaProjects/SchoolMark/.idea/modules/SchoolMark_test.iml" filepath="C:/Users/nkm/IdeaProjects/SchoolMark/.idea/modules/SchoolMark_test.iml" group="SchoolMark" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/auth/auth.iml" filepath="$PROJECT_DIR$/.idea/modules/auth/auth.iml" />
+      <module fileurl="file://C:/Users/nkm/IdeaProjects/SchoolMark/.idea/modules/auth/auth.iml" filepath="C:/Users/nkm/IdeaProjects/SchoolMark/.idea/modules/auth/auth.iml" group="auth" />
+      <module fileurl="file://C:/Users/nkm/IdeaProjects/SchoolMark/.idea/modules/auth/auth_main.iml" filepath="C:/Users/nkm/IdeaProjects/SchoolMark/.idea/modules/auth/auth_main.iml" group="auth" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/auth/auth_main.iml" filepath="$PROJECT_DIR$/.idea/modules/auth/auth_main.iml" group="auth" />
-      <module fileurl="file://C:\Users\nkm\IdeaProjects\SchoolMark\.idea\modules\auth\auth_main.iml" filepath="C:\Users\nkm\IdeaProjects\SchoolMark\.idea\modules\auth\auth_main.iml" group="auth" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/auth/auth_test.iml" filepath="$PROJECT_DIR$/.idea/modules/auth/auth_test.iml" group="auth" />
-      <module fileurl="file://C:\Users\nkm\IdeaProjects\SchoolMark\.idea\modules\auth\auth_test.iml" filepath="C:\Users\nkm\IdeaProjects\SchoolMark\.idea\modules\auth\auth_test.iml" group="auth" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/controller/controller.iml" filepath="$PROJECT_DIR$/.idea/modules/controller/controller.iml" group="controller" />
-      <module fileurl="file://C:\Users\nkm\IdeaProjects\SchoolMark\.idea\modules\controller\controller.iml" filepath="C:\Users\nkm\IdeaProjects\SchoolMark\.idea\modules\controller\controller.iml" group="controller" />
+      <module fileurl="file://C:/Users/nkm/IdeaProjects/SchoolMark/.idea/modules/auth/auth_test.iml" filepath="C:/Users/nkm/IdeaProjects/SchoolMark/.idea/modules/auth/auth_test.iml" group="auth" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/controller/controller.iml" filepath="$PROJECT_DIR$/.idea/modules/controller/controller.iml" />
+      <module fileurl="file://C:/Users/nkm/IdeaProjects/SchoolMark/.idea/modules/controller/controller.iml" filepath="C:/Users/nkm/IdeaProjects/SchoolMark/.idea/modules/controller/controller.iml" group="controller" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/controller/controller_main.iml" filepath="$PROJECT_DIR$/.idea/modules/controller/controller_main.iml" group="controller" />
-      <module fileurl="file://C:\Users\nkm\IdeaProjects\SchoolMark\.idea\modules\controller\controller_main.iml" filepath="C:\Users\nkm\IdeaProjects\SchoolMark\.idea\modules\controller\controller_main.iml" group="controller" />
+      <module fileurl="file://C:/Users/nkm/IdeaProjects/SchoolMark/.idea/modules/controller/controller_main.iml" filepath="C:/Users/nkm/IdeaProjects/SchoolMark/.idea/modules/controller/controller_main.iml" group="controller" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/controller/controller_test.iml" filepath="$PROJECT_DIR$/.idea/modules/controller/controller_test.iml" group="controller" />
-      <module fileurl="file://C:\Users\nkm\IdeaProjects\SchoolMark\.idea\modules\controller\controller_test.iml" filepath="C:\Users\nkm\IdeaProjects\SchoolMark\.idea\modules\controller\controller_test.iml" group="controller" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/core/core.iml" filepath="$PROJECT_DIR$/.idea/modules/core/core.iml" group="core" />
-      <module fileurl="file://C:\Users\nkm\IdeaProjects\SchoolMark\.idea\modules\core\core.iml" filepath="C:\Users\nkm\IdeaProjects\SchoolMark\.idea\modules\core\core.iml" group="core" />
+      <module fileurl="file://C:/Users/nkm/IdeaProjects/SchoolMark/.idea/modules/controller/controller_test.iml" filepath="C:/Users/nkm/IdeaProjects/SchoolMark/.idea/modules/controller/controller_test.iml" group="controller" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/core/core.iml" filepath="$PROJECT_DIR$/.idea/modules/core/core.iml" />
+      <module fileurl="file://C:/Users/nkm/IdeaProjects/SchoolMark/.idea/modules/core/core.iml" filepath="C:/Users/nkm/IdeaProjects/SchoolMark/.idea/modules/core/core.iml" group="core" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/core/core_main.iml" filepath="$PROJECT_DIR$/.idea/modules/core/core_main.iml" group="core" />
-      <module fileurl="file://C:\Users\nkm\IdeaProjects\SchoolMark\.idea\modules\core\core_main.iml" filepath="C:\Users\nkm\IdeaProjects\SchoolMark\.idea\modules\core\core_main.iml" group="core" />
+      <module fileurl="file://C:/Users/nkm/IdeaProjects/SchoolMark/.idea/modules/core/core_main.iml" filepath="C:/Users/nkm/IdeaProjects/SchoolMark/.idea/modules/core/core_main.iml" group="core" />
+      <module fileurl="file://C:/Users/nkm/IdeaProjects/SchoolMark/.idea/modules/core/core_test.iml" filepath="C:/Users/nkm/IdeaProjects/SchoolMark/.idea/modules/core/core_test.iml" group="core" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/core/core_test.iml" filepath="$PROJECT_DIR$/.idea/modules/core/core_test.iml" group="core" />
-      <module fileurl="file://C:\Users\nkm\IdeaProjects\SchoolMark\.idea\modules\core\core_test.iml" filepath="C:\Users\nkm\IdeaProjects\SchoolMark\.idea\modules\core\core_test.iml" group="core" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/director/director.iml" filepath="$PROJECT_DIR$/.idea/modules/director/director.iml" group="director" />
-      <module fileurl="file://C:\Users\nkm\IdeaProjects\SchoolMark\.idea\modules\director\director.iml" filepath="C:\Users\nkm\IdeaProjects\SchoolMark\.idea\modules\director\director.iml" group="director" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/director/director.iml" filepath="$PROJECT_DIR$/.idea/modules/director/director.iml" />
+      <module fileurl="file://C:/Users/nkm/IdeaProjects/SchoolMark/.idea/modules/director/director.iml" filepath="C:/Users/nkm/IdeaProjects/SchoolMark/.idea/modules/director/director.iml" group="director" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/director/director_main.iml" filepath="$PROJECT_DIR$/.idea/modules/director/director_main.iml" group="director" />
-      <module fileurl="file://C:\Users\nkm\IdeaProjects\SchoolMark\.idea\modules\director\director_main.iml" filepath="C:\Users\nkm\IdeaProjects\SchoolMark\.idea\modules\director\director_main.iml" group="director" />
+      <module fileurl="file://C:/Users/nkm/IdeaProjects/SchoolMark/.idea/modules/director/director_main.iml" filepath="C:/Users/nkm/IdeaProjects/SchoolMark/.idea/modules/director/director_main.iml" group="director" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/director/director_test.iml" filepath="$PROJECT_DIR$/.idea/modules/director/director_test.iml" group="director" />
-      <module fileurl="file://C:\Users\nkm\IdeaProjects\SchoolMark\.idea\modules\director\director_test.iml" filepath="C:\Users\nkm\IdeaProjects\SchoolMark\.idea\modules\director\director_test.iml" group="director" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/organizer/organizer.iml" filepath="$PROJECT_DIR$/.idea/modules/organizer/organizer.iml" group="organizer" />
-      <module fileurl="file://C:\Users\nkm\IdeaProjects\SchoolMark\.idea\modules\organizer\organizer.iml" filepath="C:\Users\nkm\IdeaProjects\SchoolMark\.idea\modules\organizer\organizer.iml" group="organizer" />
+      <module fileurl="file://C:/Users/nkm/IdeaProjects/SchoolMark/.idea/modules/director/director_test.iml" filepath="C:/Users/nkm/IdeaProjects/SchoolMark/.idea/modules/director/director_test.iml" group="director" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/organizer/organizer.iml" filepath="$PROJECT_DIR$/.idea/modules/organizer/organizer.iml" />
+      <module fileurl="file://C:/Users/nkm/IdeaProjects/SchoolMark/.idea/modules/organizer/organizer.iml" filepath="C:/Users/nkm/IdeaProjects/SchoolMark/.idea/modules/organizer/organizer.iml" group="organizer" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/organizer/organizer_main.iml" filepath="$PROJECT_DIR$/.idea/modules/organizer/organizer_main.iml" group="organizer" />
-      <module fileurl="file://C:\Users\nkm\IdeaProjects\SchoolMark\.idea\modules\organizer\organizer_main.iml" filepath="C:\Users\nkm\IdeaProjects\SchoolMark\.idea\modules\organizer\organizer_main.iml" group="organizer" />
+      <module fileurl="file://C:/Users/nkm/IdeaProjects/SchoolMark/.idea/modules/organizer/organizer_main.iml" filepath="C:/Users/nkm/IdeaProjects/SchoolMark/.idea/modules/organizer/organizer_main.iml" group="organizer" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/organizer/organizer_test.iml" filepath="$PROJECT_DIR$/.idea/modules/organizer/organizer_test.iml" group="organizer" />
-      <module fileurl="file://C:\Users\nkm\IdeaProjects\SchoolMark\.idea\modules\organizer\organizer_test.iml" filepath="C:\Users\nkm\IdeaProjects\SchoolMark\.idea\modules\organizer\organizer_test.iml" group="organizer" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/student/student.iml" filepath="$PROJECT_DIR$/.idea/modules/student/student.iml" group="student" />
-      <module fileurl="file://C:\Users\nkm\IdeaProjects\SchoolMark\.idea\modules\student\student.iml" filepath="C:\Users\nkm\IdeaProjects\SchoolMark\.idea\modules\student\student.iml" group="student" />
+      <module fileurl="file://C:/Users/nkm/IdeaProjects/SchoolMark/.idea/modules/organizer/organizer_test.iml" filepath="C:/Users/nkm/IdeaProjects/SchoolMark/.idea/modules/organizer/organizer_test.iml" group="organizer" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/student/student.iml" filepath="$PROJECT_DIR$/.idea/modules/student/student.iml" />
+      <module fileurl="file://C:/Users/nkm/IdeaProjects/SchoolMark/.idea/modules/student/student.iml" filepath="C:/Users/nkm/IdeaProjects/SchoolMark/.idea/modules/student/student.iml" group="student" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/student/student_main.iml" filepath="$PROJECT_DIR$/.idea/modules/student/student_main.iml" group="student" />
-      <module fileurl="file://C:\Users\nkm\IdeaProjects\SchoolMark\.idea\modules\student\student_main.iml" filepath="C:\Users\nkm\IdeaProjects\SchoolMark\.idea\modules\student\student_main.iml" group="student" />
+      <module fileurl="file://C:/Users/nkm/IdeaProjects/SchoolMark/.idea/modules/student/student_main.iml" filepath="C:/Users/nkm/IdeaProjects/SchoolMark/.idea/modules/student/student_main.iml" group="student" />
+      <module fileurl="file://C:/Users/nkm/IdeaProjects/SchoolMark/.idea/modules/student/student_test.iml" filepath="C:/Users/nkm/IdeaProjects/SchoolMark/.idea/modules/student/student_test.iml" group="student" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/student/student_test.iml" filepath="$PROJECT_DIR$/.idea/modules/student/student_test.iml" group="student" />
-      <module fileurl="file://C:\Users\nkm\IdeaProjects\SchoolMark\.idea\modules\student\student_test.iml" filepath="C:\Users\nkm\IdeaProjects\SchoolMark\.idea\modules\student\student_test.iml" group="student" />
     </modules>
   </component>
 </project>
