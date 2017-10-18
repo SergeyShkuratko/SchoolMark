@@ -1,7 +1,7 @@
 package inno.servlets;
 
+import com.google.gson.Gson;
 import inno.dao.OrganizerDAO;
-import inno.dao.TestDAO;
 import inno.dao.WorkDAO;
 import inno.dto.TestDTO;
 import inno.exceptions.OrganizerDAOexception;
@@ -36,22 +36,39 @@ public class RunTestServlet extends HttpServlet {
             }
         }
         req.getRequestDispatcher("test_run.jsp").forward(req, resp);
-    }
 
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        if (req.getAttribute("work_id") != null) {
-            if (req.getAttribute("presence") != null) {
+
+        if (req.getParameter("work_id") != null){
+            if (req.getParameter("presence") != null){
                 try {
-                   resp.getWriter().print(
-                           WorkDAO.updatePresenceStatusByID(
-                            Integer.parseInt((String) req.getAttribute("work_id")),
-                            Boolean.parseBoolean((String) req.getAttribute("presence")))
-                    );
+                    WorkDAO.updatePresenceStatusByID(
+                            Integer.parseInt((req.getParameter("work_id"))),
+                            Boolean.parseBoolean(req.getParameter("presence")));
                 } catch (OrganizerDAOexception organizerDAOexception) {
                     organizerDAOexception.printStackTrace();
                 }
             }
         }
+
+        if (req.getParameter("get_upload_info_for_test") != null) {
+            try {
+                resp.setContentType("application/json");
+                resp.setCharacterEncoding("UTF-8");
+                resp.getWriter().write(
+                        new Gson().toJson(WorkDAO.getWorksStatusByTestId(
+                                Integer.parseInt(req.getParameter("get_upload_info_for_test"))
+                        ))
+                );
+            } catch (OrganizerDAOexception organizerDAOexception) {
+                organizerDAOexception.printStackTrace();
+            }
+        }
+
+
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
     }
 }

@@ -6,6 +6,7 @@ import inno.exceptions.OrganizerDAOexception;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.List;
 
 public class TestDAO {
     private static ConnectionManager manager = ConnectionManagerPostgresImpl.getInstance();
@@ -20,4 +21,5 @@ public class TestDAO {
             throw new OrganizerDAOexception(e);
         }
     }
+
 }

@@ -49,10 +49,10 @@
 
 
         <form action="${context}/stop" method="GET">
-            <input type="hidden" name = "test_id" value="${test.id}">
+            <input type="hidden" name = "test_id" value="${test.id}" id="test_id">
             <button type="submit" class="btn btn-danger btn-block btn-lg">Завершить проведение контрольной работы</button>
             <br>
-            <div class="table-responsive ">
+            <div class="table-responsive " >
                 <table class="table table-bordered" id="school-class-table">
                     <thead>
                     <tr class="active">
@@ -75,7 +75,7 @@
                                     </label>
                                 </div>
                             </td>
-                            <td> нет</td>
+                            <td>Нет</td>
                         </tr>
 
                     </c:forEach>
