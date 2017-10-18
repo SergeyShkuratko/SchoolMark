@@ -1,4 +1,5 @@
 student/pages/
+web.xml
 
 # Intellij project files
 *.iml
