@@ -33,3 +33,8 @@ misk.xml
 # Gradle:
 .idea/**/gradle.xml
 .idea/**/libraries
+
+/student/log4j-application.log
+.idea/inspectionProfiles/
+.idea/modules/
+web.xml

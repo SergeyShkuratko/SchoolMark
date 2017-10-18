@@ -1,4 +1,0 @@
-2017-10-16 20:18:29 ERROR DAOStudentImplTest:56 - Batch entry 0 INSERT INTO students (id, user_id, last_name, first_name, patronymic, school_class_id) VALUES (-1, 1, 'Иванов', 'Иван', 'Иванович', 0) was aborted: ERROR: insert or update on table "students" violates foreign key constraint "students_school_class_id_fkey"
-  Detail: Key (school_class_id)=(0) is not present in table "school_classes".  Call getNextException to see other errors in the batch.
-2017-10-16 23:20:28 ERROR DAOSchoolImpl:49 - Batch entry 0 INSERT INTO schools (id, name, region, city, school_type_id) VALUES (-1, 'школа', 'Питер', 'Москва', 0) was aborted: ERROR: insert or update on table "schools" violates foreign key constraint "schools_school_type_id_fkey"
-  Detail: Key (school_type_id)=(0) is not present in table "school_types".  Call getNextException to see other errors in the batch.
