@@ -3,6 +3,7 @@ package calendar.servlets;
 import calendar.services.CalendarServiceImpl;
 import calendar.utils.CalendarCell;
 import calendar.services.CalendarService;
+import classes.CommonSettings;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -16,8 +17,6 @@ import java.util.*;
 
 public class CalendarServlet extends HttpServlet {
     static CalendarService calendarService = new CalendarServiceImpl();
-    //TODO: ИЗМЕНИТЬ НА КОРРЕКТНОЕ ИМЯ АТРИБУТА
-    static final String ID_SESSION_ATTRIBUTE_NAME = "id";
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -26,10 +25,10 @@ public class CalendarServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getSession().setAttribute(ID_SESSION_ATTRIBUTE_NAME, 110);
+        req.getSession().setAttribute(CommonSettings.AUTH_USER_ATTRIBUTE, 4);
 
         List<String> errors = new LinkedList<>();
-        Integer userId = (Integer) req.getSession().getAttribute(ID_SESSION_ATTRIBUTE_NAME);
+        Integer userId = (Integer) req.getSession().getAttribute(CommonSettings.AUTH_USER_ATTRIBUTE);
 
         String beginDataString = req.getParameter("beginData");
         LocalDate beginMonth;

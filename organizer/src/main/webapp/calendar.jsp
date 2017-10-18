@@ -25,52 +25,72 @@
             return cell;
         }
 
+        function newSrcBuilder(title) {
+            var object = new Object();
+            object.src = "<html><head><title>" + title + "</title></head>"+
+                "<body bgcolor='#fff5ee'><div align='right' style='top:0'>"+
+                "<input type='image' value='close' src='${pageContext.request.contextPath}/img/close.png' width='50' "+
+                "onClick='  window.parent.document.myDiv.style.width=0;" +
+                "           while(window.parent.document.myDiv.firstElementChild!=null)" +
+                "               window.parent.document.myDiv.removeChild(window.parent.document.myDiv.firstElementChild);'>"+
+                "</div><div align='center'>" + title + "<br><br>";
+            object.addSubject = function(subject){
+                    object.src+=subject+"</br>";
+            }
+            object.getSrc = function () {
+                return object.src+"</div></body></html>";
+            }
+            return object;
+        }
+
         function showCell(cell) {
             if (document.myDiv == null) {
                 document.myDiv = document.createElement('div');
+                document.body.appendChild(document.myDiv);
             }
-            while (document.myDiv.firstElementChild != null) document.myDiv.removeChild(document.myDiv.firstElementChild);
+            while(document.myDiv.firstElementChild!=null) {
+                document.myDiv.removeChild(document.myDiv.firstElementChild);
+            }
 
-            document.myDiv.style = "z-index:2; position:absolute; top: 10%; left: 40%";
+            document.myDiv.style = "z-index:2; position:absolute; width: 40%; height: 80%; top: 10%; left: 30%";
             var iframe = document.createElement('iframe');
-            iframe.style.width = '300';
-            iframe.style.height = '400';
+            iframe.style.width = "100%";
+            iframe.style.height = "100%";
             document.myDiv.appendChild(iframe);
-            document.body.appendChild(document.myDiv);
 
-            var src = "<html><head><title>" + cell.title + "</title></head><body bgcolor='#fff5ee'><div align='right'><input type='image' value='close' src='${pageContext.request.contextPath}/resources/close.png' width='50' onClick='while (window.parent.document.myDiv.firstElementChild!=null)window.parent.document.myDiv.removeChild(window.parent.document.myDiv.firstElementChild);'/></div>"
-                + "<div align='center'>";
+            var srcBuilder = newSrcBuilder(cell.title);
             for (var key in cell.subjects) {
-                src += cell.getSubject(key) + "<br>";
+                srcBuilder.addSubject(cell.getSubject(key));
             }
-            src += "</div></body></html>"
-            iframe.srcdoc = src;
-
+            iframe.srcdoc = srcBuilder.getSrc();
         }
 
         document.cells = new Object();
         <c:forEach items="${calendar}" var="item">
-        document.cells["${item.getDate().toString()}"] = newCell("${item.getDate().toString()}");
+        document.cells["${item.getDate().toString()}"] = newCell("${item.getFormatDate()}");
         <c:forEach items="${item.getSubjects()}" var="subject">
         document.cells["${item.getDate().toString()}"].addSubject("${subject}");
         </c:forEach>
         </c:forEach>
     </script>
+    <style>td, th {
+        padding: 2px !important;
+    }</style>
 </head>
 <form method="post" action="${pageContext.request.contextPath}/organizer/calendar" id="mainForm">
     <input type="hidden" id="command" name="command" value=""/>
     <input type="hidden" name="beginData" value="${beginData}"/>
-
+    <%@include file="/mystatic/justMenu.jsp" %>
     <table cellspacing="5" border="0" align="center">
         <tr>
             <td></td>
             <td>
-                <input type="image" src="${pageContext.request.contextPath}/resources/navigate-left.png" width="70" alt="<"
+                <input type="image" src="${pageContext.request.contextPath}/img/navigate-left.png" width="70" alt="<"
                        onclick="document.getElementById('command').value='timeBack';this.form.submit();"/>
             </td>
             <td colspan="3" align="center"><c:out value="${monthName}"/></td>
             <td>
-                <input type="image" src="${pageContext.request.contextPath}/resources/navigate-right.png" width="70" alt=">"
+                <input type="image" src="${pageContext.request.contextPath}/img/navigate-right.png" width="70" alt=">"
                        onclick="document.getElementById('command').value='timeForward';this.form.submit();"/>
             </td>
             <td></td>
