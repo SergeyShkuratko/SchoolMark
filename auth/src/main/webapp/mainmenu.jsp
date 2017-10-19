@@ -16,7 +16,7 @@
 <body>
 <div class="container-fluid">
     <div class="row ifaceforworkcheck">
-        <%@include file="/mystatic/justMenu.jsp" %>
+        <%@include file="/mystatic/_justMenu.jsp" %>
     </div>
 </div>
 </body>
