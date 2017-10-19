@@ -1,6 +1,6 @@
 package inno.servlets;
 
-import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import inno.dao.OrganizerDAO;
 import inno.dao.WorkDAO;
 import inno.dto.TestDTO;
@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
 
 public class RunTestServlet extends HttpServlet {
     @Override
@@ -34,8 +35,9 @@ public class RunTestServlet extends HttpServlet {
             } catch (OrganizerDAOexception e) {
                 throw new ServletException(e);
             }
+            req.getRequestDispatcher("test_run.jsp").forward(req, resp);
         }
-        req.getRequestDispatcher("test_run.jsp").forward(req, resp);
+
 
 
         if (req.getParameter("work_id") != null){
@@ -54,11 +56,15 @@ public class RunTestServlet extends HttpServlet {
             try {
                 resp.setContentType("application/json");
                 resp.setCharacterEncoding("UTF-8");
-                resp.getWriter().write(
-                        new Gson().toJson(WorkDAO.getWorksStatusByTestId(
-                                Integer.parseInt(req.getParameter("get_upload_info_for_test"))
-                        ))
-                );
+                PrintWriter writer = resp.getWriter();
+
+
+                JsonObject json = WorkDAO.getJsonWorkStatusByTestId(
+                        Integer.parseInt(req.getParameter("get_upload_info_for_test")));
+
+                 writer.print(json.toString());
+
+
             } catch (OrganizerDAOexception organizerDAOexception) {
                 organizerDAOexception.printStackTrace();
             }

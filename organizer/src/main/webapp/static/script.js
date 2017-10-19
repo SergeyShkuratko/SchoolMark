@@ -56,11 +56,14 @@ $(document).ready(function () {
                 get_upload_info_for_test : $('#test_id').val()
             }
         })
-            .done(function () {
+            .done(function (data) {
+                var obj = $.parseJSON(data);
+                    $.each(obj, function(){
 
+                    })
             });
 
-    }, 3000); //15 seconds
+    }, 5000); //15 seconds
 
 });
 

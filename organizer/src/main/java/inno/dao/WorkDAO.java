@@ -1,17 +1,15 @@
 package inno.dao;
 
+import com.google.gson.JsonObject;
 import connectionmanager.ConnectionManager;
 import connectionmanager.ConnectionManagerPostgresImpl;
-import inno.dto.TestDTO;
 import inno.exceptions.OrganizerDAOexception;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+
 
 public class WorkDAO {
     private static ConnectionManager manager = ConnectionManagerPostgresImpl.getInstance();
@@ -29,24 +27,25 @@ public class WorkDAO {
     }
 
 
-    public static Map<Integer, String> getWorksStatusByTestId(int test_id) throws OrganizerDAOexception {
+    public static JsonObject getJsonWorkStatusByTestId(int test_id) throws OrganizerDAOexception {
         String sql = "SELECT id, status FROM works WHERE test_id=" + test_id;
 
         try {
-            Map<Integer, String> map = new HashMap<>();
+            JsonObject json = new JsonObject();
 
             Statement statement = manager.getConnection().createStatement();
             ResultSet rs = statement.executeQuery(sql);
-            if (rs.next()) {
-                map.put(
-                        rs.getInt("id"),
+            while (rs.next()) {
+                json.addProperty(
+                        ""+rs.getInt("id"),
                         rs.getString("status")
                 );
             }
+            return json;
         } catch (SQLException e) {
             throw new OrganizerDAOexception(e);
         }
-        return null;
+
     }
 
 }
