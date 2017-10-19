@@ -10,14 +10,14 @@ public class Teacher extends User {
     private final String lastname;
     private final String firstname;
     private final String patronymic;
-    private final School school;
-    private final List<Subject> subject;
-    private final int minClass;
-    private final int maxClass;
-    private final String qualification;
+    private School school;
+    private List<SubjectTeacherConnector> subject;
+    private int minClass;
+    private int maxClass;
+    private String qualification;
 
     //TODO вернуть тип subject перед комитом
-    public Teacher(int id, int userId, String login, LocalDate regDate, String lastname, String firstname, String patronymic, School school, Collection<Subject> subject, int minClass, int maxClass, String qualification) {
+    public Teacher(int id, int userId, String login, LocalDate regDate, String lastname, String firstname, String patronymic, School school, Collection<SubjectTeacherConnector> subject, int minClass, int maxClass, String qualification) {
         super(userId, login, regDate);
         this.id = id;
         this.lastname = lastname;
@@ -51,7 +51,7 @@ public class Teacher extends User {
         return school;
     }
 
-    public List<Subject> getSubject() {
+    public List<SubjectTeacherConnector> getSubject() {
         return subject;
     }
 
@@ -71,7 +71,7 @@ public class Teacher extends User {
         this.school = school;
     }
 
-    public void setSubject(List<Subject> subject) {
+    public void setSubject(List<SubjectTeacherConnector> subject) {
         this.subject = subject;
     }
 

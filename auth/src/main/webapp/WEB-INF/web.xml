@@ -66,7 +66,9 @@
     <servlet-mapping>
         <servlet-name>RegistrationServlet</servlet-name>
         <url-pattern>/register</url-pattern>
+        <url-pattern>/register/*</url-pattern>
     </servlet-mapping>
+
 
     <servlet-mapping>
         <servlet-name>AdminCabinetServlet</servlet-name>

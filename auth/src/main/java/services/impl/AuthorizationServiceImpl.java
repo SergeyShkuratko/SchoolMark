@@ -3,6 +3,7 @@ package services.impl;
 import classes.User;
 import classes.UserCredentials;
 import dao.UserDAOImpl;
+import exceptions.UserDAOException;
 import exceptions.UserNotFoundException;
 import interfaces.dao.UserDAO;
 import services.AuthorizationService;
@@ -17,28 +18,24 @@ public class AuthorizationServiceImpl implements AuthorizationService {
     private static UserDAO userDAO = new UserDAOImpl();
 
     @Override
-    public User auth(String login, String password) throws UserNotFoundException {
+    public User auth(String login, String password) throws UserNotFoundException, UserDAOException {
         User user = null;
         if (login != null || password != null) {
-            try {
-                user = userDAO.getByCredentials(new UserCredentials(login, encode(password)));
-            } catch (UserNotFoundException e) {
-                throw new UserNotFoundException(e.fillInStackTrace());
-            }
+            user = userDAO.getByCredentials(new UserCredentials(login, encode(password)));
         }
         return user;
     }
 
     @Override
     public String getCabinetUrl(User user) {
-        switch (user.getRole().getName()) {
-            case 0 :
+        switch (user.getRole()) {
+            case teacher:
                 return TEACHER_CABINET;
-            case 1 :
+            case student:
                 return STUDENT_CABINET;
-            case 2 :
+            case director:
                 return DIRECTOR_CABINET;
-            case 3 :
+            case admin:
                 return ADMIN_CABINET;
         }
         return AUTH_URL;
@@ -47,6 +44,6 @@ public class AuthorizationServiceImpl implements AuthorizationService {
     @Override
     public void saveUserToSession(User user, HttpSession session) {
         session.setAttribute(AUTH_USER_ATTRIBUTE, user.getUserId());
-        session.setAttribute(AUTH_ROLE_ATTRIBUTE, user.getRole().getId());
+        session.setAttribute(AUTH_ROLE_ATTRIBUTE, user.getRole());
     }
 }

@@ -1,25 +1,17 @@
 package classes;
 
-public class School {
+public class School2 {
     private final int id;
     private final String name;
-    private String region;
-    private String city;
-    private City cityObj;
+    private final Region region;
+    private final City city;
     private final SchoolType schoolTypeId;
 
-    public School(int id, String name, String region, String city, SchoolType schoolTypeId) {
+    public School2(int id, String name, Region region, City city, SchoolType schoolTypeId) {
         this.id = id;
         this.name = name;
         this.region = region;
         this.city = city;
-        this.schoolTypeId = schoolTypeId;
-    }
-
-    public School(int id, String name, City cityObj, SchoolType schoolTypeId) {
-        this.id = id;
-        this.name = name;
-        this.cityObj = cityObj;
         this.schoolTypeId = schoolTypeId;
     }
 
@@ -31,11 +23,11 @@ public class School {
         return name;
     }
 
-    public String getRegion() {
+    public Region getRegion() {
         return region;
     }
 
-    public String getCity() {
+    public City getCity() {
         return city;
     }
 

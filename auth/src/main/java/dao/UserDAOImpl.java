@@ -3,29 +3,110 @@ package dao;
 import classes.Role;
 import classes.User;
 import classes.UserCredentials;
+import connectionmanager.ConnectionPool;
+import connectionmanager.TomcatConnectionPool;
 import exceptions.UserDAOException;
 import exceptions.UserNotFoundException;
 import interfaces.dao.UserDAO;
+import org.apache.log4j.Logger;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.DataSource;
+import java.sql.*;
+import java.time.LocalDate;
 
 public class UserDAOImpl implements UserDAO {
 
+    private static final Logger logger = Logger.getLogger(UserDAOImpl.class);
+    private static final ConnectionPool pool = TomcatConnectionPool.getInstance();
+
+    private static final String GET_BY_CRED = "SELECT * FROM users u" +
+            " LEFT JOIN teachers t ON t.user_id = u.id" +
+            " LEFT JOIN students s ON u.id = s.user_id" +
+            " WHERE login = ? and password = ?";
+    private static final String INSERT = "INSERT INTO users" +
+                    " (login, password, role, registration_date, last_login_date)" +
+                    " VALUES (?, ?, ?::role, ?, ?)";
+
     @Override
-    public User getByCredentials(UserCredentials credentials) throws UserNotFoundException {
-        return null;
+    public User getByCredentials(UserCredentials credentials) throws UserNotFoundException, UserDAOException {
+        User user = null;
+        try (Connection connection = pool.getConnection();
+                PreparedStatement statement = connection.prepareStatement(GET_BY_CRED)) {
+
+            statement.setString(1, credentials.getLogin());
+            statement.setString(2, credentials.getPasswordHash());
+            ResultSet set = statement.executeQuery();
+            user = userFromResultSet(set);
+        } catch (SQLException | UserDAOException e) {
+            logger.error(e.getMessage());
+            logger.debug(e);
+            throw new UserDAOException(e);
+        }
+        if (user == null) {
+            throw new UserNotFoundException();
+        }
+        return user;
     }
 
     @Override
-    public User register(UserCredentials credentials) throws UserDAOException {
-        return null;
-    }
+    public User register(UserCredentials credentials, Role role) throws UserDAOException {
+        User user = null;
+        try (Connection connection = pool.getConnection();
+                PreparedStatement statement = connection.prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS)) {
 
-    @Override
-    public Role getRole() {
-        return null;
+            statement.setString(1, credentials.getLogin());
+            statement.setString(2, credentials.getPasswordHash());
+            statement.setString(3, role.name());
+            statement.setDate(4, Date.valueOf(LocalDate.now()));
+            statement.setDate(5, Date.valueOf(LocalDate.now()));
+
+            if (statement.executeUpdate() > 0) {
+                ResultSet set = statement.getGeneratedKeys();
+                if (set.next()) {
+                    user = new User(set.getInt(1),
+                            credentials.getLogin(),
+                            LocalDate.now());
+                }
+            }
+        } catch (SQLException e) {
+            logger.error(e.getMessage());
+            logger.debug(e);
+            throw new UserDAOException(e);
+        }
+        if (user == null) {
+            throw new UserDAOException();
+        }
+        return user;
     }
 
     @Override
     public boolean update(User user) throws UserDAOException {
-        return false;
+        throw new NotImplementedException();
+    }
+
+    @Override
+    public User insert(User user) throws UserDAOException {
+        throw new NotImplementedException();
+    }
+
+    private User userFromResultSet(ResultSet set) throws UserDAOException {
+        User result = null;
+
+        try {
+            if (set.next()) {
+                result = new User(
+                        set.getInt("id"),
+                        set.getString("login"),
+                        set.getDate("registration_date").toLocalDate(),
+                        Role.valueOf(set.getString("role")));
+            }
+        } catch (SQLException e) {
+            throw new UserDAOException(e.fillInStackTrace());
+        }
+        return result;
     }
 }

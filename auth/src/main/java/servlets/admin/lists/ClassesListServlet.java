@@ -2,6 +2,7 @@ package servlets.admin.lists;
 
 import classes.SchoolClass;
 import dao.SchoolDAOImpl;
+import exceptions.SchoolDAOException;
 import interfaces.dao.SchoolDAO;
 
 import javax.servlet.ServletException;
@@ -25,7 +26,12 @@ public class ClassesListServlet extends HttpServlet {
         resp.setCharacterEncoding("UTF-8");
         PrintWriter pw = resp.getWriter();
         int id = Integer.valueOf(req.getParameter("school"));
-        List<SchoolClass> classes = schoolDAO.getAllClasses(schoolDAO.getById(id));
+        List<SchoolClass> classes = null;
+        try {
+            classes = schoolDAO.getAllClasses(schoolDAO.getById(id));
+        } catch (SchoolDAOException e) {
+            e.printStackTrace();
+        }
         classes.stream().forEach((s) -> pw.println("<li>" + s.getName() + "</li>"));
     }
 }
