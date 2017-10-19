@@ -48,22 +48,38 @@ $(document).ready(function () {
     });
 
     //Проверяем статус загрузки работы учеником
-    setInterval(function() {
+    setInterval(function () {
         $.ajax({
             method: "GET",
             url: "run",
             data: {
-                get_upload_info_for_test : $('#test_id').val()
-            }
+                get_upload_info_for_test: $('#test_id').val()
+            },
         })
             .done(function (data) {
-                var obj = $.parseJSON(data);
-                    $.each(obj, function(){
+                $.each(data, function (index, entry) {
+                    if (entry.status == 'uploaded') {
+                        $('#work_' + entry.id + '_status').html('Да, <a href="show_work/?id=111">Просмотреть</a>');
+                        $('#work_' + entry.id + '_confirm').html('Нет');
+                        $('#work_' + entry.id+'').addClass('info');
+                    } else {
+                        $('#work_' + entry.id + '_status').html('Нет');
+                    }
 
-                    })
+                    if(entry.status == 'confirmed'){
+                        $('#work_' + entry.id + '_status').html('Да, <a href="show_work/?id=111">Просмотреть</a>');
+                        $('#work_' + entry.id + '_confirm').html('Да');
+                        $('#work_' + entry.id+'').addClass('success');
+                    }
+
+                });
+
             });
 
     }, 5000); //15 seconds
+
+
+
 
 });
 

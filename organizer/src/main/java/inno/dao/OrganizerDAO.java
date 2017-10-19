@@ -99,7 +99,7 @@ public class OrganizerDAO {
      * @param test_id
      * @return лист работ
      */
-    public static List<WorkDTO> getAllWorksByTestId(int test_id, String status) throws OrganizerDAOexception {
+    public static List<WorkDTO> getAllWorksByTestId(int test_id) throws OrganizerDAOexception {
         List<WorkDTO> list = new ArrayList<>();
         String sql = "SELECT w.id," +
                 " w.student_id," +
@@ -107,8 +107,7 @@ public class OrganizerDAO {
                 " concat(s.last_name, ' ', s.first_name, ' ', s.patronymic) as student_fullname " +
                 "FROM works w " +
                 "JOIN students s on w.student_id = s.id " +
-                "WHERE w.test_id = " + test_id +
-                " AND w.status = 'new'"; //костыль , игнорируем статус!
+                "WHERE w.test_id = " + test_id;
         try {
             ResultSet rs = manager.getConnection().createStatement().executeQuery(sql);
             while (rs.next()) {

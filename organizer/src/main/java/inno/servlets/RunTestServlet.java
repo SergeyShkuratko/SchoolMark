@@ -1,5 +1,6 @@
 package inno.servlets;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import inno.dao.OrganizerDAO;
 import inno.dao.WorkDAO;
@@ -28,7 +29,7 @@ public class RunTestServlet extends HttpServlet {
                 TestDTO test = OrganizerDAO.getTestById(test_id);
 
                 //добавляем работы
-                req.setAttribute("works", OrganizerDAO.getAllWorksByTestId(test.getId(), "new"));
+                req.setAttribute("works", OrganizerDAO.getAllWorksByTestId(test.getId()));
 
                 //добавляем тест
                 req.setAttribute("test", test);
@@ -39,9 +40,8 @@ public class RunTestServlet extends HttpServlet {
         }
 
 
-
-        if (req.getParameter("work_id") != null){
-            if (req.getParameter("presence") != null){
+        if (req.getParameter("work_id") != null) {
+            if (req.getParameter("presence") != null) {
                 try {
                     WorkDAO.updatePresenceStatusByID(
                             Integer.parseInt((req.getParameter("work_id"))),
@@ -59,10 +59,14 @@ public class RunTestServlet extends HttpServlet {
                 PrintWriter writer = resp.getWriter();
 
 
-                JsonObject json = WorkDAO.getJsonWorkStatusByTestId(
-                        Integer.parseInt(req.getParameter("get_upload_info_for_test")));
+                Gson gson = new Gson();
 
-                 writer.print(json.toString());
+                String json = gson.toJson(
+                        WorkDAO.getWorksStatusByTest(
+                                Integer.parseInt(
+                                        req.getParameter("get_upload_info_for_test")))
+                );
+                writer.print(json);
 
 
             } catch (OrganizerDAOexception organizerDAOexception) {

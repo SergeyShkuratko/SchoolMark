@@ -59,6 +59,7 @@
                         <th>ФИО ученика</th>
                         <th>Присутствовал на уроке</th>
                         <th>Загрузил работу</th>
+                        <th>Подтверждена учителем</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -75,7 +76,8 @@
                                     </label>
                                 </div>
                             </td>
-                            <td>Нет</td>
+                            <td id="work_${work.id}_status">Нет</td>
+                            <td id="work_${work.id}_confirm">Нет</td>
                         </tr>
 
                     </c:forEach>

@@ -3,12 +3,15 @@ package inno.dao;
 import com.google.gson.JsonObject;
 import connectionmanager.ConnectionManager;
 import connectionmanager.ConnectionManagerPostgresImpl;
+import inno.classes.WorkStatus;
 import inno.exceptions.OrganizerDAOexception;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class WorkDAO {
@@ -27,21 +30,19 @@ public class WorkDAO {
     }
 
 
-    public static JsonObject getJsonWorkStatusByTestId(int test_id) throws OrganizerDAOexception {
+    public static List getWorksStatusByTest(int test_id) throws OrganizerDAOexception {
         String sql = "SELECT id, status FROM works WHERE test_id=" + test_id;
-
+        List<WorkStatus> statusList = new ArrayList<>();
         try {
-            JsonObject json = new JsonObject();
 
             Statement statement = manager.getConnection().createStatement();
             ResultSet rs = statement.executeQuery(sql);
             while (rs.next()) {
-                json.addProperty(
-                        ""+rs.getInt("id"),
-                        rs.getString("status")
-                );
+
+               statusList.add( new WorkStatus(rs.getInt("id"),
+                        rs.getString("status")));
             }
-            return json;
+        return statusList;
         } catch (SQLException e) {
             throw new OrganizerDAOexception(e);
         }
