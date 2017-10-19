@@ -36,6 +36,12 @@
 </head>
 <body>
 
+
+
+
+
+
+
 <div class="container-fluid">
     <div class="row">
         <div class="page-header">
@@ -76,8 +82,74 @@
                                     </label>
                                 </div>
                             </td>
-                            <td id="work_${work.id}_status">Нет</td>
+                            <td id="work_${work.id}_status">Нет
+                            </td>
                             <td id="work_${work.id}_confirm">Нет</td>
+
+
+
+
+                            <!-- Modal -->
+                            <div class="modal fade" id="myModal" role="dialog">
+                                <div class="modal-dialog">
+
+                                    <!-- Modal content-->
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                            <h4 class="modal-title">${work.studentFullname}</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                          <!-- GALLERY HERE -->
+
+
+                                            <div id="myCarousel" class="carousel slide" data-ride="carousel">
+                                                <!-- Indicators -->
+                                                <ol class="carousel-indicators">
+                                                    <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                                                    <li data-target="#myCarousel" data-slide-to="1"></li>
+                                                    <li data-target="#myCarousel" data-slide-to="2"></li>
+                                                </ol>
+
+                                                <!-- Wrapper for slides -->
+                                                <div class="carousel-inner">
+                                                    <div class="item active">
+                                                        <img src="http://d1zqayhc1yz6oo.cloudfront.net/19aa47bb9d7d4e9969af72b449c9bca1.jpg" alt="Страница 1" style="width:100%;">
+                                                    </div>
+
+                                                    <div class="item">
+                                                        <img src="http://d1zqayhc1yz6oo.cloudfront.net/19aa47bb9d7d4e9969af72b449c9bca1.jpg" alt="Страница 2" style="width:100%;">
+                                                    </div>
+
+                                                    <div class="item">
+                                                        <img src="http://d1zqayhc1yz6oo.cloudfront.net/19aa47bb9d7d4e9969af72b449c9bca1.jpg" alt="Страница 3" style="width:100%;">
+                                                    </div>
+                                                </div>
+
+                                                <!-- Left and right controls -->
+                                                <a class="left carousel-control" href="#myCarousel" data-slide="prev">
+                                                    <span class="glyphicon glyphicon-chevron-left"></span>
+                                                    <span class="sr-only">Previous</span>
+                                                </a>
+                                                <a class="right carousel-control" href="#myCarousel" data-slide="next">
+                                                    <span class="glyphicon glyphicon-chevron-right"></span>
+                                                    <span class="sr-only">Next</span>
+                                                </a>
+                                            </div>
+
+
+                                            <!-- GALLERY END -->
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-success" data-dismiss="modal">Подтвердить</button>
+                                            <button type="button" class="btn btn-danger" data-dismiss="modal">Отклонить работу</button>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+
                         </tr>
 
                     </c:forEach>
@@ -87,6 +159,11 @@
 
         </form>
     </div>
+
+
+
+
+
 </div>
 </body>
 </html>

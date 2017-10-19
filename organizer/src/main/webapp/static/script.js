@@ -59,7 +59,7 @@ $(document).ready(function () {
             .done(function (data) {
                 $.each(data, function (index, entry) {
                     if (entry.status == 'uploaded') {
-                        $('#work_' + entry.id + '_status').html('Да, <a href="show_work/?id=111">Просмотреть</a>');
+                        $('#work_' + entry.id + '_status').html('Да,  <a data-toggle="modal" data-target="#myModal" style="cursor: pointer;">Просмотреть </a>');
                         $('#work_' + entry.id + '_confirm').html('Нет');
                         $('#work_' + entry.id+'').addClass('info');
                     } else {
@@ -67,7 +67,7 @@ $(document).ready(function () {
                     }
 
                     if(entry.status == 'confirmed'){
-                        $('#work_' + entry.id + '_status').html('Да, <a href="show_work/?id=111">Просмотреть</a>');
+                        $('#work_' + entry.id + '_status').html('Да, <a data-toggle="modal" data-target="#myModal" style="cursor: pointer;">Просмотреть </a>');
                         $('#work_' + entry.id + '_confirm').html('Да');
                         $('#work_' + entry.id+'').addClass('success');
                     }
