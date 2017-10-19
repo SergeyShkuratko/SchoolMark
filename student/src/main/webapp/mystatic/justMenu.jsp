@@ -5,6 +5,17 @@
 <%@ page import="classes.Role" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%
+    /**
+     * @ fake user with fake role ))
+     */
+    final Role STUDENT_ROLE = new Role(1, 1);
+    final Role TEACHER_ROLE = new Role(2, 2);
+    final Role FAKE_ROLE = new Role(3, 3);
+    User user = new User(1, "login", LocalDate.now());
+    user.setRole(STUDENT_ROLE);
+
+%>
 <html>
 <head>
     <title>Title</title>
@@ -21,28 +32,18 @@
         <div class="col-sm-3 col-md-2 sidebar control-work-sidebar">
             <div class="panel panel-default control-work-sidebar-photo">
                 <div class="panel-body">
-
-
-                    <p>Counting to three:</p>
-                    <%
-                        User user = new User(1, "login", LocalDate.now());
-                        user.setRole(new Role(1, 1));
-                    %>
-                    <% for (int i=1; i<4; i++) { %>
-                    <p>This number is <%= i %>.</p>
-                    <% } %>
-                    <p>OK.</p>
-
-
                 </div>
             </div>
             <ul class="nav nav-sidebar control-work-sidebar-number">
+                <%="role is" + user.getRole().getName()%>
+                <%if(user.getRole().equals(STUDENT_ROLE)) { %>
                 <li>
                     <button class="btn btn-default control-work-sidebar-button"
                             onclick="window.location.href='/SM/organizer/caledar'" type="submit">
                         Календарь организатора
                     </button>
                 </li>
+                <% } %>
                 <li>
                     <button class="btn btn-default control-work-sidebar-button"
                             onclick="window.location.href='/SM/testlist'" type="submit">
