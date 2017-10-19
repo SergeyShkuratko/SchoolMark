@@ -13,3 +13,5 @@ web.xml
 **/build/
 bin/
 **/out/
+/.idea/misc.xml
+/.gitignore
