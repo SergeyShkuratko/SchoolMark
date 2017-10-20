@@ -31,7 +31,7 @@
 
     <!-- <link rel="stylesheet" href="static/dashboard.css" type="text/css"> -->
     <script src="static/script.js"></script>
-    <script src="static/notify.min.js.js"></script>
+    <script src="static/notify.min.js"></script>
 
     <meta http-equiv="Cache-Control" content="no-cache"/>
 </head>
