@@ -1,6 +1,9 @@
 package servlet;
 
 import classes.*;
+import dao.DAOStudentWork;
+import dto.DTOWork;
+import org.apache.log4j.Logger;
 import service.WorkService;
 
 import javax.servlet.ServletException;
@@ -15,22 +18,21 @@ import java.util.List;
 
 @WebServlet("/testlist")
 public class TestListServlet extends HttpServlet{
+    private final Logger logger = Logger.getLogger(this.getClass());
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        SchoolType schoolType = new SchoolType(1, "крутяцкая");
-        School school = new School(1, "Школа №20", "Татарстан", "Казань", schoolType);
-        SchoolClass schoolClass = new SchoolClass(1, 5, "5");
-        Student student = new Student(1, 1, "login", LocalDate.now(),"Иван", "Иванов", "Иванович", schoolClass, school);
+        int student_id = 1;
 
-        List<Work> works = WorkService.getAllWork(student);
-
-        req.setAttribute("works", works);
+        boolean haveNewTest = true;
+        req.setAttribute("have_new_test", haveNewTest);
+        List<DTOWork> works = null;
+        try {
+            works = WorkService.getAllWork(student_id);
+            req.setAttribute("works", works);
+        } catch (DAOStudentWork.DAOStudentWorkException e) {
+            e.printStackTrace();
+        }
         req.getRequestDispatcher("/testlist.jsp").forward(req, resp);
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        System.out.println("Метод пост списка контрольных");
     }
 }
