@@ -36,9 +36,11 @@ public class RegistrationServlet extends HttpServlet {
                 } catch (RoleDAOException e) {
                     req.setAttribute("errorText", DB_ERROR);
                     req.getRequestDispatcher(ERROR_JSP).forward(req, resp);
+                    return;
                 } catch (RegisterUrlNotFoundException e) {
                     req.setAttribute("errorText", WRONG_REG_URL);
                     req.getRequestDispatcher(ERROR_JSP).forward(req, resp);
+                    return;
                 }
             }
             // Сохранили роль, убираем "регистрационную ссылку" из url
