@@ -57,6 +57,7 @@
         <form action="${context}/stop" method="GET">
             <input type="hidden" name = "test_id" value="${test.id}" id="test_id">
             <button type="submit" class="btn btn-danger btn-block btn-lg">Завершить проведение контрольной работы</button>
+        </form>
             <br>
             <div class="table-responsive " >
                 <table class="table table-bordered" id="school-class-table">
@@ -141,8 +142,8 @@
                                             <!-- GALLERY END -->
                                         </div>
                                         <div class="modal-footer">
-                                            <button type="button" class="btn btn-success" data-dismiss="modal">Подтвердить</button>
-                                            <button type="button" class="btn btn-danger" data-dismiss="modal">Отклонить работу</button>
+                                            <button type="button" class="btn btn-success" data-dismiss="modal" id="success_${work.id}">Подтвердить</button>
+                                            <button type="button" class="btn btn-danger" data-dismiss="modal" id="decliine_${work.id}">Отклонить работу</button>
                                         </div>
                                     </div>
 
@@ -157,7 +158,7 @@
                 </table>
             </div>
 
-        </form>
+
     </div>
 
 

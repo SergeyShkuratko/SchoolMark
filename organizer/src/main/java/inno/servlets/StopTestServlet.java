@@ -1,6 +1,8 @@
 package inno.servlets;
 
 
+import inno.dao.TestDAO;
+import inno.exceptions.OrganizerDAOexception;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -17,12 +19,16 @@ public class StopTestServlet extends HttpServlet {
         int test_id = req.getParameter("test_id") != null ?
                 Integer.parseInt(req.getParameter("test_id")) : 0;
         if (test_id > 0) {
-            req.getRequestDispatcher("test_stop.jsp").forward(req, resp);
+            try {
+                if (TestDAO.updateTestStatusByID(test_id, "uploaded")) {
+                    req.getRequestDispatcher("test_stop.jsp").forward(req, resp);
+                }
+            } catch (OrganizerDAOexception organizerDAOexception) {
+                organizerDAOexception.printStackTrace();
             }
         }
-
-
-
-
     }
+
+
+}
 
