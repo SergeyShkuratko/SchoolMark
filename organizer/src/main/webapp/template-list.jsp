@@ -78,7 +78,7 @@
     </table>
         <div class="form-actions">
             <a href="/test">
-                <button type="button" class="btn btn-primary ">Отмена</button>
+                <button type="button" class="btn btn-primary " onclick="history.back();">Отмена</button>
             </a>
         </div>
     </div>

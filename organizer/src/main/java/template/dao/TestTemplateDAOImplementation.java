@@ -25,16 +25,17 @@ public class TestTemplateDAOImplementation {
         TestTemplate testTemplate = null;
         try {
             PreparedStatement preparedStatement = connectionManager.getConnection().prepareStatement(
-                    "SELECT  *, name as subject_name\n" +
-                            "FROM question_verification_criterions JOIN questions\n" +
+                    "SELECT  *, name AS subject_name, test_templates.id as test_templates_id\n" +
+                            "FROM question_verification_criterions  RIGHT JOIN questions\n" +
                             "    ON question_verification_criterions.question_id = questions.id\n" +
-                            "    JOIN template_variants\n" +
+                            "  RIGHT JOIN template_variants\n" +
                             "    ON questions.template_variant_id = template_variants.id\n" +
-                            "    JOIN test_templates\n" +
+                            "  RIGHT JOIN test_templates\n" +
                             "    ON template_variants.template_id = test_templates.id\n" +
-                            "    JOIN subjects\n" +
+                            "  RIGHT JOIN subjects\n" +
                             "    ON test_templates.subject_id = subjects.id\n" +
-                            "    WHERE test_templates.id = ?");
+                            "WHERE test_templates.id = ?\n" +
+                            "ORDER BY variant, question, criterion");
 
             preparedStatement.setInt(1, templateId);
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -56,7 +57,7 @@ public class TestTemplateDAOImplementation {
                 //один раз создаем шаблон
                 if (testTemplate == null) {
                     testTemplate = new TestTemplate(
-                            resultSet.getInt("id"),
+                            resultSet.getInt("test_templates_id"),
                             resultSet.getString("description"),
                             subject,
                             resultSet.getString("topic"),
@@ -109,9 +110,11 @@ public class TestTemplateDAOImplementation {
         List<TestTemplate> templates = new ArrayList<>();
         try {
             PreparedStatement preparedStatement = connectionManager.getConnection().prepareStatement(
-                    "SELECT *, subjects.name as subject_name " +
-                            "FROM test_templates JOIN subjects " +
-                            "ON test_templates.subject_id = subjects.id; ");
+                    "SELECT *, subjects.name as subject_name\n" +
+                            "FROM test_templates JOIN subjects\n" +
+                            "ON test_templates.subject_id = subjects.id\n" +
+                            "WHERE test_templates.status ISNULL\n" +
+                            "ORDER BY creation_date;");
 
             //preparedStatement.setInt(1, ...);
 
@@ -156,7 +159,7 @@ public class TestTemplateDAOImplementation {
                             "VALUES (?,?,?,?,?,?)",
                     Statement.RETURN_GENERATED_KEYS);
             preparedStatement.setString(1, testTemplate.getTopic());
-            preparedStatement.setString(2, testTemplate.getDescription()); //TODO поднять вопрос о целесообразности поля
+            preparedStatement.setString(2, "описание"); //TODO поднять вопрос о целесообразности поля
             preparedStatement.setInt(3, testTemplate.getClassNum());
             preparedStatement.setInt(4, SubjectDAOImplementation.getSubjectId(testTemplate.getSubject()));
             preparedStatement.setString(5, testTemplate.getDifficulty());
@@ -178,5 +181,19 @@ public class TestTemplateDAOImplementation {
             e.printStackTrace();
         }
         return 0;
+    }
+
+    public static boolean setStatusDisabled(TestTemplate oldTemplate) {
+        try {
+            PreparedStatement preparedStatement = connectionManager.getConnection().prepareStatement(
+                    "UPDATE test_templates SET status = 'disabled' where id = ?;");
+            preparedStatement.setInt(1, oldTemplate.getId());
+
+            return preparedStatement.executeUpdate() == 1;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 }
