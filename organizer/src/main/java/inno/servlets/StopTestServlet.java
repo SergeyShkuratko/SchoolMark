@@ -20,7 +20,7 @@ public class StopTestServlet extends HttpServlet {
                 Integer.parseInt(req.getParameter("test_id")) : 0;
         if (test_id > 0) {
             try {
-                if (TestDAO.updateTestStatusByID(test_id, "uploaded")) {
+                if (TestDAO.doneTest(test_id)) {
                     req.getRequestDispatcher("test_stop.jsp").forward(req, resp);
                 }
             } catch (OrganizerDAOexception organizerDAOexception) {
