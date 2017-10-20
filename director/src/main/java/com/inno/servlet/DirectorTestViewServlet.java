@@ -1,6 +1,5 @@
 package com.inno.servlet;
 
-import com.inno.db.dao.FakeTestDao;
 import com.inno.service.TestStatisticService;
 import com.inno.service.TestStatisticServiceImpl;
 
@@ -14,7 +13,7 @@ public class DirectorTestViewServlet extends HttpServlet {
     private TestStatisticService testStatisticService;
 
     public DirectorTestViewServlet() {
-        testStatisticService = new TestStatisticServiceImpl(new FakeTestDao());
+        testStatisticService = new TestStatisticServiceImpl();
     }
 
     @Override

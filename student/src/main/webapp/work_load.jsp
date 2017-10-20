@@ -87,7 +87,7 @@
             <div class="row placeholders ">
                 <div class="text-left">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="/student/testlist">Список контрольных работ</a></li>
+                        <li class="breadcrumb-item"><a href="${context}/testlist">Список контрольных работ</a></li>
                         <li class="breadcrumb-item active">Контрольная работа (<c:out value="${subjectName}"/>
                             <c:out value="${work.test.startDate}"/>)
                             <c:out value="${work.status.name}"/>
@@ -259,6 +259,14 @@
 <!-- Bootstrap core JavaScript
 ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
+<scrip>
+    $.("#id").click(function(){
+        $.post("test.cgi", { name: "", time: "2pm" })
+            .done(function(data) {
+                alert("Data Loaded: " + data);
+            });
+    }
+</scrip>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
 

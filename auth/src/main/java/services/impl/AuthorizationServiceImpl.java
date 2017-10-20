@@ -46,7 +46,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 
     @Override
     public void saveUserToSession(User user, HttpSession session) {
-        session.setAttribute(AUTH_USER_ATTRIBUTE, user.getId());
+        session.setAttribute(AUTH_USER_ATTRIBUTE, user.getUserId());
         session.setAttribute(AUTH_ROLE_ATTRIBUTE, user.getRole().getId());
     }
 }

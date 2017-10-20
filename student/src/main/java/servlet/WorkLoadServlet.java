@@ -17,6 +17,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
+
 @WebServlet("/workload")
 public class WorkLoadServlet extends HttpServlet {
 
@@ -72,18 +73,20 @@ public class WorkLoadServlet extends HttpServlet {
     }
 
     private void sendWork(HttpServletRequest request, HttpServletResponse response) {
+        String context = getServletContext().getContextPath();
         try {
             //TODO тут что то должно произойти со статусом и дальше отправить на назначение
-            response.sendRedirect("/student/testlist");
+            response.sendRedirect(context + "/testlist");
         } catch (IOException e) {
             logger.error(e.getMessage());
         }
     }
 
     private void sendToRecheck(HttpServletRequest request, HttpServletResponse response) {
+        String context = getServletContext().getContextPath();
         try {
             //TODO тут что то должно произойти со статусом и дальше отправить на перепроверку
-            response.sendRedirect("/student/testlist");
+            response.sendRedirect(context + "/testlist");
         } catch (IOException e) {
             logger.error(e.getMessage());
         }

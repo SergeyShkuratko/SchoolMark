@@ -14,7 +14,7 @@ repositories {
 }
 
 dependencies {
-    testCompile group: 'junit', name: 'junit', version: '4.12'
+    testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: '5.0.0-M1'
 }
 
 def dependsOnModules = [":controller:war", ":auth:war", ":director:war", ":organizer:war", ":student:war"]
@@ -23,6 +23,7 @@ dependsOnModules.each {
 }
 
 war {
+    println '!'
     from 'controller/build/exploded', 'auth/build/exploded', 'director/build/exploded', 'organizer/build/exploded', 'student/build/exploded'
     rootSpec.exclude("/WEB-INF/web.xml")
     webXml = file('web.xml')
@@ -59,7 +60,7 @@ task cleanSubProjects() {
 clean.dependsOn cleanSubProjects
 
 task mergeWebXml() {
-    doLast {
+    doFirst {
         println('Merge webXmls')
         def header = '''<?xml version="1.0" encoding="UTF-8"?>
                     <web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
