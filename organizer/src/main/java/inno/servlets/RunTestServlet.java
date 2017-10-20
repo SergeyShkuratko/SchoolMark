@@ -75,6 +75,63 @@ public class RunTestServlet extends HttpServlet {
         }
 
 
+        if (req.getParameter("action") != null &&
+                req.getParameter("id") != null) {
+            try {
+                resp.setContentType("application/json");
+                resp.setCharacterEncoding("UTF-8");
+                PrintWriter writer = resp.getWriter();
+
+
+                Gson gson = new Gson();
+                if (req.getParameter("action").equals("accept")) {
+                    String json = gson.toJson(
+                            WorkDAO.updateStatusById(
+                                    Integer.parseInt(
+                                            req.getParameter("id")), "confirmed")
+                    );
+                    writer.print(json);
+                }
+                if (req.getParameter("action").equals("decline")) {
+                    String json = gson.toJson(
+                            WorkDAO.updateStatusById(
+                                    Integer.parseInt(
+                                            req.getParameter("id")), "declined")
+                    );
+                    writer.print(json);
+                }
+
+
+            } catch (OrganizerDAOexception organizerDAOexception) {
+                organizerDAOexception.printStackTrace();
+            }
+        }
+
+
+        if (req.getParameter("pages_images") != null) {
+
+            resp.setContentType("application/json");
+            resp.setCharacterEncoding("UTF-8");
+            PrintWriter writer = resp.getWriter();
+
+
+            Gson gson = new Gson();
+
+            String pages_json = null;
+            try {
+                pages_json = gson.toJson(
+                        WorkDAO.getPagesImgByWork(
+                                Integer.parseInt(
+
+                                        req.getParameter("pages_images")))
+                );
+            } catch (OrganizerDAOexception organizerDAOexception) {
+                organizerDAOexception.printStackTrace();
+            }
+            writer.print(pages_json);
+        }
+
+
     }
 
     @Override

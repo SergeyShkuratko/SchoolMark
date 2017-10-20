@@ -49,7 +49,7 @@
 
         <form action="${context}/run" method="GET">
             <input type="hidden" name = "test_id" value="${test.id}">
-            <button type="submit" class="btn btn-success btn-block btn-lg" >Начать проведение контрольной работы</button>
+            <button type="submit" class="btn btn-success btn-block btn-lg" id="start_button" >Начать проведение контрольной работы</button>
         </form>
     </div>
 </div>

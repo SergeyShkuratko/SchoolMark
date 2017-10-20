@@ -1,5 +1,61 @@
 //Надстройка над табличкой чтобы можно было делать сортировку
 $(document).ready(function () {
+
+    $().on
+
+    $(document)
+        .on('click', '[data-toggle=modal]', function(evt){
+        var id = $(this).closest('tr').first().attr('id').split("_")[1];
+        $('[data-action-work]').attr('data-action-work', id);
+        var fio = $(this).closest('tr').first().find('td').first().text();
+        $('.modal-title').text(fio);
+
+        $.ajax({
+            type: 'get',
+            url: '/organizer/run',
+            data: 'pages_images='+id,
+            dataType: 'json',
+            success: function(response){
+                var html = "";
+                for(var i=0; i<response.length; i++) {
+                    console.log(response[i]);
+                    html += '<div class="item ' + (i==0 ? 'active' : '') + '">';
+                    html += '<img src="' + response[i] + '">';
+                    html += '</div>';
+                }
+                if(!html.length){
+                    html = 'http://dailyfrontiertimes.com/UnderConstruction.png';
+                }
+                $('#myCarousel').carousel("pause").removeData();
+                $('.carousel-inner').html(html);
+                $('#myCarousel').carousel(1);
+            },
+            error: function (response) {
+                console.log(response);
+            }
+        })
+    }).on('click', '[data-action-work]', function(evt){
+        var id = $(this).first().attr('data-action-work');
+        switch($(this).data('button-role')) {
+            case 'success':
+                break;
+            case 'decline':
+                break;
+        }
+        $.ajax({
+            type: 'get',
+            url: '/organizer/run',
+            data: 'action=' + $(this).data('button-role') + '&id=' + id,
+            dataType: 'json',
+            success: function(response){
+                    $.notify("Сохранено");
+            },
+            error: function (response) {
+                $.notify("Ошибка сохранения!");
+            }
+        })
+    });
+
     $('#school-class-table').DataTable(
         {
             "paging": false,
