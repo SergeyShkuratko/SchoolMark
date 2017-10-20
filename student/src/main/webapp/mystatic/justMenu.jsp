@@ -36,7 +36,7 @@
             </div>
             <ul class="nav nav-sidebar control-work-sidebar-number">
                 <%="role is" + user.getRole().getName()%>
-                <%if(user.getRole().equals(STUDENT_ROLE)) { %>
+                <%if(true) { %>
                 <li>
                     <button class="btn btn-default control-work-sidebar-button"
                             onclick="window.location.href='/SM/organizer/caledar'" type="submit">
