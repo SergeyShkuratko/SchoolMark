@@ -48,3 +48,13 @@ dependencies {
 //war {
 //    webXml = file('webapp/WEB-INF/web.xml')
 //}
+war.doLast {
+    ant.unzip(src: war.archivePath, dest: "$buildDir/exploded")
+}
+//task explodedWar(type: Copy) {
+//    doLast {
+//        into "$buildDir/exploded"
+//        with war
+//    }
+//}
+//war.dependsOn explodedWar

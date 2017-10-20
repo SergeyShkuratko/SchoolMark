@@ -1,77 +1,91 @@
 package service;
 
-import classes.*;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
+import dao.DAOStudentWork;
+import dto.DTOFile;
+import dto.DTOWork;
+import org.apache.log4j.Logger;
+
 import java.util.List;
 
 public class WorkService {
-    private static List<Work> works;
 
+    private static final Logger logger = Logger.getLogger(WorkService.class);
+    private static DAOStudentWork workDAO;
 
-    public static List<Work> getAllWork(Student student) {
-        //Метод возвращает все работы ученика и помещает их в Маp
-        //Ключ это ID теста
+    static {
+        try {
+            workDAO = new DAOStudentWork();
+        } catch (DAOStudentWork.DAOStudentWorkException e) {
+            logger.error(e.getMessage());
+        }
+    }
 
-        //запрашиваем из БД все работы ученика и помещаем их в arrayList
-        works = new ArrayList<>();
-        Subject subject = new Subject(1, "Биология");
-        TestTemplate testTemplate1 = new TestTemplate(1, "Органы человека", "Описание темы", 5, subject);
-        TestTemplate testTemplate2 = new TestTemplate(2, "Извлечение тел из жидкости", "Описание темы", 5, subject);
-        TestTemplate testTemplate3 = new TestTemplate(3, "Продвинутые методы сложения", "Описание темы", 5, subject);
-        List<Subject> subjects = new ArrayList<>();
-        subjects.add(subject);
-
-        Teacher teacher = new Teacher(1, 1, "Мария", "Голубец", "Петровна", student.getSchool(), subjects, 5, 10, "80 левел");
-
-
-        Status newStatus = new Status(1, "Новая");
-        Status verifiedStatus = new Status(1, "Проверена");
-        Status onVerifiedStatus = new Status(1, "На проверке");
-        Test test1 = new Test(1, testTemplate1, teacher, student.getSchoolClass());
-        test1.setStatus(newStatus);
-        test1.setStartDate(LocalDate.of(2017, 10, 14));
-        Test test2 = new Test(2, testTemplate2, teacher, student.getSchoolClass());
-        test2.setStatus(onVerifiedStatus);
-        test2.setStartDate(LocalDate.of(2017, 10, 14));
-        Test test3 = new Test(3, testTemplate3, teacher, student.getSchoolClass());
-        test3.setStatus(verifiedStatus);
-        test3.setStartDate(LocalDate.of(2017, 10, 14));
-        List<Test> tests = new ArrayList<>();
-        tests.add(test1);
-        tests.add(test2);
-        tests.add(test3);
-        Work tWork1 = new Work(1, test1, student);
-        tWork1.setStatus(newStatus);
-        Work tWork2 = new Work(2, test2, student);
-        tWork2.setStatus(onVerifiedStatus);
-        Work tWork3 = new Work(3, test3, student);
-        tWork3.setStatus(verifiedStatus);
-        tWork3.setMark(3);
-        works.add(tWork1);
-        works.add(tWork2);
-        works.add(tWork3);
+    /**
+     * Возвращает список контрольных работ
+     *
+     * @param student_id ID студента
+     * @return Список работ студента
+     */
+    public static List<DTOWork> getAllWork(int student_id) throws DAOStudentWork.DAOStudentWorkException {
+        List<DTOWork> works = workDAO.getWorksByStudentId(student_id);
         return works;
+
     }
 
-    public static Work getWorkById(int id) {
-        return works.get(id);
+    /**
+     * Возвращает контрольную работу по ID
+     *
+     * @param id
+     * @return
+     */
+    public static DTOWork getWorkById(int id) throws DAOStudentWork.DAOStudentWorkException {
+        return workDAO.getWorkById(id);
     }
 
-    public static List<String> getFilesByWorkId(int id) {
-        List<String> fileList = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
-            fileList.add("img/expo-vogue"+i+".jpg");
-        }
-        return fileList;
+    /**
+     * Возвращает список файлов ученика прикрепленных к работе ученика
+     *
+     * @param id
+     * @return
+     */
+    public static List<DTOFile> getStudentFilesByWorkId(int id) throws DAOStudentWork.DAOStudentWorkException {
+        return workDAO.getStudentFilesByWorkId(id);
     }
 
-    public static List<String> getQuestionListByWorkId(int id) {
-        List<String> fileList = new ArrayList<>();
-        for (int i = 1; i < 10; i++) {
-            fileList.add("Вопрос "+i+". лдодлодлоыв тидловяа длоичвдл оиыдвлои ыдвоилдывмл оидлоыидломы июдлмтюоИмб ордлл орплорпло рплори");
-        }
-        return fileList;
+    public static void addStudentFileToBD(int work_id, String file) throws DAOStudentWork.DAOStudentWorkException {
+        workDAO.addStudentFile(work_id, file);
     }
+
+    public static boolean delStudentFile(int file_id) throws DAOStudentWork.DAOStudentWorkException {
+        return workDAO.delStudentFile(file_id);
+    }
+
+
+    /**
+     * Возвращает файлы учителя по id контрольной работы
+     *
+     * @param verificationId
+     * @return
+     */
+    public static List<DTOFile> getVerificationFilesByVerificationId(int verificationId) throws DAOStudentWork.DAOStudentWorkException {
+
+        return workDAO.getVerificationFilesByVerificationId(verificationId);
+    }
+
+    /**
+     * Возвращает список вопросов по Id контрольной работы ученика
+     *
+     * @param template_id
+     * @return
+     */
+    public static List<String> getQuestionListByTemplateId(int template_id) throws DAOStudentWork.DAOStudentWorkException {
+        return workDAO.getQuestionListByTemplateId(template_id);
+
+    }
+
+    public static int setWorkStatus(int work_id, String status) throws DAOStudentWork.DAOStudentWorkException {
+        return workDAO.setWorkStatus(work_id, status);
+    }
+
 }

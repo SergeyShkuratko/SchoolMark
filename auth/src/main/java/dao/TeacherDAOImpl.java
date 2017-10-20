@@ -6,6 +6,7 @@ import classes.User;
 import interfaces.dao.TeacherDAO;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,8 +36,8 @@ public class TeacherDAOImpl implements TeacherDAO {
     @Override
     public List<Teacher> getTeacherBySchool(School school) {
         List<Teacher> teachers = new ArrayList<>();
-        teachers.add(new Teacher(1, 1, "Иванов", "Иван", "Иванович", school, null, 1, 11, ""));
-        teachers.add(new Teacher(2, 2, "Петров", "Петр", "Петрович", school, null, 1, 11, ""));
+        teachers.add(new Teacher(1, 1, "login", LocalDate.now(),"Иванов", "Иван", "Иванович", school, null, 1, 11, ""));
+        teachers.add(new Teacher(2, 2, "login", LocalDate.now(),"Петров", "Петр", "Петрович", school, null, 1, 11, ""));
         return teachers;
     }
 }

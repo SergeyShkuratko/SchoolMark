@@ -1,6 +1,5 @@
 package com.inno.servlet;
 
-import com.inno.db.dao.FakeTestDao;
 import com.inno.service.TestStatisticService;
 import com.inno.service.TestStatisticServiceImpl;
 

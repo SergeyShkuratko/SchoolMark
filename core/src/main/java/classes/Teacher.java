@@ -1,25 +1,25 @@
 package classes;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class Teacher {
+public class Teacher extends User {
     private final int id;
-    private final int userId;
     private final String lastname;
     private final String firstname;
     private final String patronymic;
     private final School school;
-    private final List<Subject> subject;
+    private final List<SubjectTeacherConnector> subject;
     private final int minClass;
     private final int maxClass;
+    //TODO: квалификаций у учителя может быть много и каждая из них связана с предметом
     private final String qualification;
 
-    //TODO вернуть тип subject перед комитом
-    public Teacher(int id, int userId, String lastname, String firstname, String patronymic, School school, Collection<Subject> subject, int minClass, int maxClass, String qualification) {
+    public Teacher(int id, int userId, String login, LocalDate regDate, String lastname, String firstname, String patronymic, School school, Collection<SubjectTeacherConnector> subject, int minClass, int maxClass, String qualification) {
+        super(userId, login, regDate);
         this.id = id;
-        this.userId = userId;
         this.lastname = lastname;
         this.firstname = firstname;
         this.patronymic = patronymic;
@@ -33,10 +33,6 @@ public class Teacher {
 
     public int getId() {
         return id;
-    }
-
-    public int getUserId() {
-        return userId;
     }
 
     public String getLastname() {
@@ -55,7 +51,7 @@ public class Teacher {
         return school;
     }
 
-    public List<Subject> getSubject() {
+    public List<SubjectTeacherConnector> getSubject() {
         return subject;
     }
 

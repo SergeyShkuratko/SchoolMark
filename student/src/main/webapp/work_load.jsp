@@ -31,44 +31,62 @@
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.8.1/baguetteBox.min.css">
-    <link rel="stylesheet" href="fluid-gallery.css">
+
+    <style>
+        .dropzone {
+            display: flex;
+            justify-content: center;
+            align-content: space-between;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        #drop{
+            width:100px;
+            height:100px;
+            padding:5px;
+            border-style:dashed;
+            border-color:#ccc;
+            border-width:2px;
+            background-color:#fdfbfb;
+            color:#aaa;
+        }
+
+        #drop a{
+            color:#aaa;
+        }
+
+        #drop a:hover{
+            color:#777;
+        }
+    </style>
+
 </head>
 
 <body>
+<c:set var="context" value="${pageContext.request.contextPath}"/>
 <div class="container-fluid">
     <div class="row">
-        <div class="col-sm-3 col-md-2 sidebar control-work-sidebar">
-            <div class="panel panel-default control-work-sidebar-photo">
-                <div class="panel-body">
 
-                </div>
-            </div>
-            <ul class="nav nav-sidebar control-work-sidebar-number">
-                <li><button class="btn btn-default control-work-sidebar-button" type="submit">Button</button></li>
-                <li><button class="btn btn-default control-work-sidebar-button" type="submit">Button</button></li>
-                <li><button class="btn btn-default control-work-sidebar-button" type="submit">Button</button></li>
-                <li><button class="btn btn-default control-work-sidebar-button" type="submit">Button</button></li>
-                <li class="control-work-sidebar-circle"><i class="fa fa-3x fa-circle-thin "></i></li>
-                <li><button class="btn btn-default control-work-sidebar-button" type="submit">Button</button></li>
-            </ul>
-        </div>
+        <%@include file="/mystatic/justMenu.jsp" %>
+
         <c:set var="work" value="${work}" />
-        <c:set var="subjectName" value="${work.test.template.subject.name}"/>
+        <%--<c:set var="subjectName" value="${work.subject}"/>--%>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
             <div class="row panel panel-default margin-bottom-null">
 
                 <div class="col-xs-12 col-sm-12 text-center">
-                    <h1 class="control-work-title"><c:out value="${work.test.template.theme}"/></h1>
+                    <h1 class="control-work-title"><c:out value="${work.topic}"/></h1>
                 </div>
 
             </div>
             <div class="row placeholders ">
                 <div class="text-left">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="/student/testlist">Список контрольных работ</a></li>
-                        <li class="breadcrumb-item active">Контрольная работа (<c:out value="${subjectName}"/>
-                            <c:out value="${work.test.startDate}"/>)
-                            <c:out value="${work.status.name}"/>
+                        <li class="breadcrumb-item"><a href="${context}/testlist">Список контрольных работ</a></li>
+                        <li class="breadcrumb-item active">Контрольная работа (<c:out value="${work.subject}"/>
+                            <c:out value="${work.date}"/>)
+                            <c:out value="${work.status}"/>
                         </li>
                     </ol>
                 </div>
@@ -81,32 +99,75 @@
                     </div>
                 <div class="panel panel-default text-left">
                     <div class="panel-body tz-gallery">
+                        <p class="bg-primary">Файлы с ответами ученика:</p>
                         <div class="row ifaceforworkcheck-row">
-                            <ul class="horizontal-slide">
-                                <c:forEach items="${files}" var="file">
+                             <div class="col-sm-9">
+                            <ul class="horizontal-slide text-left">
+
+                                <c:forEach items="${files}" var="file" varStatus="forLoop">
                                     <li>
-                                        <a class="lightbox" href="<c:out value="${file}"/>">
-                                            <img src="<c:out value="${file}" />" style="height: 100px; width: 100px; display: block;"  alt="">
-                                        </a>
+                                        <div style="position: relative; left: 0; top: 0;">
+                                            <a class="lightbox" href="<c:out value="${file.file}"/>">
+                                                <img src="${context}/<c:out value="${file.file}" />" style="height: 100px; width: 100px; display: block;"  alt="">
+                                            </a>
+                                            <c:if test="${work.status eq 'Новая'}">
+                                                <form id="form_del_photo<c:out value="${forLoop.index}"/>" method="post" action="${context}/workload">
+                                                    <input type="hidden" name="command" value="del_photo">
+                                                    <input type="hidden" name="file_id" value="<c:out value="${file.id}"/>">
+                                                    <input type="hidden" name="file" value="<c:out value="${file.file}"/>">
+                                                </form>
+                                                <i class="glyphicon glyphicon-remove" aria-hidden="true"
+                                                   onclick="document.getElementById('form_del_photo<c:out value="${forLoop.index}"/>').submit()"
+                                                   style="position: absolute; margin-top: 0px; margin-right: 0px;cursor:pointer;" width="20" height="20">
+
+                                                </i>
+                                            </c:if>
+                                        </div>
                                     </li>
                                 </c:forEach>
                             </ul>
+                            </div>
+                            <div class="col-sm-3">
+                            <c:if test="${work.status eq 'Новая'}">
+                                <div class="panel panel-default text-left">
+                                    <div class="panel-body">
+                                        <form id="drop" class="dropzone"  action="${context}/workload" method="post" enctype="multipart/form-data">
+                                            <input type="hidden" name="command" value="send_photo">
+                                            <input type="hidden" name="work_id" value="${work.work_id}">
+                                            <label class="btn" for="my-file-selector">
+                                                <i class="fa fa fa-plus-square-o fa-5x" aria-hidden="true"></i>
+
+                                                <input id="my-file-selector" type="file" accept="image/jpeg,image/png"
+                                                       name="data" style="display:none"
+                                                       onchange="document.getElementById('drop').submit()">
+                                           </label>
+                                        </form>
+                                    </div>
+                                </div>
+                            </c:if>
+                            </div>
                         </div>
                     </div>
                 </div>
                 <%--Блок с кнопкой отправки на статусе Новая--%>
-                <c:if test="${work.status.name.toString() eq 'Новая'}">
+                <c:if test="${work.status eq 'Новая'}">
                     <div class="panel panel-default text-left">
                         <div class="panel-body">
-                            <button class="btn btn-success" type="submit">Сдать работу</button>
+                            <form action="${context}/workload" method="post">
+                             <input type="hidden" name="work_id" value="${work.work_id}">
+                             <button class="btn btn-success" name="command" value="send_work" type="submit" formaction="${context}/workload">
+                                Сдать работу</button>
+                            </form>
+
                         </div>
                     </div>
                 </c:if>
 
                     <%--Блок с комментарием и оценкой после проверки или перепроверки--%>
-                <c:if test="${(work.status.name.toString() eq 'Проверена') || (work.status.name.toString() eq 'Перепроверена') }">
+                <c:if test="${(work.status eq 'Проверена') || (work.status eq 'Перепроверена') }">
                 <div class="panel panel-default text-left">
                     <div class="panel-body tz-gallery">
+                        <p class="bg-primary">Файлы учителя:</p>
                         <div class="row ifaceforworkcheck-row col-sm-12">
                             <ul class="horizontal-slide">
                                 <c:forEach items="${teacher_files}" var="file">
@@ -116,19 +177,14 @@
                                         </a>
                                     </li>
                                 </c:forEach>
-<%--
-                                <c:forEach items="${teacher_files}" var="file">
-                                    <li>
-                                        <img alt="+" data-src="holder.js/100%x180" style="height: 180px; width: 100%; display: block;" src="<c:out value="${file}"/>" data-holder-rendered="true">
-                                    </li>
-                                </c:forEach>
---%>
-
                             </ul>
                         </div>
                         <div class="row">
                             <div class="col-sm-8">
-                                <textarea class="form-control" rows="11"></textarea>
+                                <div class="form-group">
+                                    <label for="teacher_comment">Комментарии учителя:</label>
+                                    <textarea id="teacher_comment" class="form-control" rows="11"></textarea>
+                                </div>
                             </div>
                             <div class="col-sm-4">
                                 <ul class="ifaceforworkcheck-stars">
@@ -144,16 +200,53 @@
                 </div>
                 </c:if>
                 <%--Блок с комментарием  кнопкой отправки на перепроверку--%>
-                <c:if test="${work.status.name.toString() eq 'Проверена'}">
+                <c:if test="${work.status eq 'Проверена'}">
                     <div class="panel panel-default text-left">
                         <div class="panel-body">
-                            <form>
+                            <form action="${context}/workload" method="post">
                                 <div class="form-group">
-                                    <label for="textarea">Причина перепроверки:</label>
-                                    <textarea id="textarea" class="form-control" rows="11"></textarea>
+                                    <label for="student_comment">Причина перепроверки:</label>
+                                    <textarea id="student_comment" class="form-control" rows="11"></textarea>
                                 </div>
-                                <button type="submit" class="btn btn-danger">На перепроверку</button>
+                                <button type="submit" name="command" value="recheck" class="btn btn-danger">
+                                    На перепроверку
+                                </button>
                             </form>
+                        </div>
+                    </div>
+                </c:if>
+                <%--Блок с комментарием и оценкой после перепроверки--%>
+                <c:if test="${(work.status eq 'Перепроверена')}">
+                    <div class="panel panel-default text-left">
+                        <div class="panel-body tz-gallery">
+                            <div class="row ifaceforworkcheck-row col-sm-12">
+                                <ul class="horizontal-slide">
+                                    <c:forEach items="${teacher_files}" var="file">
+                                        <li>
+                                            <a class="lightbox" href="<c:out value="${file}"/>">
+                                                <img src="<c:out value="${file}" />" style="height: 100px; width: 100px; display: block;"  alt="">
+                                            </a>
+                                        </li>
+                                    </c:forEach>
+                                </ul>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-8">
+                                    <div class="form-group">
+                                        <label for="teacher2_comment">Комментарии учителя:</label>
+                                        <textarea id="teacher2_comment" class="form-control" rows="11"></textarea>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <ul class="ifaceforworkcheck-stars">
+                                        <c:forEach var="item" begin="1" end="${work.mark}">
+                                            <li>
+                                                <i class="fa fa-3x  fa-star"></i>
+                                            </li>
+                                        </c:forEach>
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </c:if>
@@ -167,6 +260,14 @@
 <!-- Bootstrap core JavaScript
 ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
+<%--<scrip>
+    $.("#id").click(function(){
+        $.post("test.cgi", { name: "", time: "2pm" })
+            .done(function(data) {
+                alert("Data Loaded: " + data);
+            });
+    }
+</scrip>--%>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
 
