@@ -1,8 +1,8 @@
 package servlets.admin.lists;
 
 import classes.School;
-import dao.SchoolDAOImpl;
-import interfaces.dao.SchoolDAO;
+import services.AdminDataRequestsProcessingService;
+import services.impl.AdminDataRequestsProcessingServiceImpl;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -14,7 +14,7 @@ import java.util.List;
 
 public class SchoolListServlet extends HttpServlet {
 
-    private SchoolDAO schoolDAO = new SchoolDAOImpl();
+    AdminDataRequestsProcessingService processingService = new AdminDataRequestsProcessingServiceImpl();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -23,8 +23,10 @@ public class SchoolListServlet extends HttpServlet {
         resp.setCharacterEncoding("UTF-8");
         if (city != null && region != null) {
             PrintWriter pw = resp.getWriter();
-            List<School> schools = schoolDAO.getAllSchoolsInCity(city, region);
+            List<School> schools = processingService.getSchoolsByLocation(city, region);
             schools.stream().forEach((s) -> pw.println("<option value='" + s.getId() + "'>" + s.getName() + "</option>"));
+        } else {
+            resp.sendError(HttpServletResponse.SC_BAD_REQUEST);
         }
     }
 }

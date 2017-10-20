@@ -7,11 +7,11 @@ import dao.SchoolDAOImpl;
 import dao.TeacherDAOImpl;
 import interfaces.dao.SchoolDAO;
 import interfaces.dao.TeacherDAO;
-import services.SchoolService;
+import services.AdminDataRequestsProcessingService;
 
 import java.util.List;
 
-public class SchoolServiceImpl implements SchoolService {
+public class AdminDataRequestsProcessingServiceImpl implements AdminDataRequestsProcessingService {
 
     private SchoolDAO schoolDAO = new SchoolDAOImpl();
     private TeacherDAO teacherDAO = new TeacherDAOImpl();
