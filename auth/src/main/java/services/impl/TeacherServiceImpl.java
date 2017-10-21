@@ -30,8 +30,13 @@ public class TeacherServiceImpl implements TeacherService {
     }
 
     private String getTeacherFullName(TeacherDTO teacherDTO) {
-        return teacherDTO.lastname + " "
-                + teacherDTO.firstname.substring(0, 1) + ". "
-                + teacherDTO.patronymic.substring(0, 1) + ".";
+        String fullName = teacherDTO.lastname;
+        if (teacherDTO.firstname != null) {
+            fullName += " " + teacherDTO.firstname.substring(0, 1) + ".";
+        }
+        if (teacherDTO.patronymic != null) {
+            fullName += " " + teacherDTO.patronymic.substring(0, 1) + ".";
+        }
+        return fullName;
     }
 }

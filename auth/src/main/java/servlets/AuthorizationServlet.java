@@ -30,7 +30,7 @@ public class AuthorizationServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String login = req.getParameter("login");
         String password = req.getParameter("password");
-        if (login == null && password == null) {
+        if (login == null || password == null) {
             resp.sendRedirect(DEPLOY_PATH + AUTH_URL);
         }
         User user = null;

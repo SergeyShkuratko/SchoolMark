@@ -25,7 +25,7 @@ public class SchoolListServlet extends HttpServlet {
                 resp.setCharacterEncoding("UTF-8");
                 if (cityId > 0) {
                     PrintWriter pw = resp.getWriter();
-                    List<SchoolDTO> schools = processingService.getSchoolsByLocation(cityId);
+                    List<SchoolDTO> schools = processingService.getSchoolsByCityId(cityId);
                     schools.stream().forEach((s) -> pw.println("<option value='" + s.id + "'>" + s.name + "</option>"));
                 }
                 //TODO насколько правильно перехватывать, а не проверять?

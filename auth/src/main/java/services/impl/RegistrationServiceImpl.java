@@ -24,13 +24,12 @@ public class RegistrationServiceImpl implements RegistrationService {
 
     @Override
     public User register(String login, String password, Role role) throws UserDAOException {
-        if (login != null || password != null) {
+        if (login != null && password != null) {
             UserCredentials credentials = new UserCredentials(login, encode(password));
             try {
                 return userDAO.register(credentials, role);
             } catch (UserDAOException e) {
-                logger.error(e.getMessage());
-                logger.debug(e);
+                logger.error(e.getMessage(), e);
                 throw e;
             }
         }

@@ -42,8 +42,7 @@ public class UserDAOImpl implements UserDAO {
             ResultSet set = statement.executeQuery();
             user = userFromResultSet(set);
         } catch (SQLException | UserDAOException e) {
-            logger.error(e.getMessage());
-            logger.debug(e);
+            logger.error(e.getMessage(), e);
             throw new UserDAOException(e);
         }
         if (user == null) {
@@ -73,8 +72,7 @@ public class UserDAOImpl implements UserDAO {
                 }
             }
         } catch (SQLException e) {
-            logger.error(e.getMessage());
-            logger.debug(e);
+            logger.error(e.getMessage(), e);
             throw new UserDAOException(e);
         }
         if (user == null) {

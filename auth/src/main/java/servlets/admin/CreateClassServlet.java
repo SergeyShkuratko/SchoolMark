@@ -31,11 +31,11 @@ public class CreateClassServlet extends HttpServlet {
         String schoolId = req.getParameter("school");
         if (schoolId != null) {
             try {
-                SchoolDTO school = schoolService.getSchool(Integer.valueOf(schoolId));
+                SchoolDTO school = schoolService.getSchoolById(Integer.valueOf(schoolId));
                 req.setAttribute("school", school);
                 req.getRequestDispatcher(CLASS_JSP).forward(req, resp);
             } catch (ClassCastException | SchoolDAOException e) {
-                logger.debug(e);
+                logger.error(e.getMessage(), e);
                 getErrorDispatcher(req, DB_ERROR).forward(req, resp);
             }
         } else {
@@ -60,7 +60,6 @@ public class CreateClassServlet extends HttpServlet {
                     getErrorDispatcher(req, DB_ERROR).forward(req, resp);
                 }
             } catch (SchoolClassDAOException e) {
-                logger.info(e);
                 getErrorDispatcher(req, DB_ERROR).forward(req, resp);
             }
 

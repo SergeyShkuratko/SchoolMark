@@ -59,8 +59,7 @@ public class SchoolDAOImpl implements SchoolsDAO {
             }
             school = schools.get(0);
         } catch (SQLException | SchoolDAOException e) {
-            logger.error(e.getMessage());
-            logger.debug(e);
+            logger.error(e.getMessage(), e);
             throw new SchoolDAOException();
         }
         return school;
@@ -75,8 +74,7 @@ public class SchoolDAOImpl implements SchoolsDAO {
             ResultSet set = statement.executeQuery();
             schools = getSchoolsFromSet(set);
         } catch (SQLException e) {
-            logger.error(e.getMessage());
-            logger.debug(e);
+            logger.error(e.getMessage(), e);
             throw new SchoolDAOException();
         }
         return schools;
@@ -90,8 +88,7 @@ public class SchoolDAOImpl implements SchoolsDAO {
             ResultSet set = statement.executeQuery();
             schools = getSchoolsFromSet(set);
         } catch (SQLException e) {
-            logger.error(e.getMessage());
-            logger.debug(e);
+            logger.error(e.getMessage(), e);
             throw new SchoolDAOException();
         }
         return schools;
@@ -122,8 +119,7 @@ public class SchoolDAOImpl implements SchoolsDAO {
                         set.getString("name")));
             }
         } catch (SQLException e) {
-            logger.error(e.getMessage());
-            logger.debug(e);
+            logger.error(e.getMessage(), e);
             throw new SchoolDAOException(e);
         }
         return classes;
@@ -143,8 +139,7 @@ public class SchoolDAOImpl implements SchoolsDAO {
                         set.getString("type_name")));
             }
         } catch (SQLException e) {
-            logger.error(e.getMessage());
-            logger.debug(e);
+            logger.error(e.getMessage(), e);
             throw new SchoolDAOException(e);
         }
         return schools;

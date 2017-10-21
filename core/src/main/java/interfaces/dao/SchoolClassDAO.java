@@ -5,5 +5,5 @@ import exceptions.SchoolClassDAOException;
 
 public interface SchoolClassDAO {
 
-    boolean add(SchoolClassDTO schoolClass) throws SchoolClassDAOException;
+    boolean persistSchool(SchoolClassDTO schoolClass) throws SchoolClassDAOException;
 }

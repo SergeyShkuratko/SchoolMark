@@ -33,8 +33,7 @@ public class SchoolTeacherDAOImpl implements SchoolTeacherDAO {
             ResultSet set = statement.executeQuery();
             teachers = setToTeachers(set);
         } catch (SQLException e) {
-            logger.error(e.getMessage());
-            logger.debug(e);
+            logger.error(e.getMessage(), e);
             throw new SchoolTeacherDAOException(e);
         }
         return teachers;

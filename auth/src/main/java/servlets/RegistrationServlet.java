@@ -46,7 +46,7 @@ public class RegistrationServlet extends HttpServlet {
                     return;
                 }
             }
-            // Сохранили роль, убираем "регистрационную ссылку" из url
+            // Сохранили роль, убираем токен из url
             resp.sendRedirect(DEPLOY_PATH + REG_PAGE);
         } else {
             req.getRequestDispatcher(REGISTRATION_JSP).forward(req, resp);

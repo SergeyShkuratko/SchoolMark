@@ -21,7 +21,7 @@ public class SchoolClassDAOImpl implements SchoolClassDAO {
             " VALUES (?, ?, ?)";
 
     @Override
-    public boolean add(SchoolClassDTO schoolClass) throws SchoolClassDAOException {
+    public boolean persistSchool(SchoolClassDTO schoolClass) throws SchoolClassDAOException {
         boolean result = false;
         try (Connection connection = pool.getConnection();
              PreparedStatement statement = connection.prepareStatement(INSERT)) {
@@ -31,8 +31,7 @@ public class SchoolClassDAOImpl implements SchoolClassDAO {
             statement.execute();
             result = true;
         } catch (SQLException e) {
-            logger.error(e.getMessage());
-            logger.debug(e);
+            logger.error(e.getMessage(), e);
             throw new SchoolClassDAOException(e);
         }
         return result;

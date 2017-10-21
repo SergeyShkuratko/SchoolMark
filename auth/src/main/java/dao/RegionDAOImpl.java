@@ -33,8 +33,7 @@ public class RegionDAOImpl implements RegionDAO {
                 result = regions.get(0);
             }
         } catch (SQLException | RegionDAOException e) {
-            logger.error(e.getMessage());
-            logger.debug(e);
+            logger.error(e.getMessage(), e);
             throw new RegionDAOException(e);
         }
         return result;

@@ -33,13 +33,12 @@ public class CityDAOImpl implements CityDAO {
             PreparedStatement statement = connection.prepareStatement(GET_BY_ID)) {
             statement.setInt(1, id);
             ResultSet set = statement.executeQuery();
-            List<City> cities = cityFromResultSet(set);
+            List<City> cities = cityListFromResultSet(set);
             if (!cities.isEmpty()) {
                 result = cities.get(0);
             }
         } catch (SQLException | CityDAOException e) {
-            logger.error(e.getMessage());
-            logger.debug(e);
+            logger.error(e.getMessage(), e);
             throw new CityDAOException(e);
         }
         return result;
@@ -53,10 +52,9 @@ public class CityDAOImpl implements CityDAO {
 
             statement.setInt(1, id);
             ResultSet set = statement.executeQuery();
-            result = cityFromResultSet(set);
+            result = cityListFromResultSet(set);
         } catch (SQLException | CityDAOException e) {
-            logger.error(e.getMessage());
-            logger.debug(e);
+            logger.error(e.getMessage(), e);
             throw new CityDAOException(e);
         } finally {
             if (result == null) {
@@ -76,7 +74,7 @@ public class CityDAOImpl implements CityDAO {
         return null;
     }
 
-    private List<City> cityFromResultSet(ResultSet set) throws CityDAOException {
+    private List<City> cityListFromResultSet(ResultSet set) throws CityDAOException {
         List<City> result = new ArrayList<>();
 
         try {

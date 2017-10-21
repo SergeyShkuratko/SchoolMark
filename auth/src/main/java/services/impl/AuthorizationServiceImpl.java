@@ -21,7 +21,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
     @Override
     public User auth(String login, String password) throws UserNotFoundException, UserDAOException {
         User user = null;
-        if (login != null || password != null) {
+        if (login != null && password != null) {
             user = userDAO.getByCredentials(new UserCredentials(login, encode(password)));
         }
         return user;

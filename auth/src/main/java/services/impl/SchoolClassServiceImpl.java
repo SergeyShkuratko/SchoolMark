@@ -14,15 +14,12 @@ public class SchoolClassServiceImpl implements SchoolClassService {
 
     @Override
     public boolean add(int schoolId, int classNum, String letter) throws SchoolClassDAOException {
-        boolean result = false;
         try {
             SchoolClassDTO schoolClass = new SchoolClassDTO(classNum, classNum + letter, schoolId);
-            schoolClassDAO.add(schoolClass);
-            result = true;
+            return schoolClassDAO.persistSchool(schoolClass);
         } catch (SchoolClassDAOException e) {
             logger.info(e);
             throw e;
         }
-        return result;
     }
 }

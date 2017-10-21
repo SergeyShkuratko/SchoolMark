@@ -15,7 +15,7 @@ public class SchoolServiceImpl implements SchoolService {
     private static Logger logger = Logger.getLogger(SchoolServiceImpl.class);
 
     @Override
-    public SchoolDTO getSchool(int id) throws SchoolDAOException {
+    public SchoolDTO getSchoolById(int id) throws SchoolDAOException {
         SchoolDTO school = null;
         try {
             school = schoolDAO.getById(id);
@@ -39,7 +39,7 @@ public class SchoolServiceImpl implements SchoolService {
     }
 
     @Override
-    public List<SchoolDTO> getSchoolsByLocation(int cityId) throws SchoolDAOException {
+    public List<SchoolDTO> getSchoolsByCityId(int cityId) throws SchoolDAOException {
         List<SchoolDTO> schools = null;
         try {
             schools = schoolDAO.getAllSchoolsInCity(cityId);
