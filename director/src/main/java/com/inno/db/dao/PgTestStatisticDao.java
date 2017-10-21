@@ -12,10 +12,10 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.*;
 
-public class PgTestDao implements TestDao {
+public class PgTestStatisticDao implements TestStatisticDao {
     private ConnectionManager connectionManager;
 
-    public PgTestDao() {
+    public PgTestStatisticDao() {
         this.connectionManager = ConnectionManagerPostgresImpl.getInstance();
     }
 

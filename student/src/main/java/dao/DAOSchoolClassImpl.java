@@ -1,5 +1,6 @@
 package dao;
 
+import classes.School;
 import classes.SchoolClass;
 import classes.Student;
 import connectionmanager.ConnectionManagerPostgresImpl;
@@ -9,9 +10,12 @@ import exception.DAOStudentErrorRequestException;
 import org.apache.log4j.Logger;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+
+import static constants.DAOConstants.NULL_POINTER_DB;
 
 public class DAOSchoolClassImpl implements DAOSchoolClass {
 
@@ -74,42 +78,117 @@ public class DAOSchoolClassImpl implements DAOSchoolClass {
     }
 
     @Override
-    public ArrayList<SchoolClass> getSchoolClassesByName(String name) throws DAOSchoolClassErrorRequestException {
-        return null;
+    public ArrayList<SchoolClass> getSchoolClassesByName(String name)
+            throws DAOSchoolClassErrorRequestException {
+        return this.getMany("WHERE schl_cls.number = " + name);
     }
 
     @Override
-    public ArrayList<SchoolClass> getSchoolClassesBySchoolId(int school_id) throws DAOSchoolClassErrorRequestException {
-        return null;
+    public ArrayList<SchoolClass> getSchoolClassesBySchoolId(int school_id)
+            throws DAOSchoolClassErrorRequestException {
+        return this.getMany("WHERE schl_cls.school_id = " + school_id);
+    }
+
+    private int removeSchoolClassesCommon(String where)
+            throws DAOSchoolClassErrorRequestException {
+        try {
+            return DAOUtils.getResultSetExecuteUpdateByWhere(
+                    connection, this.baseRemoveSql + where);
+        } catch (SQLException e) {
+            throw new DAOSchoolClassErrorRequestException(e.getMessage());
+        }
     }
 
     @Override
-    public int removeSchoolClassById(int id) throws DAOSchoolClassErrorRequestException {
-        return 0;
+    public int removeSchoolClassById(int id)
+            throws DAOSchoolClassErrorRequestException {
+        return this.removeSchoolClassesCommon("WHERE id = " + id);
     }
 
     @Override
-    public int removeSchoolClassesByName(String name) throws DAOSchoolClassErrorRequestException {
-        return 0;
+    public int removeSchoolClassesByName(String name)
+            throws DAOSchoolClassErrorRequestException {
+        return this.removeSchoolClassesCommon("WHERE name = " + name);
     }
 
     @Override
-    public int removeSchoolClassesBySchoolId(int school_id) throws DAOSchoolClassErrorRequestException {
-        return 0;
+    public int removeSchoolClassesByNumber(int number)
+            throws DAOSchoolClassErrorRequestException {
+        return this.removeSchoolClassesCommon("WHERE number = " + number);
     }
 
     @Override
-    public int insertSchoolClass(SchoolClass schoolClass) throws DAOSchoolClassErrorRequestException {
-        return 0;
+    public int removeSchoolClassesBySchoolId(int school_id)
+            throws DAOSchoolClassErrorRequestException {
+        return this.removeSchoolClassesCommon("WHERE school_id = " + school_id);
+    }
+
+    private void insertOne(SchoolClass schoolClass, PreparedStatement preparedStatement)
+            throws DAOSchoolClassErrorRequestException {
+        try {
+            preparedStatement.setInt(1, schoolClass.getId());
+            preparedStatement.setInt(2, schoolClass.getNum());
+            preparedStatement.setString(3, schoolClass.getName());
+            preparedStatement.setInt(4, schoolClass.getSchool().getId());
+            preparedStatement.addBatch();
+        } catch (SQLException e) {
+            throw new DAOSchoolClassErrorRequestException(e.getMessage());
+        } catch (NullPointerException npe) {
+            throw new DAOSchoolClassErrorRequestException(npe.getMessage());
+        }
+    }
+
+    private void checkInDBaseAndException(SchoolClass schoolClass)
+            throws DAOSchoolClassErrorRequestException {
+        if(schoolClass.getId() != NULL_POINTER_DB)
+            throw new DAOSchoolClassErrorRequestException (
+                    "You can't insert object into db which is already there !!!");
+    }
+
+    private void checkDoesNotInDBaseAndException(SchoolClass schoolClass)
+            throws DAOSchoolClassErrorRequestException {
+        if(schoolClass.getId() == NULL_POINTER_DB)
+            throw new DAOSchoolClassErrorRequestException (
+                    "You can't update object into db which have not there yet !!!");
     }
 
     @Override
-    public int insertSchoolClasses(ArrayList<SchoolClass> schoolClasses) throws DAOSchoolClassErrorRequestException {
-        return 0;
+    public int insertSchoolClass(SchoolClass schoolClass)
+            throws DAOSchoolClassErrorRequestException {
+        this.checkInDBaseAndException(schoolClass);
+        try (PreparedStatement preparedStatement = connection.prepareStatement(insertSql)) {
+            this.insertOne(schoolClass, preparedStatement);
+            return preparedStatement.executeBatch().length;
+        } catch (SQLException e) {
+            throw new DAOSchoolClassErrorRequestException(e.getMessage());
+        }
     }
 
     @Override
-    public int updateSchoolClass(SchoolClass schoolClass) throws DAOSchoolClassErrorRequestException {
-        return 0;
+    public int insertSchoolClasses(ArrayList<SchoolClass> schoolClasses)
+            throws DAOSchoolClassErrorRequestException {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(insertSql)) {
+            for(SchoolClass schoolClassool : schoolClasses) {
+                this.checkInDBaseAndException(schoolClassool);
+                this.insertOne(schoolClassool, preparedStatement);
+            }
+            return preparedStatement.executeBatch().length;
+        } catch (SQLException e) {
+            throw new DAOSchoolClassErrorRequestException(e.getMessage());
+        }
+    }
+
+    @Override
+    public int updateSchoolClass(SchoolClass schoolClass)
+            throws DAOSchoolClassErrorRequestException {
+        this.checkDoesNotInDBaseAndException(schoolClass);
+        try (PreparedStatement preparedStatement = connection.prepareStatement(updateSql)) {
+            preparedStatement.setInt(1, schoolClass.getNum());
+            preparedStatement.setString(2, schoolClass.getName());
+            preparedStatement.setInt(3, schoolClass.getSchool().getId());
+            return preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new DAOSchoolClassErrorRequestException(e.getMessage());
+        }
     }
 }

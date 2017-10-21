@@ -20,33 +20,18 @@ public class CalendarServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        doPost(req, resp);
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.getSession().setAttribute(CommonSettings.AUTH_USER_ATTRIBUTE, 4);
 
         List<String> errors = new LinkedList<>();
         Integer userId = (Integer) req.getSession().getAttribute(CommonSettings.AUTH_USER_ATTRIBUTE);
 
-        String beginDataString = req.getParameter("beginData");
+        String dayOfMonthString = req.getParameter("dayOfMonth");
         LocalDate beginMonth;
-        if (beginDataString == null)
+        if (dayOfMonthString == null) {
             beginMonth = LocalDate.now().withDayOfMonth(1);
-        else
-            beginMonth = LocalDate.parse(beginDataString).withDayOfMonth(1);
-
-        String command = req.getParameter("command");
-        if (command != null) {
-            switch (command) {
-                case "timeBack":
-                    beginMonth = beginMonth.minusMonths(1);
-                    break;
-                case "timeForward":
-                    beginMonth = beginMonth.plusMonths(1);
-                    break;
-            }
+        }
+        else {
+            beginMonth = LocalDate.parse(dayOfMonthString).withDayOfMonth(1);
         }
         List<CalendarCell> calendar = calendarService.getCalendarCells(userId,beginMonth, beginMonth.with(TemporalAdjusters.lastDayOfMonth()));
         if(calendar==null)
@@ -62,6 +47,7 @@ public class CalendarServlet extends HttpServlet {
             req.setAttribute("errors", errors);
             req.getRequestDispatcher("/error.jsp").forward(req, resp);
         }
-
     }
+
+
 }

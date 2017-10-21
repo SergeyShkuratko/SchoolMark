@@ -1,9 +1,9 @@
-package DAO.daoimplementation;
+package dao.daoimplementation;
 
-import DAO.DTO.TestDTO;
-import DAO.DTO.TestsDTO;
-import DAO.DTO.WorkPageDTO;
-import DAO.TestDAO;
+import dao.dto.TestDTO;
+import dao.dto.TestsDTO;
+import dao.dto.WorkPageDTO;
+import dao.TestDAO;
 import com.google.common.base.Strings;
 import connectionmanager.ConnectionManager;
 import connectionmanager.ConnectionManagerPostgresImpl;
