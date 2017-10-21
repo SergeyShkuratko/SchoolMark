@@ -23,183 +23,136 @@
             crossorigin="anonymous"></script>
 
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker.standalone.min.css" />
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker.standalone.min.css"/>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.min.js"></script>
 
-    <%--<%@include file="/mystatic/menustyles.html" %>--%>
-
-    <link href="https://raw.githubusercontent.com/samrayner/bootstrap-side-navbar/gh-pages/assets/stylesheets/navbar-fixed-side.css" rel="stylesheet" />
+    <%@include file="/mystatic/menustyles.jsp" %>
 </head>
 <body>
-<%--<%@include file="/mystatic/pageheader.html" %>--%>
-<div class="container-fluid">
-    <div class="row ifaceforworkcheck">
-        <div class="col-sm-3 col-md-2 sidebar control-work-sidebar">
-            <div class="panel panel-default control-work-sidebar-photo">
-                <div class="panel-body">
+<%@include file="/mystatic/pageheader.jsp" %>
 
-                </div>
-            </div>
-            <ul class="nav nav-sidebar control-work-sidebar-number">
-                <li>
-                    <button class="btn btn-default control-work-sidebar-button"
-                            onclick="window.location.href='/SM/organizer/calendar'" type="submit">
-                        Календарь организатора
-                    </button>
-                </li>
-                <li>
-                    <button class="btn btn-default control-work-sidebar-button"
-                            onclick="window.location.href='/SM/testlist'" type="submit">
-                        Ученик
-                    </button>
-                </li>
-                <li>
-                    <button class="btn btn-default control-work-sidebar-button"
-                            onclick="window.location.href='/SM/test'" type="submit">Проведение контрольной
-                    </button>
-                </li>
-                <li>
-                    <button class="btn btn-default control-work-sidebar-button"
-                            onclick="window.location.href='/SM/controller'" type="submit">Проверка контрольной
-                    </button>
-                </li>
-                <li>
-                    <button class="btn btn-default control-work-sidebar-button"
-                            onclick="window.location.href='/SM/director-test-list'" type="submit">Директор
-                    </button>
-                </li>
-                <li class="control-work-sidebar-circle"><i class="fa fa-3x fa-circle-thin "></i></li>
-                <li>
-                    <button class="btn btn-default control-work-sidebar-button" type="submit">Выход?</button>
-                </li>
-            </ul>
-        </div>
+<form class="row mb-3 mt-3 mr-3" method="get" action="<c:url value='/director-test-list'/>">
+    <div class="col-md-auto form-check">
+        <label class="form-check-label">
+            <input class="form-check-input" type="checkbox"
+                   name="groupByOrganization" ${param['groupByOrganization'] == "on" ? 'checked' : ''}
+                   onclick="this.form.submit()">
+            Группировать по организации
+        </label>
+    </div>
 
-
-        <div class="col-sm-9 col-md-10">
-            <form class="row mb-3 mt-3 mr-3" method="get" action="<c:url value='/director-test-list'/>">
-                <div class="col-md-auto form-check">
-                    <label class="form-check-label">
-                        <input class="form-check-input" type="checkbox"
-                               name="groupByOrganization" ${param['groupByOrganization'] == "on" ? 'checked' : ''}
-                               onclick="this.form.submit()">
-                        Группировать по организации
-                    </label>
-                </div>
-
-                <div class="input-group date col-md-2 ml-auto" data-provide="datepicker">
-                    <input type="text" class="form-control" placeholder="Дата с" name="dateFrom"
-                           value="${param['dateFrom']}">
-                    <div class="input-group-addon">
-                        <span class="fa fa-th"></span>
-                    </div>
-                </div>
-                <div class="input-group date col-md-2 ml-2" data-provide="datepicker">
-                    <input type="text" class="form-control" placeholder="Дата по" name="dateTo"
-                           value="${param['dateTo']}">
-                    <div class="input-group-addon">
-                        <span class="fa fa-th"></span>
-                    </div>
-                </div>
-                <input class="button col-md-auto ml-2" type="submit" value="Отфильтровать"/>
-            </form>
-
-            <c:if test="${param['groupByOrganization'] != 'on'}">
-                <table class="table table-bordered table-hover col-md-10">
-                    <thead>
-                    <tr>
-                        <th>Дата</th>
-                        <th>Организатор</th>
-                        <th>Предмет</th>
-                        <th>Класс</th>
-                        <th>Средний балл</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <c:forEach var="test" items="${tests}">
-                        <c:url value='/director-test-view' var="testViewLocation">
-                            <c:param name="testId" value="${test.id}"/>
-                        </c:url>
-
-                        <tr onclick="window.location.href='<c:out value='${testViewLocation}'/>'">
-                            <td>
-                                <c:out value="${test.date}"/>
-                            </td>
-                            <td>
-                                <c:out value="${test.organizer}"/>
-                            </td>
-                            <td>
-                                <c:out value="${test.subject}"/>
-                            </td>
-                            <td>
-                                <c:out value="${test.className}"/>
-                            </td>
-                            <td>
-                                <c:out value="${test.averageMark}"/>
-                            </td>
-                        </tr>
-                    </c:forEach>
-                    </tbody>
-                </table>
-            </c:if>
-
-            <c:if test="${param['groupByOrganization'] == 'on'}">
-                <div id="accordion" role="tablist">
-                    <c:forEach var="teacherTestsEntry" items="${teacherTestsMap}" varStatus="loop">
-                        <div class="card">
-                            <div class="card-header" role="tab" id="heading${loop.index}">
-                                <h5 class="mb-0">
-                                    <a data-toggle="collapse" href="#collapse${loop.index}"
-                                       aria-expanded="true" aria-controls="collapse${loop.index}">
-                                            ${teacherTestsEntry.getKey()}
-                                    </a>
-                                </h5>
-                            </div>
-
-                            <div id="collapse${loop.index}" class="collapse" role="tabpanel"
-                                 aria-labelledby="heading${loop.index}">
-                                <div class="card-body">
-                                    <table class="table table-bordered">
-                                        <thead>
-                                        <tr>
-                                            <th>Дата</th>
-                                            <th>Предмет</th>
-                                            <th>Класс</th>
-                                            <th>Средний балл</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        <c:forEach var="test" items="${teacherTestsEntry.getValue()}">
-                                            <c:url value='/director-test-view' var="testViewLocation">
-                                                <c:param name="testId" value="${test.id}"/>
-                                            </c:url>
-
-                                            <tr onclick="window.location.href='<c:out value='${testViewLocation}'/>'">
-                                                <td>
-                                                    <c:out value="${test.date}"/>
-                                                </td>
-                                                <td>
-                                                    <c:out value="${test.subject}"/>
-                                                </td>
-                                                <td>
-                                                    <c:out value="${test.className}"/>
-                                                </td>
-                                                <td>
-                                                    <c:out value="${test.averageMark}"/>
-                                                </td>
-                                            </tr>
-                                        </c:forEach>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </c:forEach>
-                </div>
-            </c:if>
+    <div class="input-group date col-md-2 ml-auto" data-provide="datepicker">
+        <input type="text" class="form-control" placeholder="Дата с" name="dateFrom"
+               value="${param['dateFrom']}">
+        <div class="input-group-addon">
+            <span class="fa fa-th"></span>
         </div>
     </div>
-</div>
-<%--<%@include file="/mystatic/pagefooter.html" %>--%>
+    <div class="input-group date col-md-2 ml-2" data-provide="datepicker">
+        <input type="text" class="form-control" placeholder="Дата по" name="dateTo"
+               value="${param['dateTo']}">
+        <div class="input-group-addon">
+            <span class="fa fa-th"></span>
+        </div>
+    </div>
+    <input class="button col-md-auto ml-2" type="submit" value="Отфильтровать"/>
+</form>
+
+<c:if test="${param['groupByOrganization'] != 'on'}">
+    <table class="table table-bordered table-hover col-md-10">
+        <thead>
+        <tr>
+            <th>Дата</th>
+            <th>Организатор</th>
+            <th>Предмет</th>
+            <th>Класс</th>
+            <th>Средний балл</th>
+        </tr>
+        </thead>
+        <tbody>
+        <c:forEach var="test" items="${tests}">
+            <c:url value='/director-test-view' var="testViewLocation">
+                <c:param name="testId" value="${test.id}"/>
+            </c:url>
+
+            <tr onclick="window.location.href='<c:out value='${testViewLocation}'/>'">
+                <td>
+                    <c:out value="${test.date}"/>
+                </td>
+                <td>
+                    <c:out value="${test.organizer}"/>
+                </td>
+                <td>
+                    <c:out value="${test.subject}"/>
+                </td>
+                <td>
+                    <c:out value="${test.className}"/>
+                </td>
+                <td>
+                    <c:out value="${test.averageMark}"/>
+                </td>
+            </tr>
+        </c:forEach>
+        </tbody>
+    </table>
+</c:if>
+
+<c:if test="${param['groupByOrganization'] == 'on'}">
+    <div id="accordion" role="tablist">
+        <c:forEach var="teacherTestsEntry" items="${teacherTestsMap}" varStatus="loop">
+            <div class="card">
+                <div class="card-header" role="tab" id="heading${loop.index}">
+                    <h5 class="mb-0">
+                        <a data-toggle="collapse" href="#collapse${loop.index}"
+                           aria-expanded="true" aria-controls="collapse${loop.index}">
+                                ${teacherTestsEntry.getKey()}
+                        </a>
+                    </h5>
+                </div>
+
+                <div id="collapse${loop.index}" class="collapse" role="tabpanel"
+                     aria-labelledby="heading${loop.index}">
+                    <div class="card-body">
+                        <table class="table table-bordered">
+                            <thead>
+                            <tr>
+                                <th>Дата</th>
+                                <th>Предмет</th>
+                                <th>Класс</th>
+                                <th>Средний балл</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <c:forEach var="test" items="${teacherTestsEntry.getValue()}">
+                                <c:url value='/director-test-view' var="testViewLocation">
+                                    <c:param name="testId" value="${test.id}"/>
+                                </c:url>
+
+                                <tr onclick="window.location.href='<c:out value='${testViewLocation}'/>'">
+                                    <td>
+                                        <c:out value="${test.date}"/>
+                                    </td>
+                                    <td>
+                                        <c:out value="${test.subject}"/>
+                                    </td>
+                                    <td>
+                                        <c:out value="${test.className}"/>
+                                    </td>
+                                    <td>
+                                        <c:out value="${test.averageMark}"/>
+                                    </td>
+                                </tr>
+                            </c:forEach>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </c:forEach>
+    </div>
+</c:if>
+
+<%@include file="/mystatic/pagefooter.jsp" %>
 </body>
 </html>

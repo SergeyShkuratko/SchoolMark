@@ -9,6 +9,8 @@
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
     <link href="${context}/css/dashboard.css" rel="stylesheet">
     <link href="${context}/css/ratingbar.css" rel="stylesheet">
+
+    <%@include file="/mystatic/menustyles.jsp" %>
 </head>
 <body>
 <div class="container-fluid">
