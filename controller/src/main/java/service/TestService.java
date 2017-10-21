@@ -1,6 +1,6 @@
 package service;
 
-import DAO.DTO.TestsDTO;
+import dao.dto.TestsDTO;
 
 import java.util.List;
 

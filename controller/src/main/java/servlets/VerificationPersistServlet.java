@@ -1,6 +1,6 @@
 package servlets;
 
-import DAO.DTO.VerificationResultDTO;
+import dao.dto.VerificationResultDTO;
 import service.VerificationResultImpl;
 import service.VerificationService;
 
