@@ -1,7 +1,10 @@
 package servlets.admin.lists;
 
 import classes.Teacher;
-import dao.TeacherDAOImpl;
+import classes.dto.TeacherDTO;
+import dao.SchoolTeacherDAOImpl;
+import exceptions.SchoolTeacherDAOException;
+import interfaces.dao.SchoolTeacherDAO;
 import interfaces.dao.TeacherDAO;
 
 import javax.servlet.ServletException;
@@ -14,7 +17,7 @@ import java.util.List;
 
 public class TeacherListServlet extends HttpServlet {
 
-    private TeacherDAO teacherDAO = new TeacherDAOImpl();
+    private SchoolTeacherDAO teacherDAO = new SchoolTeacherDAOImpl();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -25,7 +28,13 @@ public class TeacherListServlet extends HttpServlet {
         resp.setCharacterEncoding("UTF-8");
         PrintWriter pw = resp.getWriter();
         int id = Integer.valueOf(req.getParameter("school"));
-        List<Teacher> classes = teacherDAO.getTeacherBySchool(id);
-        classes.stream().forEach((t) -> pw.println("<li>" + t.getFullName() + "</li>"));
+        List<TeacherDTO> classes = null;
+        try {
+            classes = teacherDAO.getTeacherBySchool(id);
+            classes.stream().forEach((t) -> pw.println("<li>" + t.firstname + t.lastname + "</li>"));
+        } catch (SchoolTeacherDAOException e) {
+            e.printStackTrace();
+        }
+
     }
 }

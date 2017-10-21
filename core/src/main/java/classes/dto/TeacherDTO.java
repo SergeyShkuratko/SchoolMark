@@ -1,4 +1,4 @@
-package dto;
+package classes.dto;
 
 public class TeacherDTO {
 
@@ -16,5 +16,29 @@ public class TeacherDTO {
         this.firstname = firstname;
         this.patronymic = patronymic;
         this.school = school;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public String getLastname() {
+        return lastname;
+    }
+
+    public String getFirstname() {
+        return firstname;
+    }
+
+    public String getPatronymic() {
+        return patronymic;
+    }
+
+    public int getSchool() {
+        return school;
     }
 }

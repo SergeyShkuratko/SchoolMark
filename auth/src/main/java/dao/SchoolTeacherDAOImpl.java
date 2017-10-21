@@ -1,45 +1,66 @@
 package dao;
 
-import classes.School;
 import classes.Teacher;
-import classes.User;
-import interfaces.dao.TeacherDAO;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+import connectionmanager.ConnectionPool;
+import connectionmanager.TomcatConnectionPool;
+import classes.dto.TeacherDTO;
+import exceptions.SchoolTeacherDAOException;
+import interfaces.dao.SchoolTeacherDAO;
+import org.apache.log4j.Logger;
 
-import java.time.LocalDate;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TeacherDAOImpl implements TeacherDAO {
+public class SchoolTeacherDAOImpl implements SchoolTeacherDAO {
+
+    private static final Logger logger = Logger.getLogger(SchoolDAOImpl.class);
+    private static final ConnectionPool pool = TomcatConnectionPool.getInstance();
+
+    private static final String GET_BY_SCHOOL = "SELECT * FROM teachers t" +
+            " LEFT JOIN users u ON u.id = t.user_id" +
+            " WHERE school_id = ?";
 
     @Override
-    public Teacher getTeacher(String login) {
-        throw new NotImplementedException();
+    public List<TeacherDTO> getTeacherBySchool(int id) throws SchoolTeacherDAOException {
+        List<TeacherDTO> teachers = null;
+        try (Connection connection = pool.getConnection();
+             PreparedStatement statement = connection.prepareStatement(GET_BY_SCHOOL)) {
+            statement.setInt(1, id);
+            ResultSet set = statement.executeQuery();
+            teachers = setToTeachers(set);
+        } catch (SQLException e) {
+            logger.error(e.getMessage());
+            logger.debug(e);
+            throw new SchoolTeacherDAOException(e);
+        }
+        return teachers;
     }
 
     @Override
-    public Teacher getTeacher(int id) {
-        //TODO some logic
-        return null;
-    }
-
-    @Override
-    public boolean updateTeacher(Teacher teacher) {
+    public boolean addTeacher(Teacher teacher) throws SchoolTeacherDAOException {
         return false;
     }
 
-    @Override
-    public List<Teacher> getTeachersByDirector(User director) {
-        return null;
-    }
-
-    @Override
-    public List<Teacher> getTeacherBySchool(School school) {
-        return null;
-    }
-
-    @Override
-    public List<Teacher> getTeacherBySchool(int id) {
-        return null;
+    private List<TeacherDTO> setToTeachers(ResultSet set) throws SchoolTeacherDAOException {
+        List<TeacherDTO> teachers = new ArrayList<>();
+        try {
+            while (set.next()) {
+                teachers.add(new TeacherDTO(
+                        set.getInt("id"),
+                        set.getInt("user_id"),
+                        set.getString("last_name"),
+                        set.getString("first_name"),
+                        set.getString("patronymic"),
+                        set.getInt("school_id")
+                        ));
+            }
+        } catch (SQLException e) {
+            throw new SchoolTeacherDAOException(e);
+        }
+        return teachers;
     }
 }

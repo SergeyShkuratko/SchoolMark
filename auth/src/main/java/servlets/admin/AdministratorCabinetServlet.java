@@ -1,9 +1,11 @@
 package servlets.admin;
 
 import classes.School;
+import classes.dto.SchoolDTO;
 import dao.SchoolDAOImpl;
 import exceptions.SchoolDAOException;
 import interfaces.dao.SchoolDAO;
+import interfaces.dao.SchoolsDAO;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -17,12 +19,12 @@ import static utils.Settings.*;
 
 public class AdministratorCabinetServlet extends HttpServlet {
 
-    SchoolDAO schoolDAO = new SchoolDAOImpl();
+    SchoolsDAO schoolDAO = new SchoolDAOImpl();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
-            List<School> schools = schoolDAO.getAll();
+            List<SchoolDTO> schools = schoolDAO.getAll();
             req.setAttribute("schools", schools);
             req.getRequestDispatcher("/cabinet.jsp").forward(req, resp);
         } catch (SchoolDAOException e) {

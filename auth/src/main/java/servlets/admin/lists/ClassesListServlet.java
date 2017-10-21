@@ -4,6 +4,7 @@ import classes.SchoolClass;
 import dao.SchoolDAOImpl;
 import exceptions.SchoolDAOException;
 import interfaces.dao.SchoolDAO;
+import interfaces.dao.SchoolsDAO;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -15,7 +16,7 @@ import java.util.List;
 
 public class ClassesListServlet extends HttpServlet {
 
-    SchoolDAO schoolDAO = new SchoolDAOImpl();
+    SchoolsDAO schoolDAO = new SchoolDAOImpl();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -28,7 +29,7 @@ public class ClassesListServlet extends HttpServlet {
         int id = Integer.valueOf(req.getParameter("school"));
         List<SchoolClass> classes = null;
         try {
-            classes = schoolDAO.getAllClasses(schoolDAO.getById(id));
+            classes = schoolDAO.getAllClasses(id);
         } catch (SchoolDAOException e) {
             e.printStackTrace();
         }

@@ -1,11 +1,13 @@
 package interfaces.dao;
 
-import classes.School;
 import classes.Teacher;
+import classes.dto.TeacherDTO;
+import exceptions.SchoolTeacherDAOException;
 
 import java.util.List;
 
-public interface TeacherListDAO {
+public interface SchoolTeacherDAO {
 
-    List<Teacher> getTeacherBySchool(int id);
+    boolean addTeacher(Teacher teacher) throws SchoolTeacherDAOException;
+    List<TeacherDTO> getTeacherBySchool(int id) throws SchoolTeacherDAOException;
 }
