@@ -13,7 +13,6 @@ function loadClasses(schoolId) {
             $('#div-classes'+schoolId).collapse('show');
         },
         error: function (xhr, ajaxOptions, thrownError) {
-            alert(xhr.status + " " + thrownError);
         }
     });
 }
@@ -34,7 +33,6 @@ function loadTeachers(schoolId) {
             $('#div-teachers'+schoolId).collapse('show');
         },
         error: function (xhr, ajaxOptions, thrownError) {
-            alert(xhr.status + " " + thrownError);
         }
     });
 }

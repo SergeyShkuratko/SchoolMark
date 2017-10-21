@@ -20,8 +20,8 @@ import java.time.LocalDate;
 
 public class UserDAOImpl implements UserDAO {
 
-    private static final Logger logger = Logger.getLogger(UserDAOImpl.class);
-    private static final ConnectionPool pool = TomcatConnectionPool.getInstance();
+    private static Logger logger = Logger.getLogger(UserDAOImpl.class);
+    private static ConnectionPool pool = TomcatConnectionPool.getInstance();
 
     private static final String GET_BY_CRED = "SELECT * FROM users u" +
             " LEFT JOIN teachers t ON t.user_id = u.id" +

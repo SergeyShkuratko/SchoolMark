@@ -16,8 +16,8 @@ import java.util.List;
 
 public class RegionDAOImpl implements RegionDAO {
 
-    private static final Logger logger = Logger.getLogger(RegionDAOImpl.class);
-    private static final ConnectionPool pool = TomcatConnectionPool.getInstance();
+    private static Logger logger = Logger.getLogger(RegionDAOImpl.class);
+    private static ConnectionPool pool = TomcatConnectionPool.getInstance();
 
     private static final String GET_BY_ID = "SELECT * FROM region WHERE id = ?";
 
@@ -35,7 +35,7 @@ public class RegionDAOImpl implements RegionDAO {
         } catch (SQLException | RegionDAOException e) {
             logger.error(e.getMessage());
             logger.debug(e);
-            throw new RegionDAOException();
+            throw new RegionDAOException(e);
         }
         return result;
     }
@@ -61,7 +61,7 @@ public class RegionDAOImpl implements RegionDAO {
                         set.getString("name")));
             }
         } catch (SQLException e) {
-            throw new RegionDAOException(e.fillInStackTrace());
+            throw new RegionDAOException(e);
         }
         return result;
     }

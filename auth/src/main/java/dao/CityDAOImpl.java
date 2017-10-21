@@ -20,8 +20,8 @@ import java.util.List;
 
 public class CityDAOImpl implements CityDAO {
 
-    private static final Logger logger = Logger.getLogger(CityDAOImpl.class);
-    private static final ConnectionPool pool = TomcatConnectionPool.getInstance();
+    private static Logger logger = Logger.getLogger(CityDAOImpl.class);
+    private static ConnectionPool pool = TomcatConnectionPool.getInstance();
 
     private static final String GET_BY_ID = "SELECT * FROM city WHERE id = ?";
     private static final String GET_BY_REGION = "SELECT * FROM city WHERE region_id = ?";
@@ -39,8 +39,8 @@ public class CityDAOImpl implements CityDAO {
             }
         } catch (SQLException | CityDAOException e) {
             logger.error(e.getMessage());
-            logger.debug(e.fillInStackTrace());
-            throw new CityDAOException();
+            logger.debug(e);
+            throw new CityDAOException(e);
         }
         return result;
     }
@@ -56,8 +56,8 @@ public class CityDAOImpl implements CityDAO {
             result = cityFromResultSet(set);
         } catch (SQLException | CityDAOException e) {
             logger.error(e.getMessage());
-            logger.debug(e.fillInStackTrace());
-            throw new CityDAOException();
+            logger.debug(e);
+            throw new CityDAOException(e);
         } finally {
             if (result == null) {
                 result = new ArrayList<>();
@@ -87,7 +87,7 @@ public class CityDAOImpl implements CityDAO {
                         set.getString("name")));
             }
         } catch (SQLException e) {
-            throw new CityDAOException(e.fillInStackTrace());
+            throw new CityDAOException(e);
         }
         return result;
     }

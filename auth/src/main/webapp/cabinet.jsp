@@ -31,28 +31,29 @@
                             <c:out value="${school.name}"/>
                         </a>
                     </div>
+
                     <div id='school<c:out value="${school.id}"/>' class="panel-collapse collapse">
                         <div class="panel panel-default">
+                            <div id='div-classes<c:out value="${school.id}"/>' class="panel-collapse collapse">
+                                <ul id='classes<c:out value="${school.id}"/>'></ul>
+                                <a href='${pageContext.request.contextPath}/admin/class?city=<c:out value="${school.cityId}"/>&school=<c:out value="${school.id}"/>'>Добавить класс</a>
+                            </div>
                             <div class="panel-heading">
                                 <a id='a-classes<c:out value="${school.id}"/>' onclick='loadClasses(<c:out value="${school.id}"/>)' href='#div-classes<c:out value="${school.getId()}"/>'>
                                     Классы
                                 </a>
                             </div>
-                            <div id='div-classes<c:out value="${school.id}"/>' class="panel-collapse collapse">
-                                <ul id='classes<c:out value="${school.id}"/>'></ul>
-                                <a href='${pageContext.request.contextPath}/admin/class?city=<c:out value="${school.cityId}"/>&school=<c:out value="${school.id}"/>'>Добавить класс</a>
-                            </div>
                         </div>
 
                         <div class="panel panel-default">
+                            <div id='div-teachers<c:out value="${school.id}"/>' class="panel-collapse collapse">
+                                <ul id='teachers<c:out value="${school.id}"/>'></ul>
+                                <a>Добавить учителя</a>
+                            </div>
                             <div class="panel-heading">
                                 <a id='#a-teachers<c:out value="${school.id}"/>' onclick='loadTeachers(<c:out value="${school.id}"/>)' href='#teachers<c:out value="${school.id}"/>'>
                                     Учителя
                                 </a>
-                            </div>
-                            <div id='div-teachers<c:out value="${school.id}"/>' class="panel-collapse collapse">
-                                <ul id='teachers<c:out value="${school.id}"/>'></ul>
-                                <a>Добавить учителя</a>
                             </div>
                         </div>
                     </div>

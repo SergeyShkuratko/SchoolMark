@@ -18,8 +18,17 @@ import java.util.*;
 
 public class SchoolDAOImpl implements SchoolsDAO {
 
-    private static final Logger logger = Logger.getLogger(SchoolDAOImpl.class);
-    private static final ConnectionPool pool = TomcatConnectionPool.getInstance();
+    private static Logger logger = Logger.getLogger(SchoolDAOImpl.class);
+    private static ConnectionPool pool = TomcatConnectionPool.getInstance();
+
+    private static final String GET_BY_ID = "SELECT s.id as s_id, r.id as r_id, c.id as c_id," +
+            " r.name as r_name, c.name as c_name, s.name as s_name," +
+            " st.id as st_id, st.type_name" +
+            " FROM schools as s" +
+            " JOIN city as c on s.city_id = c.id" +
+            " JOIN region as r on c.region_id = r.id" +
+            " JOIN school_types as st ON st.id = s.school_type_id" +
+            " WHERE s.id = ?";
 
     private static final String GET_BY_CITY = "SELECT * FROM schools s" +
             " LEFT JOIN school_types st ON st.id = s.school_type_id" +
@@ -36,6 +45,26 @@ public class SchoolDAOImpl implements SchoolsDAO {
             " JOIN city as c on s.city_id = c.id" +
             " JOIN region as r on c.region_id = r.id" +
             " JOIN school_types as st ON st.id = s.school_type_id";
+
+    @Override
+    public SchoolDTO getById(int id) throws SchoolDAOException {
+        SchoolDTO school = null;
+        try (Connection connection = pool.getConnection();
+             PreparedStatement statement = connection.prepareStatement(GET_BY_ID)) {
+            statement.setInt(1, id);
+            ResultSet set = statement.executeQuery();
+            List<SchoolDTO> schools = getSchoolsFromSet(set);
+            if (schools.isEmpty()) {
+                throw new SchoolDAOException();
+            }
+            school = schools.get(0);
+        } catch (SQLException | SchoolDAOException e) {
+            logger.error(e.getMessage());
+            logger.debug(e);
+            throw new SchoolDAOException();
+        }
+        return school;
+    }
 
     @Override
     public List<SchoolDTO> getAllSchoolsInCity(int id) throws SchoolDAOException {
@@ -89,7 +118,7 @@ public class SchoolDAOImpl implements SchoolsDAO {
             while (set.next()) {
                 classes.add(new SchoolClass(
                         set.getInt("id"),
-                        set.getInt("num"),
+                        set.getInt("number"),
                         set.getString("name")));
             }
         } catch (SQLException e) {

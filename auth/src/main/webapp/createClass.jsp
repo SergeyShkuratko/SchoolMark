@@ -24,7 +24,6 @@
                         $('#school').html(output);
                     },
                     error: function (xhr, ajaxOptions, thrownError) {
-                        alert(xhr.status + " " + thrownError);
                     }
                 });
             }
@@ -36,24 +35,22 @@
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-12">
         <form id="validate-form" class="form-horizontal" role="form" action="${pageContext.request.contextPath}/admin/class" method="post">
-            <input type="hidden" name="city" value='<c:out value="${city}"/>'/>
-            <input type="hidden" name="city" value='<c:out value="${school}"/>'/>
-            <div class="form-group has-feedback">
+            <input type="hidden" name="school" value='<c:out value="${school.id}"/>'/>
+            <div class="form-group">
                 <label for="region">Регион:</label>
-                <input id="region" placeholder="Регион" class="form-control" type="text" name="region" onchange="loadSchoolList()" pattern="[А-Яа-я., -]+" required/>
-            </div>
-            <div class="form-group has-feedback">
-                <label for="city">Укажите город:</label>
-                <input id="city" placeholder="Город" class="form-control" type="text" name="city" onchange="loadSchoolList()" pattern="[А-Яа-я., -]+" required/>
+                <input id="region" class="form-control" type="text" value='<c:out value="${school.regionName}"/>' disabled/>
             </div>
             <div class="form-group">
-                <label for="school">Выберите школу из списка </label>
-                <select id="school" class="form-control">
-                </select>
+                <label for="city">Город:</label>
+                <input id="city" class="form-control" type="text" value='<c:out value="${school.cityName}"/>' disabled/>
+            </div>
+            <div class="form-group">
+                <label for="school">Школа:</label>
+                <input id="school" class="form-control" type="text" value='<c:out value="${school.name}"/>' disabled/>
             </div>
             <div class="form-group has-feedback">
                 <label for="school-class">Укажите класс:</label>
-                <input id="school-class" placeholder="Класс" class="form-control" type="text" name="school-class" pattern="[1-9][1]?" required/>
+                <input id="school-class" placeholder="Класс" class="form-control" type="text" name="class_num" pattern="[1-9][1]?" required/>
             </div>
             <div class="form-group has-feedback">
                 <label for="letter">Укажите букву класса:</label>

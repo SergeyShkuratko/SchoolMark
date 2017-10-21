@@ -17,8 +17,8 @@ import java.util.List;
 
 public class SchoolTeacherDAOImpl implements SchoolTeacherDAO {
 
-    private static final Logger logger = Logger.getLogger(SchoolDAOImpl.class);
-    private static final ConnectionPool pool = TomcatConnectionPool.getInstance();
+    private static Logger logger = Logger.getLogger(SchoolDAOImpl.class);
+    private static ConnectionPool pool = TomcatConnectionPool.getInstance();
 
     private static final String GET_BY_SCHOOL = "SELECT * FROM teachers t" +
             " LEFT JOIN users u ON u.id = t.user_id" +

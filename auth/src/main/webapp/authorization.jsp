@@ -26,14 +26,14 @@
                                 <c:if test="${errorText != null}"><div class="not-found"><span><c:out value="${errorText}"/></span></div></c:if>
                                 <div class="input-group has-feedback">
                                     <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
-                                    <input type="text" name="login" class="form-control" placeholder="Имя пользователя" pattern="[A-Za-z][A-Za-z0-9]{3,99}" required autofocus />
+                                    <input type="text" name="login" class="form-control" placeholder="Имя пользователя" pattern="[A-Za-z][A-Za-z0-9]{3,29}" required autofocus />
                                     <span class="glyphicon form-control-feedback"></span>
                                 </div>
-                                <div class="error-text"><span>Имя пользователя должно быть не менее 4 символов длиной и содержать буквы латинского алфавита и цифры</span></div>
+                                <div class="error-text"><span>Имя пользователя должно быть от 4 до 30 символов длиной и содержать буквы латинского алфавита и цифры</span></div>
 
                                 <div class="input-group">
                                     <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
-                                    <input type="password" name="password" class="form-control" placeholder="Ваш пароль" required />
+                                    <input type="password" name="password" class="form-control" placeholder="Ваш пароль" minlength="5" maxlength="30" required />
                                 </div>
                                 <div class="error-text"><span>Пароль не может быть пустым</span></div>
 

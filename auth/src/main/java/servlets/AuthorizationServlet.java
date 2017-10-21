@@ -14,6 +14,7 @@ import java.io.IOException;
 
 import static classes.CommonSettings.*;
 import static exceptions.ErrorDescriptions.*;
+import static utils.ForwardRequestHelper.getErrorDispatcher;
 import static utils.Settings.*;
 
 public class AuthorizationServlet extends HttpServlet {
@@ -37,18 +38,16 @@ public class AuthorizationServlet extends HttpServlet {
         try {
             user = authService.auth(login, password);
         } catch (UserNotFoundException e) {
-            req.setAttribute("errorText", USER_NOT_FOUND);
-            req.getRequestDispatcher(AUTH_JSP).forward(req, resp);
+            getErrorDispatcher(req, USER_NOT_FOUND).forward(req, resp);
+            return;
         } catch (UserDAOException e) {
-            req.setAttribute("errorText", DB_ERROR);
-            req.getRequestDispatcher(ERROR_JSP).forward(req, resp);
+            getErrorDispatcher(req, DB_ERROR).forward(req, resp);
+            return;
         }
         if (user != null) {
             req.getSession().setAttribute(AUTH_USER_ATTRIBUTE, user.getUserId());
             req.getSession().setAttribute(AUTH_ROLE_ATTRIBUTE, user.getRole());
             resp.sendRedirect(DEPLOY_PATH + authService.getCabinetUrl(user));
         }
-
-
     }
 }
