@@ -1,11 +1,7 @@
 package servlets.admin.lists;
 
-import classes.Teacher;
-import classes.dto.TeacherDTO;
-import dao.SchoolTeacherDAOImpl;
-import exceptions.SchoolTeacherDAOException;
-import interfaces.dao.SchoolTeacherDAO;
-import interfaces.dao.TeacherDAO;
+import services.AdminDataRequestsProcessingService;
+import services.impl.AdminDataRequestsProcessingServiceImpl;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -17,24 +13,19 @@ import java.util.List;
 
 public class TeacherListServlet extends HttpServlet {
 
-    private SchoolTeacherDAO teacherDAO = new SchoolTeacherDAOImpl();
+    private AdminDataRequestsProcessingService processingService = new AdminDataRequestsProcessingServiceImpl();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String param = req.getParameter("school");
-        if (param == null) {
-            // TODO something
+        if (param != null) {
+            resp.setCharacterEncoding("UTF-8");
+            PrintWriter pw = resp.getWriter();
+            int id = Integer.valueOf(req.getParameter("school"));
+            List<String> teacherNames = processingService.getTeacherNamesBySchoolId(id);
+            teacherNames.stream().forEach((t) -> pw.println("<li>" + t + "</li>"));
+        } else {
+            resp.sendError(HttpServletResponse.SC_BAD_REQUEST);
         }
-        resp.setCharacterEncoding("UTF-8");
-        PrintWriter pw = resp.getWriter();
-        int id = Integer.valueOf(req.getParameter("school"));
-        List<TeacherDTO> classes = null;
-        try {
-            classes = teacherDAO.getTeacherBySchool(id);
-            classes.stream().forEach((t) -> pw.println("<li>" + t.firstname + t.lastname + "</li>"));
-        } catch (SchoolTeacherDAOException e) {
-            e.printStackTrace();
-        }
-
     }
 }
