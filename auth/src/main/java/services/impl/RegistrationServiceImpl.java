@@ -1,5 +1,6 @@
 package services.impl;
 
+import classes.Role;
 import classes.User;
 import classes.UserCredentials;
 import dao.UserDAOImpl;
@@ -25,6 +26,23 @@ public class RegistrationServiceImpl implements RegistrationService {
             e.printStackTrace();
         }
         return null;
+    }
+
+    @Override
+    public String getOrCreateLinkByRoleAndSchool(Role role, int schoolId) {
+        return "/register/" + "sadsadsa";
+    }
+
+    @Override
+    public String getRegistrationFormHeader(Role role) {
+        switch (role.getName()){
+            case 1:
+                return "Регистрация ученика";
+            case 2:
+                return "Регистрация директора";
+            default:
+                return "Регистрация учителя";
+        }
     }
 
 }

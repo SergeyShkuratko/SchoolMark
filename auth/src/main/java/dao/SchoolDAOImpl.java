@@ -1,5 +1,6 @@
 package dao;
 
+import classes.Role;
 import classes.School;
 import classes.SchoolClass;
 import classes.SchoolType;
@@ -38,5 +39,9 @@ public class SchoolDAOImpl implements SchoolDAO {
         classes.add(new SchoolClass(3, 11, "11В", school));
 
         return classes;
+    }
+
+    public School getSchoolById(int schoolId) {
+        return new School(1, "1", "asd", "asd", new SchoolType(1, "1"));
     }
 }
