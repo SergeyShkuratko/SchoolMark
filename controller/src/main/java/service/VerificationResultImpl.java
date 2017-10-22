@@ -1,8 +1,8 @@
 package service;
 
-import DAO.DTO.VerificationResultDTO;
-import DAO.VerificationDAO;
-import DAO.daoimplementation.VerificationDAOImpl;
+import dao.dto.VerificationResultDTO;
+import dao.VerificationDAO;
+import dao.daoimplementation.VerificationDAOImpl;
 
 public class VerificationResultImpl implements VerificationService {
     VerificationDAO verificationDAO = new VerificationDAOImpl();

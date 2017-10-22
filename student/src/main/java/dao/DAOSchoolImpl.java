@@ -83,7 +83,8 @@ public class DAOSchoolImpl implements DAOSchool {
         return this.getMany("WHERE schls.school_type_id = " + school_type_id);
     }
 
-    private int removeSchoolsCommon(String where) throws DAOSchoolErrorRequestException {
+    private int removeSchoolsCommon(String where)
+            throws DAOSchoolErrorRequestException {
         try {
             return DAOUtils.getResultSetExecuteUpdateByWhere(
                     connection, this.baseRemoveSql + where);

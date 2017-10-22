@@ -1,4 +1,4 @@
-package DAO.DTO;
+package dao.dto;
 
 import java.sql.Date;
 

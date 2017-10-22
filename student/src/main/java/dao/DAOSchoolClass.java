@@ -53,6 +53,15 @@ public interface DAOSchoolClass {
 
     /**
      *
+     * @param number
+     * @return 1 if deleted, 0 if not found
+     * @throws DAOSchoolClassErrorRequestException
+     */
+    int removeSchoolClassesByNumber(int number)
+            throws DAOSchoolClassErrorRequestException;
+
+    /**
+     *
      * @param name
      * @return 1 if deleted, 0 if not found
      * @throws DAOSchoolClassErrorRequestException

@@ -1,4 +1,4 @@
-package DAO.DTO;
+package dao.dto;
 
 public class VerificationResultDTO {
     private int workId;

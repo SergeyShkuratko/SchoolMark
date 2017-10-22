@@ -1,6 +1,6 @@
 package service;
 
-import DAO.DTO.VerificationResultDTO;
+import dao.dto.VerificationResultDTO;
 
 public interface VerificationService {
 

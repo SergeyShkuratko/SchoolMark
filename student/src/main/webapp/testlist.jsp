@@ -60,15 +60,15 @@
             <tbody>
             <c:forEach items="${works}" var="work">
                 <tr>
-                    <td><c:out value="${work.test.startDate}"/></td>
-                    <td><c:out value="${work.test.template.subject.name}"/></td>
+                    <td><c:out value="${work.date}"/></td>
+                    <td><c:out value="${work.subject}"/></td>
                     <td>
-                        <a href="${context}/workload?id=<c:out value="${work.test.id}"/>">
-                            <c:out value="${work.test.template.theme}"/>
+                        <a href="${context}/workload?id=<c:out value="${work.work_id}"/>">
+                            <c:out value="${work.topic}"/>
                         </a>
                     </td>
                     <td><c:out value="${work.mark}"/></td>
-                    <td><c:out value="${work.test.status.name}"/></td>
+                    <td><c:out value="${work.status}"/></td>
                 </tr>
             </c:forEach>
             </tbody>

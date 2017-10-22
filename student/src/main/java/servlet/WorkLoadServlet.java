@@ -1,5 +1,9 @@
 package servlet;
 
+import classes.Work;
+import dao.DAOStudentWork;
+import dto.DTOFile;
+import dto.DTOWork;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
@@ -17,6 +21,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
+
 @WebServlet("/workload")
 public class WorkLoadServlet extends HttpServlet {
 
@@ -25,16 +30,24 @@ public class WorkLoadServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String context = getServletContext().getContextPath();
         try {
             int id = Integer.decode(req.getParameter("id"));
-            req.setAttribute("work", WorkService.getWorkById(id - 1));
-            req.setAttribute("questions", WorkService.getQuestionListByWorkId(id));
-            req.setAttribute("files", WorkService.getStudentFilesByWorkId(id));
-            req.setAttribute("teacher_files", WorkService.getTeacherFilesByWorkId(id));
+            DTOWork work = WorkService.getWorkById(id);
+            int template_id = work.getTempl_id();
+            req.setAttribute("work", work);
+            List<String> question = WorkService.getQuestionListByTemplateId(template_id);
+            req.setAttribute("questions", question);
+            List<DTOFile> studentFiles = WorkService.getStudentFilesByWorkId(id);
+            req.setAttribute("files", studentFiles);
+            List<DTOFile> teacherFiles = WorkService.getVerificationFilesByVerificationId(id);
+            req.setAttribute("teacher_files", teacherFiles);
             req.getRequestDispatcher("/work_load.jsp").forward(req, resp);
         } catch (NullPointerException e) {
-            logger.warn(e.getMessage());
-            ((HttpServletResponse) resp).sendRedirect("/student");
+            logger.error(e.getMessage());
+            ((HttpServletResponse) resp).sendRedirect(context + "/testlist");
+        } catch (DAOStudentWork.DAOStudentWorkException e) {
+            logger.error(e.getMessage());
         }
     }
 
@@ -60,10 +73,18 @@ public class WorkLoadServlet extends HttpServlet {
     private void delPhoto(HttpServletRequest request, HttpServletResponse response) {
         String referer = request.getHeader("referer");
         String fileName = request.getParameter("file");
-        WorkService.fileList.remove(fileName);
-        String path = getServletContext().getRealPath(fileName);
-        File file = new File(path);
-        if (!file.delete()) logger.error("Файл изображения не удален.");
+        //TODO пропработать NPE
+        int file_id = Integer.decode(request.getParameter("file_id"));
+        try {
+            if (WorkService.delStudentFile(file_id)) {
+                String path = getServletContext().getRealPath(fileName);
+                File file = new File(path);
+                if (!file.delete()) logger.error("Файл изображения не удален.");
+            }
+        } catch (DAOStudentWork.DAOStudentWorkException e) {
+            e.printStackTrace();
+        }
+
         try {
             response.sendRedirect(referer);
         } catch (IOException e) {
@@ -72,18 +93,32 @@ public class WorkLoadServlet extends HttpServlet {
     }
 
     private void sendWork(HttpServletRequest request, HttpServletResponse response) {
+        String context = getServletContext().getContextPath();
+        int work_id = Integer.decode(request.getParameter("work_id"));
         try {
-            //TODO тут что то должно произойти со статусом и дальше отправить на назначение
-            response.sendRedirect("/student/testlist");
+            WorkService.setWorkStatus(work_id, "uploaded");
+        } catch (DAOStudentWork.DAOStudentWorkException e) {
+            logger.error(e.getMessage());
+        }
+
+        try {
+            response.sendRedirect(context + "/testlist");
         } catch (IOException e) {
             logger.error(e.getMessage());
         }
     }
 
     private void sendToRecheck(HttpServletRequest request, HttpServletResponse response) {
+        String context = getServletContext().getContextPath();
+        int work_id = Integer.decode(request.getParameter("work_id"));
+        try {
+            WorkService.setWorkStatus(work_id, "reverification");
+        } catch (DAOStudentWork.DAOStudentWorkException e) {
+            logger.error(e.getMessage());
+        }
         try {
             //TODO тут что то должно произойти со статусом и дальше отправить на перепроверку
-            response.sendRedirect("/student/testlist");
+            response.sendRedirect(context + "/testlist");
         } catch (IOException e) {
             logger.error(e.getMessage());
         }
@@ -120,16 +155,20 @@ public class WorkLoadServlet extends HttpServlet {
         try {
             List items = upload.parseRequest(request);
             Iterator iter = items.iterator();
-
+            int work_id = 0;
             while (iter.hasNext()) {
                 FileItem item = (FileItem) iter.next();
-
                 if (item.isFormField()) {
+                    String fildName = item.getFieldName();
+                    if ("work_id".equals(fildName)) {
+                        work_id = Integer.decode(item.getString());
+                    }
                     //если принимаемая часть данных является полем формы
                     processFormField(item);
                 } else {
                     //в противном случае рассматриваем как файл
-                    processUploadedFile(item);
+
+                    WorkService.addStudentFileToBD(work_id, processUploadedFile(item));
                 }
             }
         } catch (Exception e) {
@@ -147,7 +186,7 @@ public class WorkLoadServlet extends HttpServlet {
      * @param item
      * @throws Exception
      */
-    private void processUploadedFile(FileItem item) throws Exception {
+    private String processUploadedFile(FileItem item) throws Exception {
         File uploadetFile = null;
         //выбираем файлу имя пока не найдём свободное
         do {
@@ -159,7 +198,7 @@ public class WorkLoadServlet extends HttpServlet {
         uploadetFile.createNewFile();
         //записываем в него данные
         item.write(uploadetFile);
-        WorkService.fileList.add("img/" + uploadetFile.getName());
+        return "img/" + uploadetFile.getName();
     }
 
     /**

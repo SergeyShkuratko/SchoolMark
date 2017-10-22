@@ -63,11 +63,9 @@ public class DAOUtils {
     }
 
     public static ResultSet getResultSetExecuteQueryByWhere(
-            Connection connection, String baseSql)
-            throws SQLException {
-        try(Statement stmt = connection.createStatement()) {
-            return stmt.executeQuery(baseSql);
-        }
+            Connection connection, String baseSql) throws SQLException {
+        Statement stmt = connection.createStatement();
+        return stmt.executeQuery(baseSql);
     }
 
     public static int getResultSetExecuteUpdateByWhere(

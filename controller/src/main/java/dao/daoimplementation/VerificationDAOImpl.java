@@ -1,7 +1,7 @@
-package DAO.daoimplementation;
+package dao.daoimplementation;
 
-import DAO.DTO.VerificationResultDTO;
-import DAO.VerificationDAO;
+import dao.dto.VerificationResultDTO;
+import dao.VerificationDAO;
 import connectionmanager.ConnectionManager;
 import connectionmanager.ConnectionManagerPostgresImpl;
 import org.apache.log4j.Logger;

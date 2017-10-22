@@ -1,8 +1,8 @@
-package DAO;
+package dao;
 
-import DAO.DTO.TestDTO;
-import DAO.DTO.TestsDTO;
-import DAO.DTO.WorkPageDTO;
+import dao.dto.TestDTO;
+import dao.dto.TestsDTO;
+import dao.dto.WorkPageDTO;
 
 import java.util.List;
 
