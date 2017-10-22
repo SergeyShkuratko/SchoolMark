@@ -2,7 +2,7 @@ package servlets;
 
 import classes.Role;
 import classes.User;
-import exceptions.RegisterUrlNotFoundException;
+import exceptions.RegistrationTokenNotFoundException;
 import exceptions.RoleDAOException;
 import exceptions.UserDAOException;
 import services.AuthorizationService;
@@ -41,7 +41,7 @@ public class RegistrationServlet extends HttpServlet {
                 } catch (RoleDAOException e) {
                     getErrorDispatcher(req, DB_ERROR).forward(req, resp);
                     return;
-                } catch (RegisterUrlNotFoundException e) {
+                } catch (RegistrationTokenNotFoundException e) {
                     getErrorDispatcher(req, WRONG_REG_URL).forward(req, resp);
                     return;
                 }

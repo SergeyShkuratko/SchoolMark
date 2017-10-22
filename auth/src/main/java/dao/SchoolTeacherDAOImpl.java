@@ -41,7 +41,7 @@ public class SchoolTeacherDAOImpl implements SchoolTeacherDAO {
 
     @Override
     public boolean addTeacher(Teacher teacher) throws SchoolTeacherDAOException {
-        return false;
+        throw new UnsupportedOperationException();
     }
 
     private List<TeacherDTO> setToTeachers(ResultSet set) throws SchoolTeacherDAOException {

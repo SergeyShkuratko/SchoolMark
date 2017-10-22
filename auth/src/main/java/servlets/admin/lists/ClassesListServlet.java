@@ -13,6 +13,9 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
 
+import static utils.Settings.DEPLOY_PATH;
+import static utils.Settings.REG_LINK_PAGE;
+
 public class ClassesListServlet extends HttpServlet {
 
     private SchoolService processingService = new SchoolServiceImpl();
@@ -26,12 +29,26 @@ public class ClassesListServlet extends HttpServlet {
                 PrintWriter pw = resp.getWriter();
                 int id = Integer.valueOf(req.getParameter("school"));
                 List<SchoolClass> classes = processingService.getClassesBySchoolId(id);
-                classes.stream().forEach((s) -> pw.println("<li>" + s.getName() + "</li>"));
+                classes.stream().forEach((s) -> pw.println(getLiString(s)));
             } else {
                 resp.sendError(HttpServletResponse.SC_BAD_REQUEST);
             }
         } catch (NumberFormatException | SchoolDAOException e) {
             resp.sendError(HttpServletResponse.SC_BAD_REQUEST);
         }
+    }
+
+    private String getLiString(SchoolClass schoolClass) {
+        return "<div class='row'><div class='col-sm-4 col-md-4 col-xs-4'><li>" + schoolClass.getName()
+                + "</div>"
+                + "<div class='col-sm-8 col-md-8 col-xs-8'>"
+                + getHrefString(schoolClass.getId())
+                + "</div></li></div>";
+    }
+
+    private String getHrefString(int classId) {
+        return "<span><a href='" + DEPLOY_PATH + REG_LINK_PAGE
+                + "?role=student&class=" + classId
+                + "'>Регистрация учеников</a></span>";
     }
 }

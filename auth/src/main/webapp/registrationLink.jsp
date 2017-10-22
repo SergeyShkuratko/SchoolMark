@@ -13,21 +13,21 @@
             <form class="form-horizontal" role="form" action="${pageContext.request.contextPath}/class" method="post">
                 <div class="form-group">
                     <label for="region">Регион:</label>
-                    <input id="region" class="form-control" type="text" name="region" value="${school.region}"disabled />
+                    <input id="region" class="form-control" type="text" name="region" value="${school.regionName}"disabled />
                 </div>
                 <div class="form-group">
                     <label for="city">Город:</label>
-                    <input id="city" class="form-control" type="text" name="city" value="${school.city}" disabled />
+                    <input id="city" class="form-control" type="text" name="city" value="${school.cityName}" disabled />
                 </div>
                 <div class="form-group">
-                    <label for="school">Город:</label>
+                    <label for="school">Школа:</label>
                     <input id="school" class="form-control" type="text" name="school" value="${school.name}" disabled />
                 </div>
                 <div class="form-group">
                     <span>Ссылка для регистрации <a href="${registrationLink}">${registrationLink}</a></span>
                 </div>
             </form>
-
+            <span><a href="admin/cabinet">Вернуться</a></span>
         </div>
     </div>
 </body>
