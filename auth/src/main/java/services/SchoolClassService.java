@@ -1,10 +1,12 @@
 package services;
 
 import classes.SchoolClass;
+import classes.dto.SchoolClassDTO;
 import exceptions.SchoolClassDAOException;
 
 public interface SchoolClassService {
 
-    boolean add(int schoolId, int classNum, String letter) throws SchoolClassDAOException;
+    boolean persistSchool(int schoolId, int classNum, String letter) throws SchoolClassDAOException;
+    SchoolClassDTO getSchoolClassById(int id) throws SchoolClassDAOException;
 
 }

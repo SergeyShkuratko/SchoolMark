@@ -29,7 +29,7 @@ public class ClassesListServlet extends HttpServlet {
                 PrintWriter pw = resp.getWriter();
                 int id = Integer.valueOf(req.getParameter("school"));
                 List<SchoolClass> classes = processingService.getClassesBySchoolId(id);
-                classes.stream().forEach((s) -> pw.println(getLiString(s)));
+                classes.stream().forEach((s) -> pw.println(getLiString(s, id)));
             } else {
                 resp.sendError(HttpServletResponse.SC_BAD_REQUEST);
             }
@@ -38,17 +38,18 @@ public class ClassesListServlet extends HttpServlet {
         }
     }
 
-    private String getLiString(SchoolClass schoolClass) {
+    private String getLiString(SchoolClass schoolClass, int id) {
         return "<div class='row'><div class='col-sm-4 col-md-4 col-xs-4'><li>" + schoolClass.getName()
                 + "</div>"
                 + "<div class='col-sm-8 col-md-8 col-xs-8'>"
-                + getHrefString(schoolClass.getId())
+                + getHrefString(schoolClass.getId(), id)
                 + "</div></li></div>";
     }
 
-    private String getHrefString(int classId) {
+    private String getHrefString(int classId, int schoolId) {
         return "<span><a href='" + DEPLOY_PATH + REG_LINK_PAGE
                 + "?role=student&class=" + classId
+                + "&school=" + schoolId
                 + "'>Регистрация учеников</a></span>";
     }
 }

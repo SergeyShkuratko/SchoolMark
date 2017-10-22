@@ -23,6 +23,12 @@
                     <label for="school">Школа:</label>
                     <input id="school" class="form-control" type="text" name="school" value="${school.name}" disabled />
                 </div>
+                <c:if test="${schoolclass != null}">
+                    <div class="form-group">
+                        <label for="class">Класс:</label>
+                        <input id="class" class="form-control" type="text" name="class" value="${schoolclass.name}" disabled />
+                    </div>
+                </c:if>
                 <div class="form-group">
                     <span>Ссылка для регистрации <a href="${registrationLink}">${registrationLink}</a></span>
                 </div>

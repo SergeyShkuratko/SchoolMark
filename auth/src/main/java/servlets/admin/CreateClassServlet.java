@@ -54,7 +54,7 @@ public class CreateClassServlet extends HttpServlet {
             String letter = req.getParameter("letter");
 
             try {
-                if (classService.add(schoolId, classNum, letter)) {
+                if (classService.persistSchool(schoolId, classNum, letter)) {
                     resp.sendRedirect(DEPLOY_PATH + ADMIN_CABINET);
                 } else {
                     getErrorDispatcher(req, DB_ERROR).forward(req, resp);

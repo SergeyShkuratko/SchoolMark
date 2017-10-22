@@ -5,11 +5,14 @@ import classes.dto.SchoolClassDTO;
 import classes.dto.SchoolDTO;
 import exceptions.RegistrationTokenNotFoundException;
 import exceptions.RoleDAOException;
+import exceptions.SchoolClassDAOException;
 import exceptions.SchoolDAOException;
 import org.apache.log4j.Logger;
 import services.RegistrationService;
+import services.SchoolClassService;
 import services.SchoolService;
 import services.impl.RegistrationServiceImpl;
+import services.impl.SchoolClassServiceImpl;
 import services.impl.SchoolServiceImpl;
 
 import javax.servlet.ServletException;
@@ -43,10 +46,10 @@ public class RegistrationLinkServlet extends HttpServlet {
             this.header = header;
         }
 
-        public RequestAttributes(SchoolClassDTO schoolClass, SchoolDTO school, String link, String header) {
+        public RequestAttributes(SchoolClassDTO schoolClass, SchoolDTO school, String path, String link, String header) {
             this.schoolClass = schoolClass;
             this.school = school;
-            this.link = link;
+            this.link = path + link;
             this.header = header;
         }
 
@@ -60,8 +63,11 @@ public class RegistrationLinkServlet extends HttpServlet {
         }
     }
 
+    private class WrongArgumentException extends Exception {}
+
     private static RegistrationService registrationService = new RegistrationServiceImpl();
     private static SchoolService schoolService = new SchoolServiceImpl();
+    private static SchoolClassService classService = new SchoolClassServiceImpl();
     private static Logger logger = Logger.getLogger(RegistrationLinkServlet.class);
 
     @Override
@@ -74,21 +80,19 @@ public class RegistrationLinkServlet extends HttpServlet {
                 Role role = Role.valueOf(roleParam);
                 switch (role) {
                     case teacher:
-                        getTeacherRegistrationLink()
+                    case director:
+                        fillTeacherRequestParams(req, schoolParam, role);
+                        break;
+                    case student:
+                        fillStudentRequestParams(req, schoolParam, classParam, role);
                         break;
                 }
-
-
-
-
-                attributes.writeToRequest(req);
                 req.getRequestDispatcher("/registrationLink.jsp").forward(req, resp);
-
-            } catch (NumberFormatException | RegistrationTokenNotFoundException e) {
+            } catch (WrongArgumentException | NumberFormatException | RegistrationTokenNotFoundException e) {
                 logger.error(e.getMessage(), e);
                 getErrorDispatcher(req, DATA_ERROR).forward(req, resp);
                 return;
-            } catch (SchoolDAOException | RoleDAOException e) {
+            } catch (SchoolClassDAOException | SchoolDAOException | RoleDAOException e) {
                 logger.error(e.getMessage(), e);
                 getErrorDispatcher(req, DB_ERROR).forward(req, resp);
                 return;
@@ -107,12 +111,31 @@ public class RegistrationLinkServlet extends HttpServlet {
         return result.toString();
     }
 
-    private void getTeacherRegistrationLink(HttpServletRequest request, String schoolParam) throws SchoolDAOException {
+    private void fillTeacherRequestParams(HttpServletRequest request, String schoolParam, Role role) throws SchoolDAOException, RoleDAOException, RegistrationTokenNotFoundException, WrongArgumentException {
+        if (schoolParam == null) {
+            throw new WrongArgumentException();
+        }
         int schoolId = Integer.parseInt(schoolParam);
         RequestAttributes attributes = new RequestAttributes(
                 schoolService.getSchoolById(schoolId),
-                getAbsoluteContextPath(req),
+                getAbsoluteContextPath(request),
                 registrationService.getOrCreateLinkByRoleAndSchool(role, schoolId),
                 registrationService.getRegistrationFormHeader(role));
+        attributes.writeToRequest(request);
+    }
+
+    private void fillStudentRequestParams(HttpServletRequest request, String schoolParam, String classParam, Role role) throws SchoolDAOException, RoleDAOException, RegistrationTokenNotFoundException, WrongArgumentException, SchoolClassDAOException {
+        if (schoolParam == null || classParam == null) {
+            throw new WrongArgumentException();
+        }
+        int schoolId = Integer.parseInt(schoolParam);
+        int classId = Integer.parseInt(classParam);
+        RequestAttributes attributes = new RequestAttributes(
+                classService.getSchoolClassById(classId),
+                schoolService.getSchoolById(schoolId),
+                getAbsoluteContextPath(request),
+                registrationService.getOrCreateLinkByRoleAndSchool(role, schoolId),
+                registrationService.getRegistrationFormHeader(role));
+        attributes.writeToRequest(request);
     }
 }
