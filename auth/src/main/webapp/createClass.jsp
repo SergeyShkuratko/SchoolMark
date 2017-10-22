@@ -9,26 +9,7 @@
     <link href="../css/bootstrap.min.css" rel="stylesheet">
     <link href="../css/auth.css" rel="stylesheet">
     <script type="text/javascript" src="../js/jquery-3.2.1.min.js"></script>
-    <script type="text/javascript" src="../js/validate.js"></script>
-    <script type="text/javascript">
-        function loadSchoolList() {
-            var region = $('#region').val();
-            var city = $('#city').val();
-            if (region && city) {
-                $('#school').html('<option value="">Loading...</option>');
-
-
-                $.ajax({
-                    url: 'schools?city=' + city + '&region=' + region,
-                    success: function (output) {
-                        $('#school').html(output);
-                    },
-                    error: function (xhr, ajaxOptions, thrownError) {
-                    }
-                });
-            }
-        }
-    </script>
+    <script type="text/javascript" src="../js/auth-validate.js"></script>
 </head>
 <body>
 <div class="container">
@@ -50,12 +31,14 @@
             </div>
             <div class="form-group has-feedback">
                 <label for="school-class">Укажите класс:</label>
-                <input id="school-class" placeholder="Класс" class="form-control" type="text" name="class_num" pattern="[1-9][1]?" required/>
+                <input id="school-class" placeholder="Класс" class="form-control" type="number" min="1" max="11" maxlength="2" name="class_num" required/>
             </div>
+            <div class="error-text"><span></span></div>
             <div class="form-group has-feedback">
                 <label for="letter">Укажите букву класса:</label>
-                <input id="letter" placeholder="Буква класса" class="form-control" type="text" name="letter" pattern="[А-Яа-я]" required/>
+                <input id="letter" placeholder="Буква класса" class="form-control" type="text" name="letter" maxlength="1" required/>
             </div>
+            <div class="error-text"><span></span></div>
         </form>
         </div>
     </div>
