@@ -30,73 +30,58 @@
     <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
+
+    <%@include file="/mystatic/menustyles.jsp" %>
 </head>
 
 <body>
+<%@include file="/mystatic/pageheader.jsp" %>
+
 <c:set var="context" value="${pageContext.request.contextPath}"/>
-    <div class="container-fluid">
-        <div class="row">
-            <%--<div class="col-sm-3 col-md-2 sidebar control-work-sidebar">--%>
-                <%--<div class="panel panel-default control-work-sidebar-photo">--%>
-                    <%--<div class="panel-body">--%>
+<div class="row panel panel-default margin-bottom-null">
 
-                    <%--</div>--%>
-                <%--</div>--%>
-                <%--<ul class="nav nav-sidebar control-work-sidebar-number">--%>
-                    <%--<li><button class="btn btn-default control-work-sidebar-button" type="submit">Button</button></li>--%>
-                    <%--<li><button class="btn btn-default control-work-sidebar-button" type="submit">Button</button></li>--%>
-                    <%--<li><button class="btn btn-default control-work-sidebar-button" type="submit">Button</button></li>--%>
-                    <%--<li><button class="btn btn-default control-work-sidebar-button" type="submit">Button</button></li>--%>
-                    <%--<li class="control-work-sidebar-circle"><i class="fa fa-3x fa-circle-thin "></i></li>--%>
-                    <%--<li><button class="btn btn-default control-work-sidebar-button" type="submit">Button</button></li>--%>
-                <%--</ul>--%>
-            <%--</div>--%>
-                <%@include file="/mystatic/justMenu.jsp" %>
-            <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-                <div class="row panel panel-default margin-bottom-null">
-
-                    <div class="col-xs-12 col-sm-12 text-center">
-                        <h1 class="control-work-title text-danger">Выполняется контрольная работа</h1>
-                    </div>
-
-                </div>
-                <div class="row placeholders">
-                    <div class="table-responsive">
-                        <table class="table table-bordered text-left">
-                            <thead>
-                            <tr class="active">
-                                <th>Дата</th>
-                                <th>Предмет</th>
-                                <th>Тема контрольной работы</th>
-                                <th>Оценка</th>
-                                <th>Статус</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                                <c:forEach items="${works}" var="work">
-                                <tr>
-                                    <td><c:out value="${work.date}"/></td>
-                                    <td><c:out value="${work.subject}"/></td>
-                                    <td>
-                                        <a href="${context}/workload?id=<c:out value="${work.work_id}"/>">
-                                            <c:out value="${work.topic}"/>
-                                        </a>
-                                    </td>
-                                    <td> <c:out value="${work.mark}"/> </td>
-                                    <td> <c:out value="${work.status}"/> </td>
-                                </tr>
-                                </c:forEach>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <div class="col-xs-12 col-sm-12 text-center">
+        <h1 class="control-work-title text-danger">Выполняется контрольная работа</h1>
     </div>
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    </body>
+
+</div>
+<div class="row placeholders">
+    <div class="table-responsive">
+        <table class="table table-bordered text-left">
+            <thead>
+            <tr class="active">
+                <th>Дата</th>
+                <th>Предмет</th>
+                <th>Тема контрольной работы</th>
+                <th>Оценка</th>
+                <th>Статус</th>
+            </tr>
+            </thead>
+            <tbody>
+            <c:forEach items="${works}" var="work">
+                <tr>
+                    <td><c:out value="${work.date}"/></td>
+                    <td><c:out value="${work.subject}"/></td>
+                    <td>
+                        <a href="${context}/workload?id=<c:out value="${work.work_id}"/>">
+                            <c:out value="${work.topic}"/>
+                        </a>
+                    </td>
+                    <td><c:out value="${work.mark}"/></td>
+                    <td><c:out value="${work.status}"/></td>
+                </tr>
+            </c:forEach>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<%@include file="/mystatic/pagefooter.jsp" %>
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+</body>
 </html>

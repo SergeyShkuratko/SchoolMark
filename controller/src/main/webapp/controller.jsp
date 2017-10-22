@@ -9,97 +9,99 @@
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
     <link href="${context}/css/dashboard.css" rel="stylesheet">
     <link href="${context}/css/ratingbar.css" rel="stylesheet">
+
+    <%@include file="/mystatic/menustyles.jsp" %>
 </head>
 <body>
-<div class="container-fluid">
-    <div class="row ifaceforworkcheck">
-        <%@include file="/mystatic/justMenu.jsp" %>
-        <div class="col-sm-3 col-md-3 col-md-offset-2 ifaceforworkcheck-column">
-            <ul class="nav nav-sidebar control-work-sidebar-number">
-                <c:forEach items="#{tests}" var="test">
-                    <c:out value="<li>
+<%@include file="/mystatic/pageheader.jsp" %>
+
+<div class="row ifaceforworkcheck">
+    <div class="col-sm-3 col-md-3 ifaceforworkcheck-column">
+        <ul class="nav nav-sidebar control-work-sidebar-number">
+            <c:forEach items="#{tests}" var="test">
+                <c:out value="<li>
                     <button testId=\"${test.id}\" class=\"btn btn-success control-work-sidebar-button test\" type=\"submit\">${test.classNum} кл. ${test.subjectName} ${test.deadLine}</button>
                 </li>" escapeXml="false"/>
-                </c:forEach>
+            </c:forEach>
+        </ul>
+    </div>
+    <div id="works-list-container" class="col-sm-3 col-md-3 ifaceforworkcheck-column">
+        <ul class="nav nav-sidebar control-work-sidebar-number works-list">
+        </ul>
+    </div>
+    <div class="col-sm-6 col-md-6 ifaceforworkcheck-column">
+        <div class="panel panel-default">
+            <div class="panel-body description">
+            </div>
+        </div>
+        <div class="row ifaceforworkcheck-row work-image-container">
+            <ul class="horizontal-slide work-image">
             </ul>
         </div>
-        <div id="works-list-container" class="col-sm-3 col-md-3 ifaceforworkcheck-column">
-            <ul class="nav nav-sidebar control-work-sidebar-number works-list">
-            </ul>
-        </div>
-        <div class="col-sm-4 col-md-4 ifaceforworkcheck-column">
-            <div class="panel panel-default">
-                <div class="panel-body description">
-                </div>
-            </div>
-            <div class="row ifaceforworkcheck-row work-image-container">
-                <ul class="horizontal-slide work-image">
-                </ul>
-            </div>
 
-            <div class="modal fade" id="showImage" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content" style="width: 745px;">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                                    aria-hidden="true">&times;</span></button>
-                            <h4 class="modal-title" id="myModalLabel">Modal title</h4>
-                        </div>
-                        <div class="modal-body">
-                            <img src="" alt="" style="width: 650px; height: 650px;">
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        </div>
+        <div class="modal fade" id="showImage" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content" style="width: 745px;">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+                    </div>
+                    <div class="modal-body">
+                        <img src="" alt="" style="width: 650px; height: 650px;">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                     </div>
                 </div>
             </div>
+        </div>
 
 
-            <div class="row">
-                <div class="panel panel-default">
-                    <div class="panel-body">
-                        <div class="form-group">
+        <div class="row">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="form-group">
     <textarea class="form-control" rows="5" id="comment"
               placeholder="Добавьте комментарии по работе здесь..."></textarea>
-                        </div>
                     </div>
                 </div>
             </div>
-
-            <div class="row">
-                <div data-role="ratingbar" data-steps="100" style="font-size: 24px">
-                    <ul>
-                        <li><a href="#"><span class="glyphicon glyphicon-star"></span></a></li>
-                        <li><a href="#"><span class="glyphicon glyphicon-star"></span></a></li>
-                        <li><a href="#"><span class="glyphicon glyphicon-star"></span></a></li>
-                        <li><a href="#"><span class="glyphicon glyphicon-star"></span></a></li>
-                        <li><a href="#"><span class="glyphicon glyphicon-star"></span></a></li>
-                    </ul>
-                </div>
-                <br/>
-            </div>
-
-            <%--<div class="row ifaceforworkcheck-row work-image-container">--%>
-            <%--<ul class="horizontal-slide result-image">--%>
-            <%--</ul>--%>
-            <%--</div>--%>
-
-            <%--<div class="row">--%>
-            <%--<input id="fileupload" type="file" name="files[]" data-url="/SM/start" multiple>--%>
-            <%--<button class="btn btn-default control-work-sidebar-button" type="submit">Load images</button>--%>
-            <%--</div>--%>
-
-            <div class="row">
-                <button class="btn btn-default control-work-sidebar-button send-result" type="submit">Send result
-                </button>
-            </div>
-
-
         </div>
+
+        <div class="row">
+            <div data-role="ratingbar" data-steps="100" style="font-size: 24px">
+                <ul>
+                    <li><a href="#"><span class="glyphicon glyphicon-star"></span></a></li>
+                    <li><a href="#"><span class="glyphicon glyphicon-star"></span></a></li>
+                    <li><a href="#"><span class="glyphicon glyphicon-star"></span></a></li>
+                    <li><a href="#"><span class="glyphicon glyphicon-star"></span></a></li>
+                    <li><a href="#"><span class="glyphicon glyphicon-star"></span></a></li>
+                </ul>
+            </div>
+            <br/>
+        </div>
+
+        <%--<div class="row ifaceforworkcheck-row work-image-container">--%>
+        <%--<ul class="horizontal-slide result-image">--%>
+        <%--</ul>--%>
+        <%--</div>--%>
+
+        <%--<div class="row">--%>
+        <%--<input id="fileupload" type="file" name="files[]" data-url="/SM/start" multiple>--%>
+        <%--<button class="btn btn-default control-work-sidebar-button" type="submit">Load images</button>--%>
+        <%--</div>--%>
+
+        <div class="row">
+            <button class="btn btn-default control-work-sidebar-button send-result" type="submit">Send result
+            </button>
+        </div>
+
+
     </div>
 </div>
-</div>
+
+<%@include file="/mystatic/pagefooter.jsp" %>
 
 
 <!-- Bootstrap core JavaScript
