@@ -86,9 +86,11 @@
     <style>td, th {
         padding: 2px !important;
     }</style>
+
+    <%@include file="/mystatic/menustyles.jsp" %>
 </head>
 <body>
-    <%@include file="/mystatic/justMenu.jsp" %>
+    <%@include file="/mystatic/pageheader.jsp" %>
 
     <form method="get" action="${pageContext.request.contextPath}/organizer/calendar" id="mainForm">
         <input type="hidden" name="dayOfMonth" id="dayOfMonth" value="${beginData}"/>
@@ -136,5 +138,7 @@
             </tr>
         </table>
     </form>
+
+    <%@include file="/mystatic/pagefooter.jsp" %>
 </body>
 </html>

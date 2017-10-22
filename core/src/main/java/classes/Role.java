@@ -1,6 +1,6 @@
 package classes;
 
-public class Role {
+/*public class Role {
     private final int id;
     private final int name;
 
@@ -16,4 +16,11 @@ public class Role {
     public int getName() {
         return name;
     }
+}*/
+
+public enum Role {
+    director,
+    teacher,
+    student,
+    admin
 }
