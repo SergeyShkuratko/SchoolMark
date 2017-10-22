@@ -1,4 +1,6 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8">
@@ -6,7 +8,7 @@
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/auth.css" rel="stylesheet">
     <script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
-    <script type="text/javascript" src="js/validate.js"></script>
+    <script type="text/javascript" src="js/auth-validate.js"></script>
 </head>
 <body>
 <div class="vertical-center">
@@ -20,18 +22,19 @@
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-xs-12 col-sm-12 col-md-12 login-box">
-                            <form id="auth-form" role="form" action="${pageContext.request.contextPath}/auth" method="POST">
+                            <form id="validate-form" role="form" action="${pageContext.request.contextPath}/auth" method="POST">
                                 <div class="input-group has-feedback">
                                     <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
-                                    <input type="text" name="login" class="form-control" placeholder="Имя пользователя" pattern="[A-Za-z][A-Za-z0-9]{3,99}" required autofocus />
+                                    <input type="text" name="login" class="form-control" placeholder="Имя пользователя" pattern="[A-Za-z][A-Za-z0-9]{3,29}" required autofocus />
                                     <span class="glyphicon form-control-feedback"></span>
                                 </div>
-                                <div class="error-text"><span>Имя пользователя должно быть не менее 4 символов длиной и содержать буквы латинского алфавита и цифры</span></div>
+                                <div class="error-text"><span></span></div>
+
                                 <div class="input-group">
                                     <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
-                                    <input type="password" name="password" class="form-control" placeholder="Ваш пароль" required />
+                                    <input type="password" name="password" class="form-control" placeholder="Ваш пароль" minlength="5" maxlength="30" required />
                                 </div>
-                                <div class="error-text"><span>Пароль не может быть пустым</span></div>
+                                <div class="error-text"><span></span></div>
 
                                 <div class="checkbox">
                                     <label>

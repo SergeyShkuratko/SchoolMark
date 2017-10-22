@@ -1,10 +1,10 @@
 package service;
 
-import DAO.DTO.TestDTO;
-import DAO.DTO.TestsDTO;
-import DAO.DTO.WorkPageDTO;
-import DAO.TestDAO;
-import DAO.daoimplementation.TestDAOImpl;
+import dao.dto.TestDTO;
+import dao.dto.TestsDTO;
+import dao.dto.WorkPageDTO;
+import dao.TestDAO;
+import dao.daoimplementation.TestDAOImpl;
 import jsonconverter.Converter;
 import jsonconverter.JsonConverter;
 
