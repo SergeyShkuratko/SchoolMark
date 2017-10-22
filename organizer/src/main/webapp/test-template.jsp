@@ -100,8 +100,12 @@
         }
 
     </style>
+
+    <%@include file="/mystatic/menustyles.jsp" %>
 </head>
 <body>
+<%@include file="/mystatic/pageheader.jsp" %>
+
 <div class="container">
     <div>
         <h2>Создание контрольной работы</h2>
@@ -139,5 +143,7 @@
         </a> nkm.</p>
     </div>
 </div>
+
+<%@include file="/mystatic/pagefooter.jsp" %>
 </body>
 </html>

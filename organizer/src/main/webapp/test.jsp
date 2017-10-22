@@ -47,8 +47,12 @@
         }
 
     </style>
+
+    <%@include file="/mystatic/menustyles.jsp" %>
 </head>
 <body>
+<%@include file="/mystatic/pageheader.jsp" %>
+
 <form action="<c:url value='/test'/>" method="post">
     <div class="container">
         <h2>Заполнение информации о контрольной работе</h2>
@@ -109,5 +113,7 @@
         </div>
     </div>
 </form>
+
+<%@include file="/mystatic/pagefooter.jsp" %>
 </body>
 </html>
