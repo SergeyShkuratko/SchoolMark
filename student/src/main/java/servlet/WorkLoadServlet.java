@@ -93,7 +93,7 @@ public class WorkLoadServlet extends HttpServlet {
 
     private void sendWork(HttpServletRequest request, HttpServletResponse response) {
         String context = getServletContext().getContextPath();
-        int work_id = Integer.decode(request.getParameter("work_id"));
+        int work_id = Integer.decode(request.getParameter("workId"));
         try {
             WorkService.setWorkStatus(work_id, "uploaded");
         } catch (DAOStudentWork.DAOStudentWorkException e) {
