@@ -34,7 +34,7 @@ public class DAOSchoolImpl implements DAOSchool {
     }
 
     private School getOne(String where) throws DAOSchoolErrorRequestException {
-        try (ResultSet rs = DAOUtils.getResultSetExecuteQueryByWhere(
+        try (ResultSet rs = DAOUtils.getResultSetExecuteQuery(
                 connection, baseGetSql + where)) {
             if (rs.next()) {
                 return DAOUtils.getSchoolByResultSet(rs);
@@ -46,7 +46,7 @@ public class DAOSchoolImpl implements DAOSchool {
     }
 
     private ArrayList<School> getMany(String where) throws DAOSchoolErrorRequestException {
-        try (ResultSet rs = DAOUtils.getResultSetExecuteQueryByWhere(
+        try (ResultSet rs = DAOUtils.getResultSetExecuteQuery(
                 connection, baseGetSql + where)) {
             ArrayList<School> Schools = new ArrayList<>();
             while (rs.next()) {
@@ -86,7 +86,7 @@ public class DAOSchoolImpl implements DAOSchool {
     private int removeSchoolsCommon(String where)
             throws DAOSchoolErrorRequestException {
         try {
-            return DAOUtils.getResultSetExecuteUpdateByWhere(
+            return DAOUtils.getResultSetExecuteUpdate(
                     connection, this.baseRemoveSql + where);
         } catch (SQLException e) {
             throw new DAOSchoolErrorRequestException(e.getMessage());
