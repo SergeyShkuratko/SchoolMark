@@ -38,7 +38,7 @@ public class DAOSchoolTypeImpl implements DAOSchoolType {
     }
 
     private SchoolType getOne(String where) throws DAOSchoolTypeErrorRequest {
-        try (ResultSet rs = DAOUtils.getResultSetExecuteQueryByWhere(
+        try (ResultSet rs = DAOUtils.getResultSetExecuteQuery(
                 connection, baseGetSql + where)) {
             if (rs.next()) {
                 return DAOUtils.getSchoolTypeByResultSet(rs);
@@ -62,7 +62,7 @@ public class DAOSchoolTypeImpl implements DAOSchoolType {
     private int removeSchoolTypeCommon(String where)
             throws DAOSchoolTypeErrorRequest {
         try {
-            return DAOUtils.getResultSetExecuteUpdateByWhere(
+            return DAOUtils.getResultSetExecuteUpdate(
                     connection, this.baseRemoveSql + where);
         } catch (SQLException e) {
             throw new DAOSchoolTypeErrorRequest(e.getMessage());
