@@ -1,6 +1,7 @@
 package template.dao;
 
-import connectionmanager.ConnectionManagerPostgresImpl;
+import connectionmanager.ConnectionPool;
+import connectionmanager.TomcatConnectionPool;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -11,7 +12,7 @@ import java.sql.Statement;
  * Created by nkm on 16.10.2017.
  */
 public class QuestionCriterionDAOImplementation {
-    public static ConnectionManagerPostgresImpl connectionManager = ConnectionManagerPostgresImpl.getInstance();
+    public static ConnectionPool connectionManager = TomcatConnectionPool.getInstance();
 
     public static int createQuestionCriterian(String criterion, int questionId) {
         try {

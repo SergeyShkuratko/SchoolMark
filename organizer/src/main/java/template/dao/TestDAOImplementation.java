@@ -1,15 +1,14 @@
 package template.dao;
 
-import connectionmanager.ConnectionManagerPostgresImpl;
+import connectionmanager.ConnectionPool;
+import connectionmanager.TomcatConnectionPool;
 import template.dto.Test;
-
-import java.sql.*;
 
 /**
  * Created by nkm on 15.10.2017.
  */
 public class TestDAOImplementation {
-    public static ConnectionManagerPostgresImpl connectionManager = ConnectionManagerPostgresImpl.getInstance();
+    public static ConnectionPool connectionManager = TomcatConnectionPool.getInstance();
 
     public static int createTest(Test test) {
         int testTemplateId = test.getTestTemplate().getId();

@@ -2,7 +2,7 @@ package utils;
 
 public class Settings {
     public static final String DEPLOY_PATH = "/SM";
-    public static final String MAIN_PAGE = "/index";
+    public static final String MAIN_PAGE = "/mainmenu.jsp";
     public static final String AUTH_PAGE = "/auth";
     public static final String REG_PAGE = "/register";
     public static final String REG_LINK_PAGE = "/admin/registrationlink";

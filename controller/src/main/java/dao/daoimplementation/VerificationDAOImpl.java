@@ -1,9 +1,9 @@
 package dao.daoimplementation;
 
+import connectionmanager.ConnectionPool;
+import connectionmanager.TomcatConnectionPool;
 import dao.dto.VerificationResultDTO;
 import dao.VerificationDAO;
-import connectionmanager.ConnectionManager;
-import connectionmanager.ConnectionManagerPostgresImpl;
 import org.apache.log4j.Logger;
 
 import java.sql.PreparedStatement;
@@ -13,10 +13,10 @@ import java.util.Calendar;
 
 public class VerificationDAOImpl implements VerificationDAO {
     private static final Logger logger = Logger.getLogger(TestDAOImpl.class);
-    private static ConnectionManager manager;
+    private static ConnectionPool manager;
 
     static {
-        manager = ConnectionManagerPostgresImpl.getInstance();
+        manager = TomcatConnectionPool.getInstance();
     }
 
     @Override

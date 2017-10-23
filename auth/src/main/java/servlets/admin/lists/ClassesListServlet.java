@@ -14,13 +14,10 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
 
-<<<<<<< HEAD
-@WebServlet("/admin/classes")
-=======
 import static utils.Settings.DEPLOY_PATH;
 import static utils.Settings.REG_LINK_PAGE;
 
->>>>>>> add-registration-link-form
+@WebServlet("/admin/classes")
 public class ClassesListServlet extends HttpServlet {
 
     private SchoolService processingService = new SchoolServiceImpl();

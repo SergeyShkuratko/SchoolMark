@@ -2,8 +2,8 @@ package calendar.dao;
 
 import calendar.dao.exceptions.TestDAOException;
 import calendar.dto.TestDto;
-import connectionmanager.ConnectionManager;
-import connectionmanager.ConnectionManagerPostgresImpl;
+import connectionmanager.ConnectionPool;
+import connectionmanager.TomcatConnectionPool;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -17,7 +17,7 @@ public class PgTestDao implements TestDao {
 
     @Override
     public List<TestDto> getTestsByUserIdDescOrder(int userId, LocalDate begin, LocalDate end) throws TestDAOException {
-        ConnectionManager connectionManager = ConnectionManagerPostgresImpl.getInstance();
+        ConnectionPool connectionManager = TomcatConnectionPool.getInstance();
         List<TestDto> result = new ArrayList<>();
         try {
             Connection connection = connectionManager.getConnection();

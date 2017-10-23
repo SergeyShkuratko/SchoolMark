@@ -1,6 +1,7 @@
 package dao;
 
-import connectionmanager.ConnectionManagerPostgresImpl;
+import connectionmanager.ConnectionPool;
+import connectionmanager.TomcatConnectionPool;
 import dto.DTOFile;
 import dto.DTOWork;
 import org.apache.log4j.Logger;
@@ -21,8 +22,8 @@ public class DAOStudentWork {
     }
 
     private final Logger logger = Logger.getLogger(this.getClass());
-    private final ConnectionManagerPostgresImpl connectionManagerPostgres
-            = ConnectionManagerPostgresImpl.getInstance();
+    private final ConnectionPool connectionManagerPostgres
+            = TomcatConnectionPool.getInstance();
     private final Connection connection;
 
     public DAOStudentWork() throws DAOStudentWorkException {
