@@ -90,9 +90,9 @@
             </c:forEach>
         </c:forEach>
     </script>
-    <style>td, th {
-        padding: 2px !important;
-    }</style>
+    <%--<style>td, th {--%>
+        <%--padding: 2px !important;--%>
+    <%--}</style>--%>
 
     <%@include file="/mystatic/menustyles.jsp" %>
 </head>
