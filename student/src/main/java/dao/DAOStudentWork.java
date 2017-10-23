@@ -1,6 +1,6 @@
 package dao;
 
-import connectionmanager.ConnectionManagerPostgresImpl;
+import connectionmanager.TomcatConnectionPool;
 import dto.DTOFile;
 import dto.DTOWork;
 import org.apache.log4j.Logger;
@@ -21,20 +21,6 @@ public class DAOStudentWork {
     }
 
     private final Logger logger = Logger.getLogger(this.getClass());
-    private final ConnectionManagerPostgresImpl connectionManagerPostgres
-            = ConnectionManagerPostgresImpl.getInstance();
-    private final Connection connection;
-
-    public DAOStudentWork() throws DAOStudentWorkException {
-        if(connectionManagerPostgres == null)
-            throw new DAOStudentWorkException( "ConnectionManagerPostgres is null !!!");
-        try {
-            connection = connectionManagerPostgres.getConnection();
-        } catch (SQLException e) {
-            logger.error(e.getMessage());
-            throw new DAOStudentWorkException(e.getMessage());
-        }
-    }
 
     public List<DTOWork> getWorksByStudentId(int student_id) throws DAOStudentWorkException {
         String sql = "SELECT w.id, w.status, t.start_date_time as date, templ.id templ_id, templ.topic, templ.description, " +
@@ -44,10 +30,9 @@ public class DAOStudentWork {
                     "\tON (t.test_template_id=templ.id)) ON (w.test_id = t.id)\n" +
                     "\tJOIN verification_results res ON res.work_id = w.id";
         ArrayList<DTOWork> works = new ArrayList<>();
-        try
+        try (Connection connection = TomcatConnectionPool.getInstance().getConnection())
         {
-            ResultSet rs = DAOUtils.getResultSetExecuteQueryByWhere(
-                    connection, sql);
+            ResultSet rs = DAOUtils.getResultSetExecuteQuery(connection, sql);
             while (rs.next()) {
                 DTOWork work = new DTOWork(
                         rs.getInt("id"),
@@ -76,19 +61,22 @@ public class DAOStudentWork {
                 "                JOIN verification_results res ON res.work_id = w.id\n" +
                 "WHERE w.id = " + id;
         DTOWork work=null;
-        try (ResultSet rs = DAOUtils.getResultSetExecuteQueryByWhere(connection, sql)) {
-            while (rs.next()) {
-                work = new DTOWork(
-                        rs.getInt("id"),
-                        rs.getDate("date").toLocalDate(),
-                        rs.getInt("templ_id"),
-                        rs.getString("topic"),
-                        rs.getString("description"),
-                        rs.getString("subject"),
-                        rs.getInt("mark"),
-                        rs.getString("comment"),
-                        convertStatus(rs.getString("status")));
-            }
+        try (Connection connection = TomcatConnectionPool.getInstance().getConnection();
+             ResultSet rs = DAOUtils.getResultSetExecuteQuery(connection, sql))
+        {
+                while (rs.next()) {
+                    work = new DTOWork(
+                            rs.getInt("id"),
+                            rs.getDate("date").toLocalDate(),
+                            rs.getInt("templ_id"),
+                            rs.getString("topic"),
+                            rs.getString("description"),
+                            rs.getString("subject"),
+                            rs.getInt("mark"),
+                            rs.getString("comment"),
+                            convertStatus(rs.getString("status")));
+                }
+
         } catch (SQLException e) {
             logger.error(e.getMessage());
             throw new DAOStudentWorkException(e.getMessage());
@@ -114,10 +102,9 @@ public class DAOStudentWork {
                 "FROM questions q LEFT JOIN test_templates templ ON q.test_template_id = templ.id\n" +
                 "WHERE templ.id = " + template_id;
         List<String> questions = new ArrayList<>();
-        try
+        try(Connection connection = TomcatConnectionPool.getInstance().getConnection();
+            ResultSet rs = DAOUtils.getResultSetExecuteQuery(connection, sql))
         {
-            ResultSet rs = DAOUtils.getResultSetExecuteQueryByWhere(
-                    connection, sql);
             while (rs.next()) {
                 questions.add(rs.getString("question"));
             }
@@ -138,7 +125,8 @@ public class DAOStudentWork {
     public boolean addStudentFile(int work_id, String file) throws DAOStudentWorkException {
         String sql = "INSERT INTO work_pages (work_id, file_url) \n" +
                 "VALUES (?, ?);";
-        try (PreparedStatement preparedStatement = connection.prepareStatement(sql))
+        try (Connection connection = TomcatConnectionPool.getInstance().getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(sql))
         {
             preparedStatement.setInt(1, work_id);
             preparedStatement.setString(2, file);
@@ -152,7 +140,8 @@ public class DAOStudentWork {
     public boolean delStudentFile(int file_id) throws DAOStudentWorkException {
         String sql = "DELETE FROM work_pages\n" +
                 "WHERE id = ?";
-        try (PreparedStatement preparedStatement = connection.prepareStatement(sql))
+        try (Connection connection = TomcatConnectionPool.getInstance().getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql))
         {
             preparedStatement.setInt(1, file_id);
             return preparedStatement.execute();
@@ -172,7 +161,8 @@ public class DAOStudentWork {
 
     private List<DTOFile> getFilesByQuery(String sql) throws DAOStudentWorkException {
         List<DTOFile> files = new ArrayList<>();
-        try (ResultSet rs = DAOUtils.getResultSetExecuteQueryByWhere(connection, sql))
+        try (Connection connection = TomcatConnectionPool.getInstance().getConnection();
+             ResultSet rs = DAOUtils.getResultSetExecuteQuery(connection, sql))
         {
             while (rs.next()) {
                 int id = rs.getInt("id");
@@ -191,7 +181,8 @@ public class DAOStudentWork {
         String sql = "UPDATE works" +
                 " SET status = ?::work_status" +
                 " WHERE id= ?";
-        try (PreparedStatement preparedStatement = connection.prepareStatement(sql))
+        try (Connection connection = TomcatConnectionPool.getInstance().getConnection();
+                PreparedStatement preparedStatement = connection.prepareStatement(sql))
         {
             preparedStatement.setString(1, status);
             preparedStatement.setInt(2, work_id);
