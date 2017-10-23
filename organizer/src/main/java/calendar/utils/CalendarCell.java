@@ -1,16 +1,17 @@
 package calendar.utils;
 
+import calendar.dto.TestDto;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
-import java.time.temporal.TemporalAdjusters;
 import java.util.LinkedList;
 import java.util.List;
 
 public class CalendarCell {
     private byte day;
     private boolean isCurrentPeriod;
-    private List<String> subjects;
+    private List<TestDto> tests;
     private boolean isWeekend;
     private boolean isEOW;
     private LocalDate date;
@@ -21,7 +22,7 @@ public class CalendarCell {
         this.date = date;
         this.isCurrentPeriod = isCurrentPeriod;
         this.isWeekend = isWeekend;
-        this.subjects = new LinkedList<>();
+        this.tests = new LinkedList<>();
         this.isEOW = isEOW;
     }
 
@@ -49,12 +50,12 @@ public class CalendarCell {
         isWeekend = weekend;
     }
 
-    public void addSubject(String subject) {
-        subjects.add(subject);
+    public void addTest(TestDto test) {
+        tests.add(test);
     }
 
-    public List<String> getSubjects() {
-        return subjects;
+    public List<TestDto> getTests() {
+        return tests;
     }
 
     public boolean isEOW() {
@@ -78,9 +79,9 @@ public class CalendarCell {
 
     public String getDisplayName() {
         String result = "";
-        if (!subjects.isEmpty()) {
+        if (!tests.isEmpty()) {
             StringBuilder sb = new StringBuilder();
-            if(subjects.size()>0) sb.append(subjects.size()).append(" к.р.");
+            if(tests.size()>0) sb.append(tests.size()).append(" к.р.");
             result = sb.toString();
         }
         return result;
@@ -88,7 +89,7 @@ public class CalendarCell {
 
     public String getColor() {
         String result = "lightgreen";
-        if (!subjects.isEmpty()) result = "salmon";
+        if (!tests.isEmpty()) result = "salmon";
         else if (!isCurrentPeriod) result = "bisque";
         else if (isWeekend) result = "violet";
         return result;
