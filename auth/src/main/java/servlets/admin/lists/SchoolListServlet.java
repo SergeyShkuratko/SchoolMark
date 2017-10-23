@@ -31,6 +31,7 @@ public class SchoolListServlet extends HttpServlet {
                     schools.stream().forEach((s) -> pw.println("<option value='" + s.id + "'>" + s.name + "</option>"));
                 }
                 //TODO насколько правильно перехватывать, а не проверять?
+                //TODO правильно проверять
             } catch (NumberFormatException | SchoolDAOException e) {
                 resp.sendError(HttpServletResponse.SC_BAD_REQUEST);
             }
