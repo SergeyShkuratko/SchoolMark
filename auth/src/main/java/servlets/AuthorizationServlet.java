@@ -14,7 +14,7 @@ import java.io.IOException;
 
 import static classes.CommonSettings.*;
 import static exceptions.ErrorDescriptions.*;
-import static utils.Settings.*;
+import static core.dao.utils.Settings.*;
 
 public class AuthorizationServlet extends HttpServlet {
 
@@ -46,7 +46,7 @@ public class AuthorizationServlet extends HttpServlet {
         if (user != null) {
             req.getSession().setAttribute(AUTH_USER_ATTRIBUTE, user.getUserId());
             req.getSession().setAttribute(AUTH_ROLE_ATTRIBUTE, user.getRole());
-            resp.sendRedirect(DEPLOY_PATH + authService.getCabinetUrl(user));
+            resp.sendRedirect(DEPLOY_PATH + "/admin/regions"/*DEPLOY_PATH + authService.getCabinetUrl(user)*/);
         }
 
 

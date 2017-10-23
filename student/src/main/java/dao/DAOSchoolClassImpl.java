@@ -1,12 +1,8 @@
 package dao;
 
-import classes.School;
 import classes.SchoolClass;
-import classes.Student;
 import connectionmanager.ConnectionManagerPostgresImpl;
 import exception.DAOSchoolClassErrorRequestException;
-import exception.DAOSchoolErrorRequestException;
-import exception.DAOStudentErrorRequestException;
 import org.apache.log4j.Logger;
 
 import java.sql.Connection;
@@ -14,8 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-
-import static constants.DAOConstants.NULL_POINTER_DB;
+import static core.dao.constants.DAOConstants.NULL_POINTER_DB;
 
 public class DAOSchoolClassImpl implements DAOSchoolClass {
 

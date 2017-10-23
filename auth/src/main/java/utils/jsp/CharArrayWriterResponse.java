@@ -1,4 +1,4 @@
-package servlets.utils;
+package utils.jsp;
 
 import java.io.CharArrayWriter;
 import java.io.IOException;

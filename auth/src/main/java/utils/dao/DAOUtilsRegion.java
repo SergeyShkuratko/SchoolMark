@@ -1,4 +1,4 @@
-package servlets.utils.dao;
+package utils.dao;
 
 import classes.Region;
 import core.utils.dao.DAOUtils;

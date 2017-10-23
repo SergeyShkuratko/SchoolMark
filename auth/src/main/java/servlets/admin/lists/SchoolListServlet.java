@@ -17,8 +17,8 @@ import java.io.PrintWriter;
 import java.util.List;
 
 import static exceptions.ErrorDescriptions.DB_ERROR;
-import static utils.Settings.ERROR_ATTR;
-import static utils.Settings.ERROR_JSP;
+import static core.dao.utils.Settings.ERROR_ATTR;
+import static core.dao.utils.Settings.ERROR_JSP;
 
 public class SchoolListServlet extends HttpServlet {
 

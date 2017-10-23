@@ -17,7 +17,7 @@ import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.concurrent.ConcurrentNavigableMap;
 
-import static constants.DAOConstants.NULL_POINTER_DB;
+//import static constants.DAOConstants.NULL_POINTER_DB;
 import static org.junit.jupiter.api.Assertions.*;
 
 class DAOStudentImplTest {
@@ -42,24 +42,24 @@ class DAOStudentImplTest {
         SchoolClass schoolClass = new SchoolClass(0, 0, "3Б");
         SchoolType schoolType = new SchoolType(0, "тип школы");
         School school = new School(0, "Школа", "Одесса", "Донбасс", schoolType);
-//        try {
-//            char [] buffer = new char [100];
-//            daoStudent.insertStudent(
-//                    new Student(
-//                            NULL_POINTER_DB,
-//                            1,
-//                            "login",
+        try {
+            char [] buffer = new char [100];
+            daoStudent.insertStudent(
+                    new Student(
+                            -1,
+                            1,
+                            "login",
                             LocalDate.now(),
                             "Иванов",
-//                            "Иван",
-//                            "Иванович",
-//                            schoolClass,
-//                            school
-//                            )
-//            );
-//        } catch (DAOStudentErrorRequestException e) {
-//            logger.error(e.getMessage());
-//        }
+                            "Иван",
+                            "Иванович",
+                            schoolClass,
+                            school
+                            )
+            );
+        } catch (DAOStudentErrorRequestException e) {
+            logger.error(e.getMessage());
+        }
         assertEquals(1,1);
     }
 

@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.util.List;
 
 import static exceptions.ErrorDescriptions.DB_ERROR;
-import static utils.Settings.*;
+import static core.dao.utils.Settings.*;
 
 public class AdministratorCabinetServlet extends HttpServlet {
 

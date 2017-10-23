@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import java.sql.SQLException;
 
-import static constants.DAOConstants.NULL_POINTER_DB;
+//import static constants.DAOConstants.NULL_POINTER_DB;
 import static org.junit.jupiter.api.Assertions.*;
 
 class DAOSchoolImplTest {
@@ -35,7 +35,7 @@ class DAOSchoolImplTest {
         try {
             daoSchool.insertSchool(
                     new School(
-                            NULL_POINTER_DB,
+                            -1,
                             "школа",
                             "Питер",
                             "Москва",

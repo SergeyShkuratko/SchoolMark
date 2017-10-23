@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 import static exceptions.ErrorDescriptions.*;
-import static utils.Settings.*;
+import static core.dao.utils.Settings.*;
 
 public class RegistrationServlet extends HttpServlet {
 

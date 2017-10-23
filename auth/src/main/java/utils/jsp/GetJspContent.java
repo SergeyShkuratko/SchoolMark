@@ -1,4 +1,4 @@
-package servlets.utils;
+package utils.jsp;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;

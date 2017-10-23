@@ -11,7 +11,7 @@ import services.AuthorizationService;
 import javax.servlet.http.HttpSession;
 
 import static classes.CommonSettings.*;
-import static utils.PasswordEncoder.encode;
+import static core.dao.utils.PasswordEncoder.encode;
 
 public class AuthorizationServiceImpl implements AuthorizationService {
 

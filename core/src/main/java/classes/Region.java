@@ -24,4 +24,6 @@ public class Region {
     public String getName() {
         return name;
     }
+
+    public int getNum() { return num; }
 }

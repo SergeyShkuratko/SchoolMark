@@ -1,4 +1,4 @@
-package utils;
+package core.dao.utils;
 
 public class Settings {
     public static final String DEPLOY_PATH = "/SM";

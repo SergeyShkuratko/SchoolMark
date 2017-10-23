@@ -13,7 +13,7 @@ import interfaces.dao.UserDAO;
 import org.apache.log4j.Logger;
 import services.RegistrationService;
 
-import static utils.PasswordEncoder.encode;
+import static core.dao.utils.PasswordEncoder.encode;
 
 public class RegistrationServiceImpl implements RegistrationService {
 

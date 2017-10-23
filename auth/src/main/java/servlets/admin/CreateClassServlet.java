@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 import static classes.CommonSettings.ADMIN_CABINET;
-import static utils.Settings.DEPLOY_PATH;
+import static core.dao.utils.Settings.DEPLOY_PATH;
 
 public class CreateClassServlet extends HttpServlet {
 

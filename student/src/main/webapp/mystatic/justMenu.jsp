@@ -9,11 +9,11 @@
     /**
      * @ fake user with fake role ))
      */
-    final Role STUDENT_ROLE = new Role(1, 1);
-    final Role TEACHER_ROLE = new Role(2, 2);
-    final Role FAKE_ROLE = new Role(3, 3);
-    User user = new User(1, "login", LocalDate.now());
-    user.setRole(STUDENT_ROLE);
+//    final Role STUDENT_ROLE = new Role(1, 1);
+//    final Role TEACHER_ROLE = new Role(2, 2);
+//    final Role FAKE_ROLE = new Role(3, 3);
+//    User user = new User(1, "login", LocalDate.now());
+//    user.setRole(STUDENT_ROLE);
 
 %>
 <html>
@@ -35,7 +35,7 @@
                 </div>
             </div>
             <ul class="nav nav-sidebar control-work-sidebar-number">
-                <%="role is" + user.getRole().getName()%>
+                <%//="role is" + user.getRole().getName()%>
                 <%if(true) { %>
                 <li>
                     <button class="btn btn-default control-work-sidebar-button"

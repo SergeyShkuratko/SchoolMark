@@ -1,9 +1,9 @@
-package utils;
+package core.dao.utils;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-import static utils.Settings.SALT;
+import static core.dao.utils.Settings.SALT;
 
 public class PasswordEncoder {
 
