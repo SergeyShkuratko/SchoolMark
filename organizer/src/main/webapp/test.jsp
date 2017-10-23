@@ -1,16 +1,23 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<html lang="ru">
+<html lang="en">
 <head>
     <meta charset="utf-8">
     <title>Создание контрольной работы</title>
     <script src="js/question-form.js" type="text/javascript"></script>
     <!--<link href="css/form.css" rel="stylesheet" type="text/css">-->
-    <link rel="stylesheet" href="css/bootstrap.css"/>
-    <link rel="stylesheet" href="css/bootstrap-responsive.css"/>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.css"/>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap-responsive.css"/>
     <script type="text/javascript" src="js/jquery.js"></script>
     <script type="text/javascript" src="js/bootstrap.js"></script>
     <script type="text/javascript">
+
+        function funcTrunk(element) {
+            if (element.value.length > 10) {
+                element.value = element.value.substring(0, 10);
+            }
+        }
+
         $(document).ready(function () {
             document.getElementById('testDate').valueAsDate = new Date();
             document.getElementById('deadlineDate').valueAsDate = new Date();
@@ -21,7 +28,7 @@
                     this.value = this.value.substring(0, maxLength);
                 }
             });
-
+//
 //            $('#testDate').on('input', function () {
 //                var curDate = element.value;
 //                var moreDay = new Date();
@@ -29,19 +36,15 @@
 //                this.value = moreDay;
 //            });
         });
+//
+//        function addDay(element) {
+//            var curDate = element.value;
+//            var moreDay = new Date();
+//            moreDay.setDate(curDate.getDate() + 1); // add one day
+//            return (moreDay);
+//        }
 
-        function addDay(element) {
-            var curDate = element.value;
-            var moreDay = new Date();
-            moreDay.setDate(curDate.getDate() + 1); // add one day
-            return (moreDay);
-        }
 
-        //        function funcTrunk(element) {
-        //            if (element.value.length > 10) {
-        //                element.value = element.value.substring(0, 10);
-        //            }
-        //        }
     </script>
     <style>
         .form-actions {
@@ -76,15 +79,17 @@
         }
 
     </style>
-    <%@include file="/mystatic/menustyles.jsp" %>
 </head>
 <body>
-<%@include file="/mystatic/pageheader.jsp" %>
 
 
 <div class="container">
     <c:if test="${questionsNotLoaded == true}">
         <h2 style="color:darkred;">Добавьте вопросы или загрузите шаблон</h2>
+        <p></p>
+    </c:if>
+    <c:if test="${fieldsNotFilled == true}">
+        <h2 style="color:darkred;">Заполните все поля</h2>
         <p></p>
     </c:if>
     <h2>Заполнение информации о контрольной работе</h2>
@@ -95,7 +100,7 @@
         </h3>
     </form>
 
-    <form id="templateForm" action="/test" method="post">
+    <form id="templateForm" action="#" method="post">
         <p/>
         <div>
             <c:if test="${testTemplate == null}">
@@ -126,8 +131,8 @@
             </div>
             <div class="form-group">
                 <label for="classNum">Класс</label>
-                <%--<input type="text" class="form-control input-xxlarge" id="classNum" placeholder="10" name="classNum"--%>
-                       <%--required>--%>
+                    <%--<input type="text" class="form-control input-xxlarge" id="classNum" placeholder="10" name="classNum"--%>
+                    <%--required>--%>
                 <select class="form-control input-xxlarge" id="classNum" name="classNum" required>
                     <option value="" selected>Выберите номер класса..</option>
                     <option>11</option>
@@ -163,8 +168,8 @@
             </div>
             <div class="form-group">
                 <label for="classNum">Класс</label>
-                <%--<input type="text" class="form-control input-xxlarge" id="classNum" placeholder="11"--%>
-                       <%--value="${testTemplate.classNum}" name="classNum">--%>
+                    <%--<input type="text" class="form-control input-xxlarge" id="classNum" placeholder="11"--%>
+                    <%--value="${testTemplate.classNum}" name="classNum">--%>
                 <select class="form-control input-xxlarge" id="classNum" name="classNum">
                     <option ${11 == testTemplate.classNum ? 'selected' : ''}>11</option>
                     <option ${10 == testTemplate.classNum ? 'selected' : ''}>10</option>
@@ -224,8 +229,6 @@
     <button type="button" class="btn btn-default ">Вернуться без сохранения</button>
 </div>
 
-</div>
 
-<%@include file="/mystatic/pagefooter.jsp" %>
 </body>
 </html>

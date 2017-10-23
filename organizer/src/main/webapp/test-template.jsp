@@ -4,12 +4,12 @@
 <head>
     <meta charset="utf-8">
     <title>Добавление вопросов к контрольной</title>
-    <script src="js/question-form.js" type="text/javascript"></script>
+    <script src="/js/question-form.js" type="text/javascript"></script>
     <!--<link href="css/form.css" rel="stylesheet" type="text/css">-->
-    <link rel="stylesheet" href="css/bootstrap.css"/>
-    <link rel="stylesheet" href="css/bootstrap-responsive.css"/>
-    <script type="text/javascript" src="js/jquery.js"></script>
-    <script type="text/javascript" src="js/bootstrap.js"></script>
+    <link rel="stylesheet" href="/css/bootstrap.css"/>
+    <link rel="stylesheet" href="/css/bootstrap-responsive.css"/>
+    <script type="text/javascript" src="/js/jquery.js"></script>
+    <script type="text/javascript" src="/js/bootstrap.js"></script>
 
     <script type="text/javascript">
         var pageImages = [];
@@ -119,10 +119,8 @@
         }
 
     </style>
-    <%@include file="/mystatic/menustyles.jsp" %>
 </head>
 <body>
-<%@include file="/mystatic/pageheader.jsp" %>
 <div class="container">
     <div>
         <c:if test="${templateSaved == true}">
@@ -224,6 +222,5 @@
         </a> nkm.</p>
     </div>
 </div>
-<%@include file="/mystatic/pagefooter.jsp" %>
 </body>
 </html>

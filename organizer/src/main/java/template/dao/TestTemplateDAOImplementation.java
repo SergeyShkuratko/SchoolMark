@@ -2,7 +2,8 @@ package template.dao;
 
 import classes.Question;
 import classes.Subject;
-import connectionmanager.ConnectionManagerPostgresImpl;
+import connectionmanager.ConnectionPool;
+import connectionmanager.TomcatConnectionPool;
 import template.dto.Test;
 import template.dto.TestQuestion;
 import template.dto.TestTemplate;
@@ -19,12 +20,12 @@ import java.util.Map;
  * Created by nkm on 15.10.2017.
  */
 public class TestTemplateDAOImplementation {
-    public static ConnectionManagerPostgresImpl connectionManager = ConnectionManagerPostgresImpl.getInstance();
+    public static ConnectionPool connectionManager = TomcatConnectionPool.getInstance();
 
     public static TestTemplate getTemplateByIdCascade(int templateId) {
         TestTemplate testTemplate = null;
-        try {
-            PreparedStatement preparedStatement = connectionManager.getConnection().prepareStatement(
+        try (Connection connection = connectionManager.getConnection()) {
+            PreparedStatement preparedStatement = connection.prepareStatement(
                     "SELECT  *, name AS subject_name, test_templates.id as test_templates_id\n" +
                             "FROM question_verification_criterions  RIGHT JOIN questions\n" +
                             "    ON question_verification_criterions.question_id = questions.id\n" +

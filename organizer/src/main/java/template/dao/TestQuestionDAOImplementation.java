@@ -1,23 +1,22 @@
 package template.dao;
 
-import connectionmanager.ConnectionManagerPostgresImpl;
+
+import connectionmanager.ConnectionPool;
+import connectionmanager.TomcatConnectionPool;
 import template.dto.TestQuestion;
 import template.dto.TestVariant;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 
 /**
  * Created by nkm on 15.10.2017.
  */
 public class TestQuestionDAOImplementation {
-    public static ConnectionManagerPostgresImpl connectionManager = ConnectionManagerPostgresImpl.getInstance();
+    public static ConnectionPool connectionManager = TomcatConnectionPool.getInstance();
 
     public static int createTestQuestion(TestQuestion testQuestion, int variantId) {
-        try {
-            PreparedStatement preparedStatement = connectionManager.getConnection().prepareStatement(
+        try (Connection connection = connectionManager.getConnection()) {
+            PreparedStatement preparedStatement = connection.prepareStatement(
                     "INSERT INTO questions(template_variant_id, question, answer) " +
                             "VALUES (?,?,?)",
                                 Statement.RETURN_GENERATED_KEYS);

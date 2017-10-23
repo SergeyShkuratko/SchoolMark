@@ -5,12 +5,12 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script src="js/question-form.js" type="text/javascript"></script>
+    <script src="/js/question-form.js" type="text/javascript"></script>
     <!--<link href="css/form.css" rel="stylesheet" type="text/css">-->
-    <link rel="stylesheet" href="css/bootstrap.css"/>
-    <link rel="stylesheet" href="css/bootstrap-responsive.css"/>
-    <script type="text/javascript" src="js/jquery.js"></script>
-    <script type="text/javascript" src="js/bootstrap.js"></script>
+    <link rel="stylesheet" href="/css/bootstrap.css"/>
+    <link rel="stylesheet" href="/css/bootstrap-responsive.css"/>
+    <script type="text/javascript" src="/js/jquery.js"></script>
+    <script type="text/javascript" src="/js/bootstrap.js"></script>
 
     <style>
         .form-actions {
@@ -43,14 +43,13 @@
         }
 
     </style>
-    <%@include file="/mystatic/menustyles.jsp" %>
 </head>
+
 <body>
-<%@include file="/mystatic/pageheader.jsp" %>
 
 <%int rownum = 0; %>
 
-<form action="/template-list" method="post">
+<form action="#" method="post">
     <div class="container">
         <h2>Список созданных шаблонов</h2>
     <table class="table table-hover">
@@ -78,13 +77,12 @@
         </tbody>
     </table>
         <div class="form-actions">
-            <a href="/test">
+            <%--<a href="/test">--%>
                 <button type="button" class="btn btn-primary " onclick="history.back();">Отмена</button>
-            </a>
+            <%--</a>--%>
         </div>
     </div>
 </form>
 
-<%@include file="/mystatic/pagefooter.jsp" %>
 </body>
 </html>

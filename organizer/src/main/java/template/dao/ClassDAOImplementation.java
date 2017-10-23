@@ -1,9 +1,11 @@
 package template.dao;
 
 import classes.SchoolClass;
-import connectionmanager.ConnectionManagerPostgresImpl;
+import connectionmanager.ConnectionPool;
+import connectionmanager.TomcatConnectionPool;
 import template.dto.Teacher;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -14,13 +16,12 @@ import java.util.List;
  * Created by nkm on 20.10.2017.
  */
 public class ClassDAOImplementation {
-    public static ConnectionManagerPostgresImpl connectionManager = ConnectionManagerPostgresImpl.getInstance();
-
+    public static ConnectionPool connectionManager = TomcatConnectionPool.getInstance();
 
     public static List<Integer> getClassNumbersByTeacher(Teacher teacher){
         List<Integer> schoolClassNumbers = new ArrayList<>();
-        try {
-            PreparedStatement preparedStatement = connectionManager.getConnection().prepareStatement(
+        try (Connection connection = connectionManager.getConnection()) {
+            PreparedStatement preparedStatement = connection.prepareStatement(
                     "SELECT DISTINCT(number) FROM school_classes\n" +
                             "WHERE school_id = ?" +
                             " AND number BETWEEN ? AND ?;");

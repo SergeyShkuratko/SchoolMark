@@ -28,19 +28,19 @@ public class PgTestDao implements TestDao {
                     "   where tests.owner_id = (select id from teachers where user_id=?) " +
                     "   order by start_date_time DESC";
             try (PreparedStatement ps = connection.prepareStatement(sqlQuery);) {
-                ps.setInt(1, userId);
-                ResultSet rs = ps.executeQuery();
-                while (rs.next()) {
-                    TestDto testDto = new TestDto(rs.getInt("id"));
-                    testDto.setOwnerId(rs.getInt("owner_id"));
-                    testDto.setSchoolClassId(rs.getInt("school_class_id"));
-                    testDto.setStartDate(rs.getDate("start_date_time").toLocalDate());
-                    testDto.setStatus(rs.getString("status"));
-                    testDto.setTemplateId(rs.getInt("test_template_id"));
-                    testDto.setVerificationDate(rs.getDate("verification_deadline").toLocalDate());
-                    testDto.setSubject(rs.getString("subject"));
-                    result.add(testDto);
-                }
+//                ps.setInt(1, userId);
+//                ResultSet rs = ps.executeQuery();
+//                while (rs.next()) {
+//                    TestDto testDto = new TestDto(rs.getInt("id"));
+//                    testDto.setOwnerId(rs.getInt("owner_id"));
+//                    testDto.setSchoolClassId(rs.getInt("school_class_id"));
+//                    testDto.setStartDate(rs.getString("start_date_time").to);
+//                    testDto.setStatus(rs.getString("status"));
+//                    testDto.setTemplateId(rs.getInt("test_template_id"));
+//                    testDto.setVerificationDate(rs.getString("verification_deadline"));
+//                    testDto.setSubject(rs.getString("subject"));
+//                    result.add(testDto);
+//                }
             }
         } catch (SQLException e) {
             throw new TestDAOException("Ошибка получения тестов. " + e.getLocalizedMessage(), e);

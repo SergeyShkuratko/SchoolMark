@@ -1,21 +1,19 @@
 package template.dao;
 
-import connectionmanager.ConnectionManagerPostgresImpl;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import connectionmanager.ConnectionPool;
+import connectionmanager.TomcatConnectionPool;
+
+import java.sql.*;
 
 /**
  * Created by nkm on 16.10.2017.
  */
 public class QuestionCriterionDAOImplementation {
-    public static ConnectionManagerPostgresImpl connectionManager = ConnectionManagerPostgresImpl.getInstance();
-
+    public static ConnectionPool connectionManager = TomcatConnectionPool.getInstance();
     public static int createQuestionCriterian(String criterion, int questionId) {
-        try {
-            PreparedStatement preparedStatement = connectionManager.getConnection().prepareStatement(
+        try (Connection connection = connectionManager.getConnection()) {
+            PreparedStatement preparedStatement = connection.prepareStatement(
                     "INSERT INTO question_verification_criterions(question_id, criterion) " +
                             "VALUES (?,?)",
                                 Statement.RETURN_GENERATED_KEYS);

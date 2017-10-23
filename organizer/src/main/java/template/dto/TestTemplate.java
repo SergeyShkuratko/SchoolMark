@@ -45,9 +45,9 @@ public class TestTemplate {
         if (!description.equals(that.getDescription())) {
             return false;
         }
-        if (!subject.sameAs(that.getSubject())) {
-            return false;
-        }
+//        if (!subject.sameAs(that.getSubject())) {
+//            return false;
+//        }
         if (!difficulty.equals(that.getDifficulty())) {
             return false;
         }
