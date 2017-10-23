@@ -11,6 +11,7 @@ import services.impl.AuthorizationServiceImpl;
 import services.impl.RegistrationServiceImpl;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -20,6 +21,7 @@ import static exceptions.ErrorDescriptions.*;
 import static utils.ForwardRequestHelper.getErrorDispatcher;
 import static utils.Settings.*;
 
+@WebServlet({"/register", "/register/*"})
 public class RegistrationServlet extends HttpServlet {
 
     private static RegistrationService service = new RegistrationServiceImpl();

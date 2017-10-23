@@ -10,6 +10,7 @@ import services.impl.SchoolClassServiceImpl;
 import services.impl.SchoolServiceImpl;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -20,6 +21,7 @@ import static exceptions.ErrorDescriptions.*;
 import static utils.ForwardRequestHelper.getErrorDispatcher;
 import static utils.Settings.*;
 
+@WebServlet("/admin/class")
 public class CreateClassServlet extends HttpServlet {
 
     private static SchoolClassService classService = new SchoolClassServiceImpl();

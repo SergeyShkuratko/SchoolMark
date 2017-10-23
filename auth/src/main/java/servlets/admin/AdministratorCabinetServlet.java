@@ -6,6 +6,7 @@ import services.SchoolService;
 import services.impl.SchoolServiceImpl;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,6 +17,7 @@ import static exceptions.ErrorDescriptions.DB_ERROR;
 import static utils.ForwardRequestHelper.getErrorDispatcher;
 import static utils.Settings.*;
 
+@WebServlet("/admin/cabinet")
 public class AdministratorCabinetServlet extends HttpServlet {
 
     private static SchoolService service = new SchoolServiceImpl();
