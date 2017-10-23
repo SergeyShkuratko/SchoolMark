@@ -1,5 +1,6 @@
 package servlets;
 
+import classes.CommonSettings;
 import dao.dto.VerificationResultDTO;
 import service.VerificationResultImpl;
 import service.VerificationService;
@@ -21,9 +22,9 @@ public class VerificationPersistServlet extends HttpServlet {
         int mark = Integer.parseInt(req.getParameter("mark"));
         String comment = req.getParameter("comment");
         int workId = Integer.parseInt(req.getParameter("workId"));
-        int verifierId = 30; // ITS MOCK
+        int userId = (Integer) req.getSession().getAttribute(CommonSettings.AUTH_USER_ATTRIBUTE);
 
-        VerificationResultDTO resultDTO = new VerificationResultDTO(workId, verifierId, mark, comment);
+        VerificationResultDTO resultDTO = new VerificationResultDTO(workId, userId, mark, comment);
 
         if (verificationService.persistVerificationResult(resultDTO)) {
             resp.getWriter().print("{\"result\":\"ok\"}");

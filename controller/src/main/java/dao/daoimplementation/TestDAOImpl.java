@@ -29,13 +29,14 @@ public class TestDAOImpl implements TestDAO {
         List<TestsDTO> result = new ArrayList<>();
         try {
             PreparedStatement preparedStatement = manager.getConnection().prepareStatement(
-                    "select works.id, works.verification_deadline,school_classes.number,subjects.name from works\n" +
-                            "join teachers t on t.id = works.verifier_id "+
-                            "left join students on students.id = works.student_id\n" +
-                            "left join school_classes on students.school_class_id = school_classes.id\n" +
-                            "left join test_templates on works.test_id = test_templates.id\n" +
-                            "left join subjects on test_templates.subject_id = subjects.id\n" +
-                            "where t.user_id = ? order by works.verification_deadline");
+                    "select distinct t.id, w.verification_deadline, sc.number,subjects.name \n" +
+                            "\tfrom tests t\n" +
+                            "\tjoin works w on w.test_id = t.id\n" +
+                            "\tjoin school_classes sc on sc.id = t.school_class_id\n" +
+                            "\tjoin test_templates on w.test_id = test_templates.id\n" +
+                            "\tjoin subjects on subjects.id = test_templates.subject_id\n" +
+                            "\tjoin teachers on teachers.id = w.verifier_id\n" +
+                            "where teachers.user_id = ? order by w.verification_deadline");
             preparedStatement.setInt(1, verifierId);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {

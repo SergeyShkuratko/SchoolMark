@@ -5,10 +5,8 @@ import com.inno.db.exception.DaoException;
 import connectionmanager.ConnectionPool;
 import connectionmanager.TomcatConnectionPool;
 
+import java.sql.*;
 import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -35,7 +33,8 @@ public class PgTestStatisticDao implements TestStatisticDao {
                 "(?::date IS NULL OR t.start_date_time::date <= ?) " +
                 "GROUP BY t.id, date, organizer, subject, class_name";
 
-        try (PreparedStatement statement = connectionManager.getConnection().prepareStatement(sql)) {
+        try (Connection connection = connectionManager.getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
             Date sqlDateFrom = convertToSqlDate(dateFrom);
             statement.setDate(1, sqlDateFrom);
             statement.setDate(2, sqlDateFrom);
@@ -83,7 +82,8 @@ public class PgTestStatisticDao implements TestStatisticDao {
                 "JOIN question_verification_criterions qvc ON qvc.question_id = q.id " +
                 "WHERE t.id = ?";
 
-        try (PreparedStatement statement = connectionManager.getConnection().prepareStatement(sql);) {
+        try (Connection connection = connectionManager.getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql);) {
             statement.setInt(1, testId);
             ResultSet resultSet = statement.executeQuery();
 
@@ -122,7 +122,7 @@ public class PgTestStatisticDao implements TestStatisticDao {
     private void addWork(Set<WorkDto> workList, ResultSet resultSet) throws SQLException {
         WorkDto work = new WorkDto(resultSet.getInt("work_id"),
                 resultSet.getString("student"), resultSet.getInt("mark"),
-                resultSet.getBoolean("was_appelation"));
+                resultSet.getBoolean("was_appellation"));
         workList.add(work);
     }
 
