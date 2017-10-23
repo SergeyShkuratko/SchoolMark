@@ -42,6 +42,7 @@
                                         Запомнить меня
                                     </label>
                                 </div>
+                                <button onclick="document.getElementById('login').click()" style="display: none;"></button>
                             </form>
                         </div>
                     </div>
