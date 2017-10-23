@@ -3,8 +3,9 @@ package classes;
 public class School {
     private final int id;
     private final String name;
-    private final String region;
-    private final String city;
+    private String region;
+    private String city;
+    private City cityObj;
     private final SchoolType schoolTypeId;
 
     public School(int id, String name, String region, String city, SchoolType schoolTypeId) {
@@ -12,6 +13,13 @@ public class School {
         this.name = name;
         this.region = region;
         this.city = city;
+        this.schoolTypeId = schoolTypeId;
+    }
+
+    public School(int id, String name, City cityObj, SchoolType schoolTypeId) {
+        this.id = id;
+        this.name = name;
+        this.cityObj = cityObj;
         this.schoolTypeId = schoolTypeId;
     }
 

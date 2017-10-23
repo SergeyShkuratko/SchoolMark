@@ -48,7 +48,9 @@ class DAOStudentImplTest {
 //                    new Student(
 //                            NULL_POINTER_DB,
 //                            1,
-//                            "Иванов",
+//                            "login",
+                            LocalDate.now(),
+                            "Иванов",
 //                            "Иван",
 //                            "Иванович",
 //                            schoolClass,

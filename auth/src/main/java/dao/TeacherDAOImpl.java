@@ -35,9 +35,11 @@ public class TeacherDAOImpl implements TeacherDAO {
 
     @Override
     public List<Teacher> getTeacherBySchool(School school) {
-        List<Teacher> teachers = new ArrayList<>();
-        teachers.add(new Teacher(1, 1, "login", LocalDate.now(),"Иванов", "Иван", "Иванович", school, null, 1, 11, ""));
-        teachers.add(new Teacher(2, 2, "login", LocalDate.now(),"Петров", "Петр", "Петрович", school, null, 1, 11, ""));
-        return teachers;
+        return null;
+    }
+
+    @Override
+    public List<Teacher> getTeacherBySchool(int id) {
+        return null;
     }
 }

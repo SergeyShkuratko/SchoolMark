@@ -10,6 +10,12 @@
     <script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
     <script type="text/javascript" src="js/collapse.js"></script>
     <script type="text/javascript" src="js/validate.js"></script>
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/auth.css" rel="stylesheet">
+    <script type="text/javascript" src="../js/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="..}/js/collapse.js"></script>
+    <script type="text/javascript" src="../js/validate.js"></script>
+    <script type="text/javascript" src="../js/cabinet.js"></script>
 </head>
 <body>
 
@@ -24,41 +30,30 @@
                         <c:out value="${school.getName()}"/>
                     </a>
                 </div>
-                <div id='school<c:out value="${school.getId()}"/>' class="panel-collapse collapse in">
-                    <!--
-                    //TODO запилить отложенную инициализацию
+                <div id='school<c:out value="${school.getId()}"/>' class="panel-collapse collapse">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <a data-toggle="collapse" href='#classes<out value="{school.getId()}"/>'>
+                            <a id='a-classes<c:out value="${school.getId()}"/>' onclick='loadClasses(<c:out value="${school.getId()}"/>)' href='#div-classes<c:out value="${school.getId()}"/>'>
                                 Классы
                             </a>
                         </div>
-                        <div id='classes<out value="{school.getId()}"/>' class="panel-collapse collapse in">
-                                <ul>
-                                    <forEach items="{school.getClasses()}" var="schoolClass">
-                                        <li><out value="{schoolClass.getName()}"/></li>
-                                    </forEach>
-                                </ul>
-                            </if>
+                        <div id='div-classes<c:out value="${school.getId()}"/>' class="panel-collapse collapse">
+                            <ul id='classes<c:out value="${school.getId()}"/>'></ul>
+                            <a href="${pageContext.request.contextPath}/admin/class">Добавить класс</a>
                         </div>
                     </div>
 
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <a data-toggle="collapse" href='#teachers<out value="{school.getSchool().getId()}"/>'>
+                            <a id='#a-teachers<c:out value="${school.getId()}"/>' onclick='loadTeachers(<c:out value="${school.getId()}"/>)' href='#teachers<c:out value="${school.getId()}"/>'>
                                 Учителя
                             </a>
                         </div>
-                        <div id='teachers<out value="{school.getSchool().getId()}"/>' class="panel-collapse collapse in">
-                            <if test="{!school.getTeachers().isEmpty()}">
-                                <ul>
-                                    <forEach items="{school.getTeachers()}" var="teacher">
-                                        <li><out value="{teacher.getFullName()}"/></li>
-                                    </forEach>
-                                </ul>
-                            </if>
+                        <div id='div-teachers<c:out value="${school.getId()}"/>' class="panel-collapse collapse">
+                            <ul id='teachers<c:out value="${school.getId()}"/>'></ul>
+                            <a>Добавить учителя</a>
                         </div>
-                    </div>-->
+                    </div>
                 </div>
             </div>
         </c:forEach>
