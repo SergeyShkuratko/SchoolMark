@@ -22,20 +22,22 @@ public class DAOStudentWork {
 
     private final Logger logger = Logger.getLogger(this.getClass());
 
-    public List<DTOWork> getWorksByStudentId(int student_id) throws DAOStudentWorkException {
-        String sql = "SELECT w.id, w.status, t.start_date_time as date, templ.id templ_id, templ.topic, templ.description, " +
-                        "sub.name as subject, res.mark, res.comment\n" +
-                    "FROM works w \n" +
-                    "\tJOIN (tests t JOIN (test_templates templ JOIN subjects sub ON templ.subject_id=sub.id)\n" +
-                    "\tON (t.test_template_id=templ.id)) ON (w.test_id = t.id)\n" +
-                    "\tJOIN verification_results res ON res.work_id = w.id";
+    public List<DTOWork> getWorksByStudentId(int user_id) throws DAOStudentWorkException {
+        String sql = "SELECT w.id, w.status, w.variant_id, t.start_date_time as date, templ.id templ_id, templ.topic, templ.description, sub.name as subject, res.mark, res.comment\n" +
+                "FROM works w JOIN tests t ON w.test_id = t.id\n" +
+                "JOIN test_templates templ ON t.test_template_id=templ.id\n" +
+                "JOIN subjects sub ON templ.subject_id=sub.id\n" +
+                "LEFT JOIN verification_results res ON res.work_id = w.id\n" +
+                "WHERE w.student_id = (SELECT id FROM students WHERE user_id = " + user_id + ")";
         ArrayList<DTOWork> works = new ArrayList<>();
         try (Connection connection = TomcatConnectionPool.getInstance().getConnection())
         {
             ResultSet rs = DAOUtils.getResultSetExecuteQuery(connection, sql);
             while (rs.next()) {
+                //TODO возможно нужно исключать контрольные без даты старта
                 DTOWork work = new DTOWork(
                         rs.getInt("id"),
+                        rs.getInt("variant_id"),
                         rs.getDate("date").toLocalDate(),
                         rs.getInt("templ_id"),
                         rs.getString("topic"),
@@ -54,11 +56,11 @@ public class DAOStudentWork {
     }
 
     public DTOWork getWorkById(int id) throws DAOStudentWorkException {
-        String sql = "SELECT w.id, w.status, t.start_date_time as date, templ.id templ_id, templ.topic, templ.description,sub.name as subject, res.mark, res.comment\n" +
-                "                FROM works w \n" +
-                "                JOIN (tests t JOIN (test_templates templ JOIN subjects sub ON templ.subject_id=sub.id)\n" +
-                "                ON (t.test_template_id=templ.id)) ON (w.test_id = t.id)\n" +
-                "                JOIN verification_results res ON res.work_id = w.id\n" +
+        String sql = "SELECT w.id, w.status, w.variant_id, t.start_date_time as date, templ.id templ_id, templ.topic, templ.description,sub.name as subject, res.mark, res.comment\n" +
+                "FROM works w JOIN tests t ON w.test_id = t.id\n" +
+                "JOIN test_templates templ ON t.test_template_id=templ.id\n" +
+                "JOIN subjects sub ON templ.subject_id=sub.id\n" +
+                "LEFT JOIN verification_results res ON res.work_id = w.id\n" +
                 "WHERE w.id = " + id;
         DTOWork work=null;
         try (Connection connection = TomcatConnectionPool.getInstance().getConnection();
@@ -67,6 +69,7 @@ public class DAOStudentWork {
                 while (rs.next()) {
                     work = new DTOWork(
                             rs.getInt("id"),
+                            rs.getInt("variant_id"),
                             rs.getDate("date").toLocalDate(),
                             rs.getInt("templ_id"),
                             rs.getString("topic"),
@@ -91,16 +94,17 @@ public class DAOStudentWork {
             case "in_progressappointed" : return "В обработке";
             case "on_verification" : return "На проверке";
             case "verified" : return "Проверена";
+            case "declined" : return "Отказался";
             case "confirmed" : return "Подтверждена";
             case "reverification" : return "На перепроверке";
         }
         return "";
     }
 
-    public List<String> getQuestionListByTemplateId(int template_id) throws DAOStudentWorkException {
+    public List<String> getQuestionListByVariantId(int variant_id) throws DAOStudentWorkException {
         String sql = "SELECT q.question\n" +
-                "FROM questions q LEFT JOIN test_templates templ ON q.test_template_id = templ.id\n" +
-                "WHERE templ.id = " + template_id;
+                "FROM questions q LEFT JOIN template_variants v ON q.template_variant_id = v.id\n" +
+                "WHERE v.id =" + variant_id;
         List<String> questions = new ArrayList<>();
         try(Connection connection = TomcatConnectionPool.getInstance().getConnection();
             ResultSet rs = DAOUtils.getResultSetExecuteQuery(connection, sql))
