@@ -1,7 +1,8 @@
 package template.dao;
 
 import classes.Subject;
-import connectionmanager.ConnectionManagerPostgresImpl;
+import connectionmanager.ConnectionPool;
+import connectionmanager.TomcatConnectionPool;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -11,7 +12,7 @@ import java.sql.SQLException;
  * Created by nkm on 16.10.2017.
  */
 public class SubjectDAOImplementation {
-    public static ConnectionManagerPostgresImpl connectionManager = ConnectionManagerPostgresImpl.getInstance();
+    public static ConnectionPool connectionManager = TomcatConnectionPool.getInstance();
 
     public static int getSubjectId(Subject subject) {
         Subject tmpSubject = null;

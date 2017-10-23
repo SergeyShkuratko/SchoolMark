@@ -1,14 +1,12 @@
 package template.dao;
 
-import classes.Question;
 import classes.Subject;
-import connectionmanager.ConnectionManagerPostgresImpl;
-import template.dto.Test;
+import connectionmanager.ConnectionPool;
+import connectionmanager.TomcatConnectionPool;
 import template.dto.TestQuestion;
 import template.dto.TestTemplate;
 import template.dto.TestVariant;
 
-import javax.xml.transform.Templates;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,7 +17,7 @@ import java.util.Map;
  * Created by nkm on 15.10.2017.
  */
 public class TestTemplateDAOImplementation {
-    public static ConnectionManagerPostgresImpl connectionManager = ConnectionManagerPostgresImpl.getInstance();
+    public static ConnectionPool connectionManager = TomcatConnectionPool.getInstance();
 
     public static TestTemplate getTemplateByIdCascade(int templateId) {
         TestTemplate testTemplate = null;
