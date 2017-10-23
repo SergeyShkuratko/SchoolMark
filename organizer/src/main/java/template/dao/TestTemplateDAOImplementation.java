@@ -1,12 +1,15 @@
 package template.dao;
 
+import classes.Question;
 import classes.Subject;
 import connectionmanager.ConnectionPool;
 import connectionmanager.TomcatConnectionPool;
+import template.dto.Test;
 import template.dto.TestQuestion;
 import template.dto.TestTemplate;
 import template.dto.TestVariant;
 
+import javax.xml.transform.Templates;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,18 +24,19 @@ public class TestTemplateDAOImplementation {
 
     public static TestTemplate getTemplateByIdCascade(int templateId) {
         TestTemplate testTemplate = null;
-        try {
-            PreparedStatement preparedStatement = connectionManager.getConnection().prepareStatement(
-                    "SELECT  *, name as subject_name\n" +
-                            "FROM question_verification_criterions JOIN questions\n" +
+        try (Connection connection = connectionManager.getConnection()) {
+            PreparedStatement preparedStatement = connection.prepareStatement(
+                    "SELECT  *, name AS subject_name, test_templates.id as test_templates_id\n" +
+                            "FROM question_verification_criterions  RIGHT JOIN questions\n" +
                             "    ON question_verification_criterions.question_id = questions.id\n" +
-                            "    JOIN template_variants\n" +
+                            "  RIGHT JOIN template_variants\n" +
                             "    ON questions.template_variant_id = template_variants.id\n" +
-                            "    JOIN test_templates\n" +
+                            "  RIGHT JOIN test_templates\n" +
                             "    ON template_variants.template_id = test_templates.id\n" +
-                            "    JOIN subjects\n" +
+                            "  RIGHT JOIN subjects\n" +
                             "    ON test_templates.subject_id = subjects.id\n" +
-                            "    WHERE test_templates.id = ?");
+                            "WHERE test_templates.id = ?\n" +
+                            "ORDER BY variant, question, criterion");
 
             preparedStatement.setInt(1, templateId);
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -54,7 +58,7 @@ public class TestTemplateDAOImplementation {
                 //один раз создаем шаблон
                 if (testTemplate == null) {
                     testTemplate = new TestTemplate(
-                            resultSet.getInt("id"),
+                            resultSet.getInt("test_templates_id"),
                             resultSet.getString("description"),
                             subject,
                             resultSet.getString("topic"),
@@ -65,32 +69,45 @@ public class TestTemplateDAOImplementation {
 
 
                 TestVariant testVariant;
-                if (variantsMap.containsKey(resultSet.getInt("template_variant_id"))) {
-                    testVariant = variantsMap.get(resultSet.getInt("template_variant_id"));
+                int testVariantId = resultSet.getInt("template_variant_id");
+                String testVariantName = resultSet.getString("variant");
+                if(testVariantName == null){
+                    continue;
+                }
+                if (variantsMap.containsKey(testVariantId)) {
+                    testVariant = variantsMap.get(testVariantId);
                 } else {
-                    testVariant = new TestVariant(resultSet.getInt("template_variant_id"),
-                            resultSet.getString("variant"));
-                    variantsMap.put(resultSet.getInt("template_variant_id"), testVariant);
+                    testVariant = new TestVariant(testVariantId,
+                            testVariantName);
+                    variantsMap.put(testVariantId, testVariant);
                     //если вариант новый - добавляем его в шаблон
                     testTemplate.getTestVariants().add(testVariant);
                 }
 
                 TestQuestion testQuestion;
-                if (questionsMap.containsKey(resultSet.getInt("question_id"))) {
-                    testQuestion = questionsMap.get(resultSet.getInt("question_id"));
+                int questionId = resultSet.getInt("question_id");
+                String questionText = resultSet.getString("question");
+                String questionAnswerText = resultSet.getString("answer");
+                if (questionText == null || questionAnswerText == null){
+                    continue;
+                }
+                if (questionsMap.containsKey(questionId)) {
+                    testQuestion = questionsMap.get(questionId);
                 } else {
-                    testQuestion = new TestQuestion(resultSet.getInt("question_id"),
-                            resultSet.getString("question"),
-                            resultSet.getString("answer"));
-                    questionsMap.put(resultSet.getInt("question_id"), testQuestion);
+                    testQuestion = new TestQuestion(questionId,
+                            questionText,
+                            questionAnswerText);
+                    questionsMap.put(questionId, testQuestion);
                     //если вопрос новый - добавляем его к варианту
                     testVariant.getTestQuestions().add(testQuestion);
                 }
 
                 //каждая новая строчка - это критерий
-                testQuestion.getCriterians().add(
-                        resultSet.getString("criterion"));
-
+                String criterionText = resultSet.getString("criterion");
+                if (criterionText == null){
+                    continue;
+                }
+                testQuestion.getCriterians().add(criterionText);
 
             }
 
@@ -105,11 +122,13 @@ public class TestTemplateDAOImplementation {
     //TODO передавать учителя, который сейчас в сессии (пока возвращаются вообще все шаблоны)
     public static List<TestTemplate> getAllTemplatesByTeacher() {
         List<TestTemplate> templates = new ArrayList<>();
-        try {
-            PreparedStatement preparedStatement = connectionManager.getConnection().prepareStatement(
-                    "SELECT *, subjects.name as subject_name " +
-                            "FROM test_templates JOIN subjects " +
-                            "ON test_templates.subject_id = subjects.id; ");
+        try (Connection connection = connectionManager.getConnection()) {
+            PreparedStatement preparedStatement = connection.prepareStatement(
+                    "SELECT *, subjects.name as subject_name\n" +
+                            "FROM test_templates JOIN subjects\n" +
+                            "ON test_templates.subject_id = subjects.id\n" +
+                            "WHERE test_templates.status ISNULL\n" +
+                            "ORDER BY creation_date;");
 
             //preparedStatement.setInt(1, ...);
 
@@ -148,13 +167,13 @@ public class TestTemplateDAOImplementation {
 
     //Cascade означает, что мы также создаем критерии, вопросы и варианты данного шаблона
     public static int createTestTemplateCascade(TestTemplate testTemplate) {
-        try {
-            PreparedStatement preparedStatement = connectionManager.getConnection().prepareStatement(
+        try (Connection connection = connectionManager.getConnection()) {
+            PreparedStatement preparedStatement = connection.prepareStatement(
                     "INSERT INTO test_templates(topic, description, class_number, subject_id, difficulty, creation_date) " +
                             "VALUES (?,?,?,?,?,?)",
                     Statement.RETURN_GENERATED_KEYS);
             preparedStatement.setString(1, testTemplate.getTopic());
-            preparedStatement.setString(2, testTemplate.getDescription()); //TODO поднять вопрос о целесообразности поля
+            preparedStatement.setString(2, "описание"); //TODO поднять вопрос о целесообразности поля
             preparedStatement.setInt(3, testTemplate.getClassNum());
             preparedStatement.setInt(4, SubjectDAOImplementation.getSubjectId(testTemplate.getSubject()));
             preparedStatement.setString(5, testTemplate.getDifficulty());
@@ -176,5 +195,19 @@ public class TestTemplateDAOImplementation {
             e.printStackTrace();
         }
         return 0;
+    }
+
+    public static boolean setStatusDisabled(TestTemplate oldTemplate) {
+        try (Connection connection = connectionManager.getConnection()) {
+            PreparedStatement preparedStatement = connection.prepareStatement(
+                    "UPDATE test_templates SET status = 'disabled' where id = ?;");
+            preparedStatement.setInt(1, oldTemplate.getId());
+
+            return preparedStatement.executeUpdate() == 1;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 }

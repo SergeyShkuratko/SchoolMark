@@ -18,10 +18,20 @@
         <url-pattern>/img/*</url-pattern>
     </servlet-mapping>
 
-    <servlet-mapping>
-        <servlet-name>default</servlet-name>
-        <url-pattern>/static/*</url-pattern>
-    </servlet-mapping>
+    <!--<servlet-mapping>-->
+        <!--<servlet-name>default</servlet-name>-->
+        <!--<url-pattern>/static/*</url-pattern>-->
+    <!--</servlet-mapping>-->
+
+    <!--<servlet>-->
+        <!--<servlet-name>OrganizerModule</servlet-name>-->
+        <!--<servlet-class>inno.OrganizerServlet</servlet-class>-->
+    <!--</servlet>-->
+
+    <!--<servlet-mapping>-->
+        <!--<servlet-name>OrganizerModule</servlet-name>-->
+        <!--<url-pattern>/organizer</url-pattern>-->
+    <!--</servlet-mapping>-->
 
     <servlet>
         <servlet-name>TemplateList</servlet-name>

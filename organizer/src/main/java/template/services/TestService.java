@@ -2,6 +2,8 @@ package template.services;
 
 import classes.SchoolClass;
 import classes.Subject;
+import template.dao.ClassDAOImplementation;
+import template.dto.Teacher;
 import template.dto.Test;
 import template.dto.TestTemplate;
 
@@ -16,8 +18,9 @@ public class TestService {
     public TestTemplate getTestTemplateFromReq(HttpServletRequest req) {
         TestTemplate testTemplate = new TestTemplate();
 
-        testTemplate.setDescription(req.getParameter("testTheme"));
-        testTemplate.setSubject(new Subject(1, req.getParameter("subject")));
+        testTemplate.setTopic(req.getParameter("templateTopic"));
+        testTemplate.setDescription(req.getParameter("testTheme")); //TODO не забыть убрать, если уберем из БД...
+        testTemplate.setSubject(new Subject(0, req.getParameter("subject")));
         testTemplate.setClassNum(new Integer(req.getParameter("classNum")));
         testTemplate.setDifficulty(req.getParameter("difficulty"));
         testTemplate.setCreationDate(LocalDate.now());
@@ -28,16 +31,25 @@ public class TestService {
     public Test getTestFromReq(HttpServletRequest req) {
         Test test = new Test();
 
-        test.setTestTemplate(getTestTemplateFromReq(req));
-
-        test.setSchoolClass(new SchoolClass( //TODO заменить на ClassDAO.GETClassByNumANdName...
-                1,
-                new Integer(req.getParameter("classNum")),
-                req.getParameter("className")));
-
+        test.setSchoolClass(getSchoolClassFromReq(req));
+        test.setTestDescription(req.getParameter("testTheme"));
         test.setTestDate(LocalDate.parse(req.getParameter("testDate")));
         test.setDeadlineDate(LocalDate.parse(req.getParameter("deadlineDate")));
 
         return test;
+    }
+
+    public SchoolClass getSchoolClassFromReq(HttpServletRequest req) {
+
+
+        TestTemplate testTemplate = (TestTemplate) req.getSession().getAttribute("testTemplate");
+        Teacher teacher = (Teacher) req.getSession().getAttribute("teacher");
+
+        SchoolClass schoolClass = ClassDAOImplementation.getClassByNumAndName(
+                testTemplate.getClassNum(),
+                req.getParameter("className"),
+                teacher.getSchoolId());
+
+        return schoolClass;
     }
 }

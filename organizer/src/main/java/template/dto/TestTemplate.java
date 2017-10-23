@@ -34,6 +34,35 @@ public class TestTemplate {
         this.testVariants = new ArrayList<>();
     }
 
+    public boolean sameAs(TestTemplate that) {
+
+        if (classNum != that.getClassNum()){
+            return false;
+        }
+        if (!topic.equals(that.getTopic())) {
+            return false;
+        }
+        if (!description.equals(that.getDescription())) {
+            return false;
+        }
+//        if (!subject.sameAs(that.getSubject())) {
+//            return false;
+//        }
+        if (!difficulty.equals(that.getDifficulty())) {
+            return false;
+        }
+        if (testVariants.size() != that.getTestVariants().size()){
+            return false;
+        }
+        for (int i = 0; i < testVariants.size(); i++) {
+             if(!testVariants.get(i).sameAs(that.getTestVariants().get(i))){
+                 return false;
+            }
+        }
+        return true;
+    }
+
+
     public LocalDate getCreationDate() {
         return creationDate;
     }
