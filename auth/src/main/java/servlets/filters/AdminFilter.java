@@ -9,8 +9,8 @@ import java.io.IOException;
 
 import static classes.CommonSettings.AUTH_ROLE_ATTRIBUTE;
 import static classes.CommonSettings.AUTH_USER_ATTRIBUTE;
-import static core.dao.utils.Settings.AUTH_PAGE;
-import static core.dao.utils.Settings.DEPLOY_PATH;
+import static utils.Settings.AUTH_PAGE;
+import static utils.Settings.DEPLOY_PATH;
 
 public class AdminFilter implements Filter {
     @Override

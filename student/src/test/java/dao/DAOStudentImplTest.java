@@ -17,7 +17,7 @@ import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.concurrent.ConcurrentNavigableMap;
 
-//import static constants.DAOConstants.NULL_POINTER_DB;
+import static constants.DAOConstants.NULL_POINTER_DB;
 import static org.junit.jupiter.api.Assertions.*;
 
 class DAOStudentImplTest {
@@ -46,7 +46,7 @@ class DAOStudentImplTest {
             char [] buffer = new char [100];
             daoStudent.insertStudent(
                     new Student(
-                            -1,
+                            NULL_POINTER_DB,
                             1,
                             "login",
                             LocalDate.now(),

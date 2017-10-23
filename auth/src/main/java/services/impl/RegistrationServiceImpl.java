@@ -8,13 +8,12 @@ import dao.UserDAOImpl;
 import exceptions.RegisterUrlNotFoundException;
 import exceptions.RoleDAOException;
 import exceptions.UserDAOException;
-import exceptions.UserNotFoundException;
 import interfaces.dao.RoleDAO;
 import interfaces.dao.UserDAO;
 import org.apache.log4j.Logger;
 import services.RegistrationService;
 
-import static core.dao.utils.PasswordEncoder.encode;
+import static utils.PasswordEncoder.encode;
 
 public class RegistrationServiceImpl implements RegistrationService {
 

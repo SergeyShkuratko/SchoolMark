@@ -7,7 +7,8 @@ import org.apache.log4j.Logger;
 
 import java.sql.*;
 import java.util.ArrayList;
-import static core.dao.constants.DAOConstants.NULL_POINTER_DB;
+
+import static constants.DAOConstants.NULL_POINTER_DB;
 
 public class DAOSchoolImpl implements DAOSchool {
 
