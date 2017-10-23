@@ -13,13 +13,25 @@ public class SchoolClassServiceImpl implements SchoolClassService {
     private static Logger logger = Logger.getLogger(SchoolClassServiceImpl.class);
 
     @Override
-    public boolean add(int schoolId, int classNum, String letter) throws SchoolClassDAOException {
+    public boolean persistSchool(int schoolId, int classNum, String letter) throws SchoolClassDAOException {
         try {
             SchoolClassDTO schoolClass = new SchoolClassDTO(classNum, classNum + letter, schoolId);
             return schoolClassDAO.persistSchool(schoolClass);
         } catch (SchoolClassDAOException e) {
-            logger.info(e);
+            logger.error(e.getMessage(), e);
             throw e;
         }
+    }
+
+    @Override
+    public SchoolClassDTO getSchoolClassById(int id) throws SchoolClassDAOException {
+        SchoolClassDTO schoolClass = null;
+        try {
+            schoolClass = schoolClassDAO.getSchoolClassById(id);
+        } catch (SchoolClassDAOException e) {
+            logger.error(e.getMessage(), e);
+            throw e;
+        }
+        return schoolClass;
     }
 }

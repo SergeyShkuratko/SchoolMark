@@ -1,14 +1,13 @@
 package dao;
 
+
 import classes.*;
 import classes.dto.SchoolDTO;
 import connectionmanager.ConnectionPool;
 import connectionmanager.TomcatConnectionPool;
 import exceptions.SchoolDAOException;
-import interfaces.dao.SchoolDAO;
 import interfaces.dao.SchoolsDAO;
 import org.apache.log4j.Logger;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -144,5 +143,4 @@ public class SchoolDAOImpl implements SchoolsDAO {
         }
         return schools;
     }
-
 }
