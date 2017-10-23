@@ -21,7 +21,7 @@ public class TeacherDAOImplementation {
         try {
             PreparedStatement preparedStatement = connectionManager.getConnection().prepareStatement(
                     "SELECT * FROM teachers WHERE user_id = ?");
-            preparedStatement.setInt(1, user.getId());
+            preparedStatement.setInt(1, user.getUserId());
 
             ResultSet resultSet = preparedStatement.executeQuery();
             resultSet.next();

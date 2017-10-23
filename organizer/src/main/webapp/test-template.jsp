@@ -119,8 +119,10 @@
         }
 
     </style>
+    <%@include file="/mystatic/menustyles.jsp" %>
 </head>
 <body>
+<%@include file="/mystatic/pageheader.jsp" %>
 <div class="container">
     <div>
         <c:if test="${templateSaved == true}">
@@ -222,5 +224,6 @@
         </a> nkm.</p>
     </div>
 </div>
+<%@include file="/mystatic/pagefooter.jsp" %>
 </body>
 </html>

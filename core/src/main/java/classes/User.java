@@ -17,6 +17,14 @@ public class User {
         this.registrationDate = registrationDate;
     }
 
+
+    public User(int id, String login, LocalDate registrationDate, Role role) {
+        this.id = id;
+        this.login = login;
+        this.registrationDate = registrationDate;
+        this.role = role;
+    }
+
     public int getUserId() {
         return id;
     }

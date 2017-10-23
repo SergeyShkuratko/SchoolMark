@@ -43,9 +43,10 @@
         }
 
     </style>
+    <%@include file="/mystatic/menustyles.jsp" %>
 </head>
-
 <body>
+<%@include file="/mystatic/pageheader.jsp" %>
 
 <%int rownum = 0; %>
 
@@ -84,5 +85,6 @@
     </div>
 </form>
 
+<%@include file="/mystatic/pagefooter.jsp" %>
 </body>
 </html>

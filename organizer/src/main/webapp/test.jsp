@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="utf-8">
     <title>Создание контрольной работы</title>
@@ -76,8 +76,10 @@
         }
 
     </style>
+    <%@include file="/mystatic/menustyles.jsp" %>
 </head>
 <body>
+<%@include file="/mystatic/pageheader.jsp" %>
 
 
 <div class="container">
@@ -224,5 +226,6 @@
 
 </div>
 
+<%@include file="/mystatic/pagefooter.jsp" %>
 </body>
 </html>

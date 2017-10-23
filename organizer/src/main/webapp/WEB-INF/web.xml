@@ -4,34 +4,24 @@
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
          version="3.1">
 
-    <servlet>
-        <servlet-name>calendar</servlet-name>
-        <servlet-class>calendar.servlets.CalendarServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>calendar</servlet-name>
-        <url-pattern>/organizer/calendar</url-pattern>
-    </servlet-mapping>
+    <!--<servlet>-->
+        <!--<servlet-name>calendar</servlet-name>-->
+        <!--<servlet-class>calendar.servlets.CalendarServlet</servlet-class>-->
+    <!--</servlet>-->
+    <!--<servlet-mapping>-->
+        <!--<servlet-name>calendar</servlet-name>-->
+        <!--<url-pattern>/organizer/calendar</url-pattern>-->
+    <!--</servlet-mapping>-->
 
-    <servlet-mapping>
-        <servlet-name>default</servlet-name>
-        <url-pattern>/img/*</url-pattern>
-    </servlet-mapping>
+    <!--<servlet-mapping>-->
+        <!--<servlet-name>default</servlet-name>-->
+        <!--<url-pattern>/img/*</url-pattern>-->
+    <!--</servlet-mapping>-->
 
-    <servlet-mapping>
-        <servlet-name>default</servlet-name>
-        <url-pattern>/static/*</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
-        <servlet-name>OrganizerModule</servlet-name>
-        <servlet-class>inno.OrganizerServlet</servlet-class>
-    </servlet>
-
-    <servlet-mapping>
-        <servlet-name>OrganizerModule</servlet-name>
-        <url-pattern>/organizer</url-pattern>
-    </servlet-mapping>
+    <!--<servlet-mapping>-->
+        <!--<servlet-name>default</servlet-name>-->
+        <!--<url-pattern>/static/*</url-pattern>-->
+    <!--</servlet-mapping>-->
 
     <servlet>
         <servlet-name>TemplateList</servlet-name>

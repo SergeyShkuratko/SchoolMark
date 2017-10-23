@@ -62,19 +62,16 @@ public class DAOUtils {
         );
     }
 
-    public static ResultSet getResultSetExecuteQueryByWhere(
-            Connection connection, String baseSql)
-            throws SQLException {
-        try(Statement stmt = connection.createStatement()) {
-            return stmt.executeQuery(baseSql);
-        }
+    public static ResultSet getResultSetExecuteQuery(
+            Connection connection, String baseSql) throws SQLException {
+        Statement stmt = connection.createStatement();
+        return stmt.executeQuery(baseSql);
     }
 
-    public static int getResultSetExecuteUpdateByWhere(
+    public static int getResultSetExecuteUpdate(
             Connection connection, String baseSql) throws SQLException {
-        try(Statement stmt = connection.createStatement()) {
+        Statement stmt = connection.createStatement();
             return stmt.executeUpdate(baseSql);
-        }
     }
 
 }

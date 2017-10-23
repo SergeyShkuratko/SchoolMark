@@ -15,5 +15,6 @@
 }
 .error-text { display: none; }
 .has-error + .error-text { display: block; font-size: 10px; color: #b92c28; }
+.not-found { display: block; font-size: 10px; color: #b92c28; }
 
 
