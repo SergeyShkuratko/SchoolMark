@@ -1,6 +1,5 @@
 package servlet;
 
-import classes.Work;
 import dao.DAOStudentWork;
 import dto.DTOFile;
 import dto.DTOWork;
@@ -34,9 +33,9 @@ public class WorkLoadServlet extends HttpServlet {
         try {
             int id = Integer.decode(req.getParameter("id"));
             DTOWork work = WorkService.getWorkById(id);
-            int template_id = work.getTempl_id();
+            int variant_id = work.getVariantId();
             req.setAttribute("work", work);
-            List<String> question = WorkService.getQuestionListByTemplateId(template_id);
+            List<String> question = WorkService.getQuestionListByVariantId(variant_id);
             req.setAttribute("questions", question);
             List<DTOFile> studentFiles = WorkService.getStudentFilesByWorkId(id);
             req.setAttribute("files", studentFiles);
@@ -160,7 +159,7 @@ public class WorkLoadServlet extends HttpServlet {
                 FileItem item = (FileItem) iter.next();
                 if (item.isFormField()) {
                     String fildName = item.getFieldName();
-                    if ("work_id".equals(fildName)) {
+                    if ("workId".equals(fildName)) {
                         work_id = Integer.decode(item.getString());
                     }
                     //если принимаемая часть данных является полем формы
@@ -174,7 +173,7 @@ public class WorkLoadServlet extends HttpServlet {
         } catch (Exception e) {
             logger.error(e.getMessage());
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            response.sendRedirect(referer);
+//            response.sendRedirect(referer);
         }
         response.sendRedirect(referer);
     }
