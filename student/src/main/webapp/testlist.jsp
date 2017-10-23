@@ -63,7 +63,7 @@
                     <td><c:out value="${work.date}"/></td>
                     <td><c:out value="${work.subject}"/></td>
                     <td>
-                        <a href="${context}/workload?id=<c:out value="${work.work_id}"/>">
+                        <a href="${context}/workload?id=<c:out value="${work.workId}"/>">
                             <c:out value="${work.topic}"/>
                         </a>
                     </td>
