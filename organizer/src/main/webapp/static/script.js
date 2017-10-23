@@ -4,46 +4,46 @@ $(document).ready(function () {
     $().on
 
     $(document)
-        .on('click', '[data-toggle=modal]', function(evt){
-        var id = $(this).closest('tr').first().attr('id').split("_")[1];
-        $('[data-action-work]').attr('data-action-work', id);
-        var fio = $(this).closest('tr').first().find('td').first().text();
-        $('.modal-title').text(fio);
+        .on('click', '[data-toggle=modal]', function (evt) {
+            var id = $(this).closest('tr').first().attr('id').split("_")[1];
+            $('[data-action-work]').attr('data-action-work', id);
+            var fio = $(this).closest('tr').first().find('td').first().text();
+            $('.modal-title').text(fio);
 
-        $.ajax({
-            type: 'get',
-            url: 'test-run',
-            data: 'pages_images='+id,
-            dataType: 'json',
-            success: function(response){
-                var html = "";
-                for(var i=0; i<response.length; i++) {
-                    console.log(response[i]);
-                    html += '<div class="item ' + (i==0 ? 'active' : '') + '">';
-                    html += '<img src="' + response[i] + '">';
-                    html += '</div>';
+            $.ajax({
+                type: 'get',
+                url: 'test-run',
+                data: 'pages_images=' + id,
+                dataType: 'json',
+                success: function (response) {
+                    var html = "";
+                    for (var i = 0; i < response.length; i++) {
+                        console.log(response[i]);
+                        html += '<div class="item ' + (i == 0 ? 'active' : '') + '">';
+                        html += '<img src="' + response[i] + '">';
+                        html += '</div>';
+                    }
+                    if (!html.length) {
+                        html = 'http://dailyfrontiertimes.com/UnderConstruction.png';
+                    }
+                    $('#myCarousel').carousel("pause").removeData();
+                    $('.carousel-inner').html(html);
+                    $('#myCarousel').carousel(1);
+                },
+                error: function (response) {
+                    console.log(response);
                 }
-                if(!html.length){
-                    html = 'http://dailyfrontiertimes.com/UnderConstruction.png';
-                }
-                $('#myCarousel').carousel("pause").removeData();
-                $('.carousel-inner').html(html);
-                $('#myCarousel').carousel(1);
-            },
-            error: function (response) {
-                console.log(response);
-            }
-        })
-    }).on('click', '[data-action-work]', function(evt){
+            })
+        }).on('click', '[data-action-work]', function (evt) {
         var id = $(this).first().attr('data-action-work');
-        switch($(this).data('button-role')) {
+        switch ($(this).data('button-role')) {
             case 'success':
                 $.ajax({
                     type: 'get',
                     url: 'test-run',
                     data: 'action=' + $(this).data('button-role') + '&id=' + id,
                     dataType: 'json',
-                    success: function(response){
+                    success: function (response) {
                         $.notify("Сохранено");
                     },
                     error: function (response) {
@@ -57,7 +57,7 @@ $(document).ready(function () {
                     url: 'test-run',
                     data: 'action=' + $(this).data('button-role') + '&id=' + id,
                     dataType: 'json',
-                    success: function(response){
+                    success: function (response) {
                         $.notify("Сохранено");
                     },
                     error: function (response) {
@@ -71,7 +71,7 @@ $(document).ready(function () {
 
     $('#school-class-table').DataTable(
         {
-            "paging": false,
+            "paging": true,
             "ordering": true,
             "info": false,
             "searching": false,
@@ -122,7 +122,7 @@ $(document).ready(function () {
     });
     var autorefresh = false;
     setInterval(function () {
-         autorefresh = $('input[name=autorefresh]').is(':checked');
+        autorefresh = $('input[name=autorefresh]').is(':checked');
         if (autorefresh) {
             updateTable();
         }
@@ -142,15 +142,17 @@ $(document).ready(function () {
                     if (entry.status == 'uploaded') {
                         $('#work_' + entry.id + '_status').html('Да,  <a data-toggle="modal" data-target="#myModal" style="cursor: pointer;">Просмотреть </a>');
                         $('#work_' + entry.id + '_confirm').html('Нет');
-                        $('#work_' + entry.id+'').addClass('info');
-                    } else {
-                        $('#work_' + entry.id + '_status').html('Нет');
-                    }
+                        $('#work_' + entry.id + '').addClass('success');
 
-                    if(entry.status == 'confirmed'){
+                    } else if (entry.status == 'confirmed') {
                         $('#work_' + entry.id + '_status').html('Да, <a data-toggle="modal" data-target="#myModal" style="cursor: pointer;">Просмотреть </a>');
                         $('#work_' + entry.id + '_confirm').html('Да');
-                        $('#work_' + entry.id+'').addClass('success');
+                        $('#work_' + entry.id + '').addClass('success');
+
+                    } else {
+                        $('#work_' + entry.id + '_status').html('Нет');
+                        $('#work_' + entry.id + '_confirm').html('Нет');
+                        $('#work_' + entry.id + '').removeClass('success');
                     }
 
                 });

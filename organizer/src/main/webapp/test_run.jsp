@@ -42,14 +42,16 @@
             <div class="panel-heading">Описание работы:</div>
             <div class="panel-body">${test.description}</div>
         </div>
-         
-               
-            <div class="well">
-                <label class="checkbox-inline"><input type="checkbox" name="autorefresh" value="" checked>Автообновление</label>
-                <button type="button" class="btn btn-primary btn-md" id="refresh">Обновить</button>
-            </div>
-             
-        <br>
+        <div class="well">
+            <label class="checkbox-inline"><input type="checkbox" name="autorefresh" value=""
+                                                  checked>Автообновление</label>
+            <button type="button" class="btn btn-primary btn-md" id="refresh">Обновить</button>
+        </div>
+        <form action="${context}/test-stop" method="GET">
+            <input type="hidden" name="test_id" value="${test.id}" id="test_id">
+            <button type="submit" class="btn btn-danger btn-block btn-lg">Завершить проведение контрольной работы
+            </button>
+        </form>
         <div class="table-responsive ">
             <table class="table table-bordered" id="school-class-table">
                 <thead>
@@ -61,11 +63,8 @@
                 </tr>
                 </thead>
                 <tbody>
-
                 <c:forEach items="${works}" var="work">
-
                     <tr id="work_${work.id}">
-
                         <td>${work.studentFullname}</td>
                         <td>
                             <div class="checkbox">
@@ -77,20 +76,11 @@
                         <td id="work_${work.id}_status">Нет
                         </td>
                         <td id="work_${work.id}_confirm">Нет</td>
-
-
                     </tr>
-
                 </c:forEach>
                 </tbody>
             </table>
         </div>
-        <form action="${context}/test-stop" method="GET">
-            <input type="hidden" name="test_id" value="${test.id}" id="test_id">
-            <button type="submit" class="btn btn-danger btn-block btn-lg">Завершить проведение контрольной работы
-            </button>
-        </form>
-
     </div>
 
 
