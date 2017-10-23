@@ -22,11 +22,11 @@ public class CalendarServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getSession().setAttribute(CommonSettings.AUTH_USER_ATTRIBUTE, 1);
+        //req.getSession().setAttribute(CommonSettings.AUTH_USER_ATTRIBUTE, 1);
 
         List<String> errors = new LinkedList<>();
         Integer userId = (Integer) req.getSession().getAttribute(CommonSettings.AUTH_USER_ATTRIBUTE);
-
+        if(userId==null) userId=0;
         String dayOfMonthString = req.getParameter("dayOfMonth");
         LocalDate beginMonth;
         if (dayOfMonthString == null) {

@@ -45,7 +45,7 @@ public class CalendarServiceImpl implements CalendarService {
                     currentDate.compareTo(begin) >= 0 && currentDate.compareTo(end) <= 0,
                     currentDate.getDayOfWeek() == DayOfWeek.SATURDAY || currentDate.getDayOfWeek() == DayOfWeek.SUNDAY,
                     currentDate.getDayOfWeek() == DayOfWeek.SUNDAY);
-            while (!tests.isEmpty() && tests.get(tests.size() - 1).getStartDate().equals(currentDate)) {
+            while (!tests.isEmpty() && tests.get(tests.size() - 1).getStartDate().toLocalDate().equals(currentDate)) {
                 cc.addTest(tests.remove(tests.size() - 1));
             }
             calendar.add(cc);

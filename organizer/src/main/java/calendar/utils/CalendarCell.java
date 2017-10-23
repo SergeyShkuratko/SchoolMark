@@ -67,7 +67,9 @@ public class CalendarCell {
     }
 
     public String getFormatDate() {
+
         return DateTimeFormatter.ofLocalizedDate(FormatStyle.FULL).format(date);
+
     }
     public LocalDate getDate() {
         return date;

@@ -1,4 +1,4 @@
-function validateAndSubmit() {
+function validateAuthAndSubmit() {
     var formValid = true;
     $('input').each(function () {
         var formGroup = $(this).parents('.input-group');
@@ -13,6 +13,22 @@ function validateAndSubmit() {
         }
     });
     if (formValid) {
-        document.getElementById('auth-form').submit();
+        document.getElementById('validate-form').submit();
+    }
+}
+
+function validateAndSubmit() {
+    var formValid = true;
+    $('input').each(function () {
+        var formGroup = $(this).parents('.form-group');
+        if (this.checkValidity()) {
+            formGroup.addClass('has-success').removeClass('has-error');
+        } else {
+            formGroup.addClass('has-error').removeClass('has-success');
+            formValid = false;
+        }
+    });
+    if (formValid) {
+        document.getElementById('validate-form').submit();
     }
 }

@@ -1,42 +1,148 @@
 package dao;
 
-import classes.School;
-import classes.SchoolClass;
-import classes.SchoolType;
+import classes.*;
+import classes.dto.SchoolDTO;
+import connectionmanager.ConnectionPool;
+import connectionmanager.TomcatConnectionPool;
+import exceptions.SchoolDAOException;
 import interfaces.dao.SchoolDAO;
+import interfaces.dao.SchoolsDAO;
+import org.apache.log4j.Logger;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.*;
 
-public class SchoolDAOImpl implements SchoolDAO {
+public class SchoolDAOImpl implements SchoolsDAO {
+
+    private static Logger logger = Logger.getLogger(SchoolDAOImpl.class);
+    private static ConnectionPool pool = TomcatConnectionPool.getInstance();
+
+    private static final String GET_BY_ID = "SELECT s.id as s_id, r.id as r_id, c.id as c_id," +
+            " r.name as r_name, c.name as c_name, s.name as s_name," +
+            " st.id as st_id, st.type_name" +
+            " FROM schools as s" +
+            " JOIN city as c on s.city_id = c.id" +
+            " JOIN region as r on c.region_id = r.id" +
+            " JOIN school_types as st ON st.id = s.school_type_id" +
+            " WHERE s.id = ?";
+
+    private static final String GET_BY_CITY = "SELECT * FROM schools s" +
+            " LEFT JOIN school_types st ON st.id = s.school_type_id" +
+            " WHERE city_id = ?";
+
+    private static final String GET_CLASSES_BY_SCHOOL = "SELECT * FROM school_classes c" +
+            " WHERE school_id = ?";
+
+    private static final String GET_ALL =
+            "SELECT s.id as s_id, r.id as r_id, c.id as c_id," +
+            " r.name as r_name, c.name as c_name, s.name as s_name," +
+            " st.id as st_id, st.type_name" +
+            " FROM schools as s" +
+            " JOIN city as c on s.city_id = c.id" +
+            " JOIN region as r on c.region_id = r.id" +
+            " JOIN school_types as st ON st.id = s.school_type_id";
 
     @Override
-    public List<School> getAllSchoolsInCity(String city, String region) {
-        List<School> list = new ArrayList<>();
-        list.add(new School(1, "Школа №1", "1", "1", new SchoolType(1, "1")));
-        list.add(new School(2, "Школа №2", "1", "1", new SchoolType(1, "1")));
-        return list;
+    public SchoolDTO getById(int id) throws SchoolDAOException {
+        SchoolDTO school = null;
+        try (Connection connection = pool.getConnection();
+             PreparedStatement statement = connection.prepareStatement(GET_BY_ID)) {
+            statement.setInt(1, id);
+            ResultSet set = statement.executeQuery();
+            List<SchoolDTO> schools = getSchoolsFromSet(set);
+            if (schools.isEmpty()) {
+                throw new SchoolDAOException();
+            }
+            school = schools.get(0);
+        } catch (SQLException | SchoolDAOException e) {
+            logger.error(e.getMessage(), e);
+            throw new SchoolDAOException();
+        }
+        return school;
     }
 
     @Override
-    public List<School> getAll() {
-        List<School> schools = new ArrayList<>();
-
-        schools.add(new School(1, "Школа №1", "1", "1", new SchoolType(1, "1")));
-        schools.add(new School(1, "Школа №2", "1", "1", new SchoolType(1, "1")));
-        schools.add(new School(1, "Школа №3", "1", "1", new SchoolType(1, "1")));
-        schools.add(new School(1, "Школа №4", "1", "1", new SchoolType(1, "1")));
-
+    public List<SchoolDTO> getAllSchoolsInCity(int id) throws SchoolDAOException {
+        List<SchoolDTO> schools = null;
+        try (Connection connection = pool.getConnection();
+             PreparedStatement statement = connection.prepareStatement(GET_BY_CITY)) {
+            statement.setInt(1, id);
+            ResultSet set = statement.executeQuery();
+            schools = getSchoolsFromSet(set);
+        } catch (SQLException e) {
+            logger.error(e.getMessage(), e);
+            throw new SchoolDAOException();
+        }
         return schools;
     }
 
     @Override
-    public List<SchoolClass> getAllClasses(School school) {
-        List<SchoolClass> classes = new ArrayList<>();
-        classes.add(new SchoolClass(1, 11, "11А", school));
-        classes.add(new SchoolClass(2, 11, "11Б", school));
-        classes.add(new SchoolClass(3, 11, "11В", school));
+    public List<SchoolDTO> getAll() throws SchoolDAOException {
+        List<SchoolDTO> schools = null;
+        try (Connection connection = pool.getConnection();
+                PreparedStatement statement = connection.prepareStatement(GET_ALL)) {
+            ResultSet set = statement.executeQuery();
+            schools = getSchoolsFromSet(set);
+        } catch (SQLException e) {
+            logger.error(e.getMessage(), e);
+            throw new SchoolDAOException();
+        }
+        return schools;
+    }
+
+    @Override
+    public List<SchoolClass> getAllClasses(int id) throws SchoolDAOException {
+        List<SchoolClass> classes = null;
+        try (Connection connection = pool.getConnection();
+             PreparedStatement statement = connection.prepareStatement(GET_CLASSES_BY_SCHOOL)) {
+            statement.setInt(1, id);
+            ResultSet set = statement.executeQuery();
+            classes = getClassesFromSet(set);
+        } catch (SQLException | SchoolDAOException e) {
+            throw new SchoolDAOException(e);
+        }
 
         return classes;
     }
+
+    private List<SchoolClass> getClassesFromSet(ResultSet set) throws SchoolDAOException {
+        List<SchoolClass> classes = new ArrayList<>();
+        try {
+            while (set.next()) {
+                classes.add(new SchoolClass(
+                        set.getInt("id"),
+                        set.getInt("number"),
+                        set.getString("name")));
+            }
+        } catch (SQLException e) {
+            logger.error(e.getMessage(), e);
+            throw new SchoolDAOException(e);
+        }
+        return classes;
+    }
+
+    private List<SchoolDTO> getSchoolsFromSet(ResultSet set) throws SchoolDAOException {
+        List<SchoolDTO> schools = new ArrayList<>();
+        try {
+            while (set.next()) {
+                schools.add(new SchoolDTO(
+                        set.getInt("s_id"),
+                        set.getString("s_name"),
+                        set.getInt("r_id"),
+                        set.getInt("c_id"),
+                        set.getString("r_name"),
+                        set.getString("c_name"),
+                        set.getString("type_name")));
+            }
+        } catch (SQLException e) {
+            logger.error(e.getMessage(), e);
+            throw new SchoolDAOException(e);
+        }
+        return schools;
+    }
+
 }

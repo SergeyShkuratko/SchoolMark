@@ -7,6 +7,8 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page import="java.time.format.DateTimeFormatter" %>
+<%@ page import="java.time.format.FormatStyle" %>
 <html>
 <head>
     <title>Календарь контрольных работ</title>
@@ -25,7 +27,7 @@
             cell.title = title;
             cell.subjects = new Array();
             cell.tests_id = new Array();
-            cell.addSTest = function (subject, test_id) {
+            cell.addTest = function (subject, test_id) {
                 this.subjects.push(subject);
                 this.tests_id.push(test_id);
             }
@@ -48,7 +50,7 @@
                 "               window.parent.document.myDiv.removeChild(window.parent.document.myDiv.firstElementChild);'>" +
                 "</div><div align='center'>" + title + "<br><br>";
             object.addTest = function (subject, id) {
-                object.src += "<a href='${pageContext.request.contextPath}/test-start?test_id=" + id + "'>" + subject + "</a>" + "</br>";
+                object.src += "<a href='${pageContext.request.contextPath}/test-start?test_id=" + id + "' target='_top'>" + subject + "</a>" + "</br>";
             }
             object.getSrc = function () {
                 return object.src + "<br><br>" +
@@ -75,7 +77,7 @@
 
             var srcBuilder = newSrcBuilder(cell.title);
             for (var key in cell.subjects) {
-                srcBuilder.addSubject(cell.getSubject(key),cell.getTest(key));
+                srcBuilder.addTest(cell.getSubject(key),cell.getTest(key));
             }
             iframe.srcdoc = srcBuilder.getSrc();
         }
@@ -84,16 +86,18 @@
         <c:forEach items="${calendar}" var="item">
             document.cells["${item.getDate().toString()}"] = newCell("${item.getFormatDate()}");
             <c:forEach items="${item.getTests()}" var="test">
-                document.cells["${item.getDate().toString()}"].addTest("${test.getSubject()},${test.getId()}");
+                document.cells["${item.getDate().toString()}"].addTest("${DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT).format(test.getStartDate())}. ${test.getSubject()}",<c:out value="${test.getId()}"/>);
             </c:forEach>
         </c:forEach>
     </script>
     <style>td, th {
         padding: 2px !important;
     }</style>
+
+    <%@include file="/mystatic/menustyles.jsp" %>
 </head>
 <body>
-<%@include file="/mystatic/justMenu.jsp" %>
+    <%@include file="/mystatic/pageheader.jsp" %>
 
 <form method="get" action="${pageContext.request.contextPath}/organizer/calendar" id="mainForm">
     <input type="hidden" name="dayOfMonth" id="dayOfMonth" value="${beginData}"/>
@@ -133,13 +137,15 @@
                 </div>
             </td>
 
-            <c:if test="${item.isEOW()}">
-        </tr>
-        <tr>
-            </c:if>
-            </c:forEach>
-        </tr>
-    </table>
-</form>
+                <c:if test="${item.isEOW()}">
+            </tr>
+            <tr>
+                </c:if>
+                </c:forEach>
+            </tr>
+        </table>
+    </form>
+
+    <%@include file="/mystatic/pagefooter.jsp" %>
 </body>
 </html>
