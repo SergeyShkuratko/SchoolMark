@@ -126,7 +126,7 @@ $(document).ready(function () {
         if (autorefresh) {
             updateTable();
         }
-    }, 5000);
+    }, 2000);
 
 
     function updateTable() {
