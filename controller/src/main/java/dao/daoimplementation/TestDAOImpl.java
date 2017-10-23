@@ -1,12 +1,12 @@
 package dao.daoimplementation;
 
+import connectionmanager.ConnectionPool;
+import connectionmanager.TomcatConnectionPool;
 import dao.dto.TestDTO;
 import dao.dto.TestsDTO;
 import dao.dto.WorkPageDTO;
 import dao.TestDAO;
 import com.google.common.base.Strings;
-import connectionmanager.ConnectionManager;
-import connectionmanager.ConnectionManagerPostgresImpl;
 import org.apache.log4j.Logger;
 
 import java.sql.Date;
@@ -18,10 +18,10 @@ import java.util.List;
 
 public class TestDAOImpl implements TestDAO {
     private static final Logger logger = Logger.getLogger(TestDAOImpl.class);
-    private static ConnectionManager manager;
+    private static ConnectionPool manager;
 
     static {
-        manager = ConnectionManagerPostgresImpl.getInstance();
+        manager = TomcatConnectionPool.getInstance();
     }
 
     @Override

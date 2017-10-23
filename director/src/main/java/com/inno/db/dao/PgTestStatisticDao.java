@@ -2,8 +2,8 @@ package com.inno.db.dao;
 
 import com.inno.db.dto.*;
 import com.inno.db.exception.DaoException;
-import connectionmanager.ConnectionManager;
-import connectionmanager.ConnectionManagerPostgresImpl;
+import connectionmanager.ConnectionPool;
+import connectionmanager.TomcatConnectionPool;
 
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -13,10 +13,10 @@ import java.time.LocalDate;
 import java.util.*;
 
 public class PgTestStatisticDao implements TestStatisticDao {
-    private ConnectionManager connectionManager;
+    private ConnectionPool connectionManager;
 
     public PgTestStatisticDao() {
-        this.connectionManager = ConnectionManagerPostgresImpl.getInstance();
+        this.connectionManager = TomcatConnectionPool.getInstance();
     }
 
     @Override

@@ -3,6 +3,7 @@ package template.services;
 import classes.SchoolClass;
 import classes.Subject;
 import template.dao.ClassDAOImplementation;
+import template.dto.Teacher;
 import template.dto.Test;
 import template.dto.TestTemplate;
 
@@ -18,7 +19,7 @@ public class TestService {
         TestTemplate testTemplate = new TestTemplate();
 
         testTemplate.setTopic(req.getParameter("templateTopic"));
-        testTemplate.setDescription(req.getParameter("testTheme")); //TODO не забвть убрать, если уберем из БД...
+        testTemplate.setDescription(req.getParameter("testTheme")); //TODO не забыть убрать, если уберем из БД...
         testTemplate.setSubject(new Subject(0, req.getParameter("subject")));
         testTemplate.setClassNum(new Integer(req.getParameter("classNum")));
         testTemplate.setDifficulty(req.getParameter("difficulty"));
@@ -40,13 +41,14 @@ public class TestService {
 
     public SchoolClass getSchoolClassFromReq(HttpServletRequest req) {
 
-        TestTemplate testTemplate = (TestTemplate) req.getSession().getAttribute("testTemplate");
 
-        //TODO заменить на ClassDAO.GETClassByNumANdName...
-        SchoolClass schoolClass = ClassDAOImplementation.getClassId(
+        TestTemplate testTemplate = (TestTemplate) req.getSession().getAttribute("testTemplate");
+        Teacher teacher = (Teacher) req.getSession().getAttribute("teacher");
+
+        SchoolClass schoolClass = ClassDAOImplementation.getClassByNumAndName(
                 testTemplate.getClassNum(),
                 req.getParameter("className"),
-                2);
+                teacher.getSchoolId());
 
         return schoolClass;
     }

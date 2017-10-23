@@ -23,6 +23,24 @@ public class TestQuestion {
         this.criterians = new ArrayList<>();
     }
 
+    public boolean sameAs(TestQuestion that){
+        if(!questionText.equals(that.questionText)){
+            return false;
+        }
+        if(!answerText.equals(that.answerText)){
+            return false;
+        }
+        if(criterians.size() != that.criterians.size()){
+            return false;
+        }
+        for (int i = 0; i < criterians.size(); i++) {
+             if (!criterians.get(i).equals(that.getCriterians().get(i))){
+                 return false;
+             }
+        }
+        return true;
+    }
+
     public int getId() {
         return id;
     }

@@ -6,6 +6,7 @@ import services.SchoolService;
 import services.impl.SchoolServiceImpl;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -13,6 +14,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
 
+@WebServlet("/admin/schools")
 public class SchoolListServlet extends HttpServlet {
 
     private SchoolService processingService = new SchoolServiceImpl();
@@ -29,6 +31,7 @@ public class SchoolListServlet extends HttpServlet {
                     schools.stream().forEach((s) -> pw.println("<option value='" + s.id + "'>" + s.name + "</option>"));
                 }
                 //TODO насколько правильно перехватывать, а не проверять?
+                //TODO правильно проверять
             } catch (NumberFormatException | SchoolDAOException e) {
                 resp.sendError(HttpServletResponse.SC_BAD_REQUEST);
             }

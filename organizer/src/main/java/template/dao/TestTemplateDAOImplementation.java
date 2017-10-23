@@ -68,32 +68,45 @@ public class TestTemplateDAOImplementation {
 
 
                 TestVariant testVariant;
-                if (variantsMap.containsKey(resultSet.getInt("template_variant_id"))) {
-                    testVariant = variantsMap.get(resultSet.getInt("template_variant_id"));
+                int testVariantId = resultSet.getInt("template_variant_id");
+                String testVariantName = resultSet.getString("variant");
+                if(testVariantName == null){
+                    continue;
+                }
+                if (variantsMap.containsKey(testVariantId)) {
+                    testVariant = variantsMap.get(testVariantId);
                 } else {
-                    testVariant = new TestVariant(resultSet.getInt("template_variant_id"),
-                            resultSet.getString("variant"));
-                    variantsMap.put(resultSet.getInt("template_variant_id"), testVariant);
+                    testVariant = new TestVariant(testVariantId,
+                            testVariantName);
+                    variantsMap.put(testVariantId, testVariant);
                     //если вариант новый - добавляем его в шаблон
                     testTemplate.getTestVariants().add(testVariant);
                 }
 
                 TestQuestion testQuestion;
-                if (questionsMap.containsKey(resultSet.getInt("question_id"))) {
-                    testQuestion = questionsMap.get(resultSet.getInt("question_id"));
+                int questionId = resultSet.getInt("question_id");
+                String questionText = resultSet.getString("question");
+                String questionAnswerText = resultSet.getString("answer");
+                if (questionText == null || questionAnswerText == null){
+                    continue;
+                }
+                if (questionsMap.containsKey(questionId)) {
+                    testQuestion = questionsMap.get(questionId);
                 } else {
-                    testQuestion = new TestQuestion(resultSet.getInt("question_id"),
-                            resultSet.getString("question"),
-                            resultSet.getString("answer"));
-                    questionsMap.put(resultSet.getInt("question_id"), testQuestion);
+                    testQuestion = new TestQuestion(questionId,
+                            questionText,
+                            questionAnswerText);
+                    questionsMap.put(questionId, testQuestion);
                     //если вопрос новый - добавляем его к варианту
                     testVariant.getTestQuestions().add(testQuestion);
                 }
 
                 //каждая новая строчка - это критерий
-                testQuestion.getCriterians().add(
-                        resultSet.getString("criterion"));
-
+                String criterionText = resultSet.getString("criterion");
+                if (criterionText == null){
+                    continue;
+                }
+                testQuestion.getCriterians().add(criterionText);
 
             }
 

@@ -1,13 +1,9 @@
 package dao;
 
-import classes.SchoolClass;
 import classes.SchoolType;
-import classes.Student;
-import connectionmanager.ConnectionManagerPostgresImpl;
-import exception.DAOSchoolClassErrorRequestException;
-import exception.DAOSchoolErrorRequestException;
+import connectionmanager.ConnectionPool;
+import connectionmanager.TomcatConnectionPool;
 import exception.DAOSchoolTypeErrorRequest;
-import exception.DAOStudentErrorRequestException;
 import org.apache.log4j.Logger;
 
 import java.sql.Connection;
@@ -22,8 +18,8 @@ public class DAOSchoolTypeImpl implements DAOSchoolType {
 
 
     private final Logger logger = Logger.getLogger(DAOStudent.class);
-    private final ConnectionManagerPostgresImpl connectionManagerPostgres
-            = ConnectionManagerPostgresImpl.getInstance();
+    private final ConnectionPool connectionManagerPostgres
+            = TomcatConnectionPool.getInstance();
     private final Connection connection;
     private final String baseGetSql = "SELECT * FROM school_types schl_tps ";
     private final String baseRemoveSql = "DELETE FROM school_types ";

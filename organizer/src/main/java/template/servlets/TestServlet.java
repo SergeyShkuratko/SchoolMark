@@ -1,12 +1,12 @@
 package template.servlets;
 
-import classes.SchoolClass;
 import classes.Subject;
-import classes.Teacher;
 import classes.User;
+import template.dao.ClassDAOImplementation;
 import template.dao.SubjectDAOImplementation;
 import template.dao.TeacherDAOImplementation;
 import template.dao.TestDAOImplementation;
+import template.dto.Teacher;
 import template.dto.Test;
 import template.dto.TestTemplate;
 import template.services.TestService;
@@ -34,8 +34,8 @@ public class TestServlet extends HttpServlet {
         {
             user = new User(1, "1", LocalDate.now());
         }
-        int teacherId = TeacherDAOImplementation.getTeacherIdByUser(user);
-        req.getSession().setAttribute("teacherId", teacherId);
+        Teacher teacher = TeacherDAOImplementation.getTeacherByUser(user);
+        req.getSession().setAttribute("teacher", teacher);
 
 
         Test test = (Test) req.getSession().getAttribute("test");
@@ -48,11 +48,14 @@ public class TestServlet extends HttpServlet {
             req.setAttribute("testTemplate", testTemplate);
         }
 
-//        List<String> classLetters = SubjectDAOImplementation.getAllSubjects();
-//        req.setAttribute("subjects", subjects);
-
         List<Subject> subjects = SubjectDAOImplementation.getAllSubjects();
         req.setAttribute("subjects", subjects);
+
+        List<Integer> classNumbers = ClassDAOImplementation.getClassNumbersByTeacher(teacher);
+        req.setAttribute("classNumbers", classNumbers);
+
+        List<String> classNames = ClassDAOImplementation.getClassNamesByTeacher(teacher);
+        req.setAttribute("classNames", classNames);
 
         getServletContext().getRequestDispatcher("/test.jsp").forward(req, resp);
 
@@ -90,24 +93,38 @@ public class TestServlet extends HttpServlet {
     private void createTest(HttpServletRequest req, HttpServletResponse resp) {
         TestTemplate testTemplate = (TestTemplate) req.getSession().getAttribute("testTemplate");
 
-        if (testTemplate == null) {
+        boolean fieldsNotFilled = false;
+        for (String[] parameter : req.getParameterMap().values()) {
+            if(parameter.equals("")){
+                fieldsNotFilled = true;
+                break;
+            }
+        }
+
+        if(fieldsNotFilled){
+            req.setAttribute("fieldsNotFilled", true);
+
+            try {
+                getServletContext().getRequestDispatcher("/test.jsp").forward(req, resp);
+            } catch (ServletException | IOException e) {
+                e.printStackTrace();
+            }
+
+        }else if (testTemplate == null) {
             req.setAttribute("questionsNotLoaded", true);
 
             try {
                 getServletContext().getRequestDispatcher("/test.jsp").forward(req, resp);
-            } catch (ServletException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
+            } catch (ServletException | IOException e) {
                 e.printStackTrace();
             }
-        }
-        else {//TODO!!! ЗДЕСЬ ЕЩЕ НУЖНО ПРОВЕРЯТЬ ДАТЫ И ПУСТЫЕ ПОЛЯ И ОТЛИЧИЯ ПОЛЕЙ ОТ ПЕРВОНАЧАЛЬНЫХ
+        } else {
 
             Test test = testService.getTestFromReq(req);
             test.setTestTemplate(testTemplate);
             TestDAOImplementation.createTest(test, (int)req.getSession().getAttribute("teacherId"));
 
-            //TODO переадресовывать куда-нибудь
+            //TODO переадресовывать на календарь?..
         }
     }
 

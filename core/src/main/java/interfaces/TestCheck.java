@@ -7,7 +7,7 @@ import classes.Test;
 import java.util.List;
 
 
-//TODO спорный вопрос насчет package. Возможно это DAO
+//TODO спорный вопрос насчет package. Возможно это dao
 public interface TestCheck {
 
     /**

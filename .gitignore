@@ -13,3 +13,4 @@ web.xml
 **/build/
 bin/
 **/out/
+gradle/wrapper/*

@@ -1,9 +1,8 @@
 package template.dao;
 
-import classes.Subject;
-import classes.Teacher;
 import classes.User;
 import connectionmanager.ConnectionManagerPostgresImpl;
+import template.dto.Teacher;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -15,7 +14,7 @@ import java.sql.SQLException;
 public class TeacherDAOImplementation {
     public static ConnectionManagerPostgresImpl connectionManager = ConnectionManagerPostgresImpl.getInstance();
 
-    public static int getTeacherIdByUser(User user) {
+    public static Teacher getTeacherByUser(User user) {
         Teacher teacher = null;
 
         try {
@@ -25,11 +24,20 @@ public class TeacherDAOImplementation {
 
             ResultSet resultSet = preparedStatement.executeQuery();
             resultSet.next();
-            return  resultSet.getInt("id");
+            teacher = new Teacher(
+                    resultSet.getInt("id"),
+                    resultSet.getInt("user_id"),
+                    resultSet.getString("last_name"),
+                    resultSet.getString("first_name"),
+                    resultSet.getString("patronymic"),
+                    resultSet.getInt("school_id"),
+                    resultSet.getInt("min_class_number"),
+                    resultSet.getInt("max_class_number"));
+            return teacher;
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        return 0;
+        return null;
     }
 }

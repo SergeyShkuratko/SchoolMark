@@ -2,7 +2,7 @@ package servlets;
 
 import classes.Role;
 import classes.User;
-import exceptions.RegisterUrlNotFoundException;
+import exceptions.RegistrationTokenNotFoundException;
 import exceptions.RoleDAOException;
 import exceptions.UserDAOException;
 import services.AuthorizationService;
@@ -11,6 +11,7 @@ import services.impl.AuthorizationServiceImpl;
 import services.impl.RegistrationServiceImpl;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -20,6 +21,7 @@ import static exceptions.ErrorDescriptions.*;
 import static utils.ForwardRequestHelper.getErrorDispatcher;
 import static utils.Settings.*;
 
+@WebServlet({"/register", "/register/*"})
 public class RegistrationServlet extends HttpServlet {
 
     private static RegistrationService service = new RegistrationServiceImpl();
@@ -41,7 +43,7 @@ public class RegistrationServlet extends HttpServlet {
                 } catch (RoleDAOException e) {
                     getErrorDispatcher(req, DB_ERROR).forward(req, resp);
                     return;
-                } catch (RegisterUrlNotFoundException e) {
+                } catch (RegistrationTokenNotFoundException e) {
                     getErrorDispatcher(req, WRONG_REG_URL).forward(req, resp);
                     return;
                 }
