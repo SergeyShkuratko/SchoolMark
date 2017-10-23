@@ -113,7 +113,6 @@
         </div>
     </div>
 </form>
-
 <%@include file="/mystatic/pagefooter.jsp" %>
 </body>
 </html>

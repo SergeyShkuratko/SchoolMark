@@ -24,16 +24,6 @@
     </servlet-mapping>
 
     <servlet>
-        <servlet-name>OrganizerModule</servlet-name>
-        <servlet-class>inno.OrganizerServlet</servlet-class>
-    </servlet>
-
-    <servlet-mapping>
-        <servlet-name>OrganizerModule</servlet-name>
-        <url-pattern>/organizer</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
         <servlet-name>TemplateList</servlet-name>
         <servlet-class>template.servlets.TemplateListServlet</servlet-class>
     </servlet>
