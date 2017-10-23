@@ -3,6 +3,7 @@ package inno.servlets;
 
 import inno.dao.TestDAO;
 import inno.exceptions.OrganizerDAOexception;
+import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,6 +14,8 @@ import java.io.IOException;
 
 @WebServlet("/test-stop")
 public class StopTestServlet extends HttpServlet {
+    private static Logger logger = Logger.getLogger(StopTestServlet.class);
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
@@ -26,6 +29,7 @@ public class StopTestServlet extends HttpServlet {
                     req.getRequestDispatcher("test_stop.jsp").forward(req, resp);
                 }
             } catch (OrganizerDAOexception organizerDAOexception) {
+                logger.error(organizerDAOexception);
                 organizerDAOexception.printStackTrace();
             }
         }

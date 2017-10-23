@@ -5,12 +5,16 @@ import connectionmanager.TomcatConnectionPool;
 import inno.dto.TestDTO;
 import inno.dto.WorkDTO;
 import inno.exceptions.OrganizerDAOexception;
+import org.apache.log4j.Logger;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class OrganizerDAO {
 
+
+    private static Logger logger = Logger.getLogger(OrganizerDAO.class);
     private static ConnectionPool pool = TomcatConnectionPool.getInstance();
 
     /**
@@ -41,6 +45,7 @@ public class OrganizerDAO {
                 );
             }
         } catch (SQLException e) {
+            logger.error(e);
             throw new OrganizerDAOexception(e);
         }
         return null;
@@ -66,6 +71,7 @@ public class OrganizerDAO {
              Statement statement = connection.createStatement()) {
             return statement.execute(sql);
         } catch (SQLException e) {
+            logger.error(e);
             throw new OrganizerDAOexception(e);
         }
     }
@@ -89,6 +95,7 @@ public class OrganizerDAO {
                 return rs.getBoolean(1);
             }
         } catch (SQLException e) {
+            logger.error(e);
             throw new OrganizerDAOexception(e);
         }
         return false;
@@ -126,6 +133,7 @@ public class OrganizerDAO {
             return list;
 
         } catch (SQLException e) {
+            logger.error(e);
             throw new OrganizerDAOexception(e);
         }
     }

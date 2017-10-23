@@ -6,6 +6,7 @@ import inno.dao.OrganizerDAO;
 import inno.dao.WorkDAO;
 import inno.dto.TestDTO;
 import inno.exceptions.OrganizerDAOexception;
+import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -17,6 +18,8 @@ import java.io.PrintWriter;
 
 @WebServlet("/test-run")
 public class RunTestServlet extends HttpServlet {
+    private static Logger logger = Logger.getLogger(RunTestServlet.class);
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setCharacterEncoding("cp1251");
@@ -36,6 +39,7 @@ public class RunTestServlet extends HttpServlet {
                 //добавляем тест
                 req.setAttribute("test", test);
             } catch (OrganizerDAOexception e) {
+                logger.error(e);
                 throw new ServletException(e);
             }
             req.getRequestDispatcher("test_run.jsp").forward(req, resp);
@@ -49,6 +53,7 @@ public class RunTestServlet extends HttpServlet {
                             Integer.parseInt((req.getParameter("work_id"))),
                             Boolean.parseBoolean(req.getParameter("presence")));
                 } catch (OrganizerDAOexception organizerDAOexception) {
+                    logger.error(organizerDAOexception);
                     organizerDAOexception.printStackTrace();
                 }
             }
@@ -69,9 +74,8 @@ public class RunTestServlet extends HttpServlet {
                                         req.getParameter("get_upload_info_for_test")))
                 );
                 writer.print(json);
-
-
             } catch (OrganizerDAOexception organizerDAOexception) {
+                logger.error(organizerDAOexception);
                 organizerDAOexception.printStackTrace();
             }
         }
@@ -105,6 +109,7 @@ public class RunTestServlet extends HttpServlet {
 
 
             } catch (OrganizerDAOexception organizerDAOexception) {
+                logger.error(organizerDAOexception);
                 organizerDAOexception.printStackTrace();
             }
         }
@@ -128,6 +133,7 @@ public class RunTestServlet extends HttpServlet {
                                         req.getParameter("pages_images")))
                 );
             } catch (OrganizerDAOexception organizerDAOexception) {
+                logger.error(organizerDAOexception);
                 organizerDAOexception.printStackTrace();
             }
             writer.print(pages_json);

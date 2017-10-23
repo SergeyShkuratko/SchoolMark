@@ -3,11 +3,14 @@ package inno.dao;
 import connectionmanager.ConnectionPool;
 import connectionmanager.TomcatConnectionPool;
 import inno.exceptions.OrganizerDAOexception;
+import org.apache.log4j.Logger;
 import org.postgresql.util.PGobject;
 import java.sql.*;
 import java.time.LocalDate;
 
 public class TestDAO {
+
+    private static Logger logger = Logger.getLogger(TestDAO.class);
 
     private static ConnectionPool pool = TomcatConnectionPool.getInstance();
 
@@ -24,6 +27,7 @@ public class TestDAO {
             ps.setObject(1, status_var);
             return ps.executeUpdate() > 0;
         } catch (SQLException e) {
+            logger.error(e);
             throw new OrganizerDAOexception(e);
         }
     }
@@ -45,6 +49,7 @@ public class TestDAO {
             ps.setObject(1, status_var);
             return ps.executeUpdate() > 0;
         } catch (SQLException e) {
+            logger.error(e);
             throw new OrganizerDAOexception(e);
         }
     }

@@ -4,12 +4,16 @@ import connectionmanager.ConnectionPool;
 import connectionmanager.TomcatConnectionPool;
 import inno.classes.WorkStatus;
 import inno.exceptions.OrganizerDAOexception;
+import org.apache.log4j.Logger;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 
 public class WorkDAO {
+
+    private static Logger logger = Logger.getLogger(WorkDAO.class);
 
     private static ConnectionPool pool = TomcatConnectionPool.getInstance();
 
@@ -22,6 +26,7 @@ public class WorkDAO {
             ps.setInt(2, work_id);
             return ps.executeUpdate() > 0;
         } catch (SQLException e) {
+            logger.error(e);
             throw new OrganizerDAOexception(e);
         }
     }
@@ -42,6 +47,7 @@ public class WorkDAO {
             }
             return statusList;
         } catch (SQLException e) {
+            logger.error(e);
             throw new OrganizerDAOexception(e);
         }
 
@@ -60,6 +66,7 @@ public class WorkDAO {
             }
             return imagesList;
         } catch (SQLException e) {
+            logger.error(e);
             throw new OrganizerDAOexception(e);
         }
     }
@@ -73,6 +80,7 @@ public class WorkDAO {
             ps.setInt(2, id);
             return  ps.executeUpdate();
         } catch (SQLException e) {
+            logger.error(e);
             throw new OrganizerDAOexception(e);
         }
     }
