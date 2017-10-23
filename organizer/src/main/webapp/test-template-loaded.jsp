@@ -106,7 +106,7 @@
         <h2>Создание контрольной работы</h2>
         <input type="text" class="input-xxlarge form-control" placeholder="Тема контрольной работы"
                name="templateTopic"/>
-        <form action="/test-template" id="mainform" method="post" name="mainform">
+        <form action="<c:url value='/test-template'/>" id="mainform" method="post" name="mainform">
             <div class="container">
                 <a href="javascript:;" id="btnAddVariant" role="button">Добавить вариант</a>
                 <span class="container">
