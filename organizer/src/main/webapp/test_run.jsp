@@ -42,57 +42,56 @@
             <div class="panel-heading">Описание работы:</div>
             <div class="panel-body">${test.description}</div>
         </div>
-
-
-        <form action="${context}/test-stop" method="GET">
-            <input type="hidden" name = "test_id" value="${test.id}" id="test_id">
-            <button type="submit" class="btn btn-danger btn-block btn-lg">Завершить проведение контрольной работы</button>
-        </form>
-            <br>
-            <div class="table-responsive " >
-                <table class="table table-bordered" id="school-class-table">
-                    <thead>
-                    <tr class="active">
-                        <th>ФИО ученика</th>
-                        <th>Присутствовал на уроке</th>
-                        <th>Загрузил работу</th>
-                        <th>Подтверждена учителем</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-
-                    <c:forEach items="${works}" var="work">
-
-                        <tr id="work_${work.id}">
-
-                            <td>${work.studentFullname}</td>
-                            <td>
-                                <div class="checkbox" >
-                                    <label>
-                                        <input type="checkbox" name="${work.id}" checked>
-                                    </label>
-                                </div>
-                            </td>
-                            <td id="work_${work.id}_status">Нет
-                            </td>
-                            <td id="work_${work.id}_confirm">Нет</td>
-
-
-
-
-
-
-
-                        </tr>
-
-                    </c:forEach>
-                    </tbody>
-                </table>
+         
+               
+            <div class="well">
+                <label class="checkbox-inline"><input type="checkbox" value="autorefresh" checked>Автообновление</label>
+                <button type="button" class="btn btn-primary btn-md" id="refresh">Обновить</button>
             </div>
+             
+        <br>
+        <div class="table-responsive ">
+            <table class="table table-bordered" id="school-class-table">
+                <thead>
+                <tr class="active">
+                    <th>ФИО ученика</th>
+                    <th>Присутствовал на уроке</th>
+                    <th>Загрузил работу</th>
+                    <th>Подтверждена учителем</th>
+                </tr>
+                </thead>
+                <tbody>
 
+                <c:forEach items="${works}" var="work">
+
+                    <tr id="work_${work.id}">
+
+                        <td>${work.studentFullname}</td>
+                        <td>
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" name="${work.id}" checked>
+                                </label>
+                            </div>
+                        </td>
+                        <td id="work_${work.id}_status">Нет
+                        </td>
+                        <td id="work_${work.id}_confirm">Нет</td>
+
+
+                    </tr>
+
+                </c:forEach>
+                </tbody>
+            </table>
+        </div>
+        <form action="${context}/test-stop" method="GET">
+            <input type="hidden" name="test_id" value="${test.id}" id="test_id">
+            <button type="submit" class="btn btn-danger btn-block btn-lg">Завершить проведение контрольной работы
+            </button>
+        </form>
 
     </div>
-
 
 
     <!-- Modal -->
@@ -120,15 +119,18 @@
                         <!-- Wrapper for slides -->
                         <div class="carousel-inner">
                             <div class="item active">
-                                <img src="http://d1zqayhc1yz6oo.cloudfront.net/19aa47bb9d7d4e9969af72b449c9bca1.jpg" alt="Страница 1" style="width:100%;">
+                                <img src="http://d1zqayhc1yz6oo.cloudfront.net/19aa47bb9d7d4e9969af72b449c9bca1.jpg"
+                                     alt="Страница 1" style="width:100%;">
                             </div>
 
                             <div class="item">
-                                <img src="http://d1zqayhc1yz6oo.cloudfront.net/19aa47bb9d7d4e9969af72b449c9bca1.jpg" alt="Страница 2" style="width:100%;">
+                                <img src="http://d1zqayhc1yz6oo.cloudfront.net/19aa47bb9d7d4e9969af72b449c9bca1.jpg"
+                                     alt="Страница 2" style="width:100%;">
                             </div>
 
                             <div class="item">
-                                <img src="http://d1zqayhc1yz6oo.cloudfront.net/19aa47bb9d7d4e9969af72b449c9bca1.jpg" alt="Страница 3" style="width:100%;">
+                                <img src="http://d1zqayhc1yz6oo.cloudfront.net/19aa47bb9d7d4e9969af72b449c9bca1.jpg"
+                                     alt="Страница 3" style="width:100%;">
                             </div>
                         </div>
 
@@ -147,8 +149,12 @@
                     <!-- GALLERY END -->
                 </div>
                 <div class="modal-footer">
-                    <button data-action-work="0" data-button-role="success" type="button" class="btn btn-success" data-dismiss="modal">Подтвердить</button>
-                    <button data-action-work="0" data-button-role="decline" type="button" class="btn btn-danger" data-dismiss="modal">Отклонить работу</button>
+                    <button data-action-work="0" data-button-role="success" type="button" class="btn btn-success"
+                            data-dismiss="modal">Подтвердить
+                    </button>
+                    <button data-action-work="0" data-button-role="decline" type="button" class="btn btn-danger"
+                            data-dismiss="modal">Отклонить работу
+                    </button>
                 </div>
             </div>
 
