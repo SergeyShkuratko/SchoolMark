@@ -2,8 +2,6 @@ package calendar.dao;
 
 import calendar.dao.exceptions.TestDAOException;
 import calendar.dto.TestDto;
-import connectionmanager.ConnectionManager;
-import connectionmanager.ConnectionManagerPostgresImpl;
 import connectionmanager.ConnectionPool;
 import connectionmanager.TomcatConnectionPool;
 

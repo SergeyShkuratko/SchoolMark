@@ -1,12 +1,12 @@
 package dao.daoimplementation;
 
+import com.google.common.base.Strings;
+import connectionmanager.ConnectionPool;
+import connectionmanager.TomcatConnectionPool;
+import dao.TestDAO;
 import dao.dto.TestDTO;
 import dao.dto.TestsDTO;
 import dao.dto.WorkPageDTO;
-import dao.TestDAO;
-import com.google.common.base.Strings;
-import connectionmanager.ConnectionManager;
-import connectionmanager.ConnectionManagerPostgresImpl;
 import org.apache.log4j.Logger;
 
 import java.sql.Date;
@@ -18,10 +18,10 @@ import java.util.List;
 
 public class TestDAOImpl implements TestDAO {
     private static final Logger logger = Logger.getLogger(TestDAOImpl.class);
-    private static ConnectionManager manager;
+    private static ConnectionPool manager;
 
     static {
-        manager = ConnectionManagerPostgresImpl.getInstance();
+        manager = TomcatConnectionPool.getInstance();
     }
 
     @Override
@@ -30,11 +30,12 @@ public class TestDAOImpl implements TestDAO {
         try {
             PreparedStatement preparedStatement = manager.getConnection().prepareStatement(
                     "select works.id, works.verification_deadline,school_classes.number,subjects.name from works\n" +
+                            "join teachers t on t.id = works.verifier_id "+
                             "left join students on students.id = works.student_id\n" +
                             "left join school_classes on students.school_class_id = school_classes.id\n" +
                             "left join test_templates on works.test_id = test_templates.id\n" +
                             "left join subjects on test_templates.subject_id = subjects.id\n" +
-                            "where verifier_id  = ? order by works.verification_deadline");
+                            "where t.user_id = ? order by works.verification_deadline");
             preparedStatement.setInt(1, verifierId);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
