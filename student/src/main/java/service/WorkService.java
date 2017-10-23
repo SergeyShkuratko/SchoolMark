@@ -14,11 +14,7 @@ public class WorkService {
     private static DAOStudentWork workDAO;
 
     static {
-        try {
-            workDAO = new DAOStudentWork();
-        } catch (DAOStudentWork.DAOStudentWorkException e) {
-            logger.error(e.getMessage());
-        }
+        workDAO = new DAOStudentWork();
     }
 
     /**
@@ -28,8 +24,13 @@ public class WorkService {
      * @return Список работ студента
      */
     public static List<DTOWork> getAllWork(int student_id) throws DAOStudentWork.DAOStudentWorkException {
-        List<DTOWork> works = workDAO.getWorksByStudentId(student_id);
-        return works;
+        try {
+            List<DTOWork> works = workDAO.getWorksByStudentId(student_id);
+            return works;
+        } catch (NullPointerException e) {
+            logger.error(e.getMessage());
+        }
+        return null;
 
     }
 
@@ -40,7 +41,12 @@ public class WorkService {
      * @return
      */
     public static DTOWork getWorkById(int id) throws DAOStudentWork.DAOStudentWorkException {
-        return workDAO.getWorkById(id);
+        try {
+            return workDAO.getWorkById(id);
+        } catch (NullPointerException e) {
+            logger.error(e.getMessage());
+        }
+        return null;
     }
 
     /**
@@ -50,7 +56,12 @@ public class WorkService {
      * @return
      */
     public static List<DTOFile> getStudentFilesByWorkId(int id) throws DAOStudentWork.DAOStudentWorkException {
-        return workDAO.getStudentFilesByWorkId(id);
+        try {
+            return workDAO.getStudentFilesByWorkId(id);
+        } catch (NullPointerException e) {
+            logger.error(e.getMessage());
+        }
+        return null;
     }
 
     public static void addStudentFileToBD(int work_id, String file) throws DAOStudentWork.DAOStudentWorkException {
@@ -69,8 +80,12 @@ public class WorkService {
      * @return
      */
     public static List<DTOFile> getVerificationFilesByVerificationId(int verificationId) throws DAOStudentWork.DAOStudentWorkException {
-
-        return workDAO.getVerificationFilesByVerificationId(verificationId);
+        try {
+            return workDAO.getVerificationFilesByVerificationId(verificationId);
+        } catch (NullPointerException e) {
+            logger.error(e.getMessage());
+        }
+        return null;
     }
 
     /**
@@ -80,7 +95,12 @@ public class WorkService {
      * @return
      */
     public static List<String> getQuestionListByTemplateId(int template_id) throws DAOStudentWork.DAOStudentWorkException {
-        return workDAO.getQuestionListByTemplateId(template_id);
+        try {
+            return workDAO.getQuestionListByTemplateId(template_id);
+        } catch (NullPointerException e) {
+            logger.error(e.getMessage());
+        }
+        return null;
 
     }
 
