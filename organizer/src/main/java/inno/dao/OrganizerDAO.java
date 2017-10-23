@@ -1,20 +1,17 @@
 package inno.dao;
 
-import connectionmanager.ConnectionManager;
-import connectionmanager.ConnectionManagerPostgresImpl;
+import connectionmanager.ConnectionPool;
+import connectionmanager.TomcatConnectionPool;
 import inno.dto.TestDTO;
 import inno.dto.WorkDTO;
 import inno.exceptions.OrganizerDAOexception;
-
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class OrganizerDAO {
 
-    private static ConnectionManager manager = ConnectionManagerPostgresImpl.getInstance();
+    private static ConnectionPool pool = TomcatConnectionPool.getInstance();
 
     /**
      * Возвращает тест по его ID
@@ -30,9 +27,10 @@ public class OrganizerDAO {
                 "JOIN school_classes AS sc ON t.school_class_id = sc.id " +
                 "WHERE t.id=" + test_id;
 
-        try {
-            Statement statement = manager.getConnection().createStatement();
-            ResultSet rs = statement.executeQuery(sql);
+        try (Connection connection = pool.getConnection();
+             Statement statement = connection.createStatement();
+             ResultSet rs = statement.executeQuery(sql)) {
+
             if (rs.next()) {
                 return new TestDTO(
                         rs.getInt("id"),
@@ -64,8 +62,9 @@ public class OrganizerDAO {
                 "  FROM tests AS t" +
                 "    JOIN students s ON t.school_class_id = s.school_class_id" +
                 "  WHERE t.id=" + test_id;
-        try {
-            return manager.getConnection().createStatement().execute(sql);
+        try (Connection connection = pool.getConnection();
+             Statement statement = connection.createStatement()) {
+            return statement.execute(sql);
         } catch (SQLException e) {
             throw new OrganizerDAOexception(e);
         }
@@ -82,8 +81,10 @@ public class OrganizerDAO {
         String sql = "SELECT COUNT(id) >= 1 " +
                 "FROM works " +
                 "WHERE test_id=" + test_id;
-        try {
-            ResultSet rs = manager.getConnection().createStatement().executeQuery(sql);
+
+        try (Connection connection = pool.getConnection();
+             Statement statement = connection.createStatement()) {
+            ResultSet rs = statement.executeQuery(sql);
             if (rs.next()) {
                 return rs.getBoolean(1);
             }
@@ -108,8 +109,11 @@ public class OrganizerDAO {
                 "FROM works w " +
                 "JOIN students s on w.student_id = s.id " +
                 "WHERE w.test_id = " + test_id;
-        try {
-            ResultSet rs = manager.getConnection().createStatement().executeQuery(sql);
+
+        try (Connection connection = pool.getConnection();
+             Statement statement = connection.createStatement()) {
+
+            ResultSet rs = statement.executeQuery(sql);
             while (rs.next()) {
                 list.add(new WorkDTO(
                         rs.getInt("id"),

@@ -1,10 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  classes.User: Sergey
-  Date: 09.10.2017
-  Time: 18:29
-  To change this template use File | Settings | File Templates.
---%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
@@ -34,14 +27,10 @@
     <script src="static/notify.min.js"></script>
 
     <meta http-equiv="Cache-Control" content="no-cache"/>
+    <%@include file="/mystatic/menustyles.jsp" %>
 </head>
 <body>
-
-
-
-
-
-
+<%@include file="/mystatic/pageheader.jsp" %>
 
 <div class="container-fluid">
     <div class="row">
@@ -55,7 +44,7 @@
         </div>
 
 
-        <form action="${context}/stop" method="GET">
+        <form action="${context}/test-stop" method="GET">
             <input type="hidden" name = "test_id" value="${test.id}" id="test_id">
             <button type="submit" class="btn btn-danger btn-block btn-lg">Завершить проведение контрольной работы</button>
         </form>
@@ -165,7 +154,7 @@
 
         </div>
     </div>
-
+    <%@include file="/mystatic/pagefooter.jsp" %>
 </div>
 </body>
 </html>

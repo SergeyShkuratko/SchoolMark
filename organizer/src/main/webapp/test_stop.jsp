@@ -1,10 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  classes.User: Sergey
-  Date: 09.10.2017
-  Time: 18:29
-  To change this template use File | Settings | File Templates.
---%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
@@ -29,11 +22,11 @@
     <!-- maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css-->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap.min.css">
 
-
-
     <meta http-equiv="Cache-Control" content="no-cache"/>
+    <%@include file="/mystatic/menustyles.jsp" %>
 </head>
 <body>
+<%@include file="/mystatic/pageheader.jsp" %>
 
 <div class="container-fluid">
     <div class="row">
@@ -44,5 +37,6 @@
         </div>
     </div>
 </div>
+<%@include file="/mystatic/pagefooter.jsp" %>
 </body>
 </html>

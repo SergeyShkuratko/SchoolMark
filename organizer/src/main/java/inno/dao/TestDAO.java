@@ -1,22 +1,21 @@
 package inno.dao;
 
-import connectionmanager.ConnectionManager;
-import connectionmanager.ConnectionManagerPostgresImpl;
+import connectionmanager.ConnectionPool;
+import connectionmanager.TomcatConnectionPool;
 import inno.exceptions.OrganizerDAOexception;
 import org.postgresql.util.PGobject;
-
 import java.sql.*;
 import java.time.LocalDate;
-import java.util.List;
 
 public class TestDAO {
-    private static ConnectionManager manager = ConnectionManagerPostgresImpl.getInstance();
+
+    private static ConnectionPool pool = TomcatConnectionPool.getInstance();
 
     public static boolean updateTestStatusByID(int id, String status) throws OrganizerDAOexception {
         System.out.println("go");
         String sql = "UPDATE tests SET status = ? WHERE id= ?";
-        try {
-            PreparedStatement ps = manager.getConnection().prepareStatement(sql);
+        try (Connection connection = pool.getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
 
             ps.setInt(2, id);
             PGobject status_var = new PGobject();
@@ -33,8 +32,8 @@ public class TestDAO {
     public static boolean doneTest(int id) throws OrganizerDAOexception {
         System.out.println("go");
         String sql = "UPDATE tests SET status = ?, verification_deadline = ? WHERE id= ?";
-        try {
-            PreparedStatement ps = manager.getConnection().prepareStatement(sql);
+        try (Connection connection = pool.getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
 
             ps.setInt(3, id);
             PGobject status_var = new PGobject();
