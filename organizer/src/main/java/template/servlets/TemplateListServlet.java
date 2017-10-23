@@ -17,23 +17,17 @@ public class TemplateListServlet extends HttpServlet{
 
             List<TestTemplate> templates = TestTemplateDAOImplementation.getAllTemplatesByTeacher();
             req.setAttribute("templates", templates);
-            getServletContext().getRequestDispatcher("/template-list.jsp").forward(req, resp);
+            req.getServletContext().getRequestDispatcher("/template-list.jsp").forward(req, resp);
 
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        if(req.getParameter("templateId") == null) {
-            List<TestTemplate> templates = TestTemplateDAOImplementation.getAllTemplatesByTeacher();
-            req.setAttribute("templates", templates);
-            getServletContext().getRequestDispatcher("/template-list.jsp").forward(req, resp);
-        }
-        else {
-            TestTemplate testTemplate = TestTemplateDAOImplementation.
-                    getTemplateByIdCascade(new Integer(req.getParameter("templateId")));
+        TestTemplate testTemplate = TestTemplateDAOImplementation.
+                getTemplateByIdCascade(new Integer(req.getParameter("templateId")));
 
-            req.getSession().setAttribute("testTemplate", testTemplate);
-            getServletContext().getRequestDispatcher("/test-template").forward(req, resp);
-        }
+        req.getSession().setAttribute("testTemplate", testTemplate);
+        resp.sendRedirect(req.getServletContext().getContextPath() + "/test");
+
     }
 }

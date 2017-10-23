@@ -19,7 +19,7 @@ public class TestTemplateService {
         Map<String, TestQuestion> testQuestions = new HashMap<>();
 
         for (Map.Entry<String, String[]> param : req.getParameterMap().entrySet()) {
-            if(param.getKey().equals("templateTopic"))
+            if(!param.getKey().contains("question"))
                 continue;
             String[] paramTypes = param.getKey().split("_");
             String variant = paramTypes[0];

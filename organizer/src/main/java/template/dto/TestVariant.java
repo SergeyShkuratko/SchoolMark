@@ -21,6 +21,21 @@ public class TestVariant {
         this.variant = variant;
     }
 
+    public boolean sameAs(TestVariant that){
+        if(!variant.equals(that.getVariant())){
+            return false;
+        }
+        if(testQuestions.size() != that.getTestQuestions().size()){
+            return false;
+        }
+        for (int i = 0; i < testQuestions.size(); i++) {
+             if(!testQuestions.get(i).sameAs(that.getTestQuestions().get(i))){
+                 return false;
+             }
+        }
+        return true;
+    }
+
     public int getId() {
         return id;
     }

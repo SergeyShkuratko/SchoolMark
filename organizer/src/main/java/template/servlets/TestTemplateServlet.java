@@ -1,6 +1,7 @@
 package template.servlets;
 
 import template.dao.TestDAOImplementation;
+import template.dao.TestTemplateDAOImplementation;
 import template.dto.Test;
 import template.dto.TestTemplate;
 import template.dto.TestVariant;
@@ -22,33 +23,113 @@ public class TestTemplateServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        TestTemplate testTemplate = (TestTemplate) req.getSession().getAttribute("testTemplate");
+
+        if (testTemplate != null) {
+            req.setAttribute("testTemplate", testTemplate);
+        }
+
+        Boolean templateSaved = (Boolean) req.getSession().getAttribute("templateSaved");
+        if (templateSaved != null) {
+            req.setAttribute("templateSaved", templateSaved);
+        }
+
         getServletContext().getRequestDispatcher("/test-template.jsp").forward(req, resp);
+        req.getSession().setAttribute("templateSaved", false);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setCharacterEncoding("utf-8");
 
-        if (req.getSession().getAttribute("templateFirstPost") != null) {
+        switch (req.getParameter("templateFormButton")){
+            case "endInputQuestions":
+                proceedToTestInput(req, resp);
+                break;
+            case "saveAsTemplate":
+                saveAsTemplate(req, resp);
+                break;
+            case "saveChanges":
+                saveChanges(req,resp);
+                break;
+            case "returnWithoutSave":
+                returnWithoutSave(req, resp);
+                break;
+            case "cancel":
+                cancel(req, resp);
+                break;
+        }
+    }
 
-            List<TestVariant> testVariants = testTemplateService.getTestVariantsFromReq(req);
-            Test test = (Test) req.getSession().getAttribute("test");
-            test.getTestTemplate().getTestVariants().addAll(testVariants);
-            test.getTestTemplate().setTopic(req.getParameter("templateTopic"));
+    private void saveChanges(HttpServletRequest req, HttpServletResponse resp) {
+        if (false){//TODO доделать проверку на внесения измененяй
+            //здесь проверяем на изменения и если их не было,
+            //просто переходим на страницу теста
+        }
+        else {
+            TestTemplate oldTemplate = (TestTemplate) req.getSession().getAttribute("testTemplate");
+            TestTemplateDAOImplementation.setStatusDisabled(oldTemplate);
 
-            testDAOImplementation.createTest(test);
-            getServletContext().getRequestDispatcher("/template-list").forward(req, resp);
+            TestTemplate newTemplate = createTemplateFromPrototype(req);
 
-        } else if (req.getSession().getAttribute("testTemplate") != null) {
-            List<TestVariant> variants = ((TestTemplate) req.getSession().
-                    getAttribute("testTemplate")).getTestVariants();
-            req.setAttribute("variants", variants);
-            getServletContext().getRequestDispatcher("/test-template-loaded.jsp").forward(req, resp);
+            newTemplate.setId(TestTemplateDAOImplementation.createTestTemplateCascade(newTemplate));
+            req.getSession().setAttribute("testTemplate", newTemplate);
+            try {
+                resp.sendRedirect(getServletContext().getContextPath() + "/test");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
-        } else {
+    private void returnWithoutSave(HttpServletRequest req, HttpServletResponse resp) {
+        try {
+            resp.sendRedirect(getServletContext().getContextPath() + "/test");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
-            req.getSession().setAttribute("templateFirstPost", false);
+    private void saveAsTemplate(HttpServletRequest req, HttpServletResponse resp) {
+        TestTemplate testTemplate = createTemplateFromPrototype(req);
+
+        testTemplate.setId(TestTemplateDAOImplementation.createTestTemplateCascade(testTemplate));
+        req.getSession().setAttribute("testTemplate", testTemplate);
+
+        req.getSession().setAttribute("templateSaved", true);
+        try {
+            resp.sendRedirect(getServletContext().getContextPath() + "/test-template");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void proceedToTestInput(HttpServletRequest req, HttpServletResponse resp) {
+        req.getSession().setAttribute("testTemplate", createTemplateFromPrototype(req));
+        try {
+            resp.sendRedirect(getServletContext().getContextPath() + "/test");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private TestTemplate createTemplateFromPrototype(HttpServletRequest req) {
+        TestTemplate testTemplate = (TestTemplate) req.getSession().getAttribute("templatePrototype");
+        if (testTemplate == null) {
+            testTemplate = new TestTemplate();
+        }
+        List<TestVariant> testVariants = testTemplateService.getTestVariantsFromReq(req);
+        testTemplate.getTestVariants().addAll(testVariants);
+        return testTemplate;
+    }
+
+    private void cancel(HttpServletRequest req, HttpServletResponse resp) {
+        try {
             getServletContext().getRequestDispatcher("/test-template.jsp").forward(req, resp);
+        } catch (ServletException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

@@ -1,13 +1,12 @@
 package template.dao;
 
+
 import connectionmanager.ConnectionPool;
 import connectionmanager.TomcatConnectionPool;
 import template.dto.TestQuestion;
+import template.dto.TestVariant;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 
 /**
  * Created by nkm on 15.10.2017.
@@ -16,17 +15,17 @@ public class TestQuestionDAOImplementation {
     public static ConnectionPool connectionManager = TomcatConnectionPool.getInstance();
 
     public static int createTestQuestion(TestQuestion testQuestion, int variantId) {
-        try {
-            PreparedStatement preparedStatement = connectionManager.getConnection().prepareStatement(
+        try (Connection connection = connectionManager.getConnection()) {
+            PreparedStatement preparedStatement = connection.prepareStatement(
                     "INSERT INTO questions(template_variant_id, question, answer) " +
                             "VALUES (?,?,?)",
-                    Statement.RETURN_GENERATED_KEYS);
+                                Statement.RETURN_GENERATED_KEYS);
             preparedStatement.setInt(1, variantId);
             preparedStatement.setString(2, testQuestion.getQuestionText());
             preparedStatement.setString(3, testQuestion.getAnswerText());
 
 
-            if (preparedStatement.executeUpdate() == 1) {
+            if (preparedStatement.executeUpdate() == 1){
                 ResultSet resultSet = preparedStatement.getGeneratedKeys();
                 resultSet.next();
                 //получаем id только что добавленного вопроса

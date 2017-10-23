@@ -12,20 +12,30 @@ public class Test {
     private SchoolClass schoolClass;
     private LocalDate testDate;
     private LocalDate deadlineDate;
+    private String testDescription;
 
     public Test() {
 
     }
 
-    public Test(TestTemplate testTemplate, SchoolClass schoolClass, LocalDate testDate, LocalDate deadlineDate) {
+    public Test(TestTemplate testTemplate, SchoolClass schoolClass, LocalDate testDate, LocalDate deadlineDate, String testDescription) {
         this.testTemplate = testTemplate;
         this.schoolClass = schoolClass;
         this.testDate = testDate;
         this.deadlineDate = deadlineDate;
+        this.testDescription = testDescription;
     }
 
     public TestTemplate getTestTemplate() {
         return testTemplate;
+    }
+
+    public String getTestDescription() {
+        return testDescription;
+    }
+
+    public void setTestDescription(String testDescription) {
+        this.testDescription = testDescription;
     }
 
     public void setTestTemplate(TestTemplate testTemplate) {

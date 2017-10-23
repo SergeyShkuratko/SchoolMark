@@ -43,16 +43,13 @@
         }
 
     </style>
-
-    <%@include file="/mystatic/menustyles.jsp" %>
 </head>
 
 <body>
-<%@include file="/mystatic/pageheader.jsp" %>
 
 <%int rownum = 0; %>
 
-<form action="<c:url value='/template-list'/>" method="post">
+<form action="#" method="post">
     <div class="container">
         <h2>Список созданных шаблонов</h2>
     <table class="table table-hover">
@@ -80,13 +77,12 @@
         </tbody>
     </table>
         <div class="form-actions">
-            <a href="<c:url value='/test'/>">
-                <button type="button" class="btn btn-primary ">Отмена</button>
-            </a>
+            <%--<a href="/test">--%>
+                <button type="button" class="btn btn-primary " onclick="history.back();">Отмена</button>
+            <%--</a>--%>
         </div>
     </div>
 </form>
 
-<%@include file="/mystatic/pagefooter.jsp" %>
 </body>
 </html>
