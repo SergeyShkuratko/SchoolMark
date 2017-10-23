@@ -12,7 +12,7 @@ $(document).ready(function () {
 
         $.ajax({
             type: 'get',
-            url: '/organizer/run',
+            url: 'test-run',
             data: 'pages_images='+id,
             dataType: 'json',
             success: function(response){
@@ -38,13 +38,15 @@ $(document).ready(function () {
         var id = $(this).first().attr('data-action-work');
         switch($(this).data('button-role')) {
             case 'success':
+                alert(111);
                 break;
             case 'decline':
+                alert(222);
                 break;
         }
         $.ajax({
             type: 'get',
-            url: '/organizer/run',
+            url: 'test-run',
             data: 'action=' + $(this).data('button-role') + '&id=' + id,
             dataType: 'json',
             success: function(response){
@@ -74,7 +76,7 @@ $(document).ready(function () {
             //Запрещаем добавление контрольной, ставим флаг отсутствия у ученика на работу
             $.ajax({
                 method: "GET",
-                url: "run",
+                url: "test-run",
                 data: {
                     work_id: $(this).attr('name'),
                     presence: true
@@ -89,7 +91,7 @@ $(document).ready(function () {
             //Запрещаем добавление контрольной, ставим флаг отсутствия у ученика на работу
             $.ajax({
                 method: "GET",
-                url: "run",
+                url: "test-run",
                 data: {
                     work_id: $(this).attr('name'),
                     presence: false
@@ -104,10 +106,22 @@ $(document).ready(function () {
     });
 
     //Проверяем статус загрузки работы учеником
+    $('#refresh').click(function () {
+        updateTable();
+    });
+    var autorefresh = false;
     setInterval(function () {
+         autorefresh = $('input[name=autorefresh]').is(':checked');
+        if (autorefresh) {
+            updateTable();
+        }
+    }, 5000);
+
+
+    function updateTable() {
         $.ajax({
             method: "GET",
-            url: "run",
+            url: "test-run",
             data: {
                 get_upload_info_for_test: $('#test_id').val()
             },
@@ -131,11 +145,7 @@ $(document).ready(function () {
                 });
 
             });
-
-    }, 5000); //15 seconds
-
-
-
+    }
 
 });
 

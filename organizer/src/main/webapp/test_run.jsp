@@ -45,7 +45,7 @@
          
                
             <div class="well">
-                <label class="checkbox-inline"><input type="checkbox" value="autorefresh" checked>Автообновление</label>
+                <label class="checkbox-inline"><input type="checkbox" name="autorefresh" value="" checked>Автообновление</label>
                 <button type="button" class="btn btn-primary btn-md" id="refresh">Обновить</button>
             </div>
              
