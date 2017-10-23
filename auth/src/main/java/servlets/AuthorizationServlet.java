@@ -7,6 +7,7 @@ import services.AuthorizationService;
 import services.impl.AuthorizationServiceImpl;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,6 +18,7 @@ import static exceptions.ErrorDescriptions.*;
 import static utils.ForwardRequestHelper.getErrorDispatcher;
 import static utils.Settings.*;
 
+@WebServlet("/auth")
 public class AuthorizationServlet extends HttpServlet {
 
     public static AuthorizationService authService = new AuthorizationServiceImpl();
