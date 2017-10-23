@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html lang="en">
 <head>
@@ -46,11 +47,13 @@
         }
 
     </style>
+
     <%@include file="/mystatic/menustyles.jsp" %>
 </head>
 <body>
 <%@include file="/mystatic/pageheader.jsp" %>
-<form action="/test" method="post">
+
+<form action="<c:url value='/test'/>" method="post">
     <div class="container">
         <h2>Заполнение информации о контрольной работе</h2>
         <span class="form-inline">
