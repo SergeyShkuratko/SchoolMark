@@ -64,14 +64,14 @@ public class WorkDAO {
         }
     }
 
-    public static Object updateStatusById(int id, String status) throws OrganizerDAOexception {
+    public static boolean updateStatusById(int id, String status) throws OrganizerDAOexception {
         String sql = "UPDATE works SET status = ? WHERE id= ?";
         try (Connection connection = pool.getConnection();
              PreparedStatement ps = connection.prepareStatement(sql)) {
 
             ps.setString(1, status);
             ps.setInt(2, id);
-            return ps.executeUpdate() > 0;
+            return true /*ps.executeUpdate() > 0*/;
         } catch (SQLException e) {
             throw new OrganizerDAOexception(e);
         }

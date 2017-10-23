@@ -38,24 +38,35 @@ $(document).ready(function () {
         var id = $(this).first().attr('data-action-work');
         switch($(this).data('button-role')) {
             case 'success':
-                alert(111);
+                $.ajax({
+                    type: 'get',
+                    url: 'test-run',
+                    data: 'action=' + $(this).data('button-role') + '&id=' + id,
+                    dataType: 'json',
+                    success: function(response){
+                        $.notify("Сохранено");
+                    },
+                    error: function (response) {
+                        $.notify("Ошибка сохранения!");
+                    }
+                });
                 break;
             case 'decline':
-                alert(222);
+                $.ajax({
+                    type: 'get',
+                    url: 'test-run',
+                    data: 'action=' + $(this).data('button-role') + '&id=' + id,
+                    dataType: 'json',
+                    success: function(response){
+                        $.notify("Сохранено");
+                    },
+                    error: function (response) {
+                        $.notify("Ошибка сохранения!");
+                    }
+                });
                 break;
         }
-        $.ajax({
-            type: 'get',
-            url: 'test-run',
-            data: 'action=' + $(this).data('button-role') + '&id=' + id,
-            dataType: 'json',
-            success: function(response){
-                    $.notify("Сохранено");
-            },
-            error: function (response) {
-                $.notify("Ошибка сохранения!");
-            }
-        })
+
     });
 
     $('#school-class-table').DataTable(

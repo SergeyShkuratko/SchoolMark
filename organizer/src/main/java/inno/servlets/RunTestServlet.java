@@ -86,7 +86,7 @@ public class RunTestServlet extends HttpServlet {
 
 
                 Gson gson = new Gson();
-                if (req.getParameter("action").equals("accept")) {
+                if (req.getParameter("action").equals("success")) {
                     String json = gson.toJson(
                             WorkDAO.updateStatusById(
                                     Integer.parseInt(
