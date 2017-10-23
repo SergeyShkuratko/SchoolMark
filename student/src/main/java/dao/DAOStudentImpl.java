@@ -36,7 +36,7 @@ public class DAOStudentImpl implements DAOStudent {
     }
 
     private Student getOne(String where) throws DAOStudentErrorRequestException {
-        try (ResultSet rs = DAOUtils.getResultSetExecuteQueryByWhere(
+        try (ResultSet rs = DAOUtils.getResultSetExecuteQuery(
                 connection, baseGetSql + where)) {
             if (rs.next()) {
                 return DAOUtils.getStudentByResultSet(rs);
@@ -48,7 +48,7 @@ public class DAOStudentImpl implements DAOStudent {
     }
 
     private ArrayList<Student> getMany(String where) throws DAOStudentErrorRequestException {
-        try (ResultSet rs = DAOUtils.getResultSetExecuteQueryByWhere(
+        try (ResultSet rs = DAOUtils.getResultSetExecuteQuery(
                 connection, baseGetSql + where)) {
             ArrayList<Student> students = new ArrayList<>();
             while (rs.next()) {
@@ -92,7 +92,7 @@ public class DAOStudentImpl implements DAOStudent {
 
     private int removeStudentsCommon(String where) throws DAOStudentErrorRequestException {
         try {
-            return DAOUtils.getResultSetExecuteUpdateByWhere(
+            return DAOUtils.getResultSetExecuteUpdate(
                     connection, this.baseRemoveSql + where);
         } catch (SQLException e) {
             throw new DAOStudentErrorRequestException(e.getMessage());

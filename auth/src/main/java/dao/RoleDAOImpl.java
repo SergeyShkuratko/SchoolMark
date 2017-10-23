@@ -15,10 +15,10 @@ import java.sql.SQLException;
 
 public class RoleDAOImpl implements RoleDAO {
 
-    private static final Logger logger = Logger.getLogger(RoleDAOImpl.class);
-    private static final ConnectionPool pool = TomcatConnectionPool.getInstance();
+    private static Logger logger = Logger.getLogger(RoleDAOImpl.class);
+    private static ConnectionPool pool = TomcatConnectionPool.getInstance();
 
-    private static final String GET_BY_URL = "SELECT * FROM registration_url WHERE url = ?";
+    private static final String GET_BY_URL = "SELECT * FROM registration_token WHERE token = ?";
 
     @Override
     public Role getRoleByUrl(String url) throws RoleDAOException, RegisterUrlNotFoundException {
@@ -31,9 +31,8 @@ public class RoleDAOImpl implements RoleDAO {
                 result = Role.valueOf(set.getString("role"));
             }
         } catch (SQLException e) {
-            logger.error(e.getMessage());
-            logger.debug(e);
-            throw new RoleDAOException();
+            logger.error(e.getMessage(), e);
+            throw new RoleDAOException(e);
         }
         if (result == null) {
             throw new RegisterUrlNotFoundException();

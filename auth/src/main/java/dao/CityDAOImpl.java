@@ -20,8 +20,8 @@ import java.util.List;
 
 public class CityDAOImpl implements CityDAO {
 
-    private static final Logger logger = Logger.getLogger(CityDAOImpl.class);
-    private static final ConnectionPool pool = TomcatConnectionPool.getInstance();
+    private static Logger logger = Logger.getLogger(CityDAOImpl.class);
+    private static ConnectionPool pool = TomcatConnectionPool.getInstance();
 
     private static final String GET_BY_ID = "SELECT * FROM city WHERE id = ?";
     private static final String GET_BY_REGION = "SELECT * FROM city WHERE region_id = ?";
@@ -33,14 +33,13 @@ public class CityDAOImpl implements CityDAO {
             PreparedStatement statement = connection.prepareStatement(GET_BY_ID)) {
             statement.setInt(1, id);
             ResultSet set = statement.executeQuery();
-            List<City> cities = cityFromResultSet(set);
+            List<City> cities = cityListFromResultSet(set);
             if (!cities.isEmpty()) {
                 result = cities.get(0);
             }
         } catch (SQLException | CityDAOException e) {
-            logger.error(e.getMessage());
-            logger.debug(e.fillInStackTrace());
-            throw new CityDAOException();
+            logger.error(e.getMessage(), e);
+            throw new CityDAOException(e);
         }
         return result;
     }
@@ -53,11 +52,10 @@ public class CityDAOImpl implements CityDAO {
 
             statement.setInt(1, id);
             ResultSet set = statement.executeQuery();
-            result = cityFromResultSet(set);
+            result = cityListFromResultSet(set);
         } catch (SQLException | CityDAOException e) {
-            logger.error(e.getMessage());
-            logger.debug(e.fillInStackTrace());
-            throw new CityDAOException();
+            logger.error(e.getMessage(), e);
+            throw new CityDAOException(e);
         } finally {
             if (result == null) {
                 result = new ArrayList<>();
@@ -76,7 +74,7 @@ public class CityDAOImpl implements CityDAO {
         return null;
     }
 
-    private List<City> cityFromResultSet(ResultSet set) throws CityDAOException {
+    private List<City> cityListFromResultSet(ResultSet set) throws CityDAOException {
         List<City> result = new ArrayList<>();
 
         try {
@@ -87,7 +85,7 @@ public class CityDAOImpl implements CityDAO {
                         set.getString("name")));
             }
         } catch (SQLException e) {
-            throw new CityDAOException(e.fillInStackTrace());
+            throw new CityDAOException(e);
         }
         return result;
     }

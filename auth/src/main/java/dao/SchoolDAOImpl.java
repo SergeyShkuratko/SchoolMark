@@ -1,16 +1,14 @@
 package dao;
 
 import classes.*;
-import com.sun.org.apache.regexp.internal.RE;
+import classes.dto.SchoolDTO;
 import connectionmanager.ConnectionPool;
 import connectionmanager.TomcatConnectionPool;
-import exceptions.CityDAOException;
-import exceptions.RegisterUrlNotFoundException;
-import exceptions.RoleDAOException;
 import exceptions.SchoolDAOException;
-import interfaces.dao.CityDAO;
 import interfaces.dao.SchoolDAO;
+import interfaces.dao.SchoolsDAO;
 import org.apache.log4j.Logger;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -18,143 +16,133 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
 
-public class SchoolDAOImpl implements SchoolDAO {
+public class SchoolDAOImpl implements SchoolsDAO {
 
-    private static final Logger logger = Logger.getLogger(SchoolDAOImpl.class);
-    private static final ConnectionPool pool = TomcatConnectionPool.getInstance();
+    private static Logger logger = Logger.getLogger(SchoolDAOImpl.class);
+    private static ConnectionPool pool = TomcatConnectionPool.getInstance();
+
+    private static final String GET_BY_ID = "SELECT s.id as s_id, r.id as r_id, c.id as c_id," +
+            " r.name as r_name, c.name as c_name, s.name as s_name," +
+            " st.id as st_id, st.type_name" +
+            " FROM schools as s" +
+            " JOIN city as c on s.city_id = c.id" +
+            " JOIN region as r on c.region_id = r.id" +
+            " JOIN school_types as st ON st.id = s.school_type_id" +
+            " WHERE s.id = ?";
 
     private static final String GET_BY_CITY = "SELECT * FROM schools s" +
             " LEFT JOIN school_types st ON st.id = s.school_type_id" +
             " WHERE city_id = ?";
 
-    private static final String GET_ALL = "SELECT * FROM schools s" +
-            " JOIN city c on s.city_id = c.id" +
-            " JOIN region r on c.region_id = r.id" +
-            " LEFT JOIN school_types st ON st.id = s.school_type_id";
+    private static final String GET_CLASSES_BY_SCHOOL = "SELECT * FROM school_classes c" +
+            " WHERE school_id = ?";
+
+    private static final String GET_ALL =
+            "SELECT s.id as s_id, r.id as r_id, c.id as c_id," +
+            " r.name as r_name, c.name as c_name, s.name as s_name," +
+            " st.id as st_id, st.type_name" +
+            " FROM schools as s" +
+            " JOIN city as c on s.city_id = c.id" +
+            " JOIN region as r on c.region_id = r.id" +
+            " JOIN school_types as st ON st.id = s.school_type_id";
 
     @Override
-    public List<School> getAllSchoolsInCity(City city) throws SchoolDAOException {
-        List<School> result = null;
+    public SchoolDTO getById(int id) throws SchoolDAOException {
+        SchoolDTO school = null;
         try (Connection connection = pool.getConnection();
-                PreparedStatement statement = connection.prepareStatement(GET_BY_CITY)) {
-            statement.setInt(1, city.getId());
+             PreparedStatement statement = connection.prepareStatement(GET_BY_ID)) {
+            statement.setInt(1, id);
             ResultSet set = statement.executeQuery();
-            if (set.next()) {
-                result = setAndCityToSchools(set, city);
+            List<SchoolDTO> schools = getSchoolsFromSet(set);
+            if (schools.isEmpty()) {
+                throw new SchoolDAOException();
             }
-        } catch (SQLException e) {
-            logger.error(e.getMessage());
-            logger.debug(e);
+            school = schools.get(0);
+        } catch (SQLException | SchoolDAOException e) {
+            logger.error(e.getMessage(), e);
             throw new SchoolDAOException();
         }
-        return result;
+        return school;
     }
 
     @Override
-    public List<School> getAll() throws SchoolDAOException {
-        List<School> result = null;
+    public List<SchoolDTO> getAllSchoolsInCity(int id) throws SchoolDAOException {
+        List<SchoolDTO> schools = null;
+        try (Connection connection = pool.getConnection();
+             PreparedStatement statement = connection.prepareStatement(GET_BY_CITY)) {
+            statement.setInt(1, id);
+            ResultSet set = statement.executeQuery();
+            schools = getSchoolsFromSet(set);
+        } catch (SQLException e) {
+            logger.error(e.getMessage(), e);
+            throw new SchoolDAOException();
+        }
+        return schools;
+    }
+
+    @Override
+    public List<SchoolDTO> getAll() throws SchoolDAOException {
+        List<SchoolDTO> schools = null;
         try (Connection connection = pool.getConnection();
                 PreparedStatement statement = connection.prepareStatement(GET_ALL)) {
             ResultSet set = statement.executeQuery();
-            if (set.next()) {
-                result = setToSchools(set);
-            }
+            schools = getSchoolsFromSet(set);
         } catch (SQLException e) {
-            logger.error(e.getMessage());
-            logger.debug(e);
+            logger.error(e.getMessage(), e);
             throw new SchoolDAOException();
         }
-        return result;
+        return schools;
     }
 
     @Override
-    public School getById(int id) {
-        return new School(id, "Школа №1", "1", "1", new SchoolType(1, "1"));
-    }
-
-    @Override
-    public List<SchoolClass> getAllClasses(School school) {
-        List<SchoolClass> classes = new ArrayList<>();
-        classes.add(new SchoolClass(1, 11, "11А", school));
-        classes.add(new SchoolClass(2, 11, "11Б", school));
-        classes.add(new SchoolClass(3, 11, "11В", school));
+    public List<SchoolClass> getAllClasses(int id) throws SchoolDAOException {
+        List<SchoolClass> classes = null;
+        try (Connection connection = pool.getConnection();
+             PreparedStatement statement = connection.prepareStatement(GET_CLASSES_BY_SCHOOL)) {
+            statement.setInt(1, id);
+            ResultSet set = statement.executeQuery();
+            classes = getClassesFromSet(set);
+        } catch (SQLException | SchoolDAOException e) {
+            throw new SchoolDAOException(e);
+        }
 
         return classes;
     }
 
-    private List<School> setAndCityToSchools(ResultSet set, City city) throws SchoolDAOException {
-        List<School> result = new ArrayList<>();
+    private List<SchoolClass> getClassesFromSet(ResultSet set) throws SchoolDAOException {
+        List<SchoolClass> classes = new ArrayList<>();
         try {
             while (set.next()) {
-                result.add(new School(
-                        set.getInt("s.id"),
-                        set.getString("s.name"),
-                        city,
-                        new SchoolType(
-                                set.getInt("st.id"),
-                                set.getString("st.type_name"))
-                        ));
+                classes.add(new SchoolClass(
+                        set.getInt("id"),
+                        set.getInt("number"),
+                        set.getString("name")));
             }
         } catch (SQLException e) {
-            logger.error(e.getMessage());
-            logger.debug(e);
-            throw new SchoolDAOException();
+            logger.error(e.getMessage(), e);
+            throw new SchoolDAOException(e);
         }
-        return result;
+        return classes;
     }
 
-    private List<School> setToSchools(ResultSet set) throws SchoolDAOException {
-        List<School> result = new ArrayList<>();
-        Map<Integer, City> cityMap = new HashMap<>();
-        Map<Integer, Region> regionMap = new HashMap<>();
+    private List<SchoolDTO> getSchoolsFromSet(ResultSet set) throws SchoolDAOException {
+        List<SchoolDTO> schools = new ArrayList<>();
         try {
             while (set.next()) {
-                Region region = getRegion(regionMap, set);
-                City city = getCity(cityMap, set, region);
-
-                result.add(new School(
-                        set.getInt("s.id"),
-                        set.getString("s.name"),
-                        city,
-                        new SchoolType(
-                                set.getInt("st.id"),
-                                set.getString("st.type_name"))
-                ));
+                schools.add(new SchoolDTO(
+                        set.getInt("s_id"),
+                        set.getString("s_name"),
+                        set.getInt("r_id"),
+                        set.getInt("c_id"),
+                        set.getString("r_name"),
+                        set.getString("c_name"),
+                        set.getString("type_name")));
             }
         } catch (SQLException e) {
-            logger.error(e.getMessage());
-            logger.debug(e);
-            throw new SchoolDAOException();
+            logger.error(e.getMessage(), e);
+            throw new SchoolDAOException(e);
         }
-        return result;
+        return schools;
     }
 
-    private Region getRegion(Map<Integer, Region> regionMap, ResultSet set) throws SQLException {
-        //TODO подумать про логирование
-        Region region;
-        int regionId = set.getInt("r.id");
-        if (regionMap.containsKey(regionId)) {
-            region = regionMap.get(regionId);
-        } else {
-            region = new Region(regionId, set.getString("r.name"));
-            regionMap.put(regionId, region);
-        }
-        return region;
-    }
-
-    private City getCity(Map<Integer, City> cityMap, ResultSet set, Region region) throws SQLException {
-        //TODO подумать про логирование
-        City city;
-        int cityId = set.getInt("c.id");
-        if (cityMap.containsKey(cityId)) {
-            city = cityMap.get(cityId);
-        } else {
-            city = new City(cityId,
-                    new Region(set.getInt("r.id"),
-                            set.getString("r.name")),
-                    set.getString("c.name"));
-            cityMap.put(cityId, city);
-        }
-        return city;
-    }
 }

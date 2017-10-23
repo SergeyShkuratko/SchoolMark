@@ -4,6 +4,7 @@ import classes.Role;
 import classes.User;
 import exceptions.RegisterUrlNotFoundException;
 import exceptions.RoleDAOException;
+import exceptions.UserDAOException;
 import services.AuthorizationService;
 import services.RegistrationService;
 import services.impl.AuthorizationServiceImpl;
@@ -16,9 +17,13 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 import static exceptions.ErrorDescriptions.*;
-import static core.dao.utils.Settings.*;
+import static utils.ForwardRequestHelper.getErrorDispatcher;
+import static utils.Settings.*;
 
 public class RegistrationServlet extends HttpServlet {
+
+    private static RegistrationService service = new RegistrationServiceImpl();
+    private static AuthorizationService authService = new AuthorizationServiceImpl();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -26,22 +31,22 @@ public class RegistrationServlet extends HttpServlet {
             String reqId = req.getRequestURI();
             int lastIndex = reqId.lastIndexOf('/') + 1;
             if (lastIndex >= reqId.length()) {
-                req.getRequestDispatcher("/error.jsp").forward(req, resp);
+                getErrorDispatcher(req, WRONG_REG_URL).forward(req, resp);
+                return;
             } else {
                 reqId = reqId.substring(lastIndex);
-                RegistrationService service = new RegistrationServiceImpl();
                 try {
                     Role role = service.getRoleFromUrl(reqId);
                     req.getSession().setAttribute("role", role);
                 } catch (RoleDAOException e) {
-                    req.setAttribute("errorText", DB_ERROR);
-                    req.getRequestDispatcher(ERROR_JSP).forward(req, resp);
+                    getErrorDispatcher(req, DB_ERROR).forward(req, resp);
+                    return;
                 } catch (RegisterUrlNotFoundException e) {
-                    req.setAttribute("errorText", WRONG_REG_URL);
-                    req.getRequestDispatcher(ERROR_JSP).forward(req, resp);
+                    getErrorDispatcher(req, WRONG_REG_URL).forward(req, resp);
+                    return;
                 }
             }
-            // Сохранили роль, убираем "регистрационную ссылку" из url
+            // Сохранили роль, убираем токен из url
             resp.sendRedirect(DEPLOY_PATH + REG_PAGE);
         } else {
             req.getRequestDispatcher(REGISTRATION_JSP).forward(req, resp);
@@ -53,16 +58,20 @@ public class RegistrationServlet extends HttpServlet {
         String login = req.getParameter("login");
         String password = req.getParameter("password");
         Role role = (Role) req.getSession().getAttribute("role");
-        RegistrationService service = new RegistrationServiceImpl();
-        AuthorizationService authService = new AuthorizationServiceImpl();
-        User user = service.register(login, password, role);
-
-        if (user != null) {
-            authService.saveUserToSession(user, req.getSession());
-            resp.sendRedirect(DEPLOY_PATH + MAIN_PAGE);
+        if (login != null && password != null && role != null) {
+            User user = null;
+            try {
+                user = service.register(login, password, role);
+                if (user != null) {
+                    authService.saveUserToSession(user, req.getSession());
+                    resp.sendRedirect(DEPLOY_PATH + MAIN_PAGE);
+                }
+            } catch (UserDAOException e) {
+                getErrorDispatcher(req, REGISTER_ERROR).forward(req, resp);
+            }
         } else {
-            req.setAttribute("errorText", REGISTER_ERROR);
-            req.getRequestDispatcher(ERROR_JSP).forward(req, resp);
+
         }
     }
+
 }

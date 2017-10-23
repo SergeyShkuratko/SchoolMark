@@ -14,7 +14,8 @@ import java.io.IOException;
 
 import static classes.CommonSettings.*;
 import static exceptions.ErrorDescriptions.*;
-import static core.dao.utils.Settings.*;
+import static utils.ForwardRequestHelper.getErrorDispatcher;
+import static utils.Settings.*;
 
 public class AuthorizationServlet extends HttpServlet {
 
@@ -29,7 +30,7 @@ public class AuthorizationServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String login = req.getParameter("login");
         String password = req.getParameter("password");
-        if (login == null && password == null) {
+        if (login == null || password == null) {
             resp.sendRedirect(DEPLOY_PATH + AUTH_URL);
         }
         User user = null;
@@ -37,18 +38,16 @@ public class AuthorizationServlet extends HttpServlet {
         try {
             user = authService.auth(login, password);
         } catch (UserNotFoundException e) {
-            req.setAttribute("errorText", USER_NOT_FOUND);
-            req.getRequestDispatcher(AUTH_JSP).forward(req, resp);
+            getErrorDispatcher(req, USER_NOT_FOUND).forward(req, resp);
+            return;
         } catch (UserDAOException e) {
-            req.setAttribute("errorText", DB_ERROR);
-            req.getRequestDispatcher(ERROR_JSP).forward(req, resp);
+            getErrorDispatcher(req, DB_ERROR).forward(req, resp);
+            return;
         }
         if (user != null) {
             req.getSession().setAttribute(AUTH_USER_ATTRIBUTE, user.getUserId());
             req.getSession().setAttribute(AUTH_ROLE_ATTRIBUTE, user.getRole());
-            resp.sendRedirect(DEPLOY_PATH + "/admin/regions"/*DEPLOY_PATH + authService.getCabinetUrl(user)*/);
+            resp.sendRedirect(DEPLOY_PATH + authService.getCabinetUrl(user));
         }
-
-
     }
 }

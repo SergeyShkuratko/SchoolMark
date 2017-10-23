@@ -8,6 +8,7 @@ import dao.UserDAOImpl;
 import exceptions.RegisterUrlNotFoundException;
 import exceptions.RoleDAOException;
 import exceptions.UserDAOException;
+import exceptions.UserNotFoundException;
 import interfaces.dao.RoleDAO;
 import interfaces.dao.UserDAO;
 import org.apache.log4j.Logger;
@@ -19,20 +20,20 @@ public class RegistrationServiceImpl implements RegistrationService {
 
     private static UserDAO userDAO = new UserDAOImpl();
     private static RoleDAO roleDAO = new RoleDAOImpl();
-    private final static Logger logger = Logger.getLogger(RegistrationServiceImpl.class);
+    private static Logger logger = Logger.getLogger(RegistrationServiceImpl.class);
 
     @Override
-    public User register(String login, String password, Role role) {
-        if (login == null || password == null) {
-            return null;
+    public User register(String login, String password, Role role) throws UserDAOException {
+        if (login != null && password != null) {
+            UserCredentials credentials = new UserCredentials(login, encode(password));
+            try {
+                return userDAO.register(credentials, role);
+            } catch (UserDAOException e) {
+                logger.error(e.getMessage(), e);
+                throw e;
+            }
         }
-        UserCredentials credentials = new UserCredentials(login, encode(password));
-        try {
-            return userDAO.register(credentials, role);
-        } catch (UserDAOException e) {
-            logger.error(e.getMessage());
-        }
-        return null;
+        throw new UserDAOException();
     }
 
     @Override

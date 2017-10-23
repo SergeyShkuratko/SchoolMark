@@ -1,9 +1,9 @@
 package servlets.admin.lists;
 
 import classes.SchoolClass;
-import dao.SchoolDAOImpl;
 import exceptions.SchoolDAOException;
-import interfaces.dao.SchoolDAO;
+import services.SchoolService;
+import services.impl.SchoolServiceImpl;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -15,23 +15,23 @@ import java.util.List;
 
 public class ClassesListServlet extends HttpServlet {
 
-    SchoolDAO schoolDAO = new SchoolDAOImpl();
+    private SchoolService processingService = new SchoolServiceImpl();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String param = req.getParameter("school");
-        if (param == null) {
-            // TODO something
-        }
-        resp.setCharacterEncoding("UTF-8");
-        PrintWriter pw = resp.getWriter();
-        int id = Integer.valueOf(req.getParameter("school"));
-        List<SchoolClass> classes = null;
         try {
-            classes = schoolDAO.getAllClasses(schoolDAO.getById(id));
-        } catch (SchoolDAOException e) {
-            e.printStackTrace();
+            String param = req.getParameter("school");
+            if (param != null) {
+                resp.setCharacterEncoding("UTF-8");
+                PrintWriter pw = resp.getWriter();
+                int id = Integer.valueOf(req.getParameter("school"));
+                List<SchoolClass> classes = processingService.getClassesBySchoolId(id);
+                classes.stream().forEach((s) -> pw.println("<li>" + s.getName() + "</li>"));
+            } else {
+                resp.sendError(HttpServletResponse.SC_BAD_REQUEST);
+            }
+        } catch (NumberFormatException | SchoolDAOException e) {
+            resp.sendError(HttpServletResponse.SC_BAD_REQUEST);
         }
-        classes.stream().forEach((s) -> pw.println("<li>" + s.getName() + "</li>"));
     }
 }

@@ -1,8 +1,12 @@
 package dao;
 
+import classes.School;
 import classes.SchoolClass;
+import classes.Student;
 import connectionmanager.ConnectionManagerPostgresImpl;
 import exception.DAOSchoolClassErrorRequestException;
+import exception.DAOSchoolErrorRequestException;
+import exception.DAOStudentErrorRequestException;
 import org.apache.log4j.Logger;
 
 import java.sql.Connection;
@@ -10,7 +14,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import static core.dao.constants.DAOConstants.NULL_POINTER_DB;
+
+import static constants.DAOConstants.NULL_POINTER_DB;
 
 public class DAOSchoolClassImpl implements DAOSchoolClass {
 
@@ -35,7 +40,7 @@ public class DAOSchoolClassImpl implements DAOSchoolClass {
     }
 
     private SchoolClass getOne(String where) throws DAOSchoolClassErrorRequestException {
-        try (ResultSet rs = DAOUtils.getResultSetExecuteQueryByWhere(
+        try (ResultSet rs = DAOUtils.getResultSetExecuteQuery(
                 connection, baseGetSql + where)) {
             if (rs.next()) {
                 return DAOUtils.getSchoolClassByResultSet(rs);
@@ -48,7 +53,7 @@ public class DAOSchoolClassImpl implements DAOSchoolClass {
 
     private ArrayList<SchoolClass> getMany(String where)
             throws DAOSchoolClassErrorRequestException {
-        try (ResultSet rs = DAOUtils.getResultSetExecuteQueryByWhere(
+        try (ResultSet rs = DAOUtils.getResultSetExecuteQuery(
                 connection, baseGetSql + where)) {
             ArrayList<SchoolClass> schoolClasses = new ArrayList<>();
             while (rs.next()) {
@@ -87,7 +92,7 @@ public class DAOSchoolClassImpl implements DAOSchoolClass {
     private int removeSchoolClassesCommon(String where)
             throws DAOSchoolClassErrorRequestException {
         try {
-            return DAOUtils.getResultSetExecuteUpdateByWhere(
+            return DAOUtils.getResultSetExecuteUpdate(
                     connection, this.baseRemoveSql + where);
         } catch (SQLException e) {
             throw new DAOSchoolClassErrorRequestException(e.getMessage());

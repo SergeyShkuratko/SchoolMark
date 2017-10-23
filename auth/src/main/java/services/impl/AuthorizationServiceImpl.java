@@ -6,6 +6,7 @@ import dao.UserDAOImpl;
 import exceptions.UserDAOException;
 import exceptions.UserNotFoundException;
 import interfaces.dao.UserDAO;
+import org.apache.log4j.Logger;
 import services.AuthorizationService;
 
 import javax.servlet.http.HttpSession;
@@ -20,7 +21,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
     @Override
     public User auth(String login, String password) throws UserNotFoundException, UserDAOException {
         User user = null;
-        if (login != null || password != null) {
+        if (login != null && password != null) {
             user = userDAO.getByCredentials(new UserCredentials(login, encode(password)));
         }
         return user;

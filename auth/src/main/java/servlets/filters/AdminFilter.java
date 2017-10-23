@@ -25,7 +25,7 @@ public class AdminFilter implements Filter {
         Role role = (Role) ((HttpServletRequest)request).getSession().getAttribute(AUTH_ROLE_ATTRIBUTE);
         if (user != null && role != null) {
             int userId = (int) user;
-            if ((userId > 0) && (role == Role.admin)) {
+            if (role == Role.admin) {
                 isAuth = true;
                 chain.doFilter(request, response);
             }
