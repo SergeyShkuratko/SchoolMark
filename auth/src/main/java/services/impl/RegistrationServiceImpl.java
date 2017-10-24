@@ -3,13 +3,13 @@ package services.impl;
 import classes.Role;
 import classes.User;
 import classes.UserCredentials;
-import dao.RoleDAOImpl;
+import classes.dto.TokenSavedInfo;
+import dao.RegistrationTokenDAOImpl;
 import dao.UserDAOImpl;
-import exceptions.RegisterUrlNotFoundException;
-import exceptions.RoleDAOException;
+import exceptions.RegistrationTokenNotFoundException;
+import exceptions.RegistrationTokenDAOException;
 import exceptions.UserDAOException;
-import exceptions.UserNotFoundException;
-import interfaces.dao.RoleDAO;
+import interfaces.dao.RegistrationTokenDAO;
 import interfaces.dao.UserDAO;
 import org.apache.log4j.Logger;
 import services.RegistrationService;
@@ -19,7 +19,7 @@ import static utils.PasswordEncoder.encode;
 public class RegistrationServiceImpl implements RegistrationService {
 
     private static UserDAO userDAO = new UserDAOImpl();
-    private static RoleDAO roleDAO = new RoleDAOImpl();
+    private static RegistrationTokenDAO registrationTokenDAO = new RegistrationTokenDAOImpl();
     private static Logger logger = Logger.getLogger(RegistrationServiceImpl.class);
 
     @Override
@@ -37,8 +37,13 @@ public class RegistrationServiceImpl implements RegistrationService {
     }
 
     @Override
-    public Role getRoleFromUrl(String url) throws RoleDAOException, RegisterUrlNotFoundException {
-        return roleDAO.getRoleByUrl(url);
+    public Role getRoleForToken(String token) throws RegistrationTokenDAOException, RegistrationTokenNotFoundException {
+        return registrationTokenDAO.getRoleByUrl(token);
+    }
+
+    @Override
+    public TokenSavedInfo getSavedInfoForToken(String token) throws RegistrationTokenNotFoundException, RegistrationTokenDAOException {
+        return registrationTokenDAO.getSavedInfoByToken(token);
     }
 
 }

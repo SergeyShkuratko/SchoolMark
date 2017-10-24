@@ -2,11 +2,13 @@ package services;
 
 import classes.Role;
 import classes.User;
-import exceptions.RegisterUrlNotFoundException;
-import exceptions.RoleDAOException;
+import classes.dto.TokenSavedInfo;
+import exceptions.RegistrationTokenNotFoundException;
+import exceptions.RegistrationTokenDAOException;
 import exceptions.UserDAOException;
 
 public interface RegistrationService {
     User register(String login, String password, Role role) throws UserDAOException;
-    Role getRoleFromUrl(String url) throws RoleDAOException, RegisterUrlNotFoundException;
+    Role getRoleForToken(String token) throws RegistrationTokenDAOException, RegistrationTokenNotFoundException;
+    TokenSavedInfo getSavedInfoForToken(String token) throws RegistrationTokenNotFoundException, RegistrationTokenDAOException;
 }
