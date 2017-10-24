@@ -90,11 +90,14 @@ public class OrganizerDAO {
     public static boolean isWorksExists(int test_id) throws OrganizerDAOexception {
         String sql = "SELECT COUNT(id) >= 1 " +
                 "FROM works " +
-                "WHERE test_id=" + test_id;
+                "WHERE test_id=?";
 
         try (Connection connection = pool.getConnection();
-             Statement statement = connection.createStatement()) {
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+
+            statement.setInt(1, test_id);
             ResultSet rs = statement.executeQuery(sql);
+
             if (rs.next()) {
                 return rs.getBoolean(1);
             }
