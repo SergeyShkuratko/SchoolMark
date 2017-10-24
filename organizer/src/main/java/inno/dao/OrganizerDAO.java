@@ -122,12 +122,14 @@ public class OrganizerDAO {
                 " concat(s.last_name, ' ', s.first_name, ' ', s.patronymic) as student_fullname " +
                 "FROM works w " +
                 "JOIN students s on w.student_id = s.id " +
-                "WHERE w.test_id = " + test_id;
+                "WHERE w.test_id = ?";
 
         try (Connection connection = pool.getConnection();
-             Statement statement = connection.createStatement()) {
+             PreparedStatement statement = connection.prepareStatement(sql)) {
 
+            statement.setInt(1, test_id);
             ResultSet rs = statement.executeQuery(sql);
+
             while (rs.next()) {
                 list.add(new WorkDTO(
                         rs.getInt("id"),
