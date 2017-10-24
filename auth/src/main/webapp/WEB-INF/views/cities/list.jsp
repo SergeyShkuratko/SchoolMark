@@ -10,16 +10,16 @@
 <table id="example" class="display" width="100%" cellspacing="0">
     <thead>
     <tr>
-        <th>Id#</th>
-        <th>Номер региона#</th>
-        <th>Название региона#</th>
+        <th>Id@</th>
+        <th>Номер региона@</th>
+        <th>Название города@</th>
     </tr>
     </thead>
     <tfoot>
     <tr>
-        <th>Id#</th>
-        <th>Номер региона#</th>
-        <th>Название региона#</th>
+        <th>Id@</th>
+        <th>Номер региона@</th>
+        <th>Название города@</th>
     </tr>
     </tfoot>
     <tbody>
