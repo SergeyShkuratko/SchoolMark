@@ -5,10 +5,7 @@ import calendar.dto.TestDto;
 import connectionmanager.ConnectionPool;
 import connectionmanager.TomcatConnectionPool;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +34,8 @@ public class PgTestDao implements TestDao {
                 testDto.setStartDate(rs.getTimestamp("start_date_time").toLocalDateTime());
                 testDto.setStatus(rs.getString("status"));
                 testDto.setTemplateId(rs.getInt("test_template_id"));
-                testDto.setVerificationDate(rs.getTimestamp("verification_deadline").toLocalDateTime());
+                Timestamp t = rs.getTimestamp("verification_deadline");
+                testDto.setVerificationDate(t == null ? testDto.getStartDate() : t.toLocalDateTime());
                 testDto.setSubject(rs.getString("subject"));
                 result.add(testDto);
             }

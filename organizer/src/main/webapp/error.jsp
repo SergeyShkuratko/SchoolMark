@@ -19,6 +19,7 @@
 <c:forEach items="${errors}" var="err">
     <c:out value="<b>${err}</b><br>" escapeXml="false"/>
 </c:forEach>
+<c:out value="<b>${errorText}</b><br>" escapeXml="false"/>
 <p>
     <script type="text/javascript" src="http://bash.im/forweb/?u" charset="utf-8"></script>
 </p>
