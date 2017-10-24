@@ -1,12 +1,10 @@
 package utils.dao;
 
 import classes.Region;
-import core.utils.dao.DAOUtils;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class DAOUtilsRegion extends DAOUtils {
+public class DAOUtilsRegion {
 
     public static Region getRegionByResultSet(ResultSet rs) throws SQLException {
         return new Region(

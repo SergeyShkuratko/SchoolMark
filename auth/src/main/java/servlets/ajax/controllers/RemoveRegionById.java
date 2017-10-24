@@ -18,7 +18,7 @@ import java.util.Map;
 public class RemoveRegionById extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String region_id = req.getParameter("region_id");
+        String region_id = req.getParameter("id");
 
         ServiceRemoveRegion serviceRemoveRegion = new ServiceRemoveRegion();
         Map<String, String> output = serviceRemoveRegion.removeRecordById(Integer.valueOf(region_id));

@@ -4,7 +4,7 @@ import classes.Region;
 import dao.RegionDAOImpl;
 import exceptions.RegionDAOException;
 import org.apache.log4j.Logger;
-import services.exceptions.ServicesAuthGetProperyNotFoundException;
+import services.exceptions.ServicesAuthGetPropertyNotFoundException;
 import services.exceptions.ServicesAuthTemplateNotFoundException;
 import utils.files.FileContentGetter;
 
@@ -21,7 +21,7 @@ public class ServiceDAORegion {
     private ServletContext servletContext;
 
     public ServiceDAORegion (ServletContext servletContext)
-            throws IOException, ServicesAuthGetProperyNotFoundException {
+            throws IOException, ServicesAuthGetPropertyNotFoundException {
         this.servletContext = servletContext;
         try {
             InputStream is = getClass().getResourceAsStream("/auth-module-resources.properties");
@@ -32,10 +32,10 @@ public class ServiceDAORegion {
             if (this.region_row_tpl == null) {
                 String errMessage = "parameter amr_region_row_tpl not found into property file";
                 logger.error(errMessage);
-                throw new ServicesAuthGetProperyNotFoundException(errMessage);
+                throw new ServicesAuthGetPropertyNotFoundException(errMessage);
             }
         } catch (NullPointerException npe) {
-            throw new ServicesAuthGetProperyNotFoundException(
+            throw new ServicesAuthGetPropertyNotFoundException(
                     "not found : InputStream is = getClass().getResourceAsStream(/auth-module-resources.properties)"
             );
         }

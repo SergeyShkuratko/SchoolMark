@@ -18,7 +18,7 @@ public class GetJspContent {
     }
 
     public String getContent(String jspPath) throws ServletException, IOException {
-        this.req.getRequestDispatcher("/WEB-INF/views/regions/list.jsp")
+        this.req.getRequestDispatcher(jspPath)
                 .forward(req, this.charArrayWriterResponse);
         return this.charArrayWriterResponse.getOutput();
     }

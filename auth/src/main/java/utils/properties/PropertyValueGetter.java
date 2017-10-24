@@ -1,7 +1,7 @@
 package utils.properties;
 
 import org.apache.log4j.Logger;
-import services.exceptions.ServicesAuthGetProperyNotFoundException;
+import services.exceptions.ServicesAuthGetPropertyNotFoundException;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -12,7 +12,7 @@ public class PropertyValueGetter {
     private static final Logger logger = Logger.getLogger(PropertyValueGetter.class);
 
     public String getPropertyByKey(String key)
-            throws ServicesAuthGetProperyNotFoundException {
+            throws ServicesAuthGetPropertyNotFoundException {
         InputStream is = getClass().getResourceAsStream("/auth-module-resources.properties");
         Properties props = new Properties();
         try {
@@ -22,12 +22,12 @@ public class PropertyValueGetter {
             if(property == null) {
                 String errMessage = "parameter " + key + " not found into property file";
                 logger.error(errMessage);
-                throw new ServicesAuthGetProperyNotFoundException(errMessage);
+                throw new ServicesAuthGetPropertyNotFoundException(errMessage);
             }
             return property;
         } catch (IOException e) {
             logger.error(e);
-            throw new ServicesAuthGetProperyNotFoundException(e.getMessage());
+            throw new ServicesAuthGetPropertyNotFoundException(e.getMessage());
         }
     }
 

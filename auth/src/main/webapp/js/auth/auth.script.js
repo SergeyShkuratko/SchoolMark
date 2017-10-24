@@ -6,6 +6,7 @@ var myapp;
             try {
                 this.initdatatable();
                 this.regionappend();
+                this.cityappend();
                 if($('#example').length){
                     $.myapp.selectrowtableinit();
                     $.myapp.deleteselectedrowinit();
@@ -66,13 +67,14 @@ var myapp;
         deleteselectedrowinit: function() {
             $(document).on('click', '[data-role=delete-table-row]', function(evt){
                 var table = $('#example').DataTable();
+                var action = $(this).data('action');
                 if(table.$('tr.selected').length) {
                     var id = table.$('tr.selected').find('td').first().text();
                     $.ajax({
                         type: 'post',
-                        url: '/SM/admin/regions/remove',
+                        url: action,
                         data: '' +
-                        'region_id=' + id,
+                        'id=' + id,
                         dataType: "json",
                         success: function (response) {
                             console.log(response);
@@ -154,7 +156,35 @@ var myapp;
                     });
                     $('#appendRegionModal').modal('toggle');
                 }
-                //$.notify("append region");
+            });
+        },
+        cityappend: function () {
+            $(document).on('click', '[data-role=city-append]', function (evt) {
+                if($.myapp.formvalidate($('#appendCityModal'))) {
+                    $.ajax({
+                        type: 'post',
+                        url: '/SM/admin/cities/append',
+                        data: '' +
+                        'city-name=' + $('[data-role=city-name-input]').val() +
+                        '&region-number=' + $('[data-role=region-number-input]').val(),
+                        dataType: "json",
+                        success: function (response) {
+                            console.error(response);
+                            if(response.error) {
+                                $.notify(response.error);
+                            }
+                            else {
+                                $.myapp.addregionrow(response.id, response.region_id, response.name);
+                                $.notify(response.result, 'success');
+                            }
+                        },
+                        error: function (data) {
+                            console.error(data);
+                            $.notify("Во время работы сервера произошла непредвиденная ошибка!");
+                        }
+                    });
+                    $('#appendCityModal').modal('toggle');
+                }
             });
         }
     };

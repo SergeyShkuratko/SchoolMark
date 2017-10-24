@@ -13,7 +13,7 @@ import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
 
-@WebServlet(urlPatterns = { "/admin/regions/append" })
+@WebServlet(urlPatterns = "/admin/regions/append")
 public class AppendNewRegion extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
