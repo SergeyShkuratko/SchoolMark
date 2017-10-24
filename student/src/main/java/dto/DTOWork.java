@@ -3,9 +3,10 @@ package dto;
 import java.time.LocalDate;
 
 public class DTOWork {
-    private int work_id;
+    private int workId;
+    private int variantId;
     private LocalDate date;
-    private int templ_id;
+    private int templId;
     private String topic;
     private String description;
     private String subject;
@@ -13,12 +14,13 @@ public class DTOWork {
     private String comment;
     private String status;
 
-    public DTOWork(int work_id, LocalDate date, int templ_id, String topic, String description, String subject,
+    public DTOWork(int workId, int variantId, LocalDate date, int templId, String topic, String description, String subject,
                    int mark, String comment, String status)
     {
-        this.work_id = work_id;
+        this.workId = workId;
+        this.variantId = variantId;
         this.date = date;
-        this.templ_id = templ_id;
+        this.templId = templId;
         this.topic = topic;
         this.description = description;
         this.subject = subject;
@@ -30,7 +32,7 @@ public class DTOWork {
     @Override
     public String toString() {
         return "DTOWork{" +
-                "work_id=" + work_id +
+                "workId=" + workId +
                 ", date=" + date +
                 ", topic='" + topic + '\'' +
                 ", description='" + description + '\'' +
@@ -41,16 +43,20 @@ public class DTOWork {
                 '}';
     }
 
-    public int getWork_id() {
-        return work_id;
+    public int getVariantId() {
+        return variantId;
+    }
+
+    public int getWorkId() {
+        return workId;
     }
 
     public LocalDate getDate() {
         return date;
     }
 
-    public int getTempl_id() {
-        return templ_id;
+    public int getTemplId() {
+        return templId;
     }
 
     public String getTopic() {

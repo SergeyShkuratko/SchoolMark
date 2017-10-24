@@ -20,12 +20,12 @@ public class WorkService {
     /**
      * Возвращает список контрольных работ
      *
-     * @param student_id ID студента
+     * @param user_id ID студента
      * @return Список работ студента
      */
-    public static List<DTOWork> getAllWork(int student_id) throws DAOStudentWork.DAOStudentWorkException {
+    public static List<DTOWork> getAllWork(int user_id) throws DAOStudentWork.DAOStudentWorkException {
         try {
-            List<DTOWork> works = workDAO.getWorksByStudentId(student_id);
+            List<DTOWork> works = workDAO.getWorksByStudentId(user_id);
             return works;
         } catch (NullPointerException e) {
             logger.error(e.getMessage());
@@ -91,12 +91,12 @@ public class WorkService {
     /**
      * Возвращает список вопросов по Id контрольной работы ученика
      *
-     * @param template_id
+     * @param variant_id
      * @return
      */
-    public static List<String> getQuestionListByTemplateId(int template_id) throws DAOStudentWork.DAOStudentWorkException {
+    public static List<String> getQuestionListByVariantId(int variant_id) throws DAOStudentWork.DAOStudentWorkException {
         try {
-            return workDAO.getQuestionListByTemplateId(template_id);
+            return workDAO.getQuestionListByVariantId(variant_id);
         } catch (NullPointerException e) {
             logger.error(e.getMessage());
         }

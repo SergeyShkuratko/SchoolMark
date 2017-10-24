@@ -136,7 +136,7 @@
                                     <form id="drop" class="dropzone" action="${context}/workload" method="post"
                                           enctype="multipart/form-data">
                                         <input type="hidden" name="command" value="send_photo">
-                                        <input type="hidden" name="work_id" value="${work.work_id}">
+                                        <input type="hidden" name="workId" value="${work.workId}">
                                         <label class="btn" for="my-file-selector">
                                             <i class="fa fa fa-plus-square-o fa-5x" aria-hidden="true"></i>
 
@@ -157,7 +157,7 @@
             <div class="panel panel-default text-left">
                 <div class="panel-body">
                     <form action="${context}/workload" method="post">
-                        <input type="hidden" name="work_id" value="${work.work_id}">
+                        <input type="hidden" name="workId" value="${work.workId}">
                         <button class="btn btn-success" name="command" value="send_work" type="submit"
                                 formaction="${context}/workload">
                             Сдать работу

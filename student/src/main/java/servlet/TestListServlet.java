@@ -22,13 +22,13 @@ public class TestListServlet extends HttpServlet{
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        int student_id = 1;
-
+        int user_id = (Integer)req.getSession().getAttribute(CommonSettings.AUTH_USER_ATTRIBUTE);
+        //TODO добавить проверку наличия контрольных на статусе Новый
         boolean haveNewTest = true;
         req.setAttribute("have_new_test", haveNewTest);
         List<DTOWork> works = null;
         try {
-            works = WorkService.getAllWork(student_id);
+            works = WorkService.getAllWork(user_id);
             req.setAttribute("works", works);
         } catch (DAOStudentWork.DAOStudentWorkException e) {
             e.printStackTrace();
