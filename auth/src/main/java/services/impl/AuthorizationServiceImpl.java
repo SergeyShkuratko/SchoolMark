@@ -6,7 +6,6 @@ import dao.UserDAOImpl;
 import exceptions.UserDAOException;
 import exceptions.UserNotFoundException;
 import interfaces.dao.UserDAO;
-import org.apache.log4j.Logger;
 import services.AuthorizationService;
 
 import javax.servlet.http.HttpSession;

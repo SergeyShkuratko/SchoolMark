@@ -8,7 +8,6 @@ import dao.UserDAOImpl;
 import exceptions.RegisterUrlNotFoundException;
 import exceptions.RoleDAOException;
 import exceptions.UserDAOException;
-import exceptions.UserNotFoundException;
 import interfaces.dao.RoleDAO;
 import interfaces.dao.UserDAO;
 import org.apache.log4j.Logger;

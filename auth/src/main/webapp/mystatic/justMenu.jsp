@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <title>Controller</title>
     <link href="${context}/css/bootstrap.min.css" rel="stylesheet">
-    <link href="${context}/css/dashboard.css" rel="stylesheet">
+    <link href="${context}/css/auth/dashboard.css/dashboard.css" rel="stylesheet">
     <link href="${context}/css/ratingbar.css" rel="stylesheet">
 </head>
 <body>

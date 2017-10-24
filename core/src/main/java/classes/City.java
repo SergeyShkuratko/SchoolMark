@@ -31,4 +31,6 @@ public class City {
     public String getName() {
         return name;
     }
+
+    public int getRegionId() { return regionId; }
 }

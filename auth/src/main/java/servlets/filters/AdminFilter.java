@@ -1,8 +1,6 @@
 package servlets.filters;
 
-import classes.CommonSettings;
 import classes.Role;
-import sun.nio.cs.ext.IBM037;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;

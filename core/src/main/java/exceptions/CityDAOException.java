@@ -9,4 +9,8 @@ public class CityDAOException extends Exception {
     public CityDAOException(Throwable cause) {
         super(cause);
     }
+
+    public CityDAOException(String message) {
+        super(message);
+    }
 }

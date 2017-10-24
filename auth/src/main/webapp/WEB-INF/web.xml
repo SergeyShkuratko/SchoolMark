@@ -67,7 +67,12 @@
         <servlet-name>SchoolListServlet</servlet-name>
         <servlet-class>servlets.admin.lists.SchoolListServlet</servlet-class>
     </servlet>
-
+    <!--
+    <servlet>
+        <servlet-name>RegionsListServlet</servlet-name>
+        <servlet-class>servlets.admin.lists.RegionsListServlet</servlet-class>
+    </servlet>
+    -->
     <!--    SERVLET MAPPING    -->
 
     <servlet-mapping>
@@ -80,7 +85,6 @@
         <url-pattern>/register</url-pattern>
         <url-pattern>/register/*</url-pattern>
     </servlet-mapping>
-
 
     <servlet-mapping>
         <servlet-name>AdminCabinetServlet</servlet-name>
@@ -106,6 +110,12 @@
         <servlet-name>SchoolListServlet</servlet-name>
         <url-pattern>/admin/schools</url-pattern>
     </servlet-mapping>
+    <!--
+    <servlet-mapping>
+        <servlet-name>RegionsListServlet</servlet-name>
+        <url-pattern>/admin/regions</url-pattern>
+    </servlet-mapping>
+    -->
     <servlet-mapping>
         <servlet-name>default</servlet-name>
         <url-pattern>/mystatic/*</url-pattern>
@@ -125,6 +135,5 @@
         <servlet-name>default</servlet-name>
         <url-pattern>/fonts/*</url-pattern>
     </servlet-mapping>
-
 
 </web-app>
