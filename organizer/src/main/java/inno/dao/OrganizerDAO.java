@@ -25,14 +25,14 @@ public class OrganizerDAO {
      * @throws OrganizerDAOexception
      */
     public static TestDTO getTestById(int test_id) throws OrganizerDAOexception {
-        String sql = "SELECT t.id, t.status, tt.topic, tt.description, sc.id AS school_class_id " +
+        final String SQL = "SELECT t.id, t.status, tt.topic, tt.description, sc.id AS school_class_id " +
                 "FROM tests AS t " +
                 "JOIN test_templates AS tt ON t.test_template_id = tt.id " +
                 "JOIN school_classes AS sc ON t.school_class_id = sc.id " +
                 "WHERE t.id=?";
 
         try (Connection connection = pool.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql)) {
+             PreparedStatement statement = connection.prepareStatement(SQL)) {
 
             statement.setInt(1, test_id);
             ResultSet rs = statement.executeQuery();
@@ -61,7 +61,7 @@ public class OrganizerDAO {
      * @throws OrganizerDAOexception
      */
     public static boolean createWorksForTest(int test_id) throws OrganizerDAOexception {
-        String sql = "INSERT INTO works (test_id, student_id, status)" +
+        final String SQL = "INSERT INTO works (test_id, student_id, status)" +
                 "  SELECT" +
                 "    t.id," +
                 "    s.id," +
@@ -70,10 +70,10 @@ public class OrganizerDAO {
                 "    JOIN students s ON t.school_class_id = s.school_class_id" +
                 "  WHERE t.id=?";
         try (Connection connection = pool.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql)) {
+             PreparedStatement statement = connection.prepareStatement(SQL)) {
 
             statement.setInt(1, test_id);
-            return statement.execute(sql);
+            return statement.execute(SQL);
         } catch (SQLException e) {
             logger.error(e);
             throw new OrganizerDAOexception(e);
@@ -88,15 +88,15 @@ public class OrganizerDAO {
      * @throws OrganizerDAOexception
      */
     public static boolean isWorksExists(int test_id) throws OrganizerDAOexception {
-        String sql = "SELECT COUNT(id) >= 1 " +
+        final String SQL = "SELECT COUNT(id) >= 1 " +
                 "FROM works " +
                 "WHERE test_id=?";
 
         try (Connection connection = pool.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql)) {
+             PreparedStatement statement = connection.prepareStatement(SQL)) {
 
             statement.setInt(1, test_id);
-            ResultSet rs = statement.executeQuery(sql);
+            ResultSet rs = statement.executeQuery(SQL);
 
             if (rs.next()) {
                 return rs.getBoolean(1);
@@ -116,7 +116,7 @@ public class OrganizerDAO {
      */
     public static List<WorkDTO> getAllWorksByTestId(int test_id) throws OrganizerDAOexception {
         List<WorkDTO> list = new ArrayList<>();
-        String sql = "SELECT w.id," +
+        final String SQL = "SELECT w.id," +
                 " w.student_id," +
                 " w.status," +
                 " concat(s.last_name, ' ', s.first_name, ' ', s.patronymic) as student_fullname " +
@@ -125,10 +125,10 @@ public class OrganizerDAO {
                 "WHERE w.test_id = ?";
 
         try (Connection connection = pool.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql)) {
+             PreparedStatement statement = connection.prepareStatement(SQL)) {
 
             statement.setInt(1, test_id);
-            ResultSet rs = statement.executeQuery(sql);
+            ResultSet rs = statement.executeQuery(SQL);
 
             while (rs.next()) {
                 list.add(new WorkDTO(
