@@ -68,9 +68,11 @@ public class OrganizerDAO {
                 "    'new'" +
                 "  FROM tests AS t" +
                 "    JOIN students s ON t.school_class_id = s.school_class_id" +
-                "  WHERE t.id=" + test_id;
+                "  WHERE t.id=?";
         try (Connection connection = pool.getConnection();
-             Statement statement = connection.createStatement()) {
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+
+            statement.setInt(1, test_id);
             return statement.execute(sql);
         } catch (SQLException e) {
             logger.error(e);
