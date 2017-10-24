@@ -25,7 +25,7 @@
     <!-- Custom styles for this template -->
 
     <link rel="stylesheet" href="static/dashboard.css" type="text/css">
-
+    <meta http-equiv="Cache-Control" content="no-cache"/>
 </head>
 <body>
 
@@ -60,13 +60,13 @@
             <div class="row panel panel-default margin-bottom-null">
 
                 <div class="col-xs-18 col-sm-10 text-center">
-                    <h1 class="control-work-title">Тема контрольной работы</h1>
-                    <p class="control-work-relating-text">
-                        Сопроводительный текст Сопроводительный текст
+                    <h1 class="control-work-title">
+                        <c:out value="${test.topic}" />
+                    </h1>
+                    <p class="control-work-relating-text" align="justify">
+                        <c:out value="${test.description}" />
                     </p>
-                    <p class="control-work-relating-text">
-                        Сопроводительный текст Сопроводительный текст
-                    </p>
+
                 </div>
 
                 <div class="col-xs-6 col-sm-2">
@@ -90,9 +90,21 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr class="success">
-                            <td>Принята</td>
-                            <td><a href="#">Иванов Иван Иванович</a></td>
+
+                        <c:forEach items="${works}" var="work">
+
+                        <tr>
+                            <td>
+
+                                <c:choose>
+                                    <c:when test="${work.status == 'new'}">Новая</c:when>
+                                    <c:when test="${work.status == 'in_progressappointed'}">Проводится</c:when>
+                                    <c:when test="${work.status == 'confirmed'}">Подтверждена</c:when>
+                                    <c:otherwise>Статус неизветен</c:otherwise>
+                                </c:choose>
+
+                            </td>
+                            <td><a href="#">${work.studentFullname}</a></td>
                             <td>
                                 <div class="checkbox">
                                     <label>
@@ -104,20 +116,8 @@
                                 <i class="fa fa-3x  fa-download"></i>
                             </td>
                         </tr>
-                        <tr class="warning">
-                            <td>Загружена</td>
-                            <td><a href="#">Петрович Иван Иванович</a></td>
-                            <td>
-                                <div class="checkbox">
-                                    <label>
-                                        <input type="checkbox">
-                                    </label>
-                                </div>
-                            </td>
-                            <td>
-                                <i class="fa fa-3x  fa-download"></i>
-                            </td>
-                        </tr>
+
+                        </c:forEach>
                         </tbody>
                     </table>
                 </div>
