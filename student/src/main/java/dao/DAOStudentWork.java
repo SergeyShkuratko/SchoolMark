@@ -28,11 +28,13 @@ public class DAOStudentWork {
                 "JOIN test_templates templ ON t.test_template_id=templ.id\n" +
                 "JOIN subjects sub ON templ.subject_id=sub.id\n" +
                 "LEFT JOIN verification_results res ON res.work_id = w.id\n" +
-                "WHERE w.student_id = (SELECT id FROM students WHERE user_id = " + user_id + ")";
+                "WHERE w.student_id = (SELECT id FROM students WHERE user_id = ? )";
         ArrayList<DTOWork> works = new ArrayList<>();
-        try (Connection connection = TomcatConnectionPool.getInstance().getConnection())
+        try (Connection connection = TomcatConnectionPool.getInstance().getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql))
         {
-            ResultSet rs = DAOUtils.getResultSetExecuteQuery(connection, sql);
+            preparedStatement.setInt(1, user_id);
+            ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {
                 //TODO возможно нужно исключать контрольные без даты старта
                 DTOWork work = new DTOWork(
@@ -61,11 +63,13 @@ public class DAOStudentWork {
                 "JOIN test_templates templ ON t.test_template_id=templ.id\n" +
                 "JOIN subjects sub ON templ.subject_id=sub.id\n" +
                 "LEFT JOIN verification_results res ON res.work_id = w.id\n" +
-                "WHERE w.id = " + id;
+                "WHERE w.id = ? ";
         DTOWork work=null;
         try (Connection connection = TomcatConnectionPool.getInstance().getConnection();
-             ResultSet rs = DAOUtils.getResultSetExecuteQuery(connection, sql))
+             PreparedStatement preparedStatement = connection.prepareStatement(sql))
         {
+            preparedStatement.setInt(1, id);
+            ResultSet rs = preparedStatement.executeQuery();
                 while (rs.next()) {
                     work = new DTOWork(
                             rs.getInt("id"),
@@ -104,11 +108,13 @@ public class DAOStudentWork {
     public List<String> getQuestionListByVariantId(int variant_id) throws DAOStudentWorkException {
         String sql = "SELECT q.question\n" +
                 "FROM questions q LEFT JOIN template_variants v ON q.template_variant_id = v.id\n" +
-                "WHERE v.id =" + variant_id;
+                "WHERE v.id = ? ";
         List<String> questions = new ArrayList<>();
         try(Connection connection = TomcatConnectionPool.getInstance().getConnection();
-            ResultSet rs = DAOUtils.getResultSetExecuteQuery(connection, sql))
+            PreparedStatement preparedStatement = connection.prepareStatement(sql))
         {
+            preparedStatement.setInt(1, variant_id);
+            ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {
                 questions.add(rs.getString("question"));
             }
@@ -122,8 +128,8 @@ public class DAOStudentWork {
     public List<DTOFile> getStudentFilesByWorkId(int work_id) throws DAOStudentWorkException {
         String sql = "SELECT id, file_url\n" +
                 "FROM work_pages\n" +
-                "WHERE work_id = " + work_id;
-        return getFilesByQuery(sql);
+                "WHERE work_id = ?";
+        return getFilesByQuery(sql, work_id);
     }
 
     public boolean addStudentFile(int work_id, String file) throws DAOStudentWorkException {
@@ -159,19 +165,21 @@ public class DAOStudentWork {
     public List<DTOFile> getVerificationFilesByVerificationId(int verification_id) throws DAOStudentWorkException {
         String sql = "SELECT id, file_url\n" +
                 "FROM verification_pages\n" +
-                "WHERE verification_result_id = " + verification_id;
-        return getFilesByQuery(sql);
+                "WHERE verification_result_id = ? ";
+        return getFilesByQuery(sql, verification_id);
     }
 
-    private List<DTOFile> getFilesByQuery(String sql) throws DAOStudentWorkException {
+    private List<DTOFile> getFilesByQuery(String sql, int id) throws DAOStudentWorkException {
         List<DTOFile> files = new ArrayList<>();
         try (Connection connection = TomcatConnectionPool.getInstance().getConnection();
-             ResultSet rs = DAOUtils.getResultSetExecuteQuery(connection, sql))
+             PreparedStatement preparedStatement = connection.prepareStatement(sql))
         {
+            preparedStatement.setInt(1, id);
+            ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {
-                int id = rs.getInt("id");
+                int fileId = rs.getInt("id");
                 String filePath = rs.getString("file_url");
-                DTOFile file = new DTOFile(id, filePath);
+                DTOFile file = new DTOFile(fileId, filePath);
                 files.add(file);
             }
         } catch (SQLException e) {
