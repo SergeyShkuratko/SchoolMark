@@ -29,11 +29,13 @@ public class OrganizerDAO {
                 "FROM tests AS t " +
                 "JOIN test_templates AS tt ON t.test_template_id = tt.id " +
                 "JOIN school_classes AS sc ON t.school_class_id = sc.id " +
-                "WHERE t.id=" + test_id;
+                "WHERE t.id=?";
 
         try (Connection connection = pool.getConnection();
-             Statement statement = connection.createStatement();
-             ResultSet rs = statement.executeQuery(sql)) {
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+
+            statement.setInt(1, test_id);
+            ResultSet rs = statement.executeQuery();
 
             if (rs.next()) {
                 return new TestDTO(
