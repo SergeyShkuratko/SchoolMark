@@ -28,8 +28,8 @@ public class TestServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         
-        int userId = (int) req.getSession().getAttribute("userId");
-        if (userId == 0) {
+        Integer userId = (Integer) req.getSession().getAttribute("userId");
+        if (userId == null) {
             userId = 1;
         }
 

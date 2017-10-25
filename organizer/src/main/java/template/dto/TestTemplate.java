@@ -42,12 +42,12 @@ public class TestTemplate {
         if (!topic.equals(that.getTopic())) {
             return false;
         }
-        if (!description.equals(that.getDescription())) {
-            return false;
-        }
-//        if (!subject.sameAs(that.getSubject())) {
+//        if (!description.equals(that.getDescription())) {
 //            return false;
 //        }
+        if (!subject.sameAs(that.getSubject())) {
+            return false;
+        }
         if (!difficulty.equals(that.getDifficulty())) {
             return false;
         }

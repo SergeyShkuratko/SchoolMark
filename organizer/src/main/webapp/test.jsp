@@ -4,11 +4,11 @@
 <head>
     <meta charset="utf-8">
     <title>Создание контрольной работы</title>
-    <script src="../../js/question-form.js" type="text/javascript"></script>
+    <script src="js/question-form.js" type="text/javascript"></script>
     <!--<link href="css/form.css" rel="stylesheet" type="text/css">-->
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.css"/>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap-responsive.css"/>
-    <script type="text/javascript" src="../../js/jquery.js"></script>
+    <script type="text/javascript" src="js/jquery.js"></script>
     <script type="text/javascript" src="../../../../../../auth/src/main/webapp/js/bootstrap.js"></script>
     <script type="text/javascript">
 

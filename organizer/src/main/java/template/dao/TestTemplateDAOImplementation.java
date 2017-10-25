@@ -25,7 +25,7 @@ public class TestTemplateDAOImplementation {
         TestTemplate testTemplate = null;
         try (Connection connection = connectionManager.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(
-                    "SELECT  *, name AS subject_name, test_templates.id as test_templates_id\n" +
+                    "SELECT  *, name AS subject_name, questions.id as questions_id, test_templates.id as test_templates_id\n" +
                             "FROM question_verification_criterions  RIGHT JOIN questions\n" +
                             "    ON question_verification_criterions.question_id = questions.id\n" +
                             "  RIGHT JOIN template_variants\n" +
@@ -35,7 +35,7 @@ public class TestTemplateDAOImplementation {
                             "  RIGHT JOIN subjects\n" +
                             "    ON test_templates.subject_id = subjects.id\n" +
                             "WHERE test_templates.id = ?\n" +
-                            "ORDER BY variant, question, criterion");
+                            "ORDER BY variant, question_id, question_verification_criterions.id;");
 
             preparedStatement.setInt(1, templateId);
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -84,7 +84,7 @@ public class TestTemplateDAOImplementation {
                 }
 
                 TestQuestion testQuestion;
-                int questionId = resultSet.getInt("question_id");
+                int questionId = resultSet.getInt("questions_id");
                 String questionText = resultSet.getString("question");
                 String questionAnswerText = resultSet.getString("answer");
                 if (questionText == null || questionAnswerText == null){

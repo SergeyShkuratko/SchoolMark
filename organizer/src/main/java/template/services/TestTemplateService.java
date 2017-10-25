@@ -4,10 +4,7 @@ import template.dto.TestQuestion;
 import template.dto.TestVariant;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by nkm on 15.10.2017.
@@ -16,8 +13,8 @@ public class TestTemplateService {
 
 
     public List<TestVariant> getTestVariantsFromReq(HttpServletRequest req) {
-        Map<String, TestVariant> testVariants = new HashMap<>();
-        Map<String, TestQuestion> testQuestions = new HashMap<>();
+        Map<String, TestVariant> testVariants = new TreeMap<>();
+        Map<String, TestQuestion> testQuestions = new TreeMap<>();
 
         for (Map.Entry<String, String[]> param : req.getParameterMap().entrySet()) {
             if(!param.getKey().contains("question"))
