@@ -28,7 +28,7 @@
 <%@include file="/mystatic/pageheader.jsp" %>
 
 <div class="row col-md-12 mt-3">
-    <a class="col-md-auto ml-auto" href="<c:url value='/director-test-list'/> ">К списку тестов</a>
+    <a class="col-md-auto ml-auto" href="<c:url value='/director/testlist'/> ">К списку тестов</a>
 </div>
 
 <div class="row col-md-12 mt-3">

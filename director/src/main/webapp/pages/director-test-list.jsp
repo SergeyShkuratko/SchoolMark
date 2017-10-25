@@ -32,7 +32,7 @@
 <body>
 <%@include file="/mystatic/pageheader.jsp" %>
 
-<form class="row mb-3 mt-3 mr-3" method="get" action="<c:url value='/director-test-list'/>">
+<form class="row mb-3 mt-3 mr-3" method="get" action="<c:url value='/director/testlist'/>">
     <div class="col-md-auto form-check">
         <label class="form-check-label">
             <input class="form-check-input" type="checkbox"
@@ -72,7 +72,7 @@
         </thead>
         <tbody>
         <c:forEach var="test" items="${tests}">
-            <c:url value='/director-test-view' var="testViewLocation">
+            <c:url value='/director/testview' var="testViewLocation">
                 <c:param name="testId" value="${test.id}"/>
             </c:url>
 
@@ -125,7 +125,7 @@
                             </thead>
                             <tbody>
                             <c:forEach var="test" items="${teacherTestsEntry.getValue()}">
-                                <c:url value='/director-test-view' var="testViewLocation">
+                                <c:url value='/director/testview' var="testViewLocation">
                                     <c:param name="testId" value="${test.id}"/>
                                 </c:url>
 
