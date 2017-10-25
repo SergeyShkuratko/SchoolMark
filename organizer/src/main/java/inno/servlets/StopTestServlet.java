@@ -1,8 +1,7 @@
 package inno.servlets;
 
 
-import inno.dao.TestDAO;
-import inno.exceptions.OrganizerDAOexception;
+import inno.service.StopTestService;
 import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
@@ -18,20 +17,11 @@ public class StopTestServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
-
-        req.setCharacterEncoding("cp1251");
+        req.setCharacterEncoding("UTF-8");
         int test_id = req.getParameter("test_id") != null ?
                 Integer.parseInt(req.getParameter("test_id")) : 0;
-        if (test_id > 0) {
-            try {
-                if (TestDAO.doneTest(test_id)) {
-                    req.getRequestDispatcher("test_stop.jsp").forward(req, resp);
-                }
-            } catch (OrganizerDAOexception organizerDAOexception) {
-                logger.error(organizerDAOexception);
-                organizerDAOexception.printStackTrace();
-            }
+        if (StopTestService.stopTest(test_id)) {
+            req.getRequestDispatcher("test_stop.jsp").forward(req, resp);
         }
     }
 

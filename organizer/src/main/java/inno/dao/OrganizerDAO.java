@@ -96,7 +96,7 @@ public class OrganizerDAO {
              PreparedStatement statement = connection.prepareStatement(SQL)) {
 
             statement.setInt(1, test_id);
-            ResultSet rs = statement.executeQuery(SQL);
+            ResultSet rs = statement.executeQuery();
 
             if (rs.next()) {
                 return rs.getBoolean(1);
@@ -128,7 +128,7 @@ public class OrganizerDAO {
              PreparedStatement statement = connection.prepareStatement(SQL)) {
 
             statement.setInt(1, test_id);
-            ResultSet rs = statement.executeQuery(SQL);
+            ResultSet rs = statement.executeQuery();
 
             while (rs.next()) {
                 list.add(new WorkDTO(

@@ -49,7 +49,7 @@ public class TestDAO {
      * @throws OrganizerDAOexception
      */
     public static boolean doneTest(int id) throws OrganizerDAOexception {
-        final String sql = "UPDATE tests SET status = ?,  WHERE id= ?";
+        final String sql = "UPDATE tests SET status = ?, verification_deadline = ?  WHERE id= ?";
 
         try (Connection connection = pool.getConnection();
              PreparedStatement ps = connection.prepareStatement(sql)) {
@@ -65,7 +65,9 @@ public class TestDAO {
 
             ps.setObject(1, status_var);
 
-            return ps.executeUpdate() > 0;
+            ps.executeUpdate();
+            return ps.getUpdateCount() > 0;
+
 
         } catch (SQLException e) {
             logger.error(e);
