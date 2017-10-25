@@ -1,5 +1,6 @@
 package inno.servlets;
 
+import inno.classes.Commands;
 import inno.dao.OrganizerDAO;
 import inno.dao.WorkDAO;
 import inno.dto.TestDTO;
@@ -86,7 +87,7 @@ public class RunTestServlet extends HttpServlet {
             String resultJsonString =
                     RunTestService.setTeachersChoiceForWork(
                             Integer.parseInt(req.getParameter("id")),
-                            req.getParameter("action"));
+                            Commands.valueOf(req.getParameter("action").toUpperCase()));
 
             writer.print(resultJsonString);
         }

@@ -9,17 +9,16 @@ public class StopTestService {
     private static Logger logger = Logger.getLogger(StopTestService.class);
 
     public static boolean stopTest(int testId) {
+        if (testId <= 0) {
+            return false;
+        }
 
-        if (testId > 0) {
-            try {
-                if (TestDAO.doneTest(testId)) {
-                    return true;
-                }
-            } catch (OrganizerDAOexception organizerDAOexception) {
-                logger.error(organizerDAOexception);
-                organizerDAOexception.printStackTrace();
-            }
+        try {
+            return TestDAO.doneTest(testId);
+        } catch (OrganizerDAOexception organizerDAOexception) {
+            logger.error(organizerDAOexception);
         }
         return false;
     }
 }
+

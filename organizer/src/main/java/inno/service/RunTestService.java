@@ -1,6 +1,7 @@
 package inno.service;
 
 import com.google.gson.Gson;
+import inno.classes.Commands;
 import inno.dao.OrganizerDAO;
 import inno.dao.WorkDAO;
 import inno.exceptions.OrganizerDAOexception;
@@ -39,25 +40,31 @@ public class RunTestService {
         return json;
     }
 
-    public static String setTeachersChoiceForWork(int id, String action) {
+    public static String setTeachersChoiceForWork(int id, Commands action) {
         Gson gson = new Gson();
-        if (action.equals("success")) {
-            try {
-                return gson.toJson(WorkDAO.updateStatusById(id, "confirmed"));
-            } catch (OrganizerDAOexception organizerDAOexception) {
-                logger.error(organizerDAOexception);
-                organizerDAOexception.printStackTrace();
-            }
+        String json = null;
+        switch (action) {
+            case SUCCESS:
+                try {
+                    json =  gson.toJson(WorkDAO.updateStatusById(id, "confirmed"));
+                } catch (OrganizerDAOexception organizerDAOexception) {
+                    logger.error(organizerDAOexception);
+                    organizerDAOexception.printStackTrace();
+                }
+                break;
+            case DECLINE:
+                try {
+                    json =  gson.toJson(WorkDAO.updateStatusById(id, "declined"));
+                } catch (OrganizerDAOexception organizerDAOexception) {
+                    logger.error(organizerDAOexception);
+                    organizerDAOexception.printStackTrace();
+                }
+                break;
+            default:
+                json =  gson.toJson(false);
+                break;
         }
-        if (action.equals("decline")) {
-            try {
-                return gson.toJson(WorkDAO.updateStatusById(id, "declined"));
-            } catch (OrganizerDAOexception organizerDAOexception) {
-                logger.error(organizerDAOexception);
-                organizerDAOexception.printStackTrace();
-            }
-        }
-        return gson.toJson(false);
+        return json;
     }
 
     public static String getWorkPagesAsJson(int workId) {
