@@ -8,6 +8,7 @@ import exceptions.CityDAOException;
 import exceptions.RegionDAOException;
 import interfaces.dao.CityDAO;
 import org.apache.log4j.Logger;
+import org.springframework.stereotype.Component;
 import utils.dao.DAOUtilsCity;
 import utils.dao.DAOUtilsRegion;
 
@@ -21,6 +22,7 @@ import java.util.List;
 
 import static core.dao.constants.DAOConstants.NULL_POINTER_DB;
 
+@Component
 public class CityDAOImpl implements CityDAO {
 
     private static Logger logger = Logger.getLogger(CityDAOImpl.class);
@@ -31,9 +33,7 @@ public class CityDAOImpl implements CityDAO {
     private final String baseGetSql = "SELECT * FROM city ";
     private final String insertSql = "INSERT INTO city (region_id, name) VALUES (?, ?)";
     private final String deleteSql = "DELETE FROM city WHERE id = ?";
-    private final String updateSql = "UPDATE city " +
-            "SET region_id = ?, name = ? " +
-            "WHERE id = ?";
+    private final String updateSql = "UPDATE city SET region_id = ?, name = ? WHERE id = ?";
 
     @Override
     public City getById(int id) throws CityDAOException {
@@ -164,7 +164,6 @@ public class CityDAOImpl implements CityDAO {
                     "You can't update object into db which have not there yet !!!");
     }
 
-    @SuppressWarnings("all")
     @Override
     public int insertCity(City city) throws CityDAOException {
         this.checkInDBaseAndException(city);
@@ -183,7 +182,6 @@ public class CityDAOImpl implements CityDAO {
         }
     }
 
-    @SuppressWarnings("all")
     @Override
     public int removeCity(City city) throws CityDAOException {
         try (Connection connection = pool.getConnection();
@@ -204,7 +202,6 @@ public class CityDAOImpl implements CityDAO {
         }
     }
 
-    @SuppressWarnings("all")
     @Override
     public int insertCities(List<City> cities)
             throws CityDAOException {
@@ -221,7 +218,6 @@ public class CityDAOImpl implements CityDAO {
         }
     }
 
-    @SuppressWarnings("all")
     @Override
     public int updateCity(City city)
             throws CityDAOException {

@@ -4,7 +4,7 @@ import classes.Region;
 import exceptions.CityDAOException;
 import exceptions.RegionDAOException;
 import org.apache.log4j.Logger;
-import services.ServiceDAOCity;
+import servlets.admin.lists.builder.CityHtmlPartBuilder;
 import services.exceptions.ServicesAuthGetPropertyNotFoundException;
 import services.exceptions.ServicesAuthTemplateNotFoundException;
 import utils.jsp.GetJspContent;
@@ -31,17 +31,17 @@ public class CitiesListServlet extends HttpServlet {
         RequestDispatcher dispatcher =
                 this.getServletContext().getRequestDispatcher(BASE_JSP_PATH);
         try {
-            ServiceDAOCity serviceDAOCity = new ServiceDAOCity(getServletContext());
-            Region currentRegion = serviceDAOCity.getCurrentRegion(req);
+            CityHtmlPartBuilder cityHtmlPartBuilder = new CityHtmlPartBuilder(getServletContext());
+            Region currentRegion = cityHtmlPartBuilder.getCurrentRegion(req);
             PropertyValueGetter propertyValueGetter = new PropertyValueGetter();
             String jsp = propertyValueGetter.getPropertyByKey("amr_cities_list_jsp_path");
             req.setAttribute("dropdownTitle",
                     currentRegion != null ? currentRegion.getName() : "Выберите регион");
             req.setAttribute("pagetitle", "Список городов");
             req.setAttribute("modaltitle", "Добавить город");
-            req.setAttribute("table", serviceDAOCity.getContentForAllCities(currentRegion));
-            req.setAttribute("regionslist", serviceDAOCity.getRegionsDropdownList());
-            req.setAttribute("regionsOptionsList", serviceDAOCity.getRegionsDropdownOptionsList(currentRegion));
+            req.setAttribute("table", cityHtmlPartBuilder.getContentForAllCities(currentRegion));
+            req.setAttribute("regionslist", cityHtmlPartBuilder.getRegionsDropdownList());
+            req.setAttribute("regionsOptionsList", cityHtmlPartBuilder.getRegionsDropdownOptionsList(currentRegion));
             req.setAttribute("content", new GetJspContent(req, resp).getContent(jsp));
             dispatcher.forward(req, resp);
         } catch (ServicesAuthGetPropertyNotFoundException e) {

@@ -1,4 +1,4 @@
-package services;
+package servlets.admin.lists.builder;
 
 import classes.City;
 import classes.Region;
@@ -19,14 +19,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
-public class ServiceDAOCity {
+public class CityHtmlPartBuilder {
 
-    private static final Logger logger = Logger.getLogger(ServiceDAOCity.class);
+    private static final Logger logger = Logger.getLogger(CityHtmlPartBuilder.class);
     private static String city_row_tpl;
     private static String dropdown_item_tpl;
     private ServletContext servletContext;
 
-    public ServiceDAOCity (ServletContext servletContext)
+    public CityHtmlPartBuilder(ServletContext servletContext)
             throws IOException, ServicesAuthGetPropertyNotFoundException {
         this.servletContext = servletContext;
         try {
@@ -54,7 +54,6 @@ public class ServiceDAOCity {
 
     }
 
-    @SuppressWarnings("all")
     public String getRegionsDropdownList()
             throws ServicesAuthTemplateNotFoundException, RegionDAOException {
         try {
@@ -79,7 +78,6 @@ public class ServiceDAOCity {
         }
     }
 
-    @SuppressWarnings("all")
     public String getRegionsDropdownOptionsList(Region currentRegion) {
         try {
             String template = "<option value='[[++value++]]'>[[++name++]]</option>";
@@ -110,7 +108,6 @@ public class ServiceDAOCity {
         }
     }
 
-    @SuppressWarnings("all")
     public String getContentForAllCities(Region currentRegion)
             throws CityDAOException, ServicesAuthTemplateNotFoundException {
         try {

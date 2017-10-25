@@ -4,27 +4,46 @@ import classes.dto.SchoolDTO;
 import exceptions.SchoolClassDAOException;
 import exceptions.SchoolDAOException;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 import services.SchoolClassService;
 import services.SchoolService;
-import services.impl.SchoolClassServiceImpl;
-import services.impl.SchoolServiceImpl;
 
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-import static classes.CommonSettings.*;
-import static exceptions.ErrorDescriptions.*;
+import static classes.CommonSettings.ADMIN_CABINET;
+import static exceptions.ErrorDescriptions.DATA_ERROR;
+import static exceptions.ErrorDescriptions.DB_ERROR;
 import static utils.ForwardRequestHelper.getErrorDispatcher;
-import static utils.Settings.*;
+import static utils.Settings.CLASS_JSP;
+import static utils.Settings.DEPLOY_PATH;
 
 public class CreateClassServlet extends HttpServlet {
-
-    private static SchoolClassService classService = new SchoolClassServiceImpl();
-    private static SchoolService schoolService = new SchoolServiceImpl();
     private static Logger logger = Logger.getLogger(CreateClassServlet.class);
+
+    private SchoolClassService classService;
+    private SchoolService schoolService;
+
+    @Autowired
+    public void setClassService(SchoolClassService classService) {
+        this.classService = classService;
+    }
+
+    @Autowired
+    public void setSchoolService(SchoolService schoolService) {
+        this.schoolService = schoolService;
+    }
+
+    @Override
+    public void init(ServletConfig config) throws ServletException {
+        super.init(config);
+        SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
+    }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

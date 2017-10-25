@@ -7,12 +7,14 @@ import exceptions.RegisterUrlNotFoundException;
 import exceptions.RoleDAOException;
 import interfaces.dao.RoleDAO;
 import org.apache.log4j.Logger;
+import org.springframework.stereotype.Component;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+@Component
 public class RoleDAOImpl implements RoleDAO {
 
     private static Logger logger = Logger.getLogger(RoleDAOImpl.class);

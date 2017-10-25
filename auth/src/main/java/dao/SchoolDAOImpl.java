@@ -1,21 +1,22 @@
 package dao;
 
-import classes.*;
+import classes.SchoolClass;
 import classes.dto.SchoolDTO;
 import connectionmanager.ConnectionPool;
 import connectionmanager.TomcatConnectionPool;
 import exceptions.SchoolDAOException;
-import interfaces.dao.SchoolDAO;
 import interfaces.dao.SchoolsDAO;
 import org.apache.log4j.Logger;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+import org.springframework.stereotype.Component;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
+@Component
 public class SchoolDAOImpl implements SchoolsDAO {
 
     private static Logger logger = Logger.getLogger(SchoolDAOImpl.class);
