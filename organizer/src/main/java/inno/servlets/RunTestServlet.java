@@ -55,7 +55,6 @@ public class RunTestServlet extends HttpServlet {
                             Boolean.parseBoolean(req.getParameter("presence")));
                 } catch (OrganizerDAOexception organizerDAOexception) {
                     logger.error(organizerDAOexception);
-                    organizerDAOexception.printStackTrace();
                 }
             }
         }

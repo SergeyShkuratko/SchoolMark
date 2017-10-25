@@ -21,7 +21,6 @@ public class RunTestService {
             }
         } catch (OrganizerDAOexception organizerDAOexception) {
             logger.error(organizerDAOexception);
-            organizerDAOexception.printStackTrace();
         }
         return result;
     }
@@ -35,7 +34,6 @@ public class RunTestService {
                     WorkDAO.getWorksStatusByTest(testId));
         } catch (OrganizerDAOexception organizerDAOexception) {
             logger.error(organizerDAOexception);
-            organizerDAOexception.printStackTrace();
         }
         return json;
     }
@@ -49,15 +47,12 @@ public class RunTestService {
                     json =  gson.toJson(WorkDAO.updateStatusById(id, "confirmed"));
                 } catch (OrganizerDAOexception organizerDAOexception) {
                     logger.error(organizerDAOexception);
-                    organizerDAOexception.printStackTrace();
                 }
                 break;
             case DECLINE:
                 try {
                     json =  gson.toJson(WorkDAO.updateStatusById(id, "declined"));
                 } catch (OrganizerDAOexception organizerDAOexception) {
-                    logger.error(organizerDAOexception);
-                    organizerDAOexception.printStackTrace();
                 }
                 break;
             default:
@@ -78,7 +73,6 @@ public class RunTestService {
 
         } catch (OrganizerDAOexception organizerDAOexception) {
             logger.error(organizerDAOexception);
-            organizerDAOexception.printStackTrace();
         }
         return pagesJson;
     }
