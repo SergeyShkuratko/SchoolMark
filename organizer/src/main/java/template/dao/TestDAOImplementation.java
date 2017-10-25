@@ -2,6 +2,7 @@ package template.dao;
 
 import connectionmanager.ConnectionPool;
 import connectionmanager.TomcatConnectionPool;
+import org.apache.log4j.Logger;
 import template.dto.Teacher;
 import template.dto.Test;
 
@@ -11,11 +12,12 @@ import java.sql.*;
  * Created by nkm on 15.10.2017.
  */
 public class TestDAOImplementation {
+    private static final Logger logger = Logger.getLogger(TestDAOImplementation.class);
     public static ConnectionPool connectionManager = TomcatConnectionPool.getInstance();
 
     public static int createTest(Test test, Teacher teacher) {
         int testTemplateId = test.getTestTemplate().getId();
-        if(testTemplateId == 0){
+        if(testTemplateId == 0){ //значит шаблон не загружали, значит его нет в БД, тогда создаем
             testTemplateId = TestTemplateDAOImplementation.createTestTemplateCascade(test.getTestTemplate());
         }
 
@@ -39,7 +41,7 @@ public class TestDAOImplementation {
                 return resultSet.getInt(1);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }
         return 0;
     }
