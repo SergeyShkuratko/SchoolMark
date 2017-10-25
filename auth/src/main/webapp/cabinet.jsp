@@ -20,7 +20,7 @@
     <div class="container">
         <div class="panel-group table-bordered">
             <div class="panel-heading">
-                <a href='#add<c:out value="${school.id}"/>'>
+                <a href='${pageContext.request.contextPath}/admin/school?cityId=1'>
                     Добавить школу
                 </a>
             </div>
