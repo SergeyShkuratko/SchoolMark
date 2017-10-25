@@ -3,60 +3,86 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
          version="3.1">
-
     <!--<servlet>-->
-        <!--<servlet-name>calendar</servlet-name>-->
-        <!--<servlet-class>calendar.servlets.CalendarServlet</servlet-class>-->
+    <!--<servlet-name>calendar</servlet-name>-->
+    <!--<servlet-class>calendar.servlets.CalendarServlet</servlet-class>-->
     <!--</servlet>-->
     <!--<servlet-mapping>-->
-        <!--<servlet-name>calendar</servlet-name>-->
-        <!--<url-pattern>/organizer/calendar</url-pattern>-->
+    <!--<servlet-name>calendar</servlet-name>-->
+    <!--<url-pattern>/organizer/calendar</url-pattern>-->
     <!--</servlet-mapping>-->
 
-    <servlet-mapping>
-        <servlet-name>default</servlet-name>
-        <url-pattern>/img/*</url-pattern>
-    </servlet-mapping>
 
     <!--<servlet-mapping>-->
-        <!--<servlet-name>default</servlet-name>-->
-        <!--<url-pattern>/static/*</url-pattern>-->
+    <!--<servlet-name>default</servlet-name>-->
+    <!--<url-pattern>/static/*</url-pattern>-->
     <!--</servlet-mapping>-->
 
     <!--<servlet>-->
-        <!--<servlet-name>OrganizerModule</servlet-name>-->
-        <!--<servlet-class>inno.OrganizerServlet</servlet-class>-->
+    <!--<servlet-name>OrganizerModule</servlet-name>-->
+    <!--<servlet-class>inno.OrganizerServlet</servlet-class>-->
     <!--</servlet>-->
 
     <!--<servlet-mapping>-->
-        <!--<servlet-name>OrganizerModule</servlet-name>-->
-        <!--<url-pattern>/organizer</url-pattern>-->
+    <!--<servlet-name>OrganizerModule</servlet-name>-->
+    <!--<url-pattern>/organizer</url-pattern>-->
+    <!--</servlet-mapping>-->
+
+    <!--******************-->
+
+    <!--<servlet>-->
+    <!--<servlet-name>TemplateList</servlet-name>-->
+    <!--<servlet-class>template.servlets.TemplateListServlet</servlet-class>-->
+    <!--</servlet>-->
+    <!--<servlet-mapping>-->
+    <!--<servlet-name>TemplateList</servlet-name>-->
+    <!--<url-pattern>/template-list</url-pattern>-->
+    <!--</servlet-mapping>-->
+
+    <!--**********************-->
+
+    <!--<servlet-mapping>-->
+    <!--<servlet-name>default</servlet-name>-->
+    <!--<url-pattern>/img/*</url-pattern>-->
+    <!--</servlet-mapping>-->
+
+    <!--<servlet>-->
+    <!--<servlet-name>TestServlet</servlet-name>-->
+    <!--<servlet-class>template.servlets.TestServlet</servlet-class>-->
+    <!--</servlet>-->
+    <!--<servlet-mapping>-->
+    <!--<servlet-name>TestServlet</servlet-name>-->
+    <!--<url-pattern>/test</url-pattern>-->
+    <!--</servlet-mapping>-->
+    <!--<servlet>-->
+    <!--<servlet-name>TestTemplateServlet</servlet-name>-->
+    <!--<servlet-class>template.servlets.TestTemplateServlet</servlet-class>-->
+    <!--</servlet>-->
+    <!--<servlet-mapping>-->
+    <!--<servlet-name>TestTemplateServlet</servlet-name>-->
+    <!--<url-pattern>/test-template</url-pattern>-->
     <!--</servlet-mapping>-->
 
     <servlet>
-        <servlet-name>TemplateList</servlet-name>
-        <servlet-class>template.servlets.TemplateListServlet</servlet-class>
+        <servlet-name>template-dispatcher</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <init-param>
+            <param-name>contextConfigLocation</param-name>
+            <param-value>WEB-INF/template-dispatcher-config.xml</param-value>
+        </init-param>
     </servlet>
+
     <servlet-mapping>
-        <servlet-name>TemplateList</servlet-name>
-        <url-pattern>/template-list</url-pattern>
-    </servlet-mapping>
-    <servlet>
-        <servlet-name>TestServlet</servlet-name>
-        <servlet-class>template.servlets.TestServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>TestServlet</servlet-name>
-        <url-pattern>/test</url-pattern>
-    </servlet-mapping>
-    <servlet>
-        <servlet-name>TestTemplateServlet</servlet-name>
-        <servlet-class>template.servlets.TestTemplateServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>TestTemplateServlet</servlet-name>
-        <url-pattern>/test-template</url-pattern>
+        <servlet-name>template-dispatcher</servlet-name>
+        <url-pattern>/</url-pattern>
     </servlet-mapping>
 
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>WEB-INF/template-context-config.xml</param-value>
+    </context-param>
 
 </web-app>

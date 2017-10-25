@@ -14,6 +14,7 @@ import java.util.Map;
  */
 public class TestTemplateService {
 
+
     public List<TestVariant> getTestVariantsFromReq(HttpServletRequest req) {
         Map<String, TestVariant> testVariants = new HashMap<>();
         Map<String, TestQuestion> testQuestions = new HashMap<>();
