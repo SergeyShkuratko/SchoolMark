@@ -62,16 +62,21 @@ public class TestTemplateServlet extends HttpServlet {
     }
 
     private void saveChanges(HttpServletRequest req, HttpServletResponse resp) {
-        if (false){//TODO доделать проверку на внесения измененяй
-            //здесь проверяем на изменения и если их не было,
-            //просто переходим на страницу теста
+
+        TestTemplate oldTemplate = (TestTemplate) req.getSession().getAttribute("testTemplate");
+        TestTemplate newTemplate = createTemplateFromPrototype(req);
+
+        if (oldTemplate.sameAs(newTemplate)){
+            //тогда ничего не делаем, просто редиректим
+            try {
+                resp.sendRedirect(getServletContext().getContextPath() + "/test");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
         else {
-            TestTemplate oldTemplate = (TestTemplate) req.getSession().getAttribute("testTemplate");
+
             TestTemplateDAOImplementation.setStatusDisabled(oldTemplate);
-
-            TestTemplate newTemplate = createTemplateFromPrototype(req);
-
             newTemplate.setId(TestTemplateDAOImplementation.createTestTemplateCascade(newTemplate));
             req.getSession().setAttribute("testTemplate", newTemplate);
             try {

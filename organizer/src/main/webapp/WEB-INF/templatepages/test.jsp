@@ -12,11 +12,11 @@
     <script type="text/javascript" src="../../../../../../auth/src/main/webapp/js/bootstrap.js"></script>
     <script type="text/javascript">
 
-        function funcTrunk(element) {
-            if (element.value.length > 100) {
-                element.value = element.value.substring(0, 100);
-            }
-        }
+//        function funcTrunk(element) {
+//            if (element.value.length > 100) {
+//                element.value = element.value.substring(0, 100);
+//            }
+//        }
 
         $(document).ready(function () {
             document.getElementById('testDate').valueAsDate = new Date();
@@ -137,9 +137,9 @@
                     <%--required>--%>
                 <select class="form-control input-xxlarge" id="classNum" name="classNum" required>
                     <option value="" selected>Выберите номер класса..</option>
-                    <option>11</option>
-                    <option>10</option>
-                    <option>9</option>
+                    <c:forEach items="${classNumbers}" var="classNumber">
+                        <option><c:out value="${classNumber}"/></option>
+                    </c:forEach>
                 </select>
             </div>
             </c:if>
@@ -173,9 +173,10 @@
                     <%--<input type="text" class="form-control input-xxlarge" id="classNum" placeholder="11"--%>
                     <%--value="${testTemplate.classNum}" name="classNum">--%>
                 <select class="form-control input-xxlarge" id="classNum" name="classNum">
-                    <option ${11 == testTemplate.classNum ? 'selected' : ''}>11</option>
-                    <option ${10 == testTemplate.classNum ? 'selected' : ''}>10</option>
-                    <option ${9 == testTemplate.classNum ? 'selected' : ''}>9</option>
+                    <c:forEach items="${classNumbers}" var="classNumber">
+                        <option ${classNumber == testTemplate.classNum ? 'selected' : ''}>
+                            <c:out value="${classNumber}"/></option>
+                    </c:forEach>
                 </select>
             </div>
             </c:if>
@@ -185,9 +186,9 @@
             <label for="className">Буква</label>
             <select required class="form-control input-xxlarge" id="className" name="className">
                 <option value="" selected>Выберите букву класса..</option>
-                <option>А</option>
-                <option>Б</option>
-                <%--<option>В</option>--%>
+                <c:forEach items="${classNames}" var="className">
+                    <option><c:out value="${className}"/></option>
+                </c:forEach>
             </select>
         </div>
 
@@ -204,7 +205,7 @@
         </div>
 
         <label for="testTheme">Название контрольной работы</label>
-        <input required oninput="funcTrunk(this)" type="text" class="input-xxlarge form-control"
+        <input required type="text" class="input-xxlarge form-control"
                placeholder="Название контрольной..."
                id="testTheme" name="testTheme"/>
 

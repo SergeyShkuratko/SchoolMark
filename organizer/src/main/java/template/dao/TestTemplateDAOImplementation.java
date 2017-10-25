@@ -1,15 +1,13 @@
 package template.dao;
 
-import classes.Question;
 import classes.Subject;
 import connectionmanager.ConnectionPool;
 import connectionmanager.TomcatConnectionPool;
-import template.dto.Test;
+import org.apache.log4j.Logger;
 import template.dto.TestQuestion;
 import template.dto.TestTemplate;
 import template.dto.TestVariant;
 
-import javax.xml.transform.Templates;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,6 +18,7 @@ import java.util.Map;
  * Created by nkm on 15.10.2017.
  */
 public class TestTemplateDAOImplementation {
+    private static final Logger logger = Logger.getLogger(TestTemplateDAOImplementation.class);
     public static ConnectionPool connectionManager = TomcatConnectionPool.getInstance();
 
     public static TestTemplate getTemplateByIdCascade(int templateId) {
@@ -114,7 +113,7 @@ public class TestTemplateDAOImplementation {
             return testTemplate;
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }
         return testTemplate;
     }
@@ -159,7 +158,7 @@ public class TestTemplateDAOImplementation {
                 //return templates;
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }
         return templates;
     }
@@ -167,6 +166,7 @@ public class TestTemplateDAOImplementation {
 
     //Cascade означает, что мы также создаем критерии, вопросы и варианты данного шаблона
     public static int createTestTemplateCascade(TestTemplate testTemplate) {
+        int templateId = 0;
         try (Connection connection = connectionManager.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(
                     "INSERT INTO test_templates(topic, description, class_number, subject_id, difficulty, creation_date) " +
@@ -184,17 +184,20 @@ public class TestTemplateDAOImplementation {
                 ResultSet resultSet = preparedStatement.getGeneratedKeys();
                 resultSet.next();
                 //получаем id только что добавленного темплейта
-                int templateId = resultSet.getInt(1);
-                //создаем варианты заданий данного шаблона
-                for (TestVariant testVariant : testTemplate.getTestVariants()) {
-                    TestVariantDAOImplementation.createTestVariant(testVariant, templateId);
-                }
-                return templateId;
+                templateId = resultSet.getInt(1);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }
-        return 0;
+
+        if(templateId != 0){
+            //создаем варианты заданий данного шаблона
+            for (TestVariant testVariant : testTemplate.getTestVariants()) {
+                TestVariantDAOImplementation.createTestVariantCascade(testVariant, templateId);
+            }
+        }
+
+        return templateId;
     }
 
     public static boolean setStatusDisabled(TestTemplate oldTemplate) {
@@ -206,7 +209,7 @@ public class TestTemplateDAOImplementation {
             return preparedStatement.executeUpdate() == 1;
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }
         return false;
     }

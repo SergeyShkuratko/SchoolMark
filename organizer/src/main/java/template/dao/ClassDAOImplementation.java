@@ -3,6 +3,7 @@ package template.dao;
 import classes.SchoolClass;
 import connectionmanager.ConnectionPool;
 import connectionmanager.TomcatConnectionPool;
+import org.apache.log4j.Logger;
 import template.dto.Teacher;
 
 import java.sql.Connection;
@@ -16,7 +17,8 @@ import java.util.List;
  * Created by nkm on 20.10.2017.
  */
 public class ClassDAOImplementation {
-    public static ConnectionPool connectionManager = TomcatConnectionPool.getInstance();
+    private static final Logger logger = Logger.getLogger(ClassDAOImplementation.class);
+    private static ConnectionPool connectionManager = TomcatConnectionPool.getInstance();
 
     public static List<Integer> getClassNumbersByTeacher(Teacher teacher){
         List<Integer> schoolClassNumbers = new ArrayList<>();
@@ -36,7 +38,7 @@ public class ClassDAOImplementation {
             return schoolClassNumbers;
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }
 
         return schoolClassNumbers;
@@ -60,7 +62,7 @@ public class ClassDAOImplementation {
             return schoolClassNames;
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }
 
         return schoolClassNames;
@@ -86,7 +88,7 @@ public class ClassDAOImplementation {
             return schoolClass;
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }
 
         return schoolClass;

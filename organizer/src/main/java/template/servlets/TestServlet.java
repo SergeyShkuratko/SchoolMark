@@ -27,14 +27,13 @@ public class TestServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
-        //Получаю teacherID
-        User user = (User) req.getSession().getAttribute("User");
-        if(user == null)
-        {
-            user = new User(1, "1", LocalDate.now());
+        
+        int userId = (int) req.getSession().getAttribute("userId");
+        if (userId == 0) {
+            userId = 1;
         }
-        Teacher teacher = TeacherDAOImplementation.getTeacherByUser(user);
+
+        Teacher teacher = TeacherDAOImplementation.getTeacherByUserId(userId);
         req.getSession().setAttribute("teacher", teacher);
 
 
@@ -65,7 +64,7 @@ public class TestServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setCharacterEncoding("utf-8");
 
-        switch (req.getParameter("testFormButton")){
+        switch (req.getParameter("testFormButton")) {
             case "loadTemplate":
                 proceedToTemplateLoad(req, resp);
                 break;
@@ -93,24 +92,7 @@ public class TestServlet extends HttpServlet {
     private void createTest(HttpServletRequest req, HttpServletResponse resp) {
         TestTemplate testTemplate = (TestTemplate) req.getSession().getAttribute("testTemplate");
 
-        boolean fieldsNotFilled = false;
-        for (String[] parameter : req.getParameterMap().values()) {
-            if(parameter.equals("")){
-                fieldsNotFilled = true;
-                break;
-            }
-        }
-
-        if(fieldsNotFilled){
-            req.setAttribute("fieldsNotFilled", true);
-
-            try {
-                getServletContext().getRequestDispatcher("/test.jsp").forward(req, resp);
-            } catch (ServletException | IOException e) {
-                e.printStackTrace();
-            }
-
-        }else if (testTemplate == null) {
+        if (testTemplate == null) {
             req.setAttribute("questionsNotLoaded", true);
 
             try {

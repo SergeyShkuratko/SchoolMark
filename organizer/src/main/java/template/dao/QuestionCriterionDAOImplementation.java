@@ -3,6 +3,7 @@ package template.dao;
 
 import connectionmanager.ConnectionPool;
 import connectionmanager.TomcatConnectionPool;
+import org.apache.log4j.Logger;
 
 import java.sql.*;
 
@@ -10,8 +11,11 @@ import java.sql.*;
  * Created by nkm on 16.10.2017.
  */
 public class QuestionCriterionDAOImplementation {
+    private static final Logger logger = Logger.getLogger(QuestionCriterionDAOImplementation.class);
     public static ConnectionPool connectionManager = TomcatConnectionPool.getInstance();
+
     public static int createQuestionCriterian(String criterion, int questionId) {
+        int criterionId = 0;
         try (Connection connection = connectionManager.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(
                     "INSERT INTO question_verification_criterions(question_id, criterion) " +
@@ -25,12 +29,12 @@ public class QuestionCriterionDAOImplementation {
                 ResultSet resultSet = preparedStatement.getGeneratedKeys();
                 resultSet.next();
                 //получаем id только что добавленного критерия
-                int criterionId = resultSet.getInt(1);
+                criterionId = resultSet.getInt(1);
                 return criterionId;
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }
-        return 0;
+        return criterionId;
     }
 }

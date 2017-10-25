@@ -2,6 +2,7 @@ package template.dao;
 
 import connectionmanager.ConnectionPool;
 import connectionmanager.TomcatConnectionPool;
+import org.apache.log4j.Logger;
 import template.dto.TestQuestion;
 import template.dto.TestVariant;
 
@@ -11,9 +12,11 @@ import java.sql.*;
  * Created by nkm on 15.10.2017.
  */
 public class TestVariantDAOImplementation {
+    private static final Logger logger = Logger.getLogger(TestVariantDAOImplementation.class);
     public static ConnectionPool connectionManager = TomcatConnectionPool.getInstance();
 
-    public static int createTestVariant(TestVariant testVariant, int templateId) {
+    public static int createTestVariantCascade(TestVariant testVariant, int templateId) {
+        int variantId = 0;
         try (Connection connection = connectionManager.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(
                     "INSERT INTO template_variants(variant, template_id) " +
@@ -26,16 +29,19 @@ public class TestVariantDAOImplementation {
                 ResultSet resultSet = preparedStatement.getGeneratedKeys();
                 resultSet.next();
                 //возвращаем id только что добавленного вопроса
-                int variantId = resultSet.getInt(1);
-                //создаем варианты данного шаблона
-                for (TestQuestion testQuestion : testVariant.getTestQuestions()) {
-                    TestQuestionDAOImplementation.createTestQuestion(testQuestion, variantId);
-                }
-                return variantId;
+                variantId = resultSet.getInt(1);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }
-        return 0;
+
+        if(variantId != 0){
+            //создаем варианты данного шаблона
+            for (TestQuestion testQuestion : testVariant.getTestQuestions()) {
+                TestQuestionDAOImplementation.createTestQuestionCascade(testQuestion, variantId);
+            }
+        }
+
+        return variantId;
     }
 }
