@@ -65,7 +65,7 @@ public class RunTestService {
     public static String getWorkPagesAsJson(int workId) {
 
         Gson gson = new Gson();
-        String pagesJson = null;
+        String pagesJson = "";
 
         try {
             pagesJson = gson.toJson(
