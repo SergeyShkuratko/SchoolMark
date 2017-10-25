@@ -89,7 +89,7 @@ public class SchoolServlet extends HttpServlet {
                 result = schoolService.updateSchool(schoolDTO);
 
             if (result) {
-                resp.sendRedirect(req.getContextPath() + "/admin/school?schoolId=" + schoolDTO.getId());
+                resp.sendRedirect(req.getContextPath() + "/admin/cabinet");
             } else {
                 if(schoolId == 0) {
                     req.setAttribute("title", "Создание школы");

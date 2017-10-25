@@ -33,14 +33,15 @@
                 }
             });
             if (formValid) {
+//                document.getElementById('schoolTypeName').value =document.getElementById('schoolType').textContent;
                 document.getElementById('validate-form').submit();
-                document.getElementById('schoolTypeName').value =document.getElementById('schoolTypeName').textContent;
             }
         }
     </script>
+    <%@include file="/mystatic/menustyles.jsp" %>
 </head>
 <body>
-
+<%@include file="/mystatic/pageheader.jsp" %>
 <div class="container">
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-12">
@@ -100,6 +101,6 @@
         </button>
     </div>
 </div>
-
+<%@include file="/mystatic/pagefooter.jsp" %>
 </body>
 </html>

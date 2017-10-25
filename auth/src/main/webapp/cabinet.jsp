@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Кабинет директора</title>
+    <title>Кабинет администратора</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="../css/bootstrap.min.css" rel="stylesheet">
@@ -12,9 +12,10 @@
     <script type="text/javascript" src="../js/collapse.js"></script>
     <script type="text/javascript" src="../js/validate.js"></script>
     <script type="text/javascript" src="../js/cabinet.js"></script>
+    <%@include file="/mystatic/menustyles.jsp" %>
 </head>
 <body>
-
+<%@include file="/mystatic/pageheader.jsp" %>
 <div class="container-fluid">
 
     <div class="container">
@@ -36,10 +37,13 @@
                         <div class="panel panel-default">
                             <div id='div-classes<c:out value="${school.id}"/>' class="panel-collapse collapse">
                                 <ul id='classes<c:out value="${school.id}"/>'></ul>
-                                <a href='${pageContext.request.contextPath}/admin/class?city=<c:out value="${school.cityId}"/>&school=<c:out value="${school.id}"/>'>Добавить класс</a>
+                                <a href='${pageContext.request.contextPath}/admin/class?city=<c:out value="${school.cityId}"/>&school=<c:out value="${school.id}"/>'>Добавить
+                                    класс</a>
                             </div>
                             <div class="panel-heading">
-                                <a id='a-classes<c:out value="${school.id}"/>' onclick='loadClasses(<c:out value="${school.id}"/>)' href='#div-classes<c:out value="${school.getId()}"/>'>
+                                <a id='a-classes<c:out value="${school.id}"/>'
+                                   onclick='loadClasses(<c:out value="${school.id}"/>)'
+                                   href='#div-classes<c:out value="${school.getId()}"/>'>
                                     Классы
                                 </a>
                             </div>
@@ -51,7 +55,9 @@
                                 <a>Добавить учителя</a>
                             </div>
                             <div class="panel-heading">
-                                <a id='#a-teachers<c:out value="${school.id}"/>' onclick='loadTeachers(<c:out value="${school.id}"/>)' href='#teachers<c:out value="${school.id}"/>'>
+                                <a id='#a-teachers<c:out value="${school.id}"/>'
+                                   onclick='loadTeachers(<c:out value="${school.id}"/>)'
+                                   href='#teachers<c:out value="${school.id}"/>'>
                                     Учителя
                                 </a>
                             </div>
@@ -63,5 +69,6 @@
         </div>
     </div>
 </div>
+<%@include file="/mystatic/pagefooter.jsp" %>
 </body>
 </html>
