@@ -17,6 +17,8 @@ import java.util.Calendar;
 public class VerificationDAOImpl implements VerificationDAO {
     private static final Logger logger = Logger.getLogger(TestDAOImpl.class);
     private static ConnectionPool manager;
+    private static final String SQL_PERSIST_VERIFICATION_RESULT = "INSERT INTO public.verification_results(date_time, comment, mark, work_id, verifier_id)\n" +
+            "    SELECT ?, ?, ?, ?, t.id FROM teachers t WHERE t.user_id = ?";
 
     static {
         manager = TomcatConnectionPool.getInstance();
@@ -25,10 +27,9 @@ public class VerificationDAOImpl implements VerificationDAO {
 
     @Override
     public boolean persistVerificationResult(VerificationResultDTO result) {
-        try (Connection connection = manager.getConnection()) {
+        try (Connection connection = manager.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SQL_PERSIST_VERIFICATION_RESULT)) {
 
-            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO public.verification_results(date_time, comment, mark, work_id, verifier_id)\n" +
-                    "    SELECT ?, ?, ?, ?, t.id FROM teachers t WHERE t.user_id = ?");
             preparedStatement.setTimestamp(1, new Timestamp(Calendar.getInstance().getTimeInMillis()));
             preparedStatement.setString(2, result.getComment());
             preparedStatement.setInt(3, result.getMark());

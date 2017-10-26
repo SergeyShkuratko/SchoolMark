@@ -16,6 +16,26 @@ import java.util.List;
 
 @Component
 public class TestDAOImpl implements TestDAO {
+
+    private static final String SQL_GET_TEST_FOR_VERIFIER =
+            "select distinct t.id, w.verification_deadline, sc.number,subjects.name \n" +
+                    "\tfrom tests t\n" +
+                    "\tjoin works w on w.test_id = t.id\n" +
+                    "\tjoin school_classes sc on sc.id = t.school_class_id\n" +
+                    "\tjoin test_templates on w.test_id = test_templates.id\n" +
+                    "\tjoin subjects on subjects.id = test_templates.subject_id\n" +
+                    "\tjoin teachers on teachers.id = w.verifier_id\n" +
+                    "where teachers.user_id = ? order by w.verification_deadline";
+
+
+    private static final String SQL_GET_TEST_INFO_AND_WORK_IDS_BY_TEST_ID = "SELECT works.id, test_templates.topic, test_templates.description\n" +
+            "FROM works\n" +
+            "LEFT JOIN tests ON works.test_id = tests.id\n" +
+            "LEFT JOIN test_templates ON tests.test_template_id = test_templates.id\n" +
+            "WHERE test_id = ?";
+
+    private static final String SQL_GET_WORK_PAGES_BY_WORK_ID = "SELECT work_pages.file_url from work_pages where work_pages.work_id = ?";
+
     private static final Logger logger = Logger.getLogger(TestDAOImpl.class);
     private static ConnectionPool manager;
 
@@ -25,18 +45,12 @@ public class TestDAOImpl implements TestDAO {
 
     @Override
     public List<TestsDTO> getTestsForVerifier(int verifierId) {
-        List<TestsDTO> result = new ArrayList<>();
-        try (Connection connection = manager.getConnection()) {
 
-            PreparedStatement preparedStatement = connection.prepareStatement(
-                    "select distinct t.id, w.verification_deadline, sc.number,subjects.name \n" +
-                            "\tfrom tests t\n" +
-                            "\tjoin works w on w.test_id = t.id\n" +
-                            "\tjoin school_classes sc on sc.id = t.school_class_id\n" +
-                            "\tjoin test_templates on w.test_id = test_templates.id\n" +
-                            "\tjoin subjects on subjects.id = test_templates.subject_id\n" +
-                            "\tjoin teachers on teachers.id = w.verifier_id\n" +
-                            "where teachers.user_id = ? order by w.verification_deadline");
+        List<TestsDTO> result = new ArrayList<>();
+
+        try (Connection connection = manager.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SQL_GET_TEST_FOR_VERIFIER)) {
+
             preparedStatement.setInt(1, verifierId);
             ResultSet resultSet = preparedStatement.executeQuery();
 
@@ -58,14 +72,11 @@ public class TestDAOImpl implements TestDAO {
     @Override
     public TestDTO getTestInfoAndWorkIdsByTestId(int testId) {
         TestDTO result = null;
-        try (Connection connection = manager.getConnection()) {
 
-            PreparedStatement preparedStatement = connection.prepareStatement(
-                    "SELECT works.id, test_templates.topic, test_templates.description\n" +
-                            "FROM works\n" +
-                            "LEFT JOIN tests ON works.test_id = tests.id\n" +
-                            "LEFT JOIN test_templates ON tests.test_template_id = test_templates.id\n" +
-                            "WHERE test_id = ?");
+        try (Connection connection = manager.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(
+                     SQL_GET_TEST_INFO_AND_WORK_IDS_BY_TEST_ID)) {
+
             preparedStatement.setInt(1, testId);
             ResultSet resultSet = preparedStatement.executeQuery();
             String topic = "";
@@ -93,10 +104,10 @@ public class TestDAOImpl implements TestDAO {
     @Override
     public WorkPageDTO getWorkPagesByWorkId(int workId) {
         WorkPageDTO result = new WorkPageDTO();
-        try (Connection connection = manager.getConnection()) {
+        try (Connection connection = manager.getConnection();
+             PreparedStatement preparedStatement =
+                     connection.prepareStatement(SQL_GET_WORK_PAGES_BY_WORK_ID)) {
 
-            PreparedStatement preparedStatement = connection.prepareStatement(
-                    "SELECT work_pages.file_url from work_pages where work_pages.work_id = ?");
             preparedStatement.setInt(1, workId);
             ResultSet resultSet = preparedStatement.executeQuery();
             List<String> urls = new ArrayList<>();
