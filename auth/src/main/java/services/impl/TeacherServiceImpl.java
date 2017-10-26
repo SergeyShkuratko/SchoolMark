@@ -1,20 +1,25 @@
 package services.impl;
 
 import classes.dto.TeacherDTO;
-import dao.SchoolTeacherDAOImpl;
 import exceptions.SchoolTeacherDAOException;
 import interfaces.dao.SchoolTeacherDAO;
 import org.apache.log4j.Logger;
+import org.springframework.stereotype.Service;
 import services.TeacherService;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Service
 public class TeacherServiceImpl implements TeacherService {
-
-    private static SchoolTeacherDAO teacherDAO = new SchoolTeacherDAOImpl();
     private static Logger logger = Logger.getLogger(TeacherServiceImpl.class);
+
+    private SchoolTeacherDAO teacherDAO;
+
+    public TeacherServiceImpl(SchoolTeacherDAO teacherDAO) {
+        this.teacherDAO = teacherDAO;
+    }
 
     @Override
     public List<String> getTeacherNamesBySchoolId(int schoolId) throws SchoolTeacherDAOException {

@@ -3,17 +3,23 @@ package services.impl;
 import classes.SchoolClass;
 import classes.SchoolType;
 import classes.dto.SchoolDTO;
-import dao.SchoolDAOImpl;
 import exceptions.SchoolDAOException;
 import interfaces.dao.SchoolsDAO;
 import org.apache.log4j.Logger;
+import org.springframework.stereotype.Service;
 import services.SchoolService;
 
 import java.util.List;
 
+@Service
 public class SchoolServiceImpl implements SchoolService {
-    private static SchoolsDAO schoolDAO = new SchoolDAOImpl();
     private static Logger logger = Logger.getLogger(SchoolServiceImpl.class);
+
+    private SchoolsDAO schoolDAO;
+
+    public SchoolServiceImpl(SchoolsDAO schoolDAO) {
+        this.schoolDAO = schoolDAO;
+    }
 
     @Override
     public SchoolDTO getSchoolById(int id) throws SchoolDAOException {

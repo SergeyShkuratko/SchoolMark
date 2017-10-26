@@ -2,7 +2,7 @@ package servlets.admin.lists;
 
 import exceptions.RegionDAOException;
 import org.apache.log4j.Logger;
-import services.ServiceDAORegion;
+import servlets.admin.lists.builder.RegionHtmlPartBuilder;
 import services.exceptions.ServicesAuthGetPropertyNotFoundException;
 import services.exceptions.ServicesAuthTemplateNotFoundException;
 import utils.jsp.GetJspContent;
@@ -20,7 +20,6 @@ import static servlets.constants.ServletConstants.BASE_JSP_PATH;
 
 @WebServlet(urlPatterns = "/admin/regions")
 public class RegionsListServlet extends HttpServlet {
-
     private static final Logger logger = Logger.getLogger(RegionsListServlet.class);
 
     @Override
@@ -29,12 +28,12 @@ public class RegionsListServlet extends HttpServlet {
         RequestDispatcher dispatcher =
                 this.getServletContext().getRequestDispatcher(BASE_JSP_PATH);
         try {
-            ServiceDAORegion serviceDAORegion = new ServiceDAORegion(getServletContext());
+            RegionHtmlPartBuilder regionHtmlPartBuilder = new RegionHtmlPartBuilder(getServletContext());
             PropertyValueGetter propertyValueGetter = new PropertyValueGetter();
             String jsp = propertyValueGetter.getPropertyByKey("amr_list_jsp_path");
             req.setAttribute("pagetitle", "Список регионов");
             req.setAttribute("modaltitle", "Добавить регион");
-            req.setAttribute("table", serviceDAORegion.getContentForAllRegions());
+            req.setAttribute("table", regionHtmlPartBuilder.getContentForAllRegions());
             req.setAttribute("content", new GetJspContent(req, resp).getContent(jsp));
             dispatcher.forward(req, resp);
         } catch (ServicesAuthGetPropertyNotFoundException e) {

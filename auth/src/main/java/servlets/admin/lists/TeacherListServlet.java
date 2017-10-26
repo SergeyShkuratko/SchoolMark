@@ -2,10 +2,13 @@ package servlets.admin.lists;
 
 import exceptions.SchoolTeacherDAOException;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 import services.TeacherService;
 import services.impl.TeacherServiceImpl;
 import utils.ForwardRequestHelper;
 
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -18,10 +21,20 @@ import static exceptions.ErrorDescriptions.DB_ERROR;
 import static utils.ForwardRequestHelper.getErrorDispatcher;
 
 public class TeacherListServlet extends HttpServlet {
-
     private static Logger logger = Logger.getLogger(TeacherListServlet.class);
 
-    private TeacherService processingService = new TeacherServiceImpl();
+    private TeacherService processingService;
+
+    @Autowired
+    public void setProcessingService(TeacherService processingService) {
+        this.processingService = processingService;
+    }
+
+    @Override
+    public void init(ServletConfig config) throws ServletException {
+        super.init(config);
+        SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
+    }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
