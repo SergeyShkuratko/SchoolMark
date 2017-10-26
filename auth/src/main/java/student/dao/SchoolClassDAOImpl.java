@@ -1,6 +1,5 @@
-package dao;
+package student.dao;
 
-import classes.SchoolClass;
 import classes.dto.SchoolClassDTO;
 import connectionmanager.ConnectionPool;
 import connectionmanager.TomcatConnectionPool;

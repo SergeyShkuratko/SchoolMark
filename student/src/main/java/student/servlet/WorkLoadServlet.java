@@ -1,13 +1,16 @@
-package servlet;
+package student.servlet;
 
-import dao.DAOStudentWork;
-import dto.DTOFile;
-import dto.DTOWork;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import student.dao.DAOStudentWork;
+import student.dto.DTOFile;
+import student.dto.DTOWork;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.log4j.Logger;
-import service.WorkService;
+import student.service.WorkService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -20,14 +23,14 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
-
-@WebServlet("/workload")
+@Controller
 public class WorkLoadServlet extends HttpServlet {
 
     private static final Logger logger = Logger.getLogger(WorkLoadServlet.class);
     private Random random = new Random();
 
     @Override
+    @RequestMapping(value = "/workload", method = RequestMethod.GET)
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String context = getServletContext().getContextPath();
         try {
@@ -51,6 +54,7 @@ public class WorkLoadServlet extends HttpServlet {
     }
 
     @Override
+    @RequestMapping(value = "/workload", method = RequestMethod.POST)
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String command = request.getParameter("command");
         if (command == null) command = "";
@@ -141,7 +145,7 @@ public class WorkLoadServlet extends HttpServlet {
         factory.setSizeThreshold(1024 * 1024);
 
         // устанавливаем временную директорию
-        File tempDir = (File) getServletContext().getAttribute("javax.servlet.context.tempdir");
+        File tempDir = (File) getServletContext().getAttribute("javax.student.servlet.context.tempdir");
         factory.setRepository(tempDir);
 
         //Создаём сам загрузчик

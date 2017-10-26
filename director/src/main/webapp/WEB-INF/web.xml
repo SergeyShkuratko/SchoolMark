@@ -4,21 +4,21 @@
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee
 		 http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
          version="3.1">
-    <servlet>
-        <servlet-name>director-test-list</servlet-name>
-        <servlet-class>com.inno.servlet.DirectorTestListServlet</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>director-test-view</servlet-name>
-        <servlet-class>com.inno.servlet.DirectorTestViewServlet</servlet-class>
-    </servlet>
+    <student.servlet>
+        <student.servlet-name>director-test-list</student.servlet-name>
+        <student.servlet-class>com.inno.student.servlet.DirectorTestListServlet</student.servlet-class>
+    </student.servlet>
+    <student.servlet>
+        <student.servlet-name>director-test-view</student.servlet-name>
+        <student.servlet-class>com.inno.student.servlet.DirectorTestViewServlet</student.servlet-class>
+    </student.servlet>
 
-    <servlet-mapping>
-        <servlet-name>director-test-list</servlet-name>
+    <student.servlet-mapping>
+        <student.servlet-name>director-test-list</student.servlet-name>
         <url-pattern>/director-test-list</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>director-test-view</servlet-name>
+    </student.servlet-mapping>
+    <student.servlet-mapping>
+        <student.servlet-name>director-test-view</student.servlet-name>
         <url-pattern>/director-test-view</url-pattern>
-    </servlet-mapping>
+    </student.servlet-mapping>
 </web-app>

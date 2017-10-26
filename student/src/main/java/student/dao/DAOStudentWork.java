@@ -1,8 +1,8 @@
-package dao;
+package student.dao;
 
 import connectionmanager.TomcatConnectionPool;
-import dto.DTOFile;
-import dto.DTOWork;
+import student.dto.DTOFile;
+import student.dto.DTOWork;
 import org.apache.log4j.Logger;
 
 import java.sql.Connection;

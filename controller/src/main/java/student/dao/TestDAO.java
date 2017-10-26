@@ -1,8 +1,8 @@
-package dao;
+package student.dao;
 
-import dao.dto.TestDTO;
-import dao.dto.TestsDTO;
-import dao.dto.WorkPageDTO;
+import student.dao.dto.TestDTO;
+import student.dao.dto.TestsDTO;
+import student.dao.dto.WorkPageDTO;
 
 import java.util.List;
 

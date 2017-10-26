@@ -7,12 +7,12 @@
         <welcome-file>start</welcome-file>
     </welcome-file-list>
 
-    <servlet>
-        <servlet-name>controller</servlet-name>
-        <servlet-class>servlets.StartServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>controller</servlet-name>
+    <student.servlet>
+        <student.servlet-name>controller</student.servlet-name>
+        <student.servlet-class>servlets.StartServlet</student.servlet-class>
+    </student.servlet>
+    <student.servlet-mapping>
+        <student.servlet-name>controller</student.servlet-name>
         <url-pattern>/controller</url-pattern>
-    </servlet-mapping>
+    </student.servlet-mapping>
 </web-app>

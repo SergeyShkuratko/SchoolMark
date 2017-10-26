@@ -1,20 +1,14 @@
-package dao;
+package student.dao;
 
 import classes.City;
 import classes.Region;
 import connectionmanager.ConnectionPool;
 import connectionmanager.TomcatConnectionPool;
 import exceptions.CityDAOException;
-import exceptions.RegionDAOException;
 import interfaces.dao.CityDAO;
 import org.apache.log4j.Logger;
 import utils.dao.DAOUtilsCity;
-import utils.dao.DAOUtilsRegion;
 
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
-import javax.sql.DataSource;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;

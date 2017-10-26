@@ -1,6 +1,6 @@
-package dao;
+package student.dao;
 
-import dao.dto.VerificationResultDTO;
+import student.dao.dto.VerificationResultDTO;
 
 public interface VerificationDAO {
     boolean persistVerificationResult(VerificationResultDTO result);

@@ -1,14 +1,12 @@
 package services;
 
 import classes.Region;
-import dao.RegionDAOImpl;
+import student.dao.RegionDAOImpl;
 import exceptions.RegionDAOException;
 import org.apache.log4j.Logger;
 
 import java.util.HashMap;
 import java.util.Map;
-
-import static core.dao.constants.DAOConstants.NULL_POINTER_DB;
 
 public class ServiceRemoveRegion {
 

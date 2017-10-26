@@ -1,4 +1,4 @@
-package exception;
+package student.exception;
 
 public class DAOSchoolErrorRequestException extends Exception {
 

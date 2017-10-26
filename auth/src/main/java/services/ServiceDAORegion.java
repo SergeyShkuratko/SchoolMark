@@ -1,7 +1,7 @@
 package services;
 
 import classes.Region;
-import dao.RegionDAOImpl;
+import student.dao.RegionDAOImpl;
 import exceptions.RegionDAOException;
 import org.apache.log4j.Logger;
 import services.exceptions.ServicesAuthGetPropertyNotFoundException;

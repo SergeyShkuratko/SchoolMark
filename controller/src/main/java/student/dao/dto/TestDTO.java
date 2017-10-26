@@ -1,4 +1,4 @@
-package dao.dto;
+package student.dao.dto;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package dao;
+package student.dao;
 
 import classes.Role;
 import classes.User;
@@ -11,10 +11,6 @@ import interfaces.dao.UserDAO;
 import org.apache.log4j.Logger;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
-import javax.sql.DataSource;
 import java.sql.*;
 import java.time.LocalDate;
 

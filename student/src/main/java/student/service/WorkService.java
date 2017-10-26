@@ -1,9 +1,9 @@
-package service;
+package student.service;
 
 
-import dao.DAOStudentWork;
-import dto.DTOFile;
-import dto.DTOWork;
+import student.dao.DAOStudentWork;
+import student.dto.DTOFile;
+import student.dto.DTOWork;
 import org.apache.log4j.Logger;
 
 import java.util.List;

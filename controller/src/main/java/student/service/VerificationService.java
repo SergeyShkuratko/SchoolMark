@@ -1,6 +1,6 @@
-package service;
+package student.service;
 
-import dao.dto.VerificationResultDTO;
+import student.dao.dto.VerificationResultDTO;
 
 public interface VerificationService {
 

@@ -2,8 +2,8 @@ package servlets;
 
 import com.google.common.base.Strings;
 import org.apache.log4j.Logger;
-import service.TestService;
-import service.TestServiceImpl;
+import student.service.TestService;
+import student.service.TestServiceImpl;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;

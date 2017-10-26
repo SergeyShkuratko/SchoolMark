@@ -2,8 +2,8 @@ package services;
 
 import classes.City;
 import classes.Region;
-import dao.CityDAOImpl;
-import dao.RegionDAOImpl;
+import student.dao.CityDAOImpl;
+import student.dao.RegionDAOImpl;
 import exceptions.CityDAOException;
 import exceptions.RegionDAOException;
 import org.apache.log4j.Logger;

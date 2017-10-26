@@ -1,17 +1,12 @@
 package services;
 
 import classes.City;
-import classes.Region;
-import dao.CityDAOImpl;
-import dao.RegionDAOImpl;
+import student.dao.CityDAOImpl;
 import exceptions.CityDAOException;
-import exceptions.RegionDAOException;
 import org.apache.log4j.Logger;
 
 import java.util.HashMap;
 import java.util.Map;
-
-import static core.dao.constants.DAOConstants.NULL_POINTER_DB;
 
 public class ServiceRemoveCity {
 
