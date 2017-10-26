@@ -10,10 +10,7 @@ import controller.dao.dto.WorkPageDTO;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,8 +26,9 @@ public class TestDAOImpl implements TestDAO {
     @Override
     public List<TestsDTO> getTestsForVerifier(int verifierId) {
         List<TestsDTO> result = new ArrayList<>();
-        try {
-            PreparedStatement preparedStatement = manager.getConnection().prepareStatement(
+        try (Connection connection = manager.getConnection()) {
+
+            PreparedStatement preparedStatement = connection.prepareStatement(
                     "select distinct t.id, w.verification_deadline, sc.number,subjects.name \n" +
                             "\tfrom tests t\n" +
                             "\tjoin works w on w.test_id = t.id\n" +
@@ -41,6 +39,7 @@ public class TestDAOImpl implements TestDAO {
                             "where teachers.user_id = ? order by w.verification_deadline");
             preparedStatement.setInt(1, verifierId);
             ResultSet resultSet = preparedStatement.executeQuery();
+
             while (resultSet.next()) {
                 int id = resultSet.getInt(1);
                 Date deadLine = resultSet.getDate(2);
@@ -59,8 +58,9 @@ public class TestDAOImpl implements TestDAO {
     @Override
     public TestDTO getTestInfoAndWorkIdsByTestId(int testId) {
         TestDTO result = null;
-        try {
-            PreparedStatement preparedStatement = manager.getConnection().prepareStatement(
+        try (Connection connection = manager.getConnection()) {
+
+            PreparedStatement preparedStatement = connection.prepareStatement(
                     "SELECT works.id, test_templates.topic, test_templates.description\n" +
                             "FROM works\n" +
                             "LEFT JOIN tests ON works.test_id = tests.id\n" +
@@ -71,6 +71,7 @@ public class TestDAOImpl implements TestDAO {
             String topic = "";
             String description = "";
             List<Integer> ids = new ArrayList<>();
+
             while (resultSet.next()) {
                 int id = resultSet.getInt(1);
                 ids.add(id);
@@ -92,12 +93,14 @@ public class TestDAOImpl implements TestDAO {
     @Override
     public WorkPageDTO getWorkPagesByWorkId(int workId) {
         WorkPageDTO result = new WorkPageDTO();
-        try {
-            PreparedStatement preparedStatement = manager.getConnection().prepareStatement(
+        try (Connection connection = manager.getConnection()) {
+
+            PreparedStatement preparedStatement = connection.prepareStatement(
                     "SELECT work_pages.file_url from work_pages where work_pages.work_id = ?");
             preparedStatement.setInt(1, workId);
             ResultSet resultSet = preparedStatement.executeQuery();
             List<String> urls = new ArrayList<>();
+
             while (resultSet.next()) {
                 String url = resultSet.getString(1);
                 urls.add(url);

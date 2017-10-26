@@ -7,6 +7,7 @@ import controller.dao.dto.VerificationResultDTO;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Timestamp;
@@ -24,10 +25,10 @@ public class VerificationDAOImpl implements VerificationDAO {
 
     @Override
     public boolean persistVerificationResult(VerificationResultDTO result) {
-        try {
-            PreparedStatement preparedStatement = manager.getConnection()
-                    .prepareStatement("INSERT INTO public.verification_results(date_time, comment, mark, work_id, verifier_id)\n" +
-                            "    SELECT ?, ?, ?, ?, t.id FROM teachers t WHERE t.user_id = ?");
+        try (Connection connection = manager.getConnection()) {
+
+            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO public.verification_results(date_time, comment, mark, work_id, verifier_id)\n" +
+                    "    SELECT ?, ?, ?, ?, t.id FROM teachers t WHERE t.user_id = ?");
             preparedStatement.setTimestamp(1, new Timestamp(Calendar.getInstance().getTimeInMillis()));
             preparedStatement.setString(2, result.getComment());
             preparedStatement.setInt(3, result.getMark());
