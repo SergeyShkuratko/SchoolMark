@@ -2,6 +2,7 @@ package student.dao;
 
 import connectionmanager.TomcatConnectionPool;
 import student.dto.DTOFile;
+import student.dto.DTOVariant;
 import student.dto.DTOWork;
 import org.apache.log4j.Logger;
 
@@ -13,6 +14,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DAOStudentWork {
+
+    public int setWorkVariant(int workId, int variantId) throws DAOStudentWorkException {
+        String sql = "UPDATE works" +
+                " SET variant_id = ?" +
+                " WHERE id= ?";
+        try (Connection connection = TomcatConnectionPool.getInstance().getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql))
+        {
+            preparedStatement.setInt(1, variantId);
+            preparedStatement.setInt(2, workId);
+            return preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            logger.error(e.getMessage());
+            throw new DAOStudentWorkException(e.getMessage());
+        }
+    }
 
     public class DAOStudentWorkException extends SQLException {
         public DAOStudentWorkException(String reason) {
@@ -70,19 +87,19 @@ public class DAOStudentWork {
         {
             preparedStatement.setInt(1, id);
             ResultSet rs = preparedStatement.executeQuery();
-                while (rs.next()) {
-                    work = new DTOWork(
-                            rs.getInt("id"),
-                            rs.getInt("variant_id"),
-                            rs.getDate("date").toLocalDate(),
-                            rs.getInt("templ_id"),
-                            rs.getString("topic"),
-                            rs.getString("description"),
-                            rs.getString("subject"),
-                            rs.getInt("mark"),
-                            rs.getString("comment"),
-                            convertStatus(rs.getString("status")));
-                }
+            while (rs.next()) {
+                work = new DTOWork(
+                        rs.getInt("id"),
+                        rs.getInt("variant_id"),
+                        rs.getDate("date").toLocalDate(),
+                        rs.getInt("templ_id"),
+                        rs.getString("topic"),
+                        rs.getString("description"),
+                        rs.getString("subject"),
+                        rs.getInt("mark"),
+                        rs.getString("comment"),
+                        convertStatus(rs.getString("status")));
+            }
 
         } catch (SQLException e) {
             logger.error(e.getMessage());
@@ -136,7 +153,7 @@ public class DAOStudentWork {
         String sql = "INSERT INTO work_pages (work_id, file_url) \n" +
                 "VALUES (?, ?);";
         try (Connection connection = TomcatConnectionPool.getInstance().getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(sql))
+             PreparedStatement preparedStatement = connection.prepareStatement(sql))
         {
             preparedStatement.setInt(1, work_id);
             preparedStatement.setString(2, file);
@@ -194,7 +211,7 @@ public class DAOStudentWork {
                 " SET status = ?::work_status" +
                 " WHERE id= ?";
         try (Connection connection = TomcatConnectionPool.getInstance().getConnection();
-                PreparedStatement preparedStatement = connection.prepareStatement(sql))
+             PreparedStatement preparedStatement = connection.prepareStatement(sql))
         {
             preparedStatement.setString(1, status);
             preparedStatement.setInt(2, work_id);
@@ -203,6 +220,29 @@ public class DAOStudentWork {
             logger.error(e.getMessage());
             throw new DAOStudentWorkException(e.getMessage());
         }
+    }
+
+    public List<DTOVariant> getVariants(int templ_id) throws DAOStudentWorkException {
+        String sql = "SELECT id, variant " +
+                "FROM template_variants " +
+                "WHERE template_id = ?";
+        List<DTOVariant> variants = new ArrayList<>();
+        try(Connection connection = TomcatConnectionPool.getInstance().getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(sql))
+        {
+            preparedStatement.setInt(1, templ_id);
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+                DTOVariant variant = new DTOVariant(
+                        rs.getInt("id"),
+                        rs.getString("variant"));
+                variants.add(variant);
+            }
+        } catch (SQLException e) {
+            logger.error(e.getMessage());
+            throw new DAOStudentWorkException(e.getMessage());
+        }
+        return variants.size() != 0 ? variants : null;
     }
 
 
