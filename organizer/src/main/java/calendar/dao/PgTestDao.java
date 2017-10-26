@@ -4,12 +4,14 @@ import calendar.dao.exceptions.TestDAOException;
 import calendar.dto.TestDto;
 import connectionmanager.ConnectionPool;
 import connectionmanager.TomcatConnectionPool;
+import org.springframework.stereotype.Repository;
 
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+@Repository(value = "TestDao")
 public class PgTestDao implements TestDao {
     private static ConnectionPool pool = TomcatConnectionPool.getInstance();
 

@@ -6,6 +6,8 @@ import calendar.dao.exceptions.TestDAOException;
 import calendar.utils.CalendarCell;
 import calendar.dto.TestDto;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -13,10 +15,16 @@ import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import java.util.List;
 
+@Service
 public class CalendarServiceImpl implements CalendarService {
     static Logger logger = Logger.getLogger(PgTestDao.class);
 
-    static TestDao testDao = new PgTestDao();
+    TestDao testDao;
+
+    @Autowired
+    public void setTestDao(TestDao testDao) {
+        this.testDao = testDao;
+    }
 
     @Override
     public List<CalendarCell> getCalendarCells(int userId, LocalDate begin, LocalDate end) {
