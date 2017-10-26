@@ -1,10 +1,10 @@
 package servlet;
 
 import classes.*;
-import dao.DAOStudentWork;
+import controller.dao.DAOStudentWork;
 import dto.DTOWork;
 import org.apache.log4j.Logger;
-import service.WorkService;
+import controller.service.WorkService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -12,7 +12,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.time.LocalDate;
 import java.util.List;
 
 

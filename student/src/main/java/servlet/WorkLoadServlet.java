@@ -1,13 +1,13 @@
 package servlet;
 
-import dao.DAOStudentWork;
+import controller.dao.DAOStudentWork;
 import dto.DTOFile;
 import dto.DTOWork;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.log4j.Logger;
-import service.WorkService;
+import controller.service.WorkService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;

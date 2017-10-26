@@ -2,7 +2,7 @@ package services.impl;
 
 import classes.SchoolClass;
 import classes.dto.SchoolDTO;
-import dao.SchoolDAOImpl;
+import controller.dao.SchoolDAOImpl;
 import exceptions.SchoolDAOException;
 import interfaces.dao.SchoolsDAO;
 import org.apache.log4j.Logger;
