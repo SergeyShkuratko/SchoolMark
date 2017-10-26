@@ -19,10 +19,14 @@ import java.util.List;
 public class StartServlet extends HttpServlet {
     @Override
 
-    @RequestMapping(value = "/start", method = RequestMethod.GET)
+   // @RequestMapping(value = "/start", method = RequestMethod.GET)
 
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        int userId = (Integer) req.getSession().getAttribute(CommonSettings.AUTH_USER_ATTRIBUTE);
+        //FOR TEST ONLY!!!
+        // int userId = (Integer) req.getSession().getAttribute(CommonSettings.AUTH_USER_ATTRIBUTE);
+
+        int userId = 1;
+
         List<TestsDTO> testService = new TestServiceImpl().getWorksForVerifier(userId);
         req.setAttribute("tests", testService);
         req.getRequestDispatcher("/controller.jsp").forward(req, resp);

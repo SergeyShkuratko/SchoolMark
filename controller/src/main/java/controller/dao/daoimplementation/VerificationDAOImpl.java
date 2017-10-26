@@ -30,10 +30,9 @@ public class VerificationDAOImpl implements VerificationDAO {
             preparedStatement.setInt(3, result.getMark());
             preparedStatement.setInt(4, result.getWorkId());
             preparedStatement.setInt(5, result.getVerifierId());
-            int i = preparedStatement.executeUpdate();
-            if (i == 1) {
-                return true;
-            }
+
+            return preparedStatement.executeUpdate() == 1;
+
         } catch (SQLException e) {
             logger.error(e.getMessage(), e);
         }
