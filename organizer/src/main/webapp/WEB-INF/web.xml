@@ -4,6 +4,27 @@
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
          version="3.1">
 
+
+
+    <servlet>
+        <servlet-name>organizer-dispatcher</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>organizer-dispatcher</servlet-name>
+        <url-pattern>/</url-pattern>
+    </servlet-mapping>
+
+
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>/WEB-INF/organizer-dispatcher-servlet.xml</param-value>
+    </context-param>
+
     <!--<servlet>-->
         <!--<servlet-name>calendar</servlet-name>-->
         <!--<servlet-class>calendar.servlets.CalendarServlet</servlet-class>-->
@@ -13,15 +34,15 @@
         <!--<url-pattern>/organizer/calendar</url-pattern>-->
     <!--</servlet-mapping>-->
 
-    <servlet-mapping>
-        <servlet-name>default</servlet-name>
-        <url-pattern>/img/*</url-pattern>
-    </servlet-mapping>
-
     <!--<servlet-mapping>-->
         <!--<servlet-name>default</servlet-name>-->
-        <!--<url-pattern>/static/*</url-pattern>-->
+        <!--<url-pattern>/img/*</url-pattern>-->
     <!--</servlet-mapping>-->
+
+    <servlet-mapping>
+        <servlet-name>default</servlet-name>
+        <url-pattern>/static/*</url-pattern>
+    </servlet-mapping>
 
     <!--<servlet>-->
         <!--<servlet-name>OrganizerModule</servlet-name>-->
@@ -33,30 +54,30 @@
         <!--<url-pattern>/organizer</url-pattern>-->
     <!--</servlet-mapping>-->
 
-    <servlet>
-        <servlet-name>TemplateList</servlet-name>
-        <servlet-class>template.servlets.TemplateListServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>TemplateList</servlet-name>
-        <url-pattern>/template-list</url-pattern>
-    </servlet-mapping>
-    <servlet>
-        <servlet-name>TestServlet</servlet-name>
-        <servlet-class>template.servlets.TestServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>TestServlet</servlet-name>
-        <url-pattern>/test</url-pattern>
-    </servlet-mapping>
-    <servlet>
-        <servlet-name>TestTemplateServlet</servlet-name>
-        <servlet-class>template.servlets.TestTemplateServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>TestTemplateServlet</servlet-name>
-        <url-pattern>/test-template</url-pattern>
-    </servlet-mapping>
+    <!--<servlet>-->
+        <!--<servlet-name>TemplateList</servlet-name>-->
+        <!--<servlet-class>template.servlets.TemplateListServlet</servlet-class>-->
+    <!--</servlet>-->
+    <!--<servlet-mapping>-->
+        <!--<servlet-name>TemplateList</servlet-name>-->
+        <!--<url-pattern>/template-list</url-pattern>-->
+    <!--</servlet-mapping>-->
+    <!--<servlet>-->
+        <!--<servlet-name>TestServlet</servlet-name>-->
+        <!--<servlet-class>template.servlets.TestServlet</servlet-class>-->
+    <!--</servlet>-->
+    <!--<servlet-mapping>-->
+        <!--<servlet-name>TestServlet</servlet-name>-->
+        <!--<url-pattern>/test</url-pattern>-->
+    <!--</servlet-mapping>-->
+    <!--<servlet>-->
+        <!--<servlet-name>TestTemplateServlet</servlet-name>-->
+        <!--<servlet-class>template.servlets.TestTemplateServlet</servlet-class>-->
+    <!--</servlet>-->
+    <!--<servlet-mapping>-->
+        <!--<servlet-name>TestTemplateServlet</servlet-name>-->
+        <!--<url-pattern>/test-template</url-pattern>-->
+    <!--</servlet-mapping>-->
 
 
 </web-app>

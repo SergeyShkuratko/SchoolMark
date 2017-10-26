@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-@WebServlet("/test-run")
+//@WebServlet("/test-run")
 public class RunTestServlet extends HttpServlet {
     private static Logger logger = Logger.getLogger(RunTestServlet.class);
 
@@ -43,7 +43,7 @@ public class RunTestServlet extends HttpServlet {
                 logger.error(e);
                 throw new ServletException(e);
             }
-            req.getRequestDispatcher("test_run.jsp").forward(req, resp);
+            req.getRequestDispatcher("/WEB-INF/organizerpages/test_run.jsp").forward(req, resp);
         }
 
 

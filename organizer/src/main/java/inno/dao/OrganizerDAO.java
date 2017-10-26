@@ -73,7 +73,9 @@ public class OrganizerDAO {
              PreparedStatement statement = connection.prepareStatement(SQL)) {
 
             statement.setInt(1, test_id);
-            return statement.execute(SQL);
+//            return statement.execute(SQL);
+            return statement.executeUpdate() == 1;
+
         } catch (SQLException e) {
             logger.error(e);
             throw new OrganizerDAOexception(e);
