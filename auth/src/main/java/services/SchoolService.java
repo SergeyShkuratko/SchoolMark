@@ -1,6 +1,7 @@
 package services;
 
 import classes.SchoolClass;
+import classes.SchoolType;
 import classes.dto.SchoolDTO;
 import exceptions.SchoolDAOException;
 
@@ -15,4 +16,8 @@ public interface SchoolService {
     List<SchoolDTO> getSchoolsByCityId(int cityId) throws SchoolDAOException;
 
     List<SchoolClass> getClassesBySchoolId(int schoolId) throws SchoolDAOException;
+    boolean insertSchool(SchoolDTO school)throws SchoolDAOException;
+    boolean updateSchool(SchoolDTO school)throws SchoolDAOException;
+    List<SchoolType> getAllSchoolTypes() throws SchoolDAOException;
+
 }

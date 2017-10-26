@@ -1,6 +1,7 @@
 package services.impl;
 
 import classes.City;
+import classes.dto.CityDTO;
 import exceptions.CityDAOException;
 import interfaces.dao.CityDAO;
 import org.apache.log4j.Logger;
@@ -63,5 +64,15 @@ public class CityServiceImpl implements CityService {
         }
         result.put("error", "Во время удаления города произошла непредвиденная ошибка!");
         return result;
+    }
+
+    @Override
+    public CityDTO getCityDtoById(int id) throws CityDAOException {
+        try {
+            return cityDAO.getCityDtoById(id);
+        }catch (CityDAOException e){
+            logger.error(e);
+            throw e;
+        }
     }
 }

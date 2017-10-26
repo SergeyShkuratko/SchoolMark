@@ -2,6 +2,7 @@ package dao;
 
 import classes.City;
 import classes.Region;
+import classes.dto.CityDTO;
 import connectionmanager.ConnectionPool;
 import connectionmanager.TomcatConnectionPool;
 import exceptions.CityDAOException;
@@ -12,10 +13,6 @@ import org.springframework.stereotype.Component;
 import utils.dao.DAOUtilsCity;
 import utils.dao.DAOUtilsRegion;
 
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
-import javax.sql.DataSource;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,13 +30,17 @@ public class CityDAOImpl implements CityDAO {
     private final String baseGetSql = "SELECT * FROM city ";
     private final String insertSql = "INSERT INTO city (region_id, name) VALUES (?, ?)";
     private final String deleteSql = "DELETE FROM city WHERE id = ?";
-    private final String updateSql = "UPDATE city SET region_id = ?, name = ? WHERE id = ?";
-
+    private final String updateSql = "UPDATE city " +
+            "SET region_id = ?, name = ? " +
+            "WHERE id = ?";
+	private static final String GET_DTO_BY_ID = "select city.id as id, city.name as name, region.id as regionId," +
+            " region.name as regionName from city left join region on city.region_id = region.id WHERE city.id = ?";
+            
     @Override
     public City getById(int id) throws CityDAOException {
         City result = null;
         try (Connection connection = pool.getConnection();
-            PreparedStatement statement = connection.prepareStatement(GET_BY_ID)) {
+             PreparedStatement statement = connection.prepareStatement(GET_BY_ID)) {
             statement.setInt(1, id);
             ResultSet set = statement.executeQuery();
             List<City> cities = cityListFromResultSet(set);
@@ -103,6 +104,7 @@ public class CityDAOImpl implements CityDAO {
         }
         return result;
     }
+
 
     private City getOne(String where) throws CityDAOException {
         try(
@@ -232,6 +234,27 @@ public class CityDAOImpl implements CityDAO {
         } catch (SQLException e) {
             throw new CityDAOException(e.getMessage());
         }
+    }
+    @Override
+    public CityDTO getCityDtoById(int cityId) throws CityDAOException {
+        CityDTO result = null;
+        try (Connection connection = pool.getConnection();
+             PreparedStatement statement = connection.prepareStatement(GET_DTO_BY_ID)) {
+            statement.setInt(1, cityId);
+            ResultSet set = statement.executeQuery();
+            if (set.next()) {
+                result = new CityDTO(set.getInt("id"),
+                        set.getString("name"),
+                        set.getInt("regionId"),
+                        set.getString("regionName"));
+            }
+        } catch (SQLException e) {
+            logger.error(e.getMessage());
+            logger.debug(e.fillInStackTrace());
+            throw new CityDAOException();
+        }
+        return result;
+
     }
 
 }
