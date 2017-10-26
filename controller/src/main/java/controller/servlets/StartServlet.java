@@ -2,10 +2,14 @@ package controller.servlets;
 
 import classes.CommonSettings;
 import controller.dao.dto.TestsDTO;
+import controller.service.TestService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import controller.service.TestServiceImpl;
+import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -17,6 +21,23 @@ import java.util.List;
 
 @WebServlet("/start")
 public class StartServlet extends HttpServlet {
+
+    private  TestService testService;
+
+
+    @Override
+    public void init(ServletConfig config) throws ServletException {
+        super.init(config);
+        SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
+    }
+
+    @Autowired
+    public void setTestService(TestService testService) {
+        this.testService = testService;
+    }
+
+
+
     @Override
 
    // @RequestMapping(value = "/start", method = RequestMethod.GET)
@@ -27,7 +48,7 @@ public class StartServlet extends HttpServlet {
 
         int userId = 1;
 
-        List<TestsDTO> testService = new TestServiceImpl().getWorksForVerifier(userId);
+        List<TestsDTO> testService = this.testService.getWorksForVerifier(userId);
         req.setAttribute("tests", testService);
         req.getRequestDispatcher("/controller.jsp").forward(req, resp);
     }

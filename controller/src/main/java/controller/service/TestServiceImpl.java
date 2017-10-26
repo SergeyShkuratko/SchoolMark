@@ -7,12 +7,20 @@ import controller.dao.TestDAO;
 import controller.dao.daoimplementation.TestDAOImpl;
 import controller.jsonconverter.Converter;
 import controller.jsonconverter.JsonConverter;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class TestServiceImpl implements TestService {
-    TestDAO testDAO = new TestDAOImpl();
-    Converter converter = new JsonConverter();
+    TestDAO testDAO;
+    Converter converter;
+
+    public TestServiceImpl(TestDAO testDAO, Converter converter) {
+        this.testDAO = testDAO;
+        this.converter = converter;
+    }
 
     @Override
     public List<TestsDTO> getWorksForVerifier(int verifierId) {

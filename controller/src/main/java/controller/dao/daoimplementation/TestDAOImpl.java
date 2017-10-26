@@ -8,6 +8,7 @@ import controller.dao.dto.TestDTO;
 import controller.dao.dto.TestsDTO;
 import controller.dao.dto.WorkPageDTO;
 import org.apache.log4j.Logger;
+import org.springframework.stereotype.Component;
 
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -16,6 +17,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+@Component
 public class TestDAOImpl implements TestDAO {
     private static final Logger logger = Logger.getLogger(TestDAOImpl.class);
     private static ConnectionPool manager;

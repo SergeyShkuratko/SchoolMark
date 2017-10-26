@@ -5,12 +5,14 @@ import connectionmanager.TomcatConnectionPool;
 import controller.dao.VerificationDAO;
 import controller.dao.dto.VerificationResultDTO;
 import org.apache.log4j.Logger;
+import org.springframework.stereotype.Component;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.Calendar;
 
+@Component
 public class VerificationDAOImpl implements VerificationDAO {
     private static final Logger logger = Logger.getLogger(TestDAOImpl.class);
     private static ConnectionPool manager;
