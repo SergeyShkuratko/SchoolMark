@@ -12,6 +12,7 @@
 <html>
 <head>
     <title>Календарь контрольных работ</title>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/calendar.css"/>
     <script>
 
         function changeMonth(delta) {
@@ -83,10 +84,12 @@
         }
 
         document.cells = new Object();
-        <c:forEach items="${calendar}" var="item">
-            document.cells["${item.getDate().toString()}"] = newCell("${item.getFormatDate()}");
-            <c:forEach items="${item.getTests()}" var="test">
-                document.cells["${item.getDate().toString()}"].addTest("${DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT).format(test.getStartDate())}. ${test.getSubject()}",<c:out value="${test.getId()}"/>);
+        <c:forEach items="${calendar}" var="week">
+            <c:forEach items="${week}" var="item">
+                document.cells["${item.getDate().toString()}"] = newCell("${item.getFormatDate()}");
+                <c:forEach items="${item.getTests()}" var="test">
+                    document.cells["${item.getDate().toString()}"].addTest("${DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT).format(test.getStartDate())}. ${test.getSubject()}",<c:out value="${test.getId()}"/>);
+                </c:forEach>
             </c:forEach>
         </c:forEach>
     </script>
@@ -94,10 +97,10 @@
         <%--padding: 2px !important;--%>
     <%--}</style>--%>
 
-    <%@include file="/mystatic/menustyles.jsp" %>
+    <%@include file="mystatic/menustyles.jsp" %>
 </head>
 <body>
-    <%@include file="/mystatic/pageheader.jsp" %>
+    <%@include file="mystatic/pageheader.jsp" %>
 
 <form method="get" action="${pageContext.request.contextPath}/organizer/calendar" id="mainForm">
     <input type="hidden" name="dayOfMonth" id="dayOfMonth" value="${beginData}"/>
@@ -125,27 +128,26 @@
             <td>СБ</td>
             <td>ВС</td>
         </tr>
-        <tr>
-            <c:forEach items="${calendar}" var="item">
-            <td>
-                <div style="width: 70;height: 60; vert-align: top; border: solid; border-width: 1; border-color: black; background-color: ${item.getColor()}"
-                     onclick="showCell(document.cells['${item.getDate().toString()}'])">
-                    <div style="text-align: right;"><c:out value="${item.getDay()}"/></div>
-                    <div style="text-align: center;">
-                        <c:out escapeXml="false" value="${item.getDisplayName()}"/>
-                    </div>
-                </div>
-            </td>
 
-                <c:if test="${item.isEOW()}">
-            </tr>
+        <c:forEach items="${calendar}" var="week">
             <tr>
-                </c:if>
+                <c:forEach items="${week}" var="item">
+                    <td>
+                        <div class="cell ${item.styleClass}"
+                             onclick="showCell(document.cells['${item.date.toString()}'])">
+                            <div style="text-align: right;"><c:out value="${item.day}"/></div>
+                            <div style="text-align: center;">
+                                <c:out escapeXml="false" value="${item.displayName}"/>
+                            </div>
+                        </div>
+                    </td>
                 </c:forEach>
             </tr>
+        </c:forEach>
+
         </table>
     </form>
 
-    <%@include file="/mystatic/pagefooter.jsp" %>
+    <%@include file="mystatic/pagefooter.jsp" %>
 </body>
 </html>

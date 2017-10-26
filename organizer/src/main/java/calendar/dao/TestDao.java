@@ -1,10 +1,11 @@
 package calendar.dao;
 
 import calendar.dao.exceptions.TestDAOException;
-import calendar.dto.TestDto;
+import calendar.dto.TestDTO;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 public interface TestDao {
     /**
@@ -15,7 +16,7 @@ public interface TestDao {
      * @param end - дата окончания (включительно по конец дня)
      * @return - список контрольных работ
      */
-    List<TestDto> getTestsByUserIdDescOrder(int user_id, LocalDate begin, LocalDate end)throws TestDAOException;
+    Map<LocalDate, List<TestDTO>> getTestsByUserIdGroupByDate(int user_id, LocalDate begin, LocalDate end) throws TestDAOException;
 
 }
 

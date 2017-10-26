@@ -1,5 +1,6 @@
 package calendar.services;
 
+import calendar.dao.exceptions.TestDAOException;
 import calendar.utils.CalendarCell;
 
 import java.time.LocalDate;
@@ -8,9 +9,8 @@ import java.util.List;
 public interface CalendarService {
     /**Получаем заполненный календарь
      * @param userId Идентификатор пользователя(учителя)
-     * @param begin Начало периода
-     * @param end Конец периода
+     * @param date день, месяц которого отображается
      * @return
      */
-    List<CalendarCell> getCalendarCells(int userId, LocalDate begin, LocalDate end);
+    CalendarCell[][] getCalendarCells(int userId, LocalDate date) throws TestDAOException;
 }
