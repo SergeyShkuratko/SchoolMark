@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Repository(value = "TestDao")
+@Repository
 public class PgTestDao implements TestDao {
     private static ConnectionPool pool = TomcatConnectionPool.getInstance();
 
