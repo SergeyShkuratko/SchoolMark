@@ -1,31 +1,34 @@
 package servlets.ajax.controllers;
 
+import org.apache.log4j.Logger;
 import org.json.JSONObject;
-import services.ServiceInsertNewRegion;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import services.ServiceRemoveCity;
-import services.ServiceRemoveRegion;
 
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.HashMap;
 import java.util.Map;
 
-@WebServlet(urlPatterns = "/admin/cities/remove")
-public class RemoveCityById extends HttpServlet {
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp)
-            throws ServletException, IOException {
-        String city_id = req.getParameter("id");
+@Controller
+public class RemoveCityById{
+    private static Logger logger = Logger.getLogger(RemoveCityById.class);
+
+    @RequestMapping(value = "/admin/cities/remove", method = RequestMethod.POST)
+    public void doPost(@RequestParam("id") String pCityId, HttpServletResponse resp){
+
         ServiceRemoveCity serviceRemoveCity = new ServiceRemoveCity();
-        Map<String, String> output = serviceRemoveCity.removeRecordById(Integer.valueOf(city_id));
+        Map<String, String> output = serviceRemoveCity.removeRecordById(Integer.valueOf(pCityId));
         resp.setContentType("application/json; charset=UTF-8");
-        PrintWriter out = resp.getWriter();
-        out.print(new JSONObject(output));
-        out.flush();
+        try {
+            PrintWriter out = resp.getWriter();
+            out.print(new JSONObject(output));
+            out.flush();
+        } catch (IOException e) {
+            logger.error(e);
+        }
     }
 }

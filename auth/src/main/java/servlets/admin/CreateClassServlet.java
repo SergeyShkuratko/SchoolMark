@@ -4,65 +4,58 @@ import classes.dto.SchoolDTO;
 import exceptions.SchoolClassDAOException;
 import exceptions.SchoolDAOException;
 import org.apache.log4j.Logger;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 import services.SchoolClassService;
 import services.SchoolService;
 import services.impl.SchoolClassServiceImpl;
 import services.impl.SchoolServiceImpl;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-
 import static classes.CommonSettings.*;
 import static exceptions.ErrorDescriptions.*;
-import static utils.ForwardRequestHelper.getErrorDispatcher;
 import static utils.Settings.*;
-
-public class CreateClassServlet extends HttpServlet {
+@Controller
+public class CreateClassServlet {
 
     private static SchoolClassService classService = new SchoolClassServiceImpl();
     private static SchoolService schoolService = new SchoolServiceImpl();
     private static Logger logger = Logger.getLogger(CreateClassServlet.class);
 
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String schoolId = req.getParameter("school");
-        if (schoolId != null) {
-            try {
-                SchoolDTO school = schoolService.getSchoolById(Integer.valueOf(schoolId));
-                req.setAttribute("school", school);
-                req.getRequestDispatcher(CLASS_JSP).forward(req, resp);
-            } catch (ClassCastException | SchoolDAOException e) {
-                logger.error(e.getMessage(), e);
-                getErrorDispatcher(req, DB_ERROR).forward(req, resp);
-            }
-        } else {
-            logger.info("Parameters not found");
-            getErrorDispatcher(req, DATA_ERROR).forward(req, resp);
+    @RequestMapping(value = "/admin/class", method = RequestMethod.GET)
+    public ModelAndView doGet(@RequestParam("school") String pSchoolId){
+        ModelAndView mv = new ModelAndView();
+        try {
+            SchoolDTO school = schoolService.getSchoolById(Integer.valueOf(pSchoolId));
+            mv.addObject("school", school);
+            mv.setViewName(CLASS_JSP);
+        } catch (ClassCastException | SchoolDAOException e) {
+            logger.error(e.getMessage(), e);
+            mv.addObject(ERROR_ATTR, DB_ERROR);
+            mv.setViewName(ERROR_JSP);
         }
+        return mv;
     }
 
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        if (req.getParameter("school") != null
-                && req.getParameter("class_num") != null
-                && req.getParameter("letter") != null) {
-            int schoolId = Integer.valueOf(req.getParameter("school"));
-            int classNum = Integer.valueOf(req.getParameter("class_num"));
-            String letter = req.getParameter("letter");
-
-            try {
-                if (classService.add(schoolId, classNum, letter)) {
-                    resp.sendRedirect(DEPLOY_PATH + ADMIN_CABINET);
-                } else {
-                    getErrorDispatcher(req, DB_ERROR).forward(req, resp);
-                }
-            } catch (SchoolClassDAOException e) {
-                getErrorDispatcher(req, DB_ERROR).forward(req, resp);
+    @RequestMapping(value = "/admin/class", method = RequestMethod.POST)
+    public ModelAndView doPost(@RequestParam("school") String pSchoolId, @RequestParam("class_num") String pClassNum,
+                            @RequestParam("letter") String pLetter){
+        ModelAndView mv = new ModelAndView();
+        int schoolId = Integer.valueOf(pSchoolId);
+        int classNum = Integer.valueOf(pClassNum);
+        try {
+            if (classService.add(schoolId, classNum, pLetter)) {
+                mv.setViewName("redirect: "+DEPLOY_PATH + ADMIN_CABINET);
+            } else {
+                mv.addObject(ERROR_ATTR, DB_ERROR);
+                mv.setViewName(ERROR_JSP);
             }
-
+        } catch (SchoolClassDAOException e) {
+            mv.addObject(ERROR_ATTR, DB_ERROR);
+            mv.setViewName(ERROR_JSP);
         }
+        return mv;
     }
 }

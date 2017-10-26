@@ -2,44 +2,33 @@ package servlets.admin.lists;
 
 import exceptions.SchoolTeacherDAOException;
 import org.apache.log4j.Logger;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import services.TeacherService;
 import services.impl.TeacherServiceImpl;
-import utils.ForwardRequestHelper;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
 
-import static exceptions.ErrorDescriptions.DB_ERROR;
-import static utils.ForwardRequestHelper.getErrorDispatcher;
-
-public class TeacherListServlet extends HttpServlet {
-
+@Controller
+public class TeacherListServlet{
     private static Logger logger = Logger.getLogger(TeacherListServlet.class);
-
     private TeacherService processingService = new TeacherServiceImpl();
 
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String param = req.getParameter("school");
-        if (param != null) {
-            try {
-                resp.setCharacterEncoding("UTF-8");
-                PrintWriter pw = resp.getWriter();
-                int id = Integer.valueOf(req.getParameter("school"));
-                List<String> teacherNames = null;
-                teacherNames = processingService.getTeacherNamesBySchoolId(id);
-                teacherNames.stream().forEach((t) -> pw.println("<li>" + t + "</li>"));
-            } catch (NumberFormatException | SchoolTeacherDAOException e) {
-                logger.info(e);
-                getErrorDispatcher(req, DB_ERROR).forward(req, resp);
-            }
-        } else {
-            resp.sendError(HttpServletResponse.SC_BAD_REQUEST);
+    @RequestMapping(value = "/admin/teachers", method = RequestMethod.GET)
+    public void doGet(@RequestParam("school") String pSchoolId, HttpServletResponse resp){
+        try {
+            resp.setCharacterEncoding("UTF-8");
+            PrintWriter pw = resp.getWriter();
+            int SchoolId = Integer.valueOf(pSchoolId);
+            List<String> teacherNames = processingService.getTeacherNamesBySchoolId(SchoolId);
+            teacherNames.stream().forEach((t) -> pw.println("<li>" + t + "</li>"));
+        } catch (IOException | SchoolTeacherDAOException e) {
+            logger.error(e);
         }
     }
 }

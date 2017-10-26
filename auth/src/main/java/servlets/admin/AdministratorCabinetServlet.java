@@ -2,33 +2,34 @@ package servlets.admin;
 
 import classes.dto.SchoolDTO;
 import exceptions.SchoolDAOException;
+import org.apache.log4j.Logger;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 import services.SchoolService;
 import services.impl.SchoolServiceImpl;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.util.List;
 
 import static exceptions.ErrorDescriptions.DB_ERROR;
-import static utils.ForwardRequestHelper.getErrorDispatcher;
 import static utils.Settings.*;
-
-public class AdministratorCabinetServlet extends HttpServlet {
-
+@Controller
+public class AdministratorCabinetServlet {
+    private static Logger logger = Logger.getLogger(AdministratorCabinetServlet.class);
     private static SchoolService service = new SchoolServiceImpl();
 
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    @RequestMapping("/admin/cabinet")
+    public ModelAndView doGet(){
+        ModelAndView mv = new ModelAndView();
         try {
             List<SchoolDTO> schools = service.getAllSchools();
-            req.setAttribute("schools", schools);
-            req.getRequestDispatcher(CABINET_JSP).forward(req, resp);
+            mv.addObject("schools", schools);
+            mv.setViewName(CABINET_JSP);
         } catch (SchoolDAOException e) {
-            //TODO уточнить про логирование, если оно идет уровнем ниже
-            getErrorDispatcher(req, DB_ERROR).forward(req, resp);
+            logger.error(e);
+            mv.addObject(ERROR_ATTR, DB_ERROR);
+            mv.setViewName(ERROR_JSP);
         }
+        return mv;
     }
 }

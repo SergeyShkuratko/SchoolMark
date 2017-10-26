@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <title>Controller</title>
     <link href="${context}/css/bootstrap.min.css" rel="stylesheet">
-    <link href="${context}/css/dashboard.css" rel="stylesheet">
+    <link href="${context}/css/auth/dashboard.css/dashboard.css" rel="stylesheet">
     <link href="${context}/css/ratingbar.css" rel="stylesheet">
 </head>
 <body>
@@ -22,34 +22,35 @@
             <ul class="nav nav-sidebar control-work-sidebar-number">
                 <li>
                     <button class="btn btn-default control-work-sidebar-button"
-                            onclick="window.location.href='/SM/organizer/caledar'" type="submit">
+                            onclick="window.location.href='${pageContext.request.contextPath}/organizer/calendar'" type="submit">
                         Календарь организатора
                     </button>
                 </li>
                 <li>
                     <button class="btn btn-default control-work-sidebar-button"
-                            onclick="window.location.href='/SM/testlist'" type="submit">
+                            onclick="window.location.href='${pageContext.request.contextPath}/testlist'" type="submit">
                         Ученик
                     </button>
                 </li>
                 <li>
                     <button class="btn btn-default control-work-sidebar-button"
-                            onclick="window.location.href='/SM/test'" type="submit">Проведение контрольной
+                            onclick="window.location.href='${pageContext.request.contextPath}/test'" type="submit">Проведение контрольной
                     </button>
                 </li>
                 <li>
                     <button class="btn btn-default control-work-sidebar-button"
-                            onclick="window.location.href='/SM/controller'" type="submit">Проверка контрольной
+                            onclick="window.location.href='${pageContext.request.contextPath}/controller'" type="submit">Проверка контрольной
                     </button>
                 </li>
                 <li>
                     <button class="btn btn-default control-work-sidebar-button"
-                            onclick="window.location.href='/SM/director-test-list'" type="submit">Директор
+                             type="submit">Директор
                     </button>
                 </li>
                 <li class="control-work-sidebar-circle"><i class="fa fa-3x fa-circle-thin "></i></li>
                 <li>
-                    <button class="btn btn-default control-work-sidebar-button" type="submit">Выход?</button>
+                    <button class="btn btn-default control-work-sidebar-button"
+                            onclick="window.location.href='${pageContext.request.contextPath}/logout'"type="submit">Выход?</button>
                 </li>
             </ul>
         </div>

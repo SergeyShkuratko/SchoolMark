@@ -1,31 +1,35 @@
 package servlets.ajax.controllers;
 
+import org.apache.log4j.Logger;
 import org.json.JSONObject;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import services.ServiceInsertNewCity;
-import services.ServiceInsertNewRegion;
 
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.HashMap;
 import java.util.Map;
 
-@WebServlet(urlPatterns = "/admin/cities/append")
-public class AppendNewCity extends HttpServlet {
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp)
-            throws ServletException, IOException {
-        String city_name = req.getParameter("city-name");
-        String region_number = req.getParameter("region-number");
+@Controller
+public class AppendNewCity  {
+    private static Logger logger = Logger.getLogger(AppendNewRegion.class);
+
+    @RequestMapping(value = "/admin/cities/append", method = RequestMethod.POST)
+    public void doPost(@RequestParam("city-name") String pCityName,
+                          @RequestParam("region-number") String pRegionNumber,
+                          HttpServletResponse resp){
         ServiceInsertNewCity serviceInsertNewCity = new ServiceInsertNewCity();
-        Map<String, String> output = serviceInsertNewCity.insertNewRecord(city_name, Integer.valueOf(region_number));
+        Map<String, String> output = serviceInsertNewCity.insertNewRecord(pCityName, Integer.valueOf(pRegionNumber));
         resp.setContentType("application/json; charset=UTF-8");
-        PrintWriter out = resp.getWriter();
-        out.print(new JSONObject(output));
-        out.flush();
+        try {
+            PrintWriter out = resp.getWriter();
+            out.print(new JSONObject(output));
+            out.flush();
+        } catch (IOException e) {
+            logger.error(e);
+        }
     }
 }

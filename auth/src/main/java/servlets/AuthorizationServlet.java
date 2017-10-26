@@ -3,51 +3,64 @@ package servlets;
 import classes.User;
 import exceptions.UserDAOException;
 import exceptions.UserNotFoundException;
+import org.json.HTTP;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.servlet.ModelAndView;
 import services.AuthorizationService;
 import services.impl.AuthorizationServiceImpl;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
+import javax.servlet.http.HttpSession;
 
 import static classes.CommonSettings.*;
 import static exceptions.ErrorDescriptions.*;
-import static utils.ForwardRequestHelper.getErrorDispatcher;
 import static utils.Settings.*;
-
-public class AuthorizationServlet extends HttpServlet {
+@Controller
+public class AuthorizationServlet {
 
     public static AuthorizationService authService = new AuthorizationServiceImpl();
 
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getRequestDispatcher(AUTH_JSP).forward(req, resp);
+    @RequestMapping(value = "/auth", method = RequestMethod.GET)
+    public String doGet() {
+        return AUTH_JSP;
     }
 
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String login = req.getParameter("login");
-        String password = req.getParameter("password");
-        if (login == null || password == null) {
-            resp.sendRedirect(DEPLOY_PATH + AUTH_URL);
-        }
+    @RequestMapping(value = "/auth", method = RequestMethod.POST)
+    public ModelAndView doPost(@RequestParam(name = "login") String login,
+                               @RequestParam(name = "password") String password,
+                               HttpSession session){
+
+        ModelAndView mv = new ModelAndView();
         User user = null;
 
         try {
             user = authService.auth(login, password);
         } catch (UserNotFoundException e) {
-            getErrorDispatcher(req, USER_NOT_FOUND).forward(req, resp);
-            return;
+            mv.addObject(ERROR_ATTR, USER_NOT_FOUND);
+            mv.setViewName(ERROR_JSP);
+            return mv;
         } catch (UserDAOException e) {
-            getErrorDispatcher(req, DB_ERROR).forward(req, resp);
-            return;
+            mv.addObject(ERROR_ATTR, DB_ERROR);
+            mv.setViewName(ERROR_JSP);
+            return mv;
         }
         if (user != null) {
-            req.getSession().setAttribute(AUTH_USER_ATTRIBUTE, user.getUserId());
-            req.getSession().setAttribute(AUTH_ROLE_ATTRIBUTE, user.getRole());
-            resp.sendRedirect(DEPLOY_PATH + authService.getCabinetUrl(user));
+            session.setAttribute(AUTH_USER_ATTRIBUTE, user.getUserId());
+            session.setAttribute(AUTH_ROLE_ATTRIBUTE, user.getRole());
+            mv.setViewName("redirect:"+ authService.getCabinetUrl(user));
+        }else{
+            mv.addObject(ERROR_ATTR, DB_ERROR);
+            mv.setViewName(ERROR_JSP);
         }
+        return mv;
+    }
+    @RequestMapping(value = "/logout", method = RequestMethod.GET)
+    public String doOut(HttpSession session) {
+        session.removeAttribute(AUTH_USER_ATTRIBUTE);
+        session.removeAttribute(AUTH_ROLE_ATTRIBUTE);
+        return AUTH_JSP;
     }
 }

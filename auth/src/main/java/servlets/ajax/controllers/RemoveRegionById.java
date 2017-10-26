@@ -1,30 +1,33 @@
 package servlets.ajax.controllers;
 
 import org.json.JSONObject;
-import services.ServiceInsertNewRegion;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import services.ServiceRemoveRegion;
 
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.HashMap;
 import java.util.Map;
+import org.apache.log4j.Logger;
 
-@WebServlet(urlPatterns = { "/admin/regions/remove" })
-public class RemoveRegionById extends HttpServlet {
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String region_id = req.getParameter("id");
+@Controller
+public class RemoveRegionById {
+    private static Logger logger = Logger.getLogger(RemoveRegionById.class);
 
+    @RequestMapping(value = "/admin/regions/remove", method = RequestMethod.POST)
+    public void doPost(@RequestParam("id") String pRegionId, HttpServletResponse resp){
         ServiceRemoveRegion serviceRemoveRegion = new ServiceRemoveRegion();
-        Map<String, String> output = serviceRemoveRegion.removeRecordById(Integer.valueOf(region_id));
+        Map<String, String> output = serviceRemoveRegion.removeRecordById(Integer.valueOf(pRegionId));
         resp.setContentType("application/json; charset=UTF-8");
-        PrintWriter out = resp.getWriter();
-        out.print(new JSONObject(output));
-        out.flush();
+        try{
+            PrintWriter out = resp.getWriter();
+            out.print(new JSONObject(output));
+            out.flush();
+        } catch (IOException e) {
+            logger.error(e);
+        }
     }
 }

@@ -2,6 +2,11 @@ package servlets.admin.lists;
 
 import classes.dto.SchoolDTO;
 import exceptions.SchoolDAOException;
+import org.apache.log4j.Logger;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import services.SchoolService;
 import services.impl.SchoolServiceImpl;
 
@@ -13,27 +18,24 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
 
-public class SchoolListServlet extends HttpServlet {
-
+@Controller
+public class SchoolListServlet {
     private SchoolService processingService = new SchoolServiceImpl();
+    private static Logger logger = Logger.getLogger(SchoolListServlet.class);
 
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        if (req.getParameter("city") != null) {
-            try {
-                int cityId = Integer.parseInt(req.getParameter("city"));
-                resp.setCharacterEncoding("UTF-8");
-                if (cityId > 0) {
-                    PrintWriter pw = resp.getWriter();
-                    List<SchoolDTO> schools = processingService.getSchoolsByCityId(cityId);
-                    schools.stream().forEach((s) -> pw.println("<option value='" + s.id + "'>" + s.name + "</option>"));
-                }
-                //TODO насколько правильно перехватывать, а не проверять?
-            } catch (NumberFormatException | SchoolDAOException e) {
-                resp.sendError(HttpServletResponse.SC_BAD_REQUEST);
+    @RequestMapping(value = "/admin/schools", method = RequestMethod.GET)
+    public void doGet(@RequestParam("city") String pCityId, HttpServletResponse resp) {
+        resp.setCharacterEncoding("UTF-8");
+        try {
+            int cityId = Integer.parseInt(pCityId);
+            if (cityId > 0) {
+                PrintWriter pw = resp.getWriter();
+                List<SchoolDTO> schools = processingService.getSchoolsByCityId(cityId);
+                schools.stream().forEach((s) -> pw.println("<option value='" + s.id + "'>" + s.name + "</option>"));
             }
-        } else {
-            resp.sendError(HttpServletResponse.SC_BAD_REQUEST);
+        } catch (IOException | NumberFormatException | SchoolDAOException e) {
+            logger.error(e);
         }
+
     }
 }
