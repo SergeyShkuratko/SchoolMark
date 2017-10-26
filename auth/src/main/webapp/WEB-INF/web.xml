@@ -22,13 +22,13 @@
     <!-- FILTER -->
 
     <filter>
-        <filter-name>AdminFilter</filter-name>
-        <filter-class>servlets.filters.AdminFilter</filter-class>
+        <filter-name>AuthorizationFilter</filter-name>
+        <filter-class>servlets.filters.AuthorizationFilter</filter-class>
     </filter>
 
     <filter-mapping>
-        <filter-name>AdminFilter</filter-name>
-        <url-pattern>/admin/*</url-pattern>
+        <filter-name>AuthorizationFilter</filter-name>
+        <url-pattern>/*</url-pattern>
     </filter-mapping>
 
     <!--    SERVLET    -->
