@@ -1,37 +1,29 @@
 package calendar.utils;
 
-import calendar.dto.TestDto;
+import calendar.dto.TestDTO;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
 public class CalendarCell {
-    private byte day;
     private boolean isCurrentPeriod;
-    private List<TestDto> tests;
-    private boolean isWeekend;
-    private boolean isEOW;
+    private List<TestDTO> tests;
     private LocalDate date;
 
 
-    public CalendarCell(LocalDate date, boolean isCurrentPeriod, boolean isWeekend, boolean isEOW) {
-        this.day = (byte)date.getDayOfMonth();
+    public CalendarCell(LocalDate date, boolean isCurrentPeriod) {
         this.date = date;
         this.isCurrentPeriod = isCurrentPeriod;
-        this.isWeekend = isWeekend;
         this.tests = new LinkedList<>();
-        this.isEOW = isEOW;
     }
 
     public byte getDay() {
-        return day;
-    }
-
-    public void setDay(byte day) {
-        this.day = day;
+        return (byte) date.getDayOfMonth();
     }
 
     public boolean isCurrentPeriod() {
@@ -43,33 +35,23 @@ public class CalendarCell {
     }
 
     public boolean isWeekend() {
-        return isWeekend;
+        return date.getDayOfWeek() == DayOfWeek.SUNDAY || date.getDayOfWeek() == DayOfWeek.SATURDAY;
     }
 
-    public void setWeekend(boolean weekend) {
-        isWeekend = weekend;
-    }
-
-    public void addTest(TestDto test) {
+    public void addTest(TestDTO test) {
         tests.add(test);
     }
 
-    public List<TestDto> getTests() {
+    public void addAll(Collection<TestDTO> tests) {
+        this.tests.addAll(tests);
+    }
+
+    public List<TestDTO> getTests() {
         return tests;
     }
 
-    public boolean isEOW() {
-        return isEOW;
-    }
-
-    public void setEOW(boolean EOW) {
-        isEOW = EOW;
-    }
-
     public String getFormatDate() {
-
         return DateTimeFormatter.ofLocalizedDate(FormatStyle.FULL).format(date);
-
     }
     public LocalDate getDate() {
         return date;
@@ -89,11 +71,12 @@ public class CalendarCell {
         return result;
     }
 
-    public String getColor() {
-        String result = "lightgreen";
-        if (!tests.isEmpty()) result = "salmon";
-        else if (!isCurrentPeriod) result = "bisque";
-        else if (isWeekend) result = "violet";
+    public String getStyleClass() {
+        String result;
+        if (!tests.isEmpty()) result = "has-tests";
+        else if (isWeekend() && isCurrentPeriod) result = "weekend";
+        else if (isCurrentPeriod) result = "current-period";
+        else result = "empty";
         return result;
     }
 

@@ -1,0 +1,14 @@
+.cell {
+    width: 70px;
+    height: 60px;
+    vert-align: top;
+    border: solid;
+    border-width: 1px;
+    border-color: black;
+    cursor: pointer;
+}
+
+.empty { background-color: bisque; }
+.has-tests { background-color: salmon; }
+.current-period { background-color: lightgreen; }
+.weekend { background-color: violet; }
