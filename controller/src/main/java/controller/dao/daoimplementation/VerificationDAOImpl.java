@@ -19,6 +19,7 @@ public class VerificationDAOImpl implements VerificationDAO {
         manager = TomcatConnectionPool.getInstance();
     }
 
+
     @Override
     public boolean persistVerificationResult(VerificationResultDTO result) {
         try {
