@@ -4,6 +4,7 @@ import calendar.dao.exceptions.TestDAOException;
 import calendar.dto.TestDTO;
 import connectionmanager.ConnectionPool;
 import connectionmanager.TomcatConnectionPool;
+import org.apache.log4j.Logger;
 
 import java.sql.*;
 import java.time.LocalDate;
@@ -13,20 +14,24 @@ import java.util.List;
 import java.util.Map;
 
 public class PgTestDao implements TestDao {
+
+    private static final String GET_ALL_DTO =
+            "select subjects.name as subject, tests.* " +
+            "   from tests " +
+            "   join test_templates on tests.test_template_id = test_templates.id " +
+            "   left join subjects on test_templates.subject_id = subjects.id " +
+            "   where tests.owner_id = (select id from teachers where user_id=?) " +
+            "   order by start_date_time DESC";
+
     private static ConnectionPool pool = TomcatConnectionPool.getInstance();
+    private static Logger logger = Logger.getLogger(PgTestDao.class);
 
     @Override
     public Map<LocalDate, List<TestDTO>> getTestsByUserIdGroupByDate(int userId, LocalDate begin, LocalDate end) throws TestDAOException {
 
         Map<LocalDate, List<TestDTO>> result = new HashMap<>();
-        String sqlQuery = "select subjects.name as subject, tests.* " +
-                "   from tests " +
-                "   join test_templates on tests.test_template_id = test_templates.id " +
-                "   left join subjects on test_templates.subject_id = subjects.id " +
-                "   where tests.owner_id = (select id from teachers where user_id=?) " +
-                "   order by start_date_time DESC";
         try (Connection connection = pool.getConnection();
-             PreparedStatement ps = connection.prepareStatement(sqlQuery)) {
+             PreparedStatement ps = connection.prepareStatement(GET_ALL_DTO)) {
             ps.setInt(1, userId);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
@@ -45,6 +50,7 @@ public class PgTestDao implements TestDao {
                 result.get(testDTO.getStartDate().toLocalDate()).add(testDTO);
             }
         } catch (SQLException e) {
+            logger.error(e.getMessage(), e);
             throw new TestDAOException("Ошибка получения тестов. " + e.getLocalizedMessage(), e);
         }
         return result;
