@@ -16,6 +16,7 @@
 <c:out value="<p><a href='${pageContext.request.contextPath}'>Вернуться на главную страницу</a></p>" escapeXml="false"/>
 <p>В системе сработал механизм нештатной ситуации. Бодрые программисты и их боевые подруги в обтягивающих майках словно
     спасатели уже бегут исправлять ситуацию...</p>
+<c:out value="<b>${errorText}</b><br>" escapeXml="false"/>
 <c:forEach items="${errors}" var="err">
     <c:out value="<b>${err}</b><br>" escapeXml="false"/>
 </c:forEach>

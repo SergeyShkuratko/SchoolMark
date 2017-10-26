@@ -22,14 +22,8 @@
               jmxEnabled="true"
               jdbcInterceptors="org.apache.tomcat.jdbc.pool.interceptor.ConnectionState;
             org.apache.tomcat.jdbc.pool.interceptor.StatementFinalizer"
-              username="ixabtpit"
-              password="qWjSYwGSstkiKLutM37se5jyWUBzfdC7"
-              driverClassName="org.postgresql.Driver"
-              url="jdbc:postgresql://elmer.db.elephantsql.com:5432/ixabtpit"/>
-              <!--
               username="postgres"
-              password="root"
+              password="7895123"
               driverClassName="org.postgresql.Driver"
-              url="jdbc:postgresql://localhost:5432/ixabtpit"/>
-              -->
+              url="jdbc:postgresql://localhost:5432/SchoolMark"/>
 </Context>

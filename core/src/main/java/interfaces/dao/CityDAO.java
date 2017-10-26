@@ -2,6 +2,7 @@ package interfaces.dao;
 
 import classes.City;
 import classes.Region;
+import classes.dto.CityDTO;
 import exceptions.CityDAOException;
 import exceptions.RegionDAOException;
 
@@ -17,5 +18,5 @@ public interface CityDAO {
     int insertCities(List<City> cities) throws CityDAOException;
     int updateCity(City city) throws CityDAOException;
     List<City> getAll() throws CityDAOException;
-
+    CityDTO getCityDtoById(int cityId) throws CityDAOException;
 }

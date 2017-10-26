@@ -1,6 +1,7 @@
 package services.impl;
 
 import classes.SchoolClass;
+import classes.SchoolType;
 import classes.dto.SchoolDTO;
 import dao.SchoolDAOImpl;
 import exceptions.SchoolDAOException;
@@ -60,6 +61,36 @@ public class SchoolServiceImpl implements SchoolService {
             throw e;
         }
         return classes;
+    }
+
+    @Override
+    public boolean insertSchool(SchoolDTO school) throws SchoolDAOException {
+        try {
+            return schoolDAO.insertSchool(school);
+        } catch (SchoolDAOException e) {
+            logger.info(e);
+            throw e;
+        }
+    }
+
+    @Override
+    public boolean updateSchool(SchoolDTO school) throws SchoolDAOException {
+        try {
+            return schoolDAO.updateSchool(school);
+        } catch (SchoolDAOException e) {
+            logger.info(e);
+            throw e;
+        }
+    }
+
+    @Override
+    public List<SchoolType> getAllSchoolTypes() throws SchoolDAOException {
+        try {
+            return schoolDAO.getAllSchoolTypes();
+        } catch (SchoolDAOException e) {
+            logger.info(e);
+            throw e;
+        }
     }
 
 

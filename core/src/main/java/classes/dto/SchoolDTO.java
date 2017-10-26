@@ -13,11 +13,13 @@ public class SchoolDTO {
     public String regionName;
     public String cityName;
     public String schoolType;
+    public int schoolTypeId;
 
     public SchoolDTO(int id, String name,
                      int regionId, int cityId,
                      String regionName, String cityName,
-                     String schoolType) {
+                     String schoolType,
+                     int schoolTypeId) {
         this.id = id;
         this.name = name;
         this.regionId = regionId;
@@ -25,10 +27,15 @@ public class SchoolDTO {
         this.regionName = regionName;
         this.cityName = cityName;
         this.schoolType = schoolType;
+        this.schoolTypeId = schoolTypeId;
     }
 
     public int getId() {
         return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -53,5 +60,9 @@ public class SchoolDTO {
 
     public String getSchoolType() {
         return schoolType;
+    }
+
+    public int getSchoolTypeId() {
+        return schoolTypeId;
     }
 }
