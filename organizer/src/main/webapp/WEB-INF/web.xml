@@ -6,7 +6,7 @@
 
     <!--<servlet>-->
         <!--<servlet-name>calendar</servlet-name>-->
-        <!--<servlet-class>calendar.servlets.CalendarServlet</servlet-class>-->
+        <!--<servlet-class>calendar.controller.servlets.CalendarServlet</servlet-class>-->
     <!--</servlet>-->
     <!--<servlet-mapping>-->
         <!--<servlet-name>calendar</servlet-name>-->
@@ -35,7 +35,7 @@
 
     <servlet>
         <servlet-name>TemplateList</servlet-name>
-        <servlet-class>template.servlets.TemplateListServlet</servlet-class>
+        <servlet-class>template.controller.servlets.TemplateListServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>TemplateList</servlet-name>
@@ -43,7 +43,7 @@
     </servlet-mapping>
     <servlet>
         <servlet-name>TestServlet</servlet-name>
-        <servlet-class>template.servlets.TestServlet</servlet-class>
+        <servlet-class>template.controller.servlets.TestServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>TestServlet</servlet-name>
@@ -51,7 +51,7 @@
     </servlet-mapping>
     <servlet>
         <servlet-name>TestTemplateServlet</servlet-name>
-        <servlet-class>template.servlets.TestTemplateServlet</servlet-class>
+        <servlet-class>template.controller.servlets.TestTemplateServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>TestTemplateServlet</servlet-name>
