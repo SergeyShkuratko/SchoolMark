@@ -1,5 +1,6 @@
 package controller.controllers;
 
+import classes.CommonSettings;
 import controller.dao.dto.TestsDTO;
 import controller.service.TestService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,10 +27,9 @@ public class StartController extends HttpServlet {
 
     private TestService testService;
 
-    @ModelAttribute("userId")
-    public Integer userIdFromSession()
-    {
-    }
+/*    @ModelAttribute("userId")
+    public Integer userIdFromSession() {
+    }*/
 
     @Autowired
     public void setTestService(TestService testService) {
@@ -37,15 +37,18 @@ public class StartController extends HttpServlet {
     }
 
     @RequestMapping(value = "/start", method = RequestMethod.GET)
-    public ModelAndView start(@RequestParam(name = "session") HttpSession session) {
+    public ModelAndView start(HttpSession session) {
         //FOR TEST ONLY!!!
         // int userId = (Integer) req.getSession().getAttribute(CommonSettings.AUTH_USER_ATTRIBUTE);
 
-        int userId = 1;
+        int userId = (int) session.getAttribute(CommonSettings.AUTH_USER_ATTRIBUTE);
 
         List<TestsDTO> testService = this.testService.getWorksForVerifier(userId);
-        req.setAttribute("tests", testService);
-        req.getRequestDispatcher("/controller.jsp").forward(req, resp);
+
+        ModelAndView mav = new ModelAndView("controller.jsp");
+
+        mav.addObject("tests", testService);
+        return mav;
     }
 
 }
