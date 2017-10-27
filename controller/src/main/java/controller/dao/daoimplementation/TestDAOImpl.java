@@ -8,13 +8,13 @@ import controller.dao.dto.TestDTO;
 import controller.dao.dto.TestsDTO;
 import controller.dao.dto.WorkPageDTO;
 import org.apache.log4j.Logger;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@Component
+@Repository
 public class TestDAOImpl implements TestDAO {
 
     private static final String SQL_GET_TEST_FOR_VERIFIER =
