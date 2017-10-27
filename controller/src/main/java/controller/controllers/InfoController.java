@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 import javax.servlet.ServletConfig;
@@ -30,7 +31,7 @@ public class InfoController {
     }
 
     @RequestMapping(value = "/getInfo", method = RequestMethod.GET)
-    public String getInfo(@RequestParam(name = "getWorksForTest", required = false) Integer testId,
+    public @ResponseBody String getInfo(@RequestParam(name = "getWorksForTest", required = false) Integer testId,
                           @RequestParam(name = "getImageForWork", required = false) Integer workId) {
         if (testId != null) {
             return testService.getTestInfoJsonByTestId(testId);
