@@ -1,10 +1,13 @@
-package servlets;
+package controller.servlets;
 
 import com.google.common.base.Strings;
 import org.apache.log4j.Logger;
-import service.TestService;
-import service.TestServiceImpl;
+import controller.service.TestService;
+import controller.service.TestServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -17,7 +20,18 @@ import java.io.IOException;
 public class InfoServlet extends HttpServlet {
     private static final Logger logger = Logger.getLogger(InfoServlet.class);
 
-    TestService testService = new TestServiceImpl();
+    @Override
+    public void init(ServletConfig config) throws ServletException {
+        super.init(config);
+        SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
+    }
+
+    @Autowired
+    public void setTestService(TestService testService) {
+        this.testService = testService;
+    }
+
+    TestService testService;
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
