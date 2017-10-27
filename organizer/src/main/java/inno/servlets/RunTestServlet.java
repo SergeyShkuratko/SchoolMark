@@ -18,7 +18,12 @@ import java.io.PrintWriter;
 
 //@WebServlet("/test-run")
 public class RunTestServlet extends HttpServlet {
+
     private static Logger logger = Logger.getLogger(RunTestServlet.class);
+
+    private OrganizerDAO organizerDAO = new OrganizerDAO();
+    private WorkDAO workDAO = new WorkDAO();
+    private RunTestService runTestService = new RunTestService(organizerDAO, workDAO);
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -29,13 +34,13 @@ public class RunTestServlet extends HttpServlet {
         if (test_id > 0) {
             try {
                 //Просим сервис стартануть контрольную работу
-                RunTestService.createWorksForTestIfNotExist(test_id);
+                runTestService.createWorksForTestIfNotExist(test_id);
 
                 //получаем тест из БД
-                TestDTO test = OrganizerDAO.getTestById(test_id);
+                TestDTO test = organizerDAO.getTestById(test_id);
 
                 //добавляем работы
-                req.setAttribute("works", OrganizerDAO.getAllWorksByTestId(test.getId()));
+                req.setAttribute("works", organizerDAO.getAllWorksByTestId(test.getId()));
 
                 //добавляем тест
                 req.setAttribute("test", test);
@@ -50,7 +55,7 @@ public class RunTestServlet extends HttpServlet {
         if (req.getParameter("work_id") != null) {
             if (req.getParameter("presence") != null) {
                 try {
-                    WorkDAO.updatePresenceStatusByID(
+                    workDAO.updatePresenceStatusByID(
                             Integer.parseInt((req.getParameter("work_id"))),
                             Boolean.parseBoolean(req.getParameter("presence")));
                 } catch (OrganizerDAOexception organizerDAOexception) {
@@ -69,7 +74,7 @@ public class RunTestServlet extends HttpServlet {
 
             int testId = Integer.parseInt(req.getParameter("get_upload_info_for_test"));
 
-            resp.getWriter().print(RunTestService.getWorksStatusByTestId(testId));
+            resp.getWriter().print(runTestService.getWorksStatusByTestId(testId));
         }
 
 
@@ -84,7 +89,7 @@ public class RunTestServlet extends HttpServlet {
             PrintWriter writer = resp.getWriter();
 
             String resultJsonString =
-                    RunTestService.setTeachersChoiceForWork(
+                    runTestService.setTeachersChoiceForWork(
                             Integer.parseInt(req.getParameter("id")),
                             Commands.valueOf(req.getParameter("action").toUpperCase()));
 
@@ -97,7 +102,7 @@ public class RunTestServlet extends HttpServlet {
             resp.setContentType("application/json");
             resp.setCharacterEncoding("UTF-8");
             resp.getWriter().print(
-                    RunTestService.getWorkPagesAsJson(
+                    runTestService.getWorkPagesAsJson(
                             Integer.parseInt(
                                     req.getParameter("pages_images"))));
         }

@@ -5,16 +5,21 @@ import connectionmanager.TomcatConnectionPool;
 import inno.exceptions.OrganizerDAOexception;
 import org.apache.log4j.Logger;
 import org.postgresql.util.PGobject;
+import org.springframework.stereotype.Repository;
 
 import java.sql.*;
 import java.time.LocalDate;
 
+@Repository
 public class TestDAO {
 
-    private static Logger logger = Logger.getLogger(TestDAO.class);
+    private Logger logger;
+    private ConnectionPool pool;
 
-    private static ConnectionPool pool = TomcatConnectionPool.getInstance();
-
+    public TestDAO() {
+        this.logger = Logger.getLogger(TestDAO.class);
+        this.pool = TomcatConnectionPool.getInstance();
+    }
     /**
      * Обновляет статус контрольной работы
      *
@@ -23,7 +28,7 @@ public class TestDAO {
      * @return true если обновилось, false если нет
      * @throws OrganizerDAOexception
      */
-    public static boolean updateTestStatusByID(int id, String status) throws OrganizerDAOexception {
+    public boolean updateTestStatusByID(int id, String status) throws OrganizerDAOexception {
         System.out.println("go");
         final String sql = "UPDATE tests SET status = ? WHERE id= ?";
         try (Connection connection = pool.getConnection();
@@ -48,7 +53,7 @@ public class TestDAO {
      * @return
      * @throws OrganizerDAOexception
      */
-    public static boolean doneTest(int id) throws OrganizerDAOexception {
+    public boolean doneTest(int id) throws OrganizerDAOexception {
         final String sql = "UPDATE tests SET status = ?, verification_deadline = ?  WHERE id= ?";
 
         try (Connection connection = pool.getConnection();

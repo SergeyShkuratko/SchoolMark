@@ -6,25 +6,32 @@ import inno.dto.TestDTO;
 import inno.dto.WorkDTO;
 import inno.exceptions.OrganizerDAOexception;
 import org.apache.log4j.Logger;
+import org.springframework.stereotype.Repository;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Repository
 public class OrganizerDAO {
 
 
-    private static Logger logger = Logger.getLogger(OrganizerDAO.class);
-    private static ConnectionPool pool = TomcatConnectionPool.getInstance();
+    private Logger logger;
+    private ConnectionPool pool;
+
+    public OrganizerDAO() {
+        this.logger = Logger.getLogger(OrganizerDAO.class);
+        this.pool = TomcatConnectionPool.getInstance();
+    }
 
     /**
      * Возвращает тест по его ID
      *
-     * @param test_id
+     * @param testId
      * @return
      * @throws OrganizerDAOexception
      */
-    public static TestDTO getTestById(int test_id) throws OrganizerDAOexception {
+    public TestDTO getTestById(int testId) throws OrganizerDAOexception {
         final String SQL = "SELECT t.id, t.status, tt.topic, tt.description, sc.id AS school_class_id " +
                 "FROM tests AS t " +
                 "JOIN test_templates AS tt ON t.test_template_id = tt.id " +
@@ -34,7 +41,7 @@ public class OrganizerDAO {
         try (Connection connection = pool.getConnection();
              PreparedStatement statement = connection.prepareStatement(SQL)) {
 
-            statement.setInt(1, test_id);
+            statement.setInt(1, testId);
             ResultSet rs = statement.executeQuery();
 
             if (rs.next()) {
@@ -56,11 +63,11 @@ public class OrganizerDAO {
     /**
      * Создает по работе для каждого ученика по указанному ID теста
      *
-     * @param test_id
+     * @param testId
      * @return true/false
      * @throws OrganizerDAOexception
      */
-    public static boolean createWorksForTest(int test_id) throws OrganizerDAOexception {
+    public boolean createWorksForTest(int testId) throws OrganizerDAOexception {
         final String SQL = "INSERT INTO works (test_id, student_id, status)" +
                 "  SELECT" +
                 "    t.id," +
@@ -72,7 +79,7 @@ public class OrganizerDAO {
         try (Connection connection = pool.getConnection();
              PreparedStatement statement = connection.prepareStatement(SQL)) {
 
-            statement.setInt(1, test_id);
+            statement.setInt(1, testId);
 //            return statement.execute(SQL);
             return statement.executeUpdate() == 1;
 
@@ -85,11 +92,11 @@ public class OrganizerDAO {
     /**
      * Проверяет, существуют ли работы для этой контрольной работы
      *
-     * @param test_id
+     * @param testId
      * @return true/false
      * @throws OrganizerDAOexception
      */
-    public static boolean isWorksExists(int test_id) throws OrganizerDAOexception {
+    public boolean isWorksExists(int testId) throws OrganizerDAOexception {
         final String SQL = "SELECT COUNT(id) >= 1 " +
                 "FROM works " +
                 "WHERE test_id=?";
@@ -97,7 +104,7 @@ public class OrganizerDAO {
         try (Connection connection = pool.getConnection();
              PreparedStatement statement = connection.prepareStatement(SQL)) {
 
-            statement.setInt(1, test_id);
+            statement.setInt(1, testId);
             ResultSet rs = statement.executeQuery();
 
             if (rs.next()) {
@@ -113,10 +120,10 @@ public class OrganizerDAO {
     /**
      * Возвращает список работ по тесту
      *
-     * @param test_id
+     * @param testId
      * @return лист работ
      */
-    public static List<WorkDTO> getAllWorksByTestId(int test_id) throws OrganizerDAOexception {
+    public List<WorkDTO> getAllWorksByTestId(int testId) throws OrganizerDAOexception {
         List<WorkDTO> list = new ArrayList<>();
         final String SQL = "SELECT w.id," +
                 " w.student_id," +
@@ -129,7 +136,7 @@ public class OrganizerDAO {
         try (Connection connection = pool.getConnection();
              PreparedStatement statement = connection.prepareStatement(SQL)) {
 
-            statement.setInt(1, test_id);
+            statement.setInt(1, testId);
             ResultSet rs = statement.executeQuery();
 
             while (rs.next()) {

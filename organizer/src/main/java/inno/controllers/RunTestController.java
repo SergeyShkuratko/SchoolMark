@@ -6,19 +6,17 @@ import inno.dao.WorkDAO;
 import inno.dto.TestDTO;
 import inno.exceptions.OrganizerDAOexception;
 import inno.service.RunTestService;
-import inno.servlets.RunTestServlet;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.PrintWriter;
 
 /**
  * Created by nkm on 26.10.2017.
@@ -27,24 +25,35 @@ import java.io.PrintWriter;
 @RequestMapping("/test-run")
 public class RunTestController {
 
-    private static Logger logger = Logger.getLogger(RunTestServlet.class);
+    private Logger logger;
+
+    private final OrganizerDAO organizerDAO;
+    private final WorkDAO workDAO;
+    private final RunTestService runTestService;
+
+    @Autowired
+    public RunTestController(OrganizerDAO organizerDAO, WorkDAO workDAO, RunTestService runTestService) {
+        this.organizerDAO = organizerDAO;
+        this.workDAO = workDAO;
+        this.runTestService = runTestService;
+        logger = Logger.getLogger(RunTestController.class);
+    }
+
 
     @RequestMapping(method = RequestMethod.GET, params = {"test_id"})
-    protected ModelAndView processTest(@RequestParam("test_id") Integer test_id) {
-
-        //<---- TODO может быть здесь стоит проверять есть ли такой тест в БД вообще
+    protected ModelAndView processTest(@RequestParam("test_id") Integer testId) {
 
         ModelAndView modelAndView = new ModelAndView("test_run");
 
         try {
             //Просим сервис стартануть контрольную работу
-            RunTestService.createWorksForTestIfNotExist(test_id);
+            runTestService.createWorksForTestIfNotExist(testId);
             //получаем тест из БД
-            TestDTO test = OrganizerDAO.getTestById(test_id);
+            TestDTO test = organizerDAO.getTestById(testId);
             //добавляем тест
             modelAndView.addObject("test", test);
             //добавляем работы
-            modelAndView.addObject("works", OrganizerDAO.getAllWorksByTestId(test.getId()));
+            modelAndView.addObject("works", organizerDAO.getAllWorksByTestId(test.getId()));
 
         } catch (OrganizerDAOexception e) {
             logger.error(e);
@@ -56,10 +65,9 @@ public class RunTestController {
     @RequestMapping(method = RequestMethod.GET, params = {"work_id", "presence"})
     protected void processTestUpdatePresence(@RequestParam("work_id") Integer workId,
                                              @RequestParam(value = "presence", required = false) Boolean presence) {
-
         if (presence != null) {
             try {
-                WorkDAO.updatePresenceStatusByID(workId, presence);
+                workDAO.updatePresenceStatusByID(workId, presence);
             } catch (OrganizerDAOexception organizerDAOexception) {
                 logger.error(organizerDAOexception);
             }
@@ -67,43 +75,70 @@ public class RunTestController {
     }
 
 
-    /**
-     * Проверяет статус загруженых работ онлайн через JSON
-     */
-    @RequestMapping(method = RequestMethod.GET,params = "get_upload_info_for_test", produces = "application/json")
-    protected String processTest3(@RequestParam("get_upload_info_for_test") Integer testId) {
+//    /**
+//     * Проверяет статус загруженых работ онлайн через JSON
+//     */
+////    @RequestMapping(method = RequestMethod.GET, params = "get_upload_info_for_test")
+//    @RequestMapping(method = RequestMethod.GET, params = "get_upload_info_for_test", produces = "application/json")
+//    protected @ResponseBody String processTestWorkStatus(@RequestParam("get_upload_info_for_test") Integer testId) {
+//        return runTestService.getWorksStatusByTestId(testId);
+//    }
+    @RequestMapping(method = RequestMethod.GET, params = "get_upload_info_for_test")
+    protected void processTestWorkStatus(@RequestParam("get_upload_info_for_test") Integer testId,
+                                HttpServletResponse resp) {
 
-//        resp.setContentType("application/json");
-//        resp.setCharacterEncoding("UTF-8");
-
-        return RunTestService.getWorksStatusByTestId(testId);
+        resp.setContentType("application/json");
+        resp.setCharacterEncoding("UTF-8");
+        try {
+            resp.getWriter().print(runTestService.getWorksStatusByTestId(testId));
+        } catch (IOException e) {
+            logger.error(e.getMessage());
+        }
     }
+
 
 
     /**
      * Устанавливает параметры от учителя, подтвержает ли качество загруженных работ или нет.
      */
-    @RequestMapping(method = RequestMethod.GET, produces = "application/json")
-    protected String processTest4(@RequestParam("work_id") Integer workId,
-                                  @RequestParam("action") String command) {
+//    @RequestMapping(method = RequestMethod.GET, params = {"work_id", "action"}, produces = "application/json")
+//    protected String processTestTeachersChoice(@RequestParam("work_id") Integer workId,
+//                                  @RequestParam("action") String command) {
+//        return runTestService.setTeachersChoiceForWork(workId,
+//                Commands.valueOf(command.toUpperCase()));
+//    }
+    @RequestMapping(method = RequestMethod.GET, params = {"work_id", "action"}, produces = "application/json")
+    protected void processTestTeachersChoice(@RequestParam("work_id") Integer workId,
+                                  @RequestParam("action") String command,
+                                  HttpServletResponse resp) {
+        resp.setContentType("application/json");
+        resp.setCharacterEncoding("UTF-8");
+        try {
+            resp.getWriter().print(
+                    runTestService.setTeachersChoiceForWork(
+                            workId, Commands.valueOf(command.toUpperCase())));
+        } catch (IOException e) {
+            logger.error(e.getMessage());
+        }
 
-//        resp.setContentType("application/json");
-//        resp.setCharacterEncoding("UTF-8");
-//        PrintWriter writer = resp.getWriter();
-
-        String resultJsonString = RunTestService.setTeachersChoiceForWork(workId,
-                Commands.valueOf(command.toUpperCase()));
-
-        return resultJsonString;
     }
 
-    @RequestMapping(method = RequestMethod.GET, produces = "application/json")
-    protected String processTest5(@RequestParam("pages_images") Integer pagesImages) {
 
-//        resp.setContentType("application/json");
-//        resp.setCharacterEncoding("UTF-8");
-
-        return RunTestService.getWorkPagesAsJson(pagesImages);
+//    @RequestMapping(method = RequestMethod.GET, params = "pages_images", produces = "application/json")
+//    protected String processTestWorkPages(@RequestParam("pages_images") Integer pagesImages) {
+//        return runTestService.getWorkPagesAsJson(pagesImages);
+//    }
+    @RequestMapping(method = RequestMethod.GET, params = "pages_images", produces = "application/json")
+    protected void processTestWorkPages(@RequestParam("pages_images") Integer pagesImages,
+                                  HttpServletResponse resp) {
+        resp.setContentType("application/json");
+        resp.setCharacterEncoding("UTF-8");
+        try {
+            resp.getWriter().print(runTestService.getWorkPagesAsJson(pagesImages));
+        } catch (IOException e) {
+            logger.error(e.getMessage());
+        }
     }
+
 
 }
