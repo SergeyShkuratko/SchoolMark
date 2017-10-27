@@ -18,8 +18,8 @@ import java.io.PrintWriter;
 import java.util.List;
 
 @Controller
-public class ClassesListServlet extends HttpServlet {
-    private static Logger logger = Logger.getLogger(ClassesListServlet.class);
+public class ClassesListController extends HttpServlet {
+    private static Logger logger = Logger.getLogger(ClassesListController.class);
     private SchoolService processingService;
 
     @Autowired

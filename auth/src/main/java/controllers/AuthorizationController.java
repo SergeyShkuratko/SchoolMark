@@ -17,7 +17,7 @@ import static classes.CommonSettings.*;
 import static exceptions.ErrorDescriptions.*;
 import static utils.Settings.*;
 @Controller
-public class AuthorizationServlet {
+public class AuthorizationController {
     public AuthorizationService authService;
 
     @Autowired

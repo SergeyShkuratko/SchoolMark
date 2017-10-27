@@ -1,4 +1,4 @@
-package servlets.ajax.controllers;
+package controllers.ajax;
 
 import org.apache.log4j.Logger;
 import org.json.JSONObject;
@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import services.CityService;
-import services.impl.CityServiceImpl;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;

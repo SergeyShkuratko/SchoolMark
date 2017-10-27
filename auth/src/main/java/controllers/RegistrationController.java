@@ -19,9 +19,9 @@ import static classes.CommonSettings.AUTH_USER_ATTRIBUTE;
 import static exceptions.ErrorDescriptions.*;
 import static utils.Settings.*;
 @Controller
-public class RegistrationServlet {
+public class RegistrationController {
     public static final String REG_SESSION_ATTRIBUTE_ROLE = "role";
-    private static Logger logger = Logger.getLogger(RegistrationServlet.class);
+    private static Logger logger = Logger.getLogger(RegistrationController.class);
     private RegistrationService registrationService;
 
     @Autowired

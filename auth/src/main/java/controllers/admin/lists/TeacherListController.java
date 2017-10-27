@@ -15,8 +15,8 @@ import java.io.PrintWriter;
 import java.util.List;
 
 @Controller
-public class TeacherListServlet{
-    private static Logger logger = Logger.getLogger(TeacherListServlet.class);
+public class TeacherListController {
+    private static Logger logger = Logger.getLogger(TeacherListController.class);
     private TeacherService processingService;
 
     @Autowired

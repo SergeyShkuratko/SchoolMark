@@ -23,9 +23,9 @@ import java.io.IOException;
 import static controllers.constants.ServletConstants.BASE_JSP_PATH;
 
 @Controller
-public class CitiesListServlet extends HttpServlet {
+public class CitiesListController extends HttpServlet {
 
-    private static final Logger logger = Logger.getLogger(CitiesListServlet.class);
+    private static final Logger logger = Logger.getLogger(CitiesListController.class);
 
     @RequestMapping(value = "/admin/cities", method = RequestMethod.GET)
     public void doGet(HttpServletRequest req, HttpServletResponse resp)  {

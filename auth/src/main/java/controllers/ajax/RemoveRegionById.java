@@ -1,4 +1,4 @@
-package servlets.ajax.controllers;
+package controllers.ajax;
 
 import org.json.JSONObject;
 import org.springframework.stereotype.Controller;

@@ -17,9 +17,9 @@ import static classes.CommonSettings.*;
 import static exceptions.ErrorDescriptions.*;
 import static utils.Settings.*;
 @Controller
-public class CreateClassServlet {
+public class CreateClassController {
 
-    private static Logger logger = Logger.getLogger(CreateClassServlet.class);
+    private static Logger logger = Logger.getLogger(CreateClassController.class);
 	private SchoolClassService classService;
     private SchoolService schoolService;
 

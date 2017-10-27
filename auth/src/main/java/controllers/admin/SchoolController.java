@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServlet;
 import static utils.Settings.*;
 
 @Controller
-public class SchoolServlet extends HttpServlet {
+public class SchoolController extends HttpServlet {
     private CityService cityService;
     private SchoolService schoolService;
 

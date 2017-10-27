@@ -12,8 +12,8 @@ import services.impl.RegistrationUrlServiceImpl;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 @Controller
-public class RegistrationUrlServlet {
-    Logger logger = Logger.getLogger(RegistrationUrlServlet.class);
+public class RegistrationUrlController {
+    Logger logger = Logger.getLogger(RegistrationUrlController.class);
     private static RegistrationUrlService registrationUrlService = new RegistrationUrlServiceImpl();
 
     @RequestMapping(value = "/admin/regUrl", method = RequestMethod.POST)

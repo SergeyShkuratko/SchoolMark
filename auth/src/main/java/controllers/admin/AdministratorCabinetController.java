@@ -14,8 +14,8 @@ import java.util.List;
 import static exceptions.ErrorDescriptions.DB_ERROR;
 import static utils.Settings.*;
 @Controller
-public class AdministratorCabinetServlet {
-    private static Logger logger = Logger.getLogger(AdministratorCabinetServlet.class);
+public class AdministratorCabinetController {
+    private static Logger logger = Logger.getLogger(AdministratorCabinetController.class);
     private SchoolService schoolService;
 
     @Autowired

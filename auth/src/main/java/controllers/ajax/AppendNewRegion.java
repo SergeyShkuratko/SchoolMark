@@ -1,4 +1,4 @@
-package servlets.ajax.controllers;
+package controllers.ajax;
 
 import org.apache.log4j.Logger;
 import org.json.JSONObject;

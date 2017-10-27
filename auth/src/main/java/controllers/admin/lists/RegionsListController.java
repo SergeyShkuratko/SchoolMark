@@ -22,8 +22,8 @@ import java.io.IOException;
 import static controllers.constants.ServletConstants.BASE_JSP_PATH;
 
 @Controller
-public class RegionsListServlet extends HttpServlet {
-    private static final Logger logger = Logger.getLogger(RegionsListServlet.class);
+public class RegionsListController extends HttpServlet {
+    private static final Logger logger = Logger.getLogger(RegionsListController.class);
 
     @RequestMapping(value = "/admin/regions", method = RequestMethod.GET)
     public void doGet(HttpServletRequest req, HttpServletResponse resp) {
