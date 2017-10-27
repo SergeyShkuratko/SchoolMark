@@ -6,6 +6,8 @@ import controller.service.VerificationResultImpl;
 import controller.service.VerificationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
@@ -15,6 +17,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 //@WebServlet("/persistVerificationResult")
@@ -29,13 +32,15 @@ public class VerificationPersistController {
         this.verificationService = verificationService;
     }
 
+    @RequestMapping("/persistVerificationResult")
+    protected @ResponseBody
 
-    protected @ResponseBody String verify(HttpServletRequest req) {
+    String verify(@RequestParam("mark") int mark,
+                  @RequestParam("comment") String comment,
+                  @RequestParam("workId") int workId,
+                  HttpSession session) {
 
-        int mark = Integer.parseInt(req.getParameter("mark"));
-        String comment = req.getParameter("comment");
-        int workId = Integer.parseInt(req.getParameter("workId"));
-        int userId = (Integer) req.getSession().getAttribute(CommonSettings.AUTH_USER_ATTRIBUTE);
+        int userId = (Integer) session.getAttribute(CommonSettings.AUTH_USER_ATTRIBUTE);
 
         VerificationResultDTO resultDTO = new VerificationResultDTO(workId, userId, mark, comment);
 
