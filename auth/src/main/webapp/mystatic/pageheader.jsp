@@ -13,7 +13,7 @@
         <a href="<c:url value='/director-test-list'/>">Статистика</a>
     </c:if>
 
-    <a href="#">Выход</a>
+    <a href="<c:url value='/logout'/>">Выход</a>
 </div>
 
 <div class="main">

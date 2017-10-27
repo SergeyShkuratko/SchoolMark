@@ -1,4 +1,4 @@
-package servlets.filters;
+package controllers.filters;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -21,8 +21,18 @@ public class AuthorizationFilter implements Filter {
         HttpServletRequest httpRequest = (HttpServletRequest) request;
         String path = httpRequest.getRequestURI().substring(httpRequest.getContextPath().length());
 
-        if (path.equals("/") || path.equals("/auth")) {
+        if (path.equals("/auth")
+                || path.startsWith("/js/")
+                || path.startsWith("/css/")
+                || path.startsWith("/registration")
+                || path.startsWith("/register")
+                || path.startsWith("/fonts/")) {
             chain.doFilter(request, response);
+            return;
+        }
+
+        if (path.equals("/")) {
+            ((HttpServletResponse) response).sendRedirect(httpRequest.getContextPath() + AUTH_PAGE);
             return;
         }
 

@@ -1,7 +1,6 @@
 package services.impl;
 
 import classes.Region;
-import dao.RegionDAOImpl;
 import exceptions.RegionDAOException;
 import interfaces.dao.RegionDAO;
 import org.apache.log4j.Logger;
