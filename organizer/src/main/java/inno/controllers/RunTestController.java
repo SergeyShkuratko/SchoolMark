@@ -1,6 +1,7 @@
 package inno.controllers;
 
 import inno.classes.Commands;
+import inno.classes.WorkStatus;
 import inno.dao.OrganizerDAO;
 import inno.dao.WorkDAO;
 import inno.dto.TestDTO;
@@ -8,15 +9,16 @@ import inno.exceptions.OrganizerDAOexception;
 import inno.service.RunTestService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 
 /**
  * Created by nkm on 26.10.2017.
@@ -75,27 +77,26 @@ public class RunTestController {
     }
 
 
-//    /**
-//     * Проверяет статус загруженых работ онлайн через JSON
-//     */
-////    @RequestMapping(method = RequestMethod.GET, params = "get_upload_info_for_test")
-//    @RequestMapping(method = RequestMethod.GET, params = "get_upload_info_for_test", produces = "application/json")
-//    protected @ResponseBody String processTestWorkStatus(@RequestParam("get_upload_info_for_test") Integer testId) {
-//        return runTestService.getWorksStatusByTestId(testId);
-//    }
-    @RequestMapping(method = RequestMethod.GET, params = "get_upload_info_for_test")
-    protected void processTestWorkStatus(@RequestParam("get_upload_info_for_test") Integer testId,
-                                HttpServletResponse resp) {
-
-        resp.setContentType("application/json");
-        resp.setCharacterEncoding("UTF-8");
-        try {
-            resp.getWriter().print(runTestService.getWorksStatusByTestId(testId));
-        } catch (IOException e) {
-            logger.error(e.getMessage());
-        }
+    /**
+     * Проверяет статус загруженых работ онлайн через JSON
+     */
+//    @RequestMapping(method = RequestMethod.GET, params = "get_upload_info_for_test")
+    @RequestMapping(method = RequestMethod.GET, params = "get_upload_info_for_test", produces = "application/json")
+    protected @ResponseBody String processTestWorkStatus(@RequestParam("get_upload_info_for_test") Integer testId) {
+        return runTestService.getWorksStatusByTestId(testId);
     }
-
+//    @RequestMapping(method = RequestMethod.GET, params = "get_upload_info_for_test")
+//    protected void processTestWorkStatus(@RequestParam("get_upload_info_for_test") Integer testId,
+//                                HttpServletResponse resp) {
+//
+//        resp.setContentType("application/json");
+//        resp.setCharacterEncoding("UTF-8");
+//        try {
+//            resp.getWriter().print(runTestService.getWorksStatusByTestId(testId));
+//        } catch (IOException e) {
+//            logger.error(e.getMessage());
+//        }
+//    }
 
 
     /**
