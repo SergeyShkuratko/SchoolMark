@@ -10,6 +10,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import services.SchoolService;
 import services.impl.SchoolServiceImpl;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
+import javax.servlet.ServletConfig;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -19,7 +23,12 @@ import java.util.List;
 @Controller
 public class ClassesListServlet extends HttpServlet {
     private static Logger logger = Logger.getLogger(ClassesListServlet.class);
-    private SchoolService processingService = new SchoolServiceImpl();
+    private SchoolService processingService;
+
+    @Autowired
+    public void setProcessingService(SchoolService processingService) {
+        this.processingService = processingService;
+    }
 
     @RequestMapping(value = "/admin/classes", method = RequestMethod.GET)
     public void doGet(@RequestParam("school") String pSchoolId, HttpServletResponse resp) {

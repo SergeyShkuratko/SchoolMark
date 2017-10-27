@@ -7,9 +7,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.beans.factory.annotation.Autowired;
 import services.SchoolService;
-import services.impl.SchoolServiceImpl;
 
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -20,9 +21,13 @@ import java.util.List;
 
 @Controller
 public class SchoolListServlet {
-    private SchoolService processingService = new SchoolServiceImpl();
     private static Logger logger = Logger.getLogger(SchoolListServlet.class);
+	private SchoolService processingService;
 
+    @Autowired
+    public void setProcessingService(SchoolService processingService) {
+        this.processingService = processingService;
+    }
     @RequestMapping(value = "/admin/schools", method = RequestMethod.GET)
     public void doGet(@RequestParam("city") String pCityId, HttpServletResponse resp) {
         resp.setCharacterEncoding("UTF-8");

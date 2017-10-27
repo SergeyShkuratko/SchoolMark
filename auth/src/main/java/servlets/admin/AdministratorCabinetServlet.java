@@ -6,8 +6,8 @@ import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.beans.factory.annotation.Autowired;
 import services.SchoolService;
-import services.impl.SchoolServiceImpl;
 
 import java.util.List;
 
@@ -16,7 +16,13 @@ import static utils.Settings.*;
 @Controller
 public class AdministratorCabinetServlet {
     private static Logger logger = Logger.getLogger(AdministratorCabinetServlet.class);
-    private static SchoolService service = new SchoolServiceImpl();
+    private SchoolService schoolService;
+
+    @Autowired
+    public void setSchoolService(SchoolService schoolService) {
+        this.schoolService = schoolService;
+    }
+
 
     @RequestMapping("/admin/cabinet")
     public ModelAndView doGet(){

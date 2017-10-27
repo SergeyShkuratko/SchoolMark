@@ -2,25 +2,24 @@ package dao;
 
 import classes.City;
 import classes.Region;
+import classes.dto.CityDTO;
 import connectionmanager.ConnectionPool;
 import connectionmanager.TomcatConnectionPool;
 import exceptions.CityDAOException;
 import exceptions.RegionDAOException;
 import interfaces.dao.CityDAO;
 import org.apache.log4j.Logger;
+import org.springframework.stereotype.Component;
 import utils.dao.DAOUtilsCity;
 import utils.dao.DAOUtilsRegion;
 
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
-import javax.sql.DataSource;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 import static core.dao.constants.DAOConstants.NULL_POINTER_DB;
 
+@Component
 public class CityDAOImpl implements CityDAO {
 
     private static Logger logger = Logger.getLogger(CityDAOImpl.class);
@@ -34,12 +33,14 @@ public class CityDAOImpl implements CityDAO {
     private final String updateSql = "UPDATE city " +
             "SET region_id = ?, name = ? " +
             "WHERE id = ?";
-
+	private static final String GET_DTO_BY_ID = "select city.id as id, city.name as name, region.id as regionId," +
+            " region.name as regionName from city left join region on city.region_id = region.id WHERE city.id = ?";
+            
     @Override
     public City getById(int id) throws CityDAOException {
         City result = null;
         try (Connection connection = pool.getConnection();
-            PreparedStatement statement = connection.prepareStatement(GET_BY_ID)) {
+             PreparedStatement statement = connection.prepareStatement(GET_BY_ID)) {
             statement.setInt(1, id);
             ResultSet set = statement.executeQuery();
             List<City> cities = cityListFromResultSet(set);
@@ -104,6 +105,7 @@ public class CityDAOImpl implements CityDAO {
         return result;
     }
 
+
     private City getOne(String where) throws CityDAOException {
         try(
                 Connection connection = pool.getConnection();
@@ -164,7 +166,6 @@ public class CityDAOImpl implements CityDAO {
                     "You can't update object into db which have not there yet !!!");
     }
 
-    @SuppressWarnings("all")
     @Override
     public int insertCity(City city) throws CityDAOException {
         this.checkInDBaseAndException(city);
@@ -183,7 +184,6 @@ public class CityDAOImpl implements CityDAO {
         }
     }
 
-    @SuppressWarnings("all")
     @Override
     public int removeCity(City city) throws CityDAOException {
         try (Connection connection = pool.getConnection();
@@ -204,7 +204,6 @@ public class CityDAOImpl implements CityDAO {
         }
     }
 
-    @SuppressWarnings("all")
     @Override
     public int insertCities(List<City> cities)
             throws CityDAOException {
@@ -221,7 +220,6 @@ public class CityDAOImpl implements CityDAO {
         }
     }
 
-    @SuppressWarnings("all")
     @Override
     public int updateCity(City city)
             throws CityDAOException {
@@ -236,6 +234,27 @@ public class CityDAOImpl implements CityDAO {
         } catch (SQLException e) {
             throw new CityDAOException(e.getMessage());
         }
+    }
+    @Override
+    public CityDTO getCityDtoById(int cityId) throws CityDAOException {
+        CityDTO result = null;
+        try (Connection connection = pool.getConnection();
+             PreparedStatement statement = connection.prepareStatement(GET_DTO_BY_ID)) {
+            statement.setInt(1, cityId);
+            ResultSet set = statement.executeQuery();
+            if (set.next()) {
+                result = new CityDTO(set.getInt("id"),
+                        set.getString("name"),
+                        set.getInt("regionId"),
+                        set.getString("regionName"));
+            }
+        } catch (SQLException e) {
+            logger.error(e.getMessage());
+            logger.debug(e.fillInStackTrace());
+            throw new CityDAOException();
+        }
+        return result;
+
     }
 
 }

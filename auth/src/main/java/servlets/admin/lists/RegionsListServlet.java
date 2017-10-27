@@ -5,7 +5,7 @@ import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import services.ServiceDAORegion;
+import servlets.admin.lists.builder.RegionHtmlPartBuilder;
 import services.exceptions.ServicesAuthGetPropertyNotFoundException;
 import services.exceptions.ServicesAuthTemplateNotFoundException;
 import utils.jsp.GetJspContent;
@@ -23,7 +23,6 @@ import static servlets.constants.ServletConstants.BASE_JSP_PATH;
 
 @Controller
 public class RegionsListServlet extends HttpServlet {
-
     private static final Logger logger = Logger.getLogger(RegionsListServlet.class);
 
     @RequestMapping(value = "/admin/regions", method = RequestMethod.GET)
@@ -32,12 +31,12 @@ public class RegionsListServlet extends HttpServlet {
                 req.getServletContext().getRequestDispatcher(BASE_JSP_PATH);
         try {
             try {
-                ServiceDAORegion serviceDAORegion = new ServiceDAORegion(req.getServletContext());
+                RegionHtmlPartBuilder regionHtmlPartBuilder = new RegionHtmlPartBuilder(req.getServletContext());
                 PropertyValueGetter propertyValueGetter = new PropertyValueGetter();
                 String jsp = propertyValueGetter.getPropertyByKey("amr_list_jsp_path");
                 req.setAttribute("pagetitle", "Список регионов");
                 req.setAttribute("modaltitle", "Добавить регион");
-                req.setAttribute("table", serviceDAORegion.getContentForAllRegions());
+                req.setAttribute("table", regionHtmlPartBuilder.getContentForAllRegions());
                 req.setAttribute("content", new GetJspContent(req, resp).getContent(jsp));
                 dispatcher.forward(req, resp);
             } catch (ServicesAuthGetPropertyNotFoundException

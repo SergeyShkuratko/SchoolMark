@@ -7,6 +7,7 @@ import classes.dto.TeacherDTO;
 import exceptions.SchoolTeacherDAOException;
 import interfaces.dao.SchoolTeacherDAO;
 import org.apache.log4j.Logger;
+import org.springframework.stereotype.Component;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -15,14 +16,15 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+@Component
 public class SchoolTeacherDAOImpl implements SchoolTeacherDAO {
-
     private static Logger logger = Logger.getLogger(SchoolDAOImpl.class);
-    private static ConnectionPool pool = TomcatConnectionPool.getInstance();
 
     private static final String GET_BY_SCHOOL = "SELECT * FROM teachers t" +
             " LEFT JOIN users u ON u.id = t.user_id" +
             " WHERE school_id = ?";
+
+    private static ConnectionPool pool = TomcatConnectionPool.getInstance();
 
     @Override
     public List<TeacherDTO> getTeacherBySchool(int id) throws SchoolTeacherDAOException {

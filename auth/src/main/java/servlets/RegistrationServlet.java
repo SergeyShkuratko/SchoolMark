@@ -9,10 +9,9 @@ import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.beans.factory.annotation.Autowired;
 import services.AuthorizationService;
 import services.RegistrationService;
-import services.impl.AuthorizationServiceImpl;
-import services.impl.RegistrationServiceImpl;
 
 import javax.servlet.http.HttpSession;
 
@@ -23,15 +22,21 @@ import static utils.Settings.*;
 @Controller
 public class RegistrationServlet {
     public static final String REG_SESSION_ATTRIBUTE_ROLE = "role";
-    private static RegistrationService service = new RegistrationServiceImpl();
     private static Logger logger = Logger.getLogger(RegistrationServlet.class);
+    private RegistrationService registrationService;
+
+    @Autowired
+    public void setRegistrationService(RegistrationService registrationService) {
+        this.registrationService = registrationService;
+    }
+
     @RequestMapping(value = "/register/{regUrl}", method = RequestMethod.GET)
     protected ModelAndView doGet(@PathVariable("regUrl") String regUrl, HttpSession session) {
         ModelAndView mv = new ModelAndView();
         Role role = (Role)session.getAttribute(AUTH_ROLE_ATTRIBUTE);
         if (role == null) {
             try {
-                role = service.getRoleFromUrl(regUrl);
+                role = registrationService.getRoleFromUrl(regUrl);
                 session.setAttribute(REG_SESSION_ATTRIBUTE_ROLE, role);
                 mv.setViewName("redirect:/"+REGISTRATION_JSP+".jsp");
             } catch (RoleDAOException e) {
@@ -56,7 +61,7 @@ public class RegistrationServlet {
         Role role = (Role)session.getAttribute(REG_SESSION_ATTRIBUTE_ROLE);
         if(role != null) {
             try {
-                User user = service.register(login, password, role);
+                User user = registrationService.register(login, password, role);
                 session.setAttribute(AUTH_USER_ATTRIBUTE, user.getUserId());
                 session.setAttribute(AUTH_ROLE_ATTRIBUTE, user.getRole());
                 session.removeAttribute(REG_SESSION_ATTRIBUTE_ROLE);

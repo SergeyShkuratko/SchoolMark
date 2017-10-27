@@ -6,8 +6,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.beans.factory.annotation.Autowired;
 import services.TeacherService;
-import services.impl.TeacherServiceImpl;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -17,7 +17,13 @@ import java.util.List;
 @Controller
 public class TeacherListServlet{
     private static Logger logger = Logger.getLogger(TeacherListServlet.class);
-    private TeacherService processingService = new TeacherServiceImpl();
+    private TeacherService processingService;
+
+    @Autowired
+    public void setProcessingService(TeacherService processingService) {
+        this.processingService = processingService;
+    }
+
 
     @RequestMapping(value = "/admin/teachers", method = RequestMethod.GET)
     public void doGet(@RequestParam("school") String pSchoolId, HttpServletResponse resp){
