@@ -6,6 +6,7 @@ import calendar.services.CalendarServiceImpl;
 import calendar.utils.CalendarCell;
 import classes.CommonSettings;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -22,8 +23,14 @@ import static utils.Settings.ERROR_ATTR;
 @Controller
 public class CalendarController {
 
-    private static CalendarService calendarService = new CalendarServiceImpl();
     private static Logger logger = Logger.getLogger(CalendarController.class);
+
+    private CalendarService calendarService;
+
+    @Autowired
+    public CalendarController(CalendarService calendarService) {
+        this.calendarService = calendarService;
+    }
 
     @RequestMapping(value={"/calendar", "/organizer/calendar"}, method = RequestMethod.GET)
     public ModelAndView getCalendar(HttpServletRequest request,
