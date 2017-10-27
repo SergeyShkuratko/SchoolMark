@@ -1,4 +1,4 @@
-package controller.servlets;
+package controller.controllers;
 
 import classes.CommonSettings;
 import controller.dao.dto.VerificationResultDTO;
