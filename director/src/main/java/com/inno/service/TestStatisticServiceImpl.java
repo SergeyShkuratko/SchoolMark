@@ -14,8 +14,13 @@ import java.util.stream.Collectors;
 
 @Service
 public class TestStatisticServiceImpl implements TestStatisticService {
-    @Autowired
+
     private TestStatisticDao testStatisticDao;
+
+    @Autowired
+    public void setTestStatisticDao(TestStatisticDao testStatisticDao) {
+        this.testStatisticDao = testStatisticDao;
+    }
 
     @Override
     public List<TestStatisticDto> getTestsStatistic(LocalDate dateFrom, LocalDate dateTo) {

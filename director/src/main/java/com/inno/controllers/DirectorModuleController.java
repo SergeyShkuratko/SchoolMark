@@ -14,12 +14,16 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
 @Controller
-@RequestMapping("/director")
 public class DirectorModuleController {
-    @Autowired
+
     private TestStatisticService testStatisticService;
 
-    @RequestMapping(value = "/testlist", method = RequestMethod.GET)
+    @Autowired
+    public void setTestStatisticService(TestStatisticService testStatisticService) {
+        this.testStatisticService = testStatisticService;
+    }
+
+    @RequestMapping(value = "/director-test-list", method = RequestMethod.GET)
     public ModelAndView getTestListView(@RequestParam(name = "groupByOrganization", required=false) String groupByOrganization,
                                         @RequestParam(name = "dateFrom", required=false) String dateFromStr,
                                         @RequestParam(name = "dateTo", required=false) String dateToStr)
@@ -50,7 +54,7 @@ public class DirectorModuleController {
         }
     }
 
-    @RequestMapping(value = "/testview", method = RequestMethod.GET)
+    @RequestMapping(value = "/director-test-view", method = RequestMethod.GET)
     public ModelAndView getTestView(@RequestParam("testId") int testId){
         return new ModelAndView("director-test-view")
                 .addObject("testAndWorkInfo", testStatisticService.getTestAndWorksInfo(testId));
