@@ -11,6 +11,7 @@ public class Settings {
     public static final String ERROR_JSP = "error";
     public static final String CABINET_JSP = "cabinet";
     public static final String CLASS_JSP = "createClass";
+    public static final String SCHOOL_JSP = "school";
     public static final String ERROR_ATTR = "errorText";
 
     public static final String SALT = "asdertxcv";

@@ -5,17 +5,23 @@ import classes.dto.SchoolDTO;
 import exceptions.CityDAOException;
 import exceptions.SchoolDAOException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.context.support.SpringBeanAutowiringSupport;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 import services.CityService;
 import services.SchoolService;
 
-import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+import static utils.Settings.*;
+
+@Controller
 public class SchoolServlet extends HttpServlet {
     private CityService cityService;
     private SchoolService schoolService;
@@ -30,63 +36,58 @@ public class SchoolServlet extends HttpServlet {
         this.schoolService = schoolService;
     }
 
-    @Override
-    public void init(ServletConfig config) throws ServletException {
-        super.init(config);
-        SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
-    }
-
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String pCityId = req.getParameter("cityId");
-        String pSchoolId = req.getParameter("schoolId");
+    @RequestMapping(value = "/admin/school", method = RequestMethod.GET)
+    protected ModelAndView doGet(@RequestParam(value = "cityId", required = false) String pCityId,
+                                 @RequestParam(value = "schoolId", required = false) String pSchoolId) {
+        ModelAndView mv = new ModelAndView();
         String error = null;
         try {
             if (pSchoolId != null) {
                 int schoolId = Integer.parseInt(pSchoolId);
                 SchoolDTO school = schoolService.getSchoolById(schoolId);
-                req.setAttribute("title", "Модификация школы "+school.getName()+"("+school.getSchoolType()+")");
-                req.setAttribute("schoolId", schoolId);
-                req.setAttribute("cityId", school.getCityId());
-                req.setAttribute("cityName", school.getCityName());
-                req.setAttribute("regionId", school.getRegionId());
-                req.setAttribute("regionName", school.getRegionName());
-                req.setAttribute("schoolTypes", schoolService.getAllSchoolTypes());
-                req.setAttribute("schoolName", school.getName());
-                req.setAttribute("schoolType", school.getSchoolTypeId());
-                req.getRequestDispatcher("/school.jsp").forward(req, resp);
+                mv.addObject("title", "Модификация школы " + school.getName() + "(" + school.getSchoolType() + ")");
+                mv.addObject("schoolId", schoolId);
+                mv.addObject("cityId", school.getCityId());
+                mv.addObject("cityName", school.getCityName());
+                mv.addObject("regionId", school.getRegionId());
+                mv.addObject("regionName", school.getRegionName());
+                mv.addObject("schoolTypes", schoolService.getAllSchoolTypes());
+                mv.addObject("schoolName", school.getName());
+                mv.addObject("schoolType", school.getSchoolTypeId());
+                mv.setViewName("school");
             } else if (pCityId != null) {
                 CityDTO city = cityService.getCityDtoById(Integer.parseInt(pCityId));
-                req.setAttribute("title", "Создание школы");
-                req.setAttribute("schoolId", 0);
-                req.setAttribute("cityId", city.getId());
-                req.setAttribute("cityName", city.getName());
-                req.setAttribute("regionId", city.getRegionId());
-                req.setAttribute("regionName", city.getRegionName());
-                req.setAttribute("schoolTypes", schoolService.getAllSchoolTypes());
-                req.getRequestDispatcher("/school.jsp").forward(req, resp);
+                mv.addObject("title", "Создание школы");
+                mv.addObject("schoolId", 0);
+                mv.addObject("cityId", city.getId());
+                mv.addObject("cityName", city.getName());
+                mv.addObject("regionId", city.getRegionId());
+                mv.addObject("regionName", city.getRegionName());
+                mv.addObject("schoolTypes", schoolService.getAllSchoolTypes());
+                mv.setViewName(SCHOOL_JSP);
             } else {
-                resp.sendRedirect(req.getContextPath() + "/admin/cabinet");
+                mv.setViewName("redirect:" + "/admin/cabinet");
             }
         } catch (NumberFormatException | CityDAOException | SchoolDAOException e) {
             error = e.getMessage();
         }
         if (error != null) {
-            req.setAttribute("errorText", error);
-            req.getRequestDispatcher("/error.jsp").forward(req, resp);
+            mv.addObject(ERROR_ATTR, error);
+            mv.setViewName(ERROR_JSP);
         }
+        return mv;
     }
 
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String pCityId = req.getParameter("cityId");
-        String pCityName = req.getParameter("cityName");
-        String pRegionId = req.getParameter("regionId");
-        String pRegionName = req.getParameter("regionName");
-        String pSchoolName = req.getParameter("schoolName");
-        String pSchoolType = req.getParameter("schoolType");
-        String pSchoolId = req.getParameter("schoolId");
-        String pSchoolTypeName = req.getParameter("schoolTypeName");
+    @RequestMapping(value = "/admin/school", method = RequestMethod.POST)
+    protected ModelAndView doPost(@RequestParam("cityId") String pCityId,
+                                  @RequestParam("cityName") String pCityName,
+                                  @RequestParam("regionId") String pRegionId,
+                                  @RequestParam("regionName") String pRegionName,
+                                  @RequestParam("schoolName") String pSchoolName,
+                                  @RequestParam("schoolType") String pSchoolType,
+                                  @RequestParam("schoolId") String pSchoolId,
+                                  @RequestParam("schoolTypeName") String pSchoolTypeName) {
+        ModelAndView mv = new ModelAndView();
         String error = null;
         try {
             int schoolId = Integer.parseInt(pSchoolId);
@@ -103,35 +104,36 @@ public class SchoolServlet extends HttpServlet {
                 result = schoolService.updateSchool(schoolDTO);
 
             if (result) {
-                resp.sendRedirect(req.getContextPath() + "/admin/cabinet");
+                mv.setViewName("redirect:" + "/admin/cabinet");
             } else {
-                if(schoolId == 0) {
-                    req.setAttribute("title", "Создание школы");
-                }else{
+                if (schoolId == 0) {
+                    mv.addObject("title", "Создание школы");
+                } else {
                     SchoolDTO school = schoolService.getSchoolById(schoolId);
-                    req.setAttribute("title", "Модификация школы "+school.getName()+"("+school.getSchoolType()+")");
+                    mv.addObject("title", "Модификация школы " + school.getName() + "(" + school.getSchoolType() + ")");
                 }
-                req.setAttribute("cityId", cityId);
-                req.setAttribute("schoolId", schoolId);
-                req.setAttribute("regionId", regionId);
-                req.setAttribute("cityName", pCityName);
-                req.setAttribute("regionName", pRegionName);
-                req.setAttribute("schoolName", pSchoolName);
-                req.setAttribute("schoolTypes", schoolService.getAllSchoolTypes());
-                req.setAttribute("schoolType", schoolType);
-                req.setAttribute("message", "заданная школа уже существует!!");
-                req.getRequestDispatcher("/school.jsp").forward(req, resp);
+                mv.addObject("cityId", cityId);
+                mv.addObject("schoolId", schoolId);
+                mv.addObject("regionId", regionId);
+                mv.addObject("cityName", pCityName);
+                mv.addObject("regionName", pRegionName);
+                mv.addObject("schoolName", pSchoolName);
+                mv.addObject("schoolTypes", schoolService.getAllSchoolTypes());
+                mv.addObject("schoolType", schoolType);
+                mv.addObject("message", "заданная школа уже существует!!");
+                mv.setViewName(SCHOOL_JSP);
             }
         } catch (SchoolDAOException |
                 NumberFormatException e) {
             error = e.getMessage();
-            req.setAttribute("errorText", error);
-            req.getRequestDispatcher("/error.jsp").forward(req, resp);
+            mv.addObject(ERROR_ATTR, error);
+            mv.setViewName(ERROR_JSP);
         }
 
         if (error != null) {
-            req.setAttribute("errorText", error);
-            req.getRequestDispatcher("/error.jsp").forward(req, resp);
+            mv.addObject(ERROR_ATTR, error);
+            mv.setViewName(ERROR_JSP);
         }
+        return mv;
     }
 }

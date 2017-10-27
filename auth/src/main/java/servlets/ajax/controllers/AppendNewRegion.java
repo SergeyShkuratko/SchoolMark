@@ -28,7 +28,6 @@ public class AppendNewRegion {
     public void doPost(@RequestParam("region-name") String pRegionName,
                           @RequestParam("region-number") String pRegionNumber,
                           HttpServletResponse resp) {
-        ServiceInsertNewRegion serviceInsertNewRegion = new ServiceInsertNewRegion();
         Map<String, String> output = regionService.insertNewRecord(pRegionName, Integer.valueOf(pRegionNumber));
         resp.setContentType("application/json; charset=UTF-8");
         try {

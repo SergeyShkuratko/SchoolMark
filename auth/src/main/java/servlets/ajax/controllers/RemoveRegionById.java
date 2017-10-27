@@ -14,6 +14,8 @@ import java.io.PrintWriter;
 import java.util.Map;
 import org.apache.log4j.Logger;
 
+import javax.servlet.http.HttpServletResponse;
+
 @Controller
 public class RemoveRegionById {
     private static Logger logger = Logger.getLogger(RemoveRegionById.class);

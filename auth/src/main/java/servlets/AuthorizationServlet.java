@@ -3,12 +3,10 @@ package servlets;
 import classes.User;
 import exceptions.UserDAOException;
 import exceptions.UserNotFoundException;
-import org.json.HTTP;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.beans.factory.annotation.Autowired;
 import services.AuthorizationService;
@@ -65,6 +63,6 @@ public class AuthorizationServlet {
     public String doOut(HttpSession session) {
         session.removeAttribute(AUTH_USER_ATTRIBUTE);
         session.removeAttribute(AUTH_ROLE_ATTRIBUTE);
-        return AUTH_JSP;
+        return "redirect:"+AUTH_PAGE;
     }
 }

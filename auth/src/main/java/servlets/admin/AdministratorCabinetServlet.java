@@ -28,7 +28,7 @@ public class AdministratorCabinetServlet {
     public ModelAndView doGet(){
         ModelAndView mv = new ModelAndView();
         try {
-            List<SchoolDTO> schools = service.getAllSchools();
+            List<SchoolDTO> schools = schoolService.getAllSchools();
             mv.addObject("schools", schools);
             mv.setViewName(CABINET_JSP);
         } catch (SchoolDAOException e) {
