@@ -1,11 +1,11 @@
-package servlets.admin.lists;
+package controllers.admin.lists;
 
 import exceptions.RegionDAOException;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import servlets.admin.lists.builder.RegionHtmlPartBuilder;
+import controllers.admin.lists.builder.RegionHtmlPartBuilder;
 import services.exceptions.ServicesAuthGetPropertyNotFoundException;
 import services.exceptions.ServicesAuthTemplateNotFoundException;
 import utils.jsp.GetJspContent;
@@ -19,7 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
-import static servlets.constants.ServletConstants.BASE_JSP_PATH;
+import static controllers.constants.ServletConstants.BASE_JSP_PATH;
 
 @Controller
 public class RegionsListServlet extends HttpServlet {

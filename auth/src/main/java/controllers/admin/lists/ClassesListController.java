@@ -1,4 +1,4 @@
-package servlets.admin.lists;
+package controllers.admin.lists;
 
 import classes.SchoolClass;
 import exceptions.SchoolDAOException;

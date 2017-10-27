@@ -1,4 +1,4 @@
-package servlets;
+package controllers;
 
 import classes.User;
 import exceptions.UserDAOException;

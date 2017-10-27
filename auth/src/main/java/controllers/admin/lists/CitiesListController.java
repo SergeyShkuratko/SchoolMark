@@ -1,4 +1,4 @@
-package servlets.admin.lists;
+package controllers.admin.lists;
 
 import classes.Region;
 import exceptions.CityDAOException;
@@ -7,7 +7,7 @@ import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import servlets.admin.lists.builder.CityHtmlPartBuilder;
+import controllers.admin.lists.builder.CityHtmlPartBuilder;
 import services.exceptions.ServicesAuthGetPropertyNotFoundException;
 import services.exceptions.ServicesAuthTemplateNotFoundException;
 import utils.jsp.GetJspContent;
@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-import static servlets.constants.ServletConstants.BASE_JSP_PATH;
+import static controllers.constants.ServletConstants.BASE_JSP_PATH;
 
 @Controller
 public class CitiesListServlet extends HttpServlet {

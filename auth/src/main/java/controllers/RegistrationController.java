@@ -1,4 +1,4 @@
-package servlets;
+package controllers;
 
 import classes.Role;
 import classes.User;

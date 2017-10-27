@@ -1,4 +1,4 @@
-package servlets.admin;
+package controllers.admin;
 
 import classes.dto.CityDTO;
 import classes.dto.SchoolDTO;
@@ -13,11 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 import services.CityService;
 import services.SchoolService;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 
 import static utils.Settings.*;
 

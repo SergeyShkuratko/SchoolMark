@@ -1,4 +1,4 @@
-package servlets.admin.lists;
+package controllers.admin.lists;
 
 import exceptions.SchoolTeacherDAOException;
 import org.apache.log4j.Logger;

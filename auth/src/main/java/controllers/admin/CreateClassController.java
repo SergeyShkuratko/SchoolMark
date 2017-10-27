@@ -1,4 +1,4 @@
-package servlets.admin;
+package controllers.admin;
 
 import classes.dto.SchoolDTO;
 import exceptions.SchoolClassDAOException;
