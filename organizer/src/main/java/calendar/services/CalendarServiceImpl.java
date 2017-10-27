@@ -19,12 +19,13 @@ import java.util.Map;
 
 @Service
 public class CalendarServiceImpl implements CalendarService {
+
     static Logger logger = Logger.getLogger(PgTestDao.class);
 
-    TestDao testDao;
+    private TestDao testDao;
 
     @Autowired
-    public void setTestDao(TestDao testDao) {
+    public CalendarServiceImpl(TestDao testDao) {
         this.testDao = testDao;
     }
 

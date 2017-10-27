@@ -5,6 +5,7 @@ import calendar.dto.TestDTO;
 import connectionmanager.ConnectionPool;
 import connectionmanager.TomcatConnectionPool;
 import org.apache.log4j.Logger;
+import org.springframework.stereotype.Repository;
 
 import java.sql.*;
 import java.time.LocalDate;
@@ -32,7 +33,7 @@ public class PgTestDao implements TestDao {
 
         Map<LocalDate, List<TestDTO>> result = new HashMap<>();
         try (Connection connection = pool.getConnection();
-             PreparedStatement ps = connection.prepareStatement(sqlQuery)) {
+             PreparedStatement ps = connection.prepareStatement(GET_ALL_DTO)) {
             ps.setInt(1, userId);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {

@@ -28,7 +28,7 @@ public class CalendarController {
     private CalendarService calendarService;
 
     @Autowired
-    public void setCalendarService(CalendarService calendarService) {
+    public CalendarController(CalendarService calendarService) {
         this.calendarService = calendarService;
     }
 
