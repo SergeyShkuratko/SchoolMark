@@ -1,16 +1,14 @@
 package template.services;
 
+import org.springframework.stereotype.Service;
 import template.dto.TestQuestion;
 import template.dto.TestVariant;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
-/**
- * Created by nkm on 15.10.2017.
- */
+@Service
 public class TestTemplateService {
-
 
     public List<TestVariant> getTestVariantsFromReq(HttpServletRequest req) {
         Map<String, TestVariant> testVariants = new TreeMap<>();
@@ -42,7 +40,6 @@ public class TestTemplateService {
                     break;
             }
         }
-
         return new ArrayList<>(testVariants.values());
     }
 

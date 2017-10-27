@@ -19,9 +19,6 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
 
-/**
- * Created by nkm on 13.10.2017.
- */
 public class TestServlet extends HttpServlet {
     public static TestService testService = new TestService();
 

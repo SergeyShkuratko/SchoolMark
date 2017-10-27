@@ -7,9 +7,6 @@ import org.apache.log4j.Logger;
 
 import java.sql.*;
 
-/**
- * Created by nkm on 16.10.2017.
- */
 public class QuestionCriterionDAOImplementation {
     private static final Logger logger = Logger.getLogger(QuestionCriterionDAOImplementation.class);
     public static ConnectionPool connectionManager = TomcatConnectionPool.getInstance();

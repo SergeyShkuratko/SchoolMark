@@ -11,9 +11,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-/**
- * Created by nkm on 20.10.2017.
- */
 public class TeacherDAOImplementation {
     private static final Logger logger = Logger.getLogger(TeacherDAOImplementation.class);
     public static ConnectionPool connectionManager = TomcatConnectionPool.getInstance();

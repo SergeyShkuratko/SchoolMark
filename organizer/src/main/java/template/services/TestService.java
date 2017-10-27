@@ -2,6 +2,7 @@ package template.services;
 
 import classes.SchoolClass;
 import classes.Subject;
+import org.springframework.stereotype.Service;
 import template.dao.ClassDAOImplementation;
 import template.dto.Teacher;
 import template.dto.Test;
@@ -10,9 +11,7 @@ import template.dto.TestTemplate;
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDate;
 
-/**
- * Created by nkm on 15.10.2017.
- */
+@Service
 public class TestService {
 
     public TestTemplate getTestTemplateFromReq(HttpServletRequest req) {
@@ -30,7 +29,6 @@ public class TestService {
 
     public Test getTestFromReq(HttpServletRequest req) {
         Test test = new Test();
-
         test.setSchoolClass(getSchoolClassFromReq(req));
         test.setTestDescription(req.getParameter("testTheme"));
         test.setTestDate(LocalDate.parse(req.getParameter("testDate")));
@@ -40,8 +38,6 @@ public class TestService {
     }
 
     public SchoolClass getSchoolClassFromReq(HttpServletRequest req) {
-
-
         TestTemplate testTemplate = (TestTemplate) req.getSession().getAttribute("testTemplate");
         Teacher teacher = (Teacher) req.getSession().getAttribute("teacher");
 

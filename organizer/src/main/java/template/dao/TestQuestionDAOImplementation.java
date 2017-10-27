@@ -9,9 +9,6 @@ import template.dto.TestVariant;
 
 import java.sql.*;
 
-/**
- * Created by nkm on 15.10.2017.
- */
 public class TestQuestionDAOImplementation {
     private static final Logger logger = Logger.getLogger(TestQuestionDAOImplementation.class);
     public static ConnectionPool connectionManager = TomcatConnectionPool.getInstance();

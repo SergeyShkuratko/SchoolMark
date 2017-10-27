@@ -14,9 +14,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-/**
- * Created by nkm on 13.10.2017.
- */
 public class TestTemplateServlet extends HttpServlet {
     public static TestTemplateService testTemplateService = new TestTemplateService();
     public TestDAOImplementation testDAOImplementation = new TestDAOImplementation();

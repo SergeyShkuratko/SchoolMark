@@ -14,9 +14,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by nkm on 15.10.2017.
- */
 public class TestTemplateDAOImplementation {
     private static final Logger logger = Logger.getLogger(TestTemplateDAOImplementation.class);
     public static ConnectionPool connectionManager = TomcatConnectionPool.getInstance();

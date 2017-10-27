@@ -13,9 +13,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by nkm on 20.10.2017.
- */
 public class ClassDAOImplementation {
     private static final Logger logger = Logger.getLogger(ClassDAOImplementation.class);
     private static ConnectionPool connectionManager = TomcatConnectionPool.getInstance();
