@@ -10,7 +10,7 @@ import static utils.Settings.SALT;
 
 public class PasswordEncoder {
 
-    private static Logger logger = Logger.getLogger(PasswordEncoder.class)
+    private static Logger logger = Logger.getLogger(PasswordEncoder.class);
 
     private static String md5(String password) {
         String result = null;
