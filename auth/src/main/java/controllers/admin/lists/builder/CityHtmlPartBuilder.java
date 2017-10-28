@@ -1,4 +1,4 @@
-package servlets.admin.lists.builder;
+package controllers.admin.lists.builder;
 
 import classes.City;
 import classes.Region;
