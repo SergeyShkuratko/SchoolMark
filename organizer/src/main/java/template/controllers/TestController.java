@@ -37,8 +37,12 @@ public class TestController {
     public ModelAndView getTestServletGet(HttpSession session) {
         Map<String, Object> model = new HashMap<>();
 
-        User user = (User) session.getAttribute(CommonSettings.AUTH_USER_ATTRIBUTE);
-        Teacher teacher = TeacherDAOImplementation.getTeacherByUser(user);
+        Integer userId = (Integer) session.getAttribute("userId");
+        if (userId == null) {
+            userId = 1;
+        }
+
+        Teacher teacher = TeacherDAOImplementation.getTeacherByUserId(userId);
 //        session.setAttribute("teacher", teacher);
 
         Test test = (Test) session.getAttribute("test");
