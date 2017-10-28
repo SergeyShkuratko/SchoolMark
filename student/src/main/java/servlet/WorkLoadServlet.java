@@ -2,6 +2,7 @@ package servlet;
 
 import dao.DAOStudentWork;
 import dto.DTOFile;
+import dto.DTOVariant;
 import dto.DTOWork;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
@@ -34,6 +35,9 @@ public class WorkLoadServlet extends HttpServlet {
             int id = Integer.decode(req.getParameter("id"));
             DTOWork work = WorkService.getWorkById(id);
             int variant_id = work.getVariantId();
+            List<DTOVariant> variants;
+            variants = WorkService.getVariants(work.getTemplId());
+            req.setAttribute("variants", variants);
             req.setAttribute("work", work);
             List<String> question = WorkService.getQuestionListByVariantId(variant_id);
             req.setAttribute("questions", question);
@@ -64,9 +68,25 @@ public class WorkLoadServlet extends HttpServlet {
             case "del_photo":
                 delPhoto(request, response);
                 break;
+            case "setVariant":
+                setVariant(request, response);
+                break;
             default:
                 loadPhoto(request, response);
         }
+    }
+
+    private void setVariant(HttpServletRequest request, HttpServletResponse response) {
+        String referer = request.getHeader("referer");
+        int variantId = Integer.decode(request.getParameter("variant"));
+        int workId = Integer.decode(request.getParameter("work"));
+        WorkService.setWorkVariant(workId, variantId);
+        try {
+            response.sendRedirect(referer);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
     private void delPhoto(HttpServletRequest request, HttpServletResponse response) {

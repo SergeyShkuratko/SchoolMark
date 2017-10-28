@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Context>
+    <Resource name="jdbc/SM"
+              auth="Container"
+              type="javax.sql.DataSource"
+              factory="org.apache.tomcat.jdbc.pool.DataSourceFactory"
+              testWhileIdle="true"
+              testOnBorrow="true"
+              testOnReturn="false"
+              validationQuery="SELECT 1"
+              validationInterval="30000"
+              timeBetweenEvictionRunsMillis="30000"
+              maxActive="1"
+              minIdle="1"
+              maxWait="10"
+              initialSize="10"
+              removeAbandonedTimeout="60"
+              removeAbandoned="true"
+              logAbandoned="true"
+              minEvictableIdleTimeMillis="30000"
+              jmxEnabled="true"
+              jdbcInterceptors="org.apache.tomcat.jdbc.pool.interceptor.ConnectionState;
+            org.apache.tomcat.jdbc.pool.interceptor.StatementFinalizer"
+              driverClassName="org.postgresql.Driver"
+
+              username="postgres"
+              password="Qwerty123"
+              url="jdbc:postgresql://localhost:5432/SchoolMark"/>
+
+              <!--username="ixabtpit"-->
+              <!--password="qWjSYwGSstkiKLutM37se5jyWUBzfdC7"-->
+              <!--url="jdbc:postgresql://elmer.db.elephantsql.com:5432/ixabtpit"/>-->
+</Context>
