@@ -90,7 +90,8 @@ public class UserDAOImpl implements UserDAO {
     public Optional<CustomUser> getByUsername(String username) {
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement =
-                     connection.prepareStatement("SELECT id, password, role FROM users WHERE login = ?")) {
+                     connection.prepareStatement(
+                             "SELECT id, password, 'ROLE_' || upper(role::text) as role FROM users WHERE login = ?")) {
             statement.setString(1, username);
             ResultSet resultSet = statement.executeQuery();
 

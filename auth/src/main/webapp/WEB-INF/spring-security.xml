@@ -5,12 +5,20 @@
                                     http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
                                     http://www.springframework.org/schema/security
                                     http://www.springframework.org/schema/security/spring-security-4.2.xsd">
+
     <http auto-config="true">
-        <intercept-url pattern="/organizer/calendar" access="isAuthenticated()"/>
-        <form-login login-page="/authorization.jsp" username-parameter="login" password-parameter="password"/>
+        <intercept-url pattern="/authorization.jsp" access="permitAll()"/>
+        <intercept-url pattern="/css/**/" access="permitAll()"/>
+        <intercept-url pattern="/js/**" access="permitAll()"/>
+        <intercept-url pattern="/fonts/**" access="permitAll()"/>
+        <intercept-url pattern="/**" access="isAuthenticated()"/>
+
+        <form-login login-page="/authorization.jsp" username-parameter="login" password-parameter="password"
+                    authentication-success-forward-url="/mainmenu.jsp"/>
         <logout logout-url="/logout" logout-success-url="/authorization.jsp"/>
         <csrf disabled="true"/>
     </http>
+
     <authentication-manager>
         <authentication-provider user-service-ref="customUserDetailsService">
             <password-encoder ref="passwordEncoder"/>
