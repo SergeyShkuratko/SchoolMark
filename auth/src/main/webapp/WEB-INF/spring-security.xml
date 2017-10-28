@@ -1,0 +1,29 @@
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+             xmlns:beans="http://www.springframework.org/schema/beans"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://www.springframework.org/schema/beans
+                                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+                                    http://www.springframework.org/schema/security
+                                    http://www.springframework.org/schema/security/spring-security-4.2.xsd">
+    <http auto-config="true">
+        <intercept-url pattern="/organizer/calendar" access="isAuthenticated()"/>
+        <form-login login-page="/authorization.jsp" username-parameter="login" password-parameter="password"/>
+        <logout logout-url="/logout" logout-success-url="/authorization.jsp"/>
+        <csrf disabled="true"/>
+    </http>
+    <authentication-manager>
+        <authentication-provider user-service-ref="customUserDetailsService">
+            <password-encoder ref="passwordEncoder"/>
+        </authentication-provider>
+    </authentication-manager>
+
+    <beans:bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <beans:property name="driverClassName" value="org.postgresql.Driver"/>
+        <beans:property name="url" value="jdbc:postgresql://localhost:5432/school_mark"/>
+        <beans:property name="username" value="postgres"/>
+        <beans:property name="password" value="123"/>
+    </beans:bean>
+
+    <beans:bean id="customUserDetailsService" class="security.CustomUserDetailsService" autowire="constructor"/>
+    <beans:bean id="passwordEncoder" class="security.CustomPasswordEncoder"/>
+</beans:beans>

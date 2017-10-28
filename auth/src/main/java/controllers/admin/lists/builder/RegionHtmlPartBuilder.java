@@ -4,8 +4,8 @@ import classes.Region;
 import dao.RegionDAOImpl;
 import exceptions.RegionDAOException;
 import org.apache.log4j.Logger;
-import services.exceptions.ServicesAuthGetPropertyNotFoundException;
-import services.exceptions.ServicesAuthTemplateNotFoundException;
+import exceptions.ServicesAuthGetPropertyNotFoundException;
+import exceptions.ServicesAuthTemplateNotFoundException;
 import utils.files.FileContentGetter;
 
 import javax.servlet.ServletContext;

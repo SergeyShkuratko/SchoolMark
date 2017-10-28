@@ -6,8 +6,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import controllers.admin.lists.builder.RegionHtmlPartBuilder;
-import services.exceptions.ServicesAuthGetPropertyNotFoundException;
-import services.exceptions.ServicesAuthTemplateNotFoundException;
+import exceptions.ServicesAuthGetPropertyNotFoundException;
+import exceptions.ServicesAuthTemplateNotFoundException;
 import utils.jsp.GetJspContent;
 import utils.properties.PropertyValueGetter;
 

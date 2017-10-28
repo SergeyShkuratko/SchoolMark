@@ -1,7 +1,7 @@
 package utils.properties;
 
 import org.apache.log4j.Logger;
-import services.exceptions.ServicesAuthGetPropertyNotFoundException;
+import exceptions.ServicesAuthGetPropertyNotFoundException;
 
 import java.io.IOException;
 import java.io.InputStream;

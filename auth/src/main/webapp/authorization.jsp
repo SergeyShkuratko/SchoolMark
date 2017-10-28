@@ -15,15 +15,14 @@
     <div class="container">
         <div class="row align-middle">
             <div class="col-xs-10 col-sm-6 col-md-5 col-lg-4 max-width centered">
-                <div class="panel panel-primary">
+                <form class="panel panel-primary" action="login" method="post">
                     <div class="panel-heading">
                         <h3 class="panel-title">Авторизация на сайте</h3>
                     </div>
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-xs-12 col-sm-12 col-md-12 login-box">
-                                <form id="validate-form" role="form" action="${pageContext.request.contextPath}/auth"
-                                      method="POST">
+                                <div id="validate-form" role="form">
                                     <div class="input-group has-feedback">
                                         <span class="input-group-addon"><span
                                                 class="glyphicon glyphicon-user"></span></span>
@@ -48,16 +47,15 @@
                                             Запомнить меня
                                         </label>
                                     </div>
-                                </form>
+                                </div>
                             </div>
                         </div>
                     </div>
                     <div class="panel-footer">
                         <div class="row">
                             <div class="col-xs-12 col-sm-12">
-                                <button type="button" id="login" class="btn btn-labeled btn-success"
-                                        onclick="validateAndSubmit()">Войти
-                                </button>
+                                <input type="submit" id="login" class="btn btn-labeled btn-success"
+                                        <%--onclick="validateAndSubmit()"--%> value="Войти"/>
                                 <!--<button type="button" class="btn btn-labeled btn-danger">
                                     <span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span>Выход</button>
                                 -->
@@ -70,7 +68,7 @@
                             -->
                         </div>
                     </div>
-                </div>
+                </form>
             </div>
         </div>
     </div>
