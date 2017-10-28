@@ -22,7 +22,9 @@ public class TestListServlet extends HttpServlet{
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        int user_id = (Integer)req.getSession().getAttribute(CommonSettings.AUTH_USER_ATTRIBUTE);
+        Object obj = req.getSession().getAttribute(CommonSettings.AUTH_USER_ATTRIBUTE);
+        int user_id = 2;
+        if (obj != null) user_id=(Integer) obj;
         //TODO добавить проверку наличия контрольных на статусе Новый
         boolean haveNewTest = true;
         req.setAttribute("have_new_test", haveNewTest);

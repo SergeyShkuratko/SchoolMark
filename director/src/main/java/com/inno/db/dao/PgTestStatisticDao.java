@@ -4,12 +4,14 @@ import com.inno.db.dto.*;
 import com.inno.db.exception.DaoException;
 import connectionmanager.ConnectionPool;
 import connectionmanager.TomcatConnectionPool;
+import org.springframework.stereotype.Repository;
 
 import java.sql.*;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.*;
 
+@Repository
 public class PgTestStatisticDao implements TestStatisticDao {
     private ConnectionPool connectionManager;
 
