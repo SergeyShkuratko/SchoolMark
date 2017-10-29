@@ -133,6 +133,9 @@ $(document).ready(function () {
         $.ajax({
             method: "GET",
             url: "test-run",
+            headers: {
+                accept: "application/json; charset=utf-8"
+            },
             data: {
                 get_upload_info_for_test: $('#test_id').val()
             },

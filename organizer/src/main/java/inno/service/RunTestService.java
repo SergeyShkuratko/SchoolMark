@@ -5,19 +5,32 @@ import inno.classes.Commands;
 import inno.dao.OrganizerDAO;
 import inno.dao.WorkDAO;
 import inno.exceptions.OrganizerDAOexception;
-import inno.servlets.RunTestServlet;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class RunTestService {
 
-    private static Logger logger = Logger.getLogger(RunTestServlet.class);
+    private Logger logger;
 
-    public static boolean createWorksForTestIfNotExist(int test_id) {
+    private final OrganizerDAO organizerDAO;
+    private final WorkDAO workDAO;
+
+    @Autowired
+    public RunTestService(OrganizerDAO organizerDAO, WorkDAO workDAO) {
+        this.organizerDAO = organizerDAO;
+        this.workDAO = workDAO;
+        logger = Logger.getLogger(RunTestService.class);
+    }
+
+
+    public boolean createWorksForTestIfNotExist(int testId) {
         boolean result = false;
         //создаем работы, если еще нет
         try {
-            if (!OrganizerDAO.isWorksExists(test_id)) {
-                result = OrganizerDAO.createWorksForTest(test_id);
+            if (!organizerDAO.isWorksExists(testId)) {
+                result = organizerDAO.createWorksForTest(testId);
             }
         } catch (OrganizerDAOexception organizerDAOexception) {
             logger.error(organizerDAOexception);
@@ -26,32 +39,32 @@ public class RunTestService {
     }
 
 
-    public static String getWorksStatusByTestId(int testId) {
+    public String getWorksStatusByTestId(int testId) {
         Gson gson = new Gson();
         String json = null;
         try {
             json = gson.toJson(
-                    WorkDAO.getWorksStatusByTest(testId));
+                    workDAO.getWorksStatusByTest(testId));
         } catch (OrganizerDAOexception organizerDAOexception) {
             logger.error(organizerDAOexception);
         }
         return json;
     }
 
-    public static String setTeachersChoiceForWork(int id, Commands action) {
+    public String setTeachersChoiceForWork(int id, Commands action) {
         Gson gson = new Gson();
         String json = null;
         switch (action) {
             case SUCCESS:
                 try {
-                    json =  gson.toJson(WorkDAO.updateStatusById(id, "confirmed"));
+                    json =  gson.toJson(workDAO.updateStatusById(id, "confirmed"));
                 } catch (OrganizerDAOexception organizerDAOexception) {
                     logger.error(organizerDAOexception);
                 }
                 break;
             case DECLINE:
                 try {
-                    json =  gson.toJson(WorkDAO.updateStatusById(id, "declined"));
+                    json =  gson.toJson(workDAO.updateStatusById(id, "declined"));
                 } catch (OrganizerDAOexception organizerDAOexception) {
                 }
                 break;
@@ -62,14 +75,14 @@ public class RunTestService {
         return json;
     }
 
-    public static String getWorkPagesAsJson(int workId) {
+    public String getWorkPagesAsJson(int workId) {
 
         Gson gson = new Gson();
         String pagesJson = "";
 
         try {
             pagesJson = gson.toJson(
-                    WorkDAO.getPagesImgByWork(workId));
+                    workDAO.getPagesImgByWork(workId));
 
         } catch (OrganizerDAOexception organizerDAOexception) {
             logger.error(organizerDAOexception);
