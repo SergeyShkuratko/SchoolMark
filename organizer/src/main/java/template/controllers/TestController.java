@@ -14,12 +14,12 @@ import template.services.TestService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @Controller
+@RequestMapping(value = "/test")
 public class TestController {
     private static final Logger logger = Logger.getLogger(TestController.class);
 
@@ -30,7 +30,7 @@ public class TestController {
         this.testService = testService;
     }
 
-    @RequestMapping(value = "/test", method = RequestMethod.GET)
+    @RequestMapping(method = RequestMethod.GET)
     public ModelAndView getTestServletGet(HttpSession session) {
         Map<String, Object> model = new HashMap<>();
 
@@ -60,26 +60,13 @@ public class TestController {
         return new ModelAndView("test", model);
     }
 
-    @RequestMapping(value = "/test", method = RequestMethod.POST)
-    public ModelAndView getTestServletPost(HttpServletRequest request) throws UnsupportedEncodingException {
-        request.setCharacterEncoding("utf-8");
-
-        String testFormButton = request.getParameter("testFormButton");
-        switch (testFormButton) {
-            case "loadTemplate":
-                return new ModelAndView("redirect:/template-list");
-
-            case "createTest":
-                return createTest(request);
-
-            case "inputQuestions":
-                return inputQuestions(request);
-        }
-
-        throw new IllegalArgumentException("Request is not contain correct parameter");
+    @RequestMapping(params = {"testFormButton=loadTemplate"}, method = RequestMethod.POST)
+    public ModelAndView loadTemplate() {
+        return new ModelAndView("redirect:/template-list");
     }
 
-    private ModelAndView createTest(HttpServletRequest request) {
+    @RequestMapping(params = {"testFormButton=createTest"}, method = RequestMethod.POST)
+    public ModelAndView createTest(HttpServletRequest request) {
         TestTemplate testTemplate = (TestTemplate) request.getSession().getAttribute("testTemplate");
         if (testTemplate == null) {
             request.setAttribute("questionsNotLoaded", true);
@@ -92,7 +79,8 @@ public class TestController {
         }
     }
 
-    private ModelAndView inputQuestions(HttpServletRequest request) {
+    @RequestMapping(params = {"testFormButton=inputQuestions"}, method = RequestMethod.POST)
+    public ModelAndView getInputQuestions(HttpServletRequest request) {
         TestTemplate testTemplate = testService.getTestTemplateFromReq(request);
         request.getSession().setAttribute("templatePrototype", testTemplate);
         return new ModelAndView("redirect:/test-template");
