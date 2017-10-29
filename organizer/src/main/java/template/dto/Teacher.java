@@ -1,8 +1,5 @@
 package template.dto;
 
-/**
- * Created by nkm on 23.10.2017.
- */
 public class Teacher {
     private int id;
     private int userId;

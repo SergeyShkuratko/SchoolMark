@@ -3,6 +3,8 @@ package template.dao;
 import classes.Subject;
 import connectionmanager.ConnectionPool;
 import connectionmanager.TomcatConnectionPool;
+import org.apache.log4j.Logger;
+import org.springframework.stereotype.Repository;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -11,14 +13,14 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by nkm on 16.10.2017.
- */
+@Repository
 public class SubjectDAOImplementation {
+    private static final Logger logger = Logger.getLogger(SubjectDAOImplementation.class);
     public static ConnectionPool connectionManager = TomcatConnectionPool.getInstance();
 
-    public static int getSubjectId(Subject subject) {
-        Subject tmpSubject = null;
+    public int getSubjectId(Subject subject) {
+        int subjectId = 0;
+//        Subject tmpSubject = null;
         try (Connection connection = connectionManager.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(
                     "SELECT * FROM subjects WHERE name = ?");
@@ -26,20 +28,20 @@ public class SubjectDAOImplementation {
 
             ResultSet resultSet = preparedStatement.executeQuery();
             resultSet.next();
-            tmpSubject = new Subject(
-                    resultSet.getInt("id"),
-                    resultSet.getString("name"));
-            return tmpSubject.getId();
+//            tmpSubject = new Subject(
+//                    resultSet.getInt("id"),
+//                    resultSet.getString("name"));
+            subjectId = resultSet.getInt("id");
+            return subjectId;
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }
 
-        return 0;
+        return subjectId;
     }
 
-    public static List<Subject> getAllSubjects() {
-
+    public List<Subject> getAllSubjects() {
         List<Subject> subjects = new ArrayList<>();
         try (Connection connection = connectionManager.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(
@@ -47,7 +49,7 @@ public class SubjectDAOImplementation {
 //            preparedStatement.setString(1, subject.getName());
 
             ResultSet resultSet = preparedStatement.executeQuery();
-            while(resultSet.next()) {
+            while (resultSet.next()) {
                 Subject tmpSubject = new Subject(
                         resultSet.getInt("id"),
                         resultSet.getString("name"));
@@ -57,7 +59,7 @@ public class SubjectDAOImplementation {
             return subjects;
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }
 
         return subjects;
