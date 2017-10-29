@@ -1,6 +1,6 @@
-package service;
+package controller.service;
 
-import dao.dto.VerificationResultDTO;
+import controller.dao.dto.VerificationResultDTO;
 
 public interface VerificationService {
 

@@ -1,6 +1,6 @@
-package service;
+package controller.service;
 
-import dao.dto.TestsDTO;
+import controller.dao.dto.TestsDTO;
 
 import java.util.List;
 
