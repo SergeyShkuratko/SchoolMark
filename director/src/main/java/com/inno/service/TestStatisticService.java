@@ -14,20 +14,23 @@ import java.util.Map;
 public interface TestStatisticService {
     /**
      * Получение информации по контрольным за указанный период
-     * @param dateFrom дата с которой начинается выборка (включая), null для игнорирования параметра
-     * @param dateTo на какой дате заканчивается выборка (включая), null для игнорирования параметра
+     * @param userId Id пользователя под которым зашел директор. Выборка ограничиться школой.
+     * @param dateFrom дата с которой начинается выборка (включая)
+     * @param dateTo на какой дате заканчивается выборка (включая)
      * @return список TestStatisticDto содержащий краткую инфрмацию о тесте
      */
-    List<TestStatisticDto> getTestsStatistic(LocalDate dateFrom, LocalDate dateTo);
+    List<TestStatisticDto> getTestsStatisticByUserId(int userId, LocalDate dateFrom, LocalDate dateTo);
 
     /**
      * Получение информации по тестам за указанный период с группировкой по учителю, проводившему контрольную
-     * @param dateFrom дата с которой начинается выборка (включая), null для игнорирования параметра
-     * @param dateTo на какой дате заканчивается выборка (включая), null для игнорирования параметра
+     * @param userId Id пользователя под которым зашел директор. Выборка ограничиться школой.
+     * @param dateFrom дата с которой начинается выборка (включая)
+     * @param dateTo на какой дате заканчивается выборка (включая)
      * @return Map, в котором ключ это имя учителя, проводившего контрольную,
      *  а значение это список TestStatisticDto содержащий краткую инфрмацию о тесте
      */
-    Map<String, List<TestStatisticWithoutOrganizerDto>> getTestsStatisticGroupedByOwner(LocalDate dateFrom,
+    Map<String, List<TestStatisticWithoutOrganizerDto>> getTestsStatisticGroupedByOwner(int userId,
+                                                                                        LocalDate dateFrom,
                                                                                         LocalDate dateTo);
 
     /**

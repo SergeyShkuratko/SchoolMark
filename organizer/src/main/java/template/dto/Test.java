@@ -4,9 +4,6 @@ import classes.SchoolClass;
 
 import java.time.LocalDate;
 
-/**
- * Created by nkm on 15.10.2017.
- */
 public class Test {
     private TestTemplate testTemplate;
     private SchoolClass schoolClass;

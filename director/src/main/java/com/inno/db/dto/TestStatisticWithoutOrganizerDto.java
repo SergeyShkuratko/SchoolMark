@@ -1,15 +1,13 @@
 package com.inno.db.dto;
 
-import java.time.LocalDate;
-
 public class TestStatisticWithoutOrganizerDto {
     private int id;
-    private LocalDate date;
+    private String date;
     private String subject;
     private String className;
     private float averageMark;
 
-    public TestStatisticWithoutOrganizerDto(int id, LocalDate date, String subject, String className, float averageMark) {
+    public TestStatisticWithoutOrganizerDto(int id, String date, String subject, String className, float averageMark) {
         this.id = id;
         this.date = date;
         this.subject = subject;
@@ -21,7 +19,7 @@ public class TestStatisticWithoutOrganizerDto {
         return id;
     }
 
-    public LocalDate getDate() {
+    public String getDate() {
         return date;
     }
 

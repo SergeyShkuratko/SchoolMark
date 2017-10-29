@@ -6,9 +6,6 @@ import classes.UserCredentials;
 import exceptions.UserDAOException;
 import exceptions.UserNotFoundException;
 
-/**
- * Created by nkm on 11.10.2017.
- */
 public interface UserDAO {
 
     User getByCredentials(UserCredentials credentials) throws UserNotFoundException, UserDAOException;
