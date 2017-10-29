@@ -11,7 +11,7 @@
               validationQuery="SELECT 1"
               validationInterval="30000"
               timeBetweenEvictionRunsMillis="30000"
-              maxActive="1"
+              maxActive="100"
               minIdle="1"
               maxWait="10"
               initialSize="10"
@@ -20,10 +20,22 @@
               logAbandoned="true"
               minEvictableIdleTimeMillis="30000"
               jmxEnabled="true"
+
               jdbcInterceptors="org.apache.tomcat.jdbc.pool.interceptor.ConnectionState;
             org.apache.tomcat.jdbc.pool.interceptor.StatementFinalizer"
               username="ixabtpit"
               password="qWjSYwGSstkiKLutM37se5jyWUBzfdC7"
               driverClassName="org.postgresql.Driver"
               url="jdbc:postgresql://elmer.db.elephantsql.com:5432/ixabtpit"/>
+
 </Context>
+
+        <!--username="ixabtpit"-->
+        <!--password="qWjSYwGSstkiKLutM37se5jyWUBzfdC7"-->
+        <!--driverClassName="org.postgresql.Driver"-->
+        <!--url="jdbc:postgresql://elmer.db.elephantsql.com:5432/ixabtpit"-->
+
+        <!--username="postgres"-->
+        <!--password="root"-->
+        <!--driverClassName="org.postgresql.Driver"-->
+        <!--url="jdbc:postgresql://localhost:5432/SchoolMark"-->

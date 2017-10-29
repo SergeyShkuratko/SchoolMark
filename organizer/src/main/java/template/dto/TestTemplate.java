@@ -6,9 +6,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by nkm on 15.10.2017.
- */
 public class TestTemplate {
     private int id;
     private String topic;
@@ -42,12 +39,12 @@ public class TestTemplate {
         if (!topic.equals(that.getTopic())) {
             return false;
         }
-        if (!description.equals(that.getDescription())) {
-            return false;
-        }
-//        if (!subject.sameAs(that.getSubject())) {
+//        if (!description.equals(that.getDescription())) {
 //            return false;
 //        }
+        if (!subject.sameAs(that.getSubject())) {
+            return false;
+        }
         if (!difficulty.equals(that.getDifficulty())) {
             return false;
         }

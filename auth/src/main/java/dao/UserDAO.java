@@ -9,9 +9,6 @@ import security.CustomUser;
 
 import java.util.Optional;
 
-/**
- * Created by nkm on 11.10.2017.
- */
 public interface UserDAO {
     User getByCredentials(UserCredentials credentials) throws UserNotFoundException, UserDAOException;
 
