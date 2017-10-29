@@ -8,16 +8,17 @@ import java.time.format.DateTimeParseException;
 
 @Component
 public class DefaultDateConverter implements DateConverter{
+    private static final String RU_PATTERN = "dd.MM.yyyy";
 
     @Override
     public String formatLocalDateToString(LocalDate localDate) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(RU_PATTERN);
         return localDate.format(formatter);
     }
 
     @Override
     public LocalDate parseStringToLocalDate(String dateStr) {
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(RU_PATTERN);
 
         try {
             return LocalDate.parse(dateStr, dateTimeFormatter);
