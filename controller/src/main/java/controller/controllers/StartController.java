@@ -4,6 +4,7 @@ import classes.CommonSettings;
 import controller.dao.dto.TestsDTO;
 import controller.service.TestService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 import org.springframework.web.servlet.ModelAndView;
+import security.CustomUser;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -41,11 +43,11 @@ public class StartController extends HttpServlet {
         //FOR TEST ONLY!!!
         // int userId = (Integer) req.getSession().getAttribute(CommonSettings.AUTH_USER_ATTRIBUTE);
 
-        int userId = (int) session.getAttribute(CommonSettings.AUTH_USER_ATTRIBUTE);
+        int userId = ((CustomUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
 
         List<TestsDTO> testService = this.testService.getWorksForVerifier(userId);
 
-        ModelAndView mav = new ModelAndView("controller.jsp");
+        ModelAndView mav = new ModelAndView("controller");
 
         mav.addObject("tests", testService);
         return mav;

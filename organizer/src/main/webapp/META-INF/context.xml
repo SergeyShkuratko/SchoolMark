@@ -11,8 +11,8 @@
               validationQuery="SELECT 1"
               validationInterval="30000"
               timeBetweenEvictionRunsMillis="30000"
-              maxActive="100"
-              minIdle="1"
+              maxActive="5"
+              minIdle="5"
               maxWait="10"
               initialSize="10"
               removeAbandonedTimeout="60"
@@ -23,13 +23,7 @@
               jdbcInterceptors="org.apache.tomcat.jdbc.pool.interceptor.ConnectionState;
             org.apache.tomcat.jdbc.pool.interceptor.StatementFinalizer"
               username="postgres"
-              password="1"
-              driverClassName="org.postgresql.Driver"
-              url="jdbc:postgresql://localhost:5432/localdb"/>
-              <!--
-              username="postgres"
-              password="root"
+              password="postgres"
               driverClassName="org.postgresql.Driver"
               url="jdbc:postgresql://localhost:5432/ixabtpit"/>
-              -->
 </Context>

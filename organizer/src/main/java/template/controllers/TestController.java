@@ -57,7 +57,7 @@ public class TestController {
         List<String> classNames = testService.getClassNamesByTeacher(teacher);
         model.put("classNames", classNames);
 
-        return new ModelAndView("test", model);
+        return new ModelAndView("/test", model);
     }
 
     @RequestMapping(params = {"testFormButton=loadTemplate"}, method = RequestMethod.POST)
@@ -70,7 +70,7 @@ public class TestController {
         TestTemplate testTemplate = (TestTemplate) request.getSession().getAttribute("testTemplate");
         if (testTemplate == null) {
             request.setAttribute("questionsNotLoaded", true);
-            return new ModelAndView("/test.jsp");
+            return new ModelAndView("/test");
         } else {
             Test test = testService.getTestFromReq(request);
             test.setTestTemplate(testTemplate);

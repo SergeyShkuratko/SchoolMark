@@ -5,23 +5,24 @@ import classes.User;
 import classes.UserCredentials;
 import connectionmanager.ConnectionPool;
 import connectionmanager.TomcatConnectionPool;
+import exceptions.DAOException;
 import exceptions.UserDAOException;
 import exceptions.UserNotFoundException;
-import interfaces.dao.UserDAO;
 import org.apache.log4j.Logger;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.stereotype.Component;
+import security.CustomUser;
 
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
 import javax.sql.DataSource;
 import java.sql.*;
 import java.time.LocalDate;
+import java.util.Collections;
+import java.util.Optional;
 
+@Component
 public class UserDAOImpl implements UserDAO {
-
     private static Logger logger = Logger.getLogger(UserDAOImpl.class);
-    private static ConnectionPool pool = TomcatConnectionPool.getInstance();
 
     private static final String GET_BY_CRED = "SELECT * FROM users u" +
             " LEFT JOIN teachers t ON t.user_id = u.id" +
@@ -31,10 +32,12 @@ public class UserDAOImpl implements UserDAO {
                     " (login, password, role, registration_date, last_login_date)" +
                     " VALUES (?, ?, ?::role, ?, ?)";
 
+    private ConnectionPool dataSource = TomcatConnectionPool.getInstance();
+
     @Override
     public User getByCredentials(UserCredentials credentials) throws UserNotFoundException, UserDAOException {
         User user = null;
-        try (Connection connection = pool.getConnection();
+        try (Connection connection = dataSource.getConnection();
                 PreparedStatement statement = connection.prepareStatement(GET_BY_CRED)) {
 
             statement.setString(1, credentials.getLogin());
@@ -54,7 +57,7 @@ public class UserDAOImpl implements UserDAO {
     @Override
     public User register(UserCredentials credentials, Role role) throws UserDAOException {
         User user = null;
-        try (Connection connection = pool.getConnection();
+        try (Connection connection = dataSource.getConnection();
                 PreparedStatement statement = connection.prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS)) {
 
             statement.setString(1, credentials.getLogin());
@@ -82,13 +85,30 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public boolean update(User user) throws UserDAOException {
-        throw new NotImplementedException();
-    }
+    public Optional<CustomUser> getByUsername(String username) {
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement statement =
+                     connection.prepareStatement(
+                             "SELECT id, password, 'ROLE_' || upper(role::text) as role FROM users WHERE login = ?")) {
+            statement.setString(1, username);
+            ResultSet resultSet = statement.executeQuery();
 
-    @Override
-    public User insert(User user) throws UserDAOException {
-        throw new NotImplementedException();
+            if (resultSet.next()) {
+                CustomUser user =
+                        new CustomUser(
+                                resultSet.getInt("id"),
+                                username,
+                                resultSet.getString("password"),
+                                Collections.singleton(
+                                        new SimpleGrantedAuthority(
+                                                resultSet.getString("role"))));
+                return Optional.of(user);
+            } else {
+                return Optional.empty();
+            }
+        } catch (SQLException e) {
+            throw new DAOException("Exception occured while getting user by username: " + username, e);
+        }
     }
 
     private User userFromResultSet(ResultSet set) throws UserDAOException {

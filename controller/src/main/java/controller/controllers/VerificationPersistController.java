@@ -5,11 +5,13 @@ import controller.dao.dto.VerificationResultDTO;
 import controller.service.VerificationResultImpl;
 import controller.service.VerificationService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
+import security.CustomUser;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -40,7 +42,7 @@ public class VerificationPersistController {
                   @RequestParam("workId") int workId,
                   HttpSession session) {
 
-        int userId = (Integer) session.getAttribute(CommonSettings.AUTH_USER_ATTRIBUTE);
+        int userId = ((CustomUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
 
         VerificationResultDTO resultDTO = new VerificationResultDTO(workId, userId, mark, comment);
 

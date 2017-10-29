@@ -6,6 +6,7 @@ import connectionmanager.TomcatConnectionPool;
 import exceptions.RegionDAOException;
 import interfaces.dao.RegionDAO;
 import org.apache.log4j.Logger;
+import org.springframework.stereotype.Component;
 import utils.dao.DAOUtilsRegion;
 
 import java.sql.*;
@@ -14,6 +15,7 @@ import java.util.List;
 
 import static core.dao.constants.DAOConstants.NULL_POINTER_DB;
 
+@Component
 public class RegionDAOImpl implements RegionDAO {
 
     private static final Logger logger = Logger.getLogger(RegionDAOImpl.class);
@@ -21,9 +23,7 @@ public class RegionDAOImpl implements RegionDAO {
     private static final String GET_BY_ID = "SELECT * FROM region WHERE id = ?";
     private final String baseGetSql = "SELECT * FROM region ";
     private final String insertSql = "INSERT INTO region (num, name) VALUES (?, ?)";
-    private final String updateSql = "UPDATE region " +
-            "SET num = ?, name = ? " +
-            "WHERE id = ?";
+    private final String updateSql = "UPDATE region SET num = ?, name = ? WHERE id = ?";
     private final String deleteSql = "DELETE FROM region WHERE id = ?";
 
     @Override
