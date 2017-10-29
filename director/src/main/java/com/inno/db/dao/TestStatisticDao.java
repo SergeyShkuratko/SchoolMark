@@ -12,11 +12,12 @@ import java.util.List;
 public interface TestStatisticDao {
     /**
      * Получение информации по контрольным за указанный период
+     * @param user_id id пользователя под которым зашел директор
      * @param dateFrom дата с которой начинается выборка (включая), null для игнорирования параметра
      * @param dateTo на какой дате заканчивается выборка (включая), null для игнорирования параметра
      * @return список TestStatisticDto содержащий краткую инфрмацию о тесте
      */
-    List<TestStatisticDto> getTestsStatistic(LocalDate dateFrom, LocalDate dateTo);
+    List<TestStatisticDto> getTestsStatisticByUserId(int user_id, LocalDate dateFrom, LocalDate dateTo);
 
     /**
      * Получение более подробной информации о контрольной включая статистику о сданных работах учеников
