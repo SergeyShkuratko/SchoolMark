@@ -23,15 +23,15 @@ public class TestStatisticServiceImpl implements TestStatisticService {
     }
 
     @Override
-    public List<TestStatisticDto> getTestsStatistic(int userId, LocalDate dateFrom, LocalDate dateTo) {
-        return testStatisticDao.getTestsStatistic(userId, dateFrom, dateTo);
+    public List<TestStatisticDto> getTestsStatisticByUserId(int userId, LocalDate dateFrom, LocalDate dateTo) {
+        return testStatisticDao.getTestsStatisticByUserId(userId, dateFrom, dateTo);
     }
 
     @Override
     public Map<String, List<TestStatisticWithoutOrganizerDto>> getTestsStatisticGroupedByOwner(int userId,
                                                                                                LocalDate dateFrom,
                                                                                                LocalDate dateTo) {
-        return testStatisticDao.getTestsStatistic(userId, dateFrom, dateTo).stream()
+        return testStatisticDao.getTestsStatisticByUserId(userId, dateFrom, dateTo).stream()
                 .collect(Collectors.groupingBy(TestStatisticDto::getOrganizer,
                         Collectors.mapping(it ->
                                 new TestStatisticWithoutOrganizerDto(it.getId(), it.getDate(), it.getSubject(),

@@ -17,7 +17,7 @@ public interface TestStatisticDao {
      * @param dateTo на какой дате заканчивается выборка (включая), null для игнорирования параметра
      * @return список TestStatisticDto содержащий краткую инфрмацию о тесте
      */
-    List<TestStatisticDto> getTestsStatistic(int user_id, LocalDate dateFrom, LocalDate dateTo);
+    List<TestStatisticDto> getTestsStatisticByUserId(int user_id, LocalDate dateFrom, LocalDate dateTo);
 
     /**
      * Получение более подробной информации о контрольной включая статистику о сданных работах учеников

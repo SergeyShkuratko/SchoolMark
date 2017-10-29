@@ -15,11 +15,11 @@ import java.util.*;
 
 @Repository
 public class PgTestStatisticDao implements TestStatisticDao {
-    private DateConverter dc;
+    private DateConverter dateConverter;
 
     @Autowired
-    public void setDc(DateConverter dc) {
-        this.dc = dc;
+    public void setDateConverter(DateConverter dateConverter) {
+        this.dateConverter = dateConverter;
     }
 
     private ConnectionPool connectionManager;
@@ -60,12 +60,12 @@ public class PgTestStatisticDao implements TestStatisticDao {
     }
 
     @Override
-    public List<TestStatisticDto> getTestsStatistic(int user_id, LocalDate dateFrom, LocalDate dateTo) {
+    public List<TestStatisticDto> getTestsStatisticByUserId(int userId, LocalDate dateFrom, LocalDate dateTo) {
         try (Connection connection = connectionManager.getConnection();
              PreparedStatement statement = connection.prepareStatement(sqlTestStatistic)) {
-            statement.setInt(1, user_id);
-            statement.setDate(2, convertToSqlDate(dateFrom));
-            statement.setDate(3, convertToSqlDate(dateTo));
+            statement.setInt(1, userId);
+            statement.setDate(2, Date.valueOf(dateFrom));
+            statement.setDate(3, Date.valueOf(dateTo));
 
             ResultSet resultSet = statement.executeQuery();
 
@@ -74,7 +74,7 @@ public class PgTestStatisticDao implements TestStatisticDao {
                 result.add(
                         new TestStatisticDto(
                                 resultSet.getInt("test_id"),
-                                dc.formatLocalDateToString(resultSet.getDate("date").toLocalDate()),
+                                dateConverter.formatLocalDateToString(resultSet.getDate("date").toLocalDate()),
                                 resultSet.getString("organizer"),
                                 resultSet.getString("subject"),
                                 resultSet.getString("class_name"),
@@ -85,10 +85,6 @@ public class PgTestStatisticDao implements TestStatisticDao {
         } catch (SQLException e) {
             throw new DaoException("Exception occurred while getting test statistic from database", e);
         }
-    }
-
-    private Date convertToSqlDate(LocalDate dateFrom) {
-        return dateFrom != null ? Date.valueOf(dateFrom) : null;
     }
 
     @Override
