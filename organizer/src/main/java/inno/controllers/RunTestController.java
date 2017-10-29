@@ -76,70 +76,28 @@ public class RunTestController {
         }
     }
 
-
     /**
      * Проверяет статус загруженых работ онлайн через JSON
      */
-//    @RequestMapping(method = RequestMethod.GET, params = "get_upload_info_for_test")
     @RequestMapping(method = RequestMethod.GET, params = "get_upload_info_for_test", produces = "application/json")
     protected @ResponseBody String processTestWorkStatus(@RequestParam("get_upload_info_for_test") Integer testId) {
         return runTestService.getWorksStatusByTestId(testId);
     }
-//    @RequestMapping(method = RequestMethod.GET, params = "get_upload_info_for_test")
-//    protected void processTestWorkStatus(@RequestParam("get_upload_info_for_test") Integer testId,
-//                                HttpServletResponse resp) {
-//
-//        resp.setContentType("application/json");
-//        resp.setCharacterEncoding("UTF-8");
-//        try {
-//            resp.getWriter().print(runTestService.getWorksStatusByTestId(testId));
-//        } catch (IOException e) {
-//            logger.error(e.getMessage());
-//        }
-//    }
 
 
     /**
      * Устанавливает параметры от учителя, подтвержает ли качество загруженных работ или нет.
      */
-//    @RequestMapping(method = RequestMethod.GET, params = {"work_id", "action"}, produces = "application/json")
-//    protected String processTestTeachersChoice(@RequestParam("work_id") Integer workId,
-//                                  @RequestParam("action") String command) {
-//        return runTestService.setTeachersChoiceForWork(workId,
-//                Commands.valueOf(command.toUpperCase()));
-//    }
-    @RequestMapping(method = RequestMethod.GET, params = {"work_id", "action"}, produces = "application/json")
-    protected void processTestTeachersChoice(@RequestParam("work_id") Integer workId,
-                                  @RequestParam("action") String command,
-                                  HttpServletResponse resp) {
-        resp.setContentType("application/json");
-        resp.setCharacterEncoding("UTF-8");
-        try {
-            resp.getWriter().print(
-                    runTestService.setTeachersChoiceForWork(
-                            workId, Commands.valueOf(command.toUpperCase())));
-        } catch (IOException e) {
-            logger.error(e.getMessage());
-        }
-
+    @RequestMapping(method = RequestMethod.GET, params = {"id", "action"}, produces = "application/json")
+    protected @ResponseBody String processTestTeachersChoice(
+            @RequestParam("id") Integer workId, @RequestParam("action") String command) {
+        return runTestService.setTeachersChoiceForWork(workId,
+                Commands.valueOf(command.toUpperCase()));
     }
 
 
-//    @RequestMapping(method = RequestMethod.GET, params = "pages_images", produces = "application/json")
-//    protected String processTestWorkPages(@RequestParam("pages_images") Integer pagesImages) {
-//        return runTestService.getWorkPagesAsJson(pagesImages);
-//    }
     @RequestMapping(method = RequestMethod.GET, params = "pages_images", produces = "application/json")
-    protected void processTestWorkPages(@RequestParam("pages_images") Integer pagesImages,
-                                  HttpServletResponse resp) {
-        resp.setContentType("application/json");
-        resp.setCharacterEncoding("UTF-8");
-        try {
-            resp.getWriter().print(runTestService.getWorkPagesAsJson(pagesImages));
-        } catch (IOException e) {
-            logger.error(e.getMessage());
-        }
+    protected @ResponseBody String processTestWorkPages(@RequestParam("pages_images") Integer pagesImages) {
+        return runTestService.getWorkPagesAsJson(pagesImages);
     }
-
-
 }
