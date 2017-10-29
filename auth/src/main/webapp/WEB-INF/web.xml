@@ -4,130 +4,38 @@
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
          version="3.1">
     <welcome-file-list>
-        <welcome-file>auth</welcome-file>
+        <welcome-file>mainmenu.jsp</welcome-file>
     </welcome-file-list>
 
     <!--ENCODING FILTER-->
-    <filter>
-        <filter-name>encodingFilter</filter-name>
-        <filter-class>servlets.filters.CharacterEncodingFilter</filter-class>
-    </filter>
-
-    <filter-mapping>
-        <filter-name>encodingFilter</filter-name>
-        <url-pattern>/*</url-pattern>
-    </filter-mapping>
+    <!--<filter>-->
+        <!--<filter-name>encodingFilter</filter-name>-->
+        <!--<filter-class>controllers.filters.CharacterEncodingFilter</filter-class>-->
+    <!--</filter>-->
+    <!--<filter-mapping>-->
+        <!--<filter-name>encodingFilter</filter-name>-->
+        <!--<url-pattern>/*</url-pattern>-->
+    <!--</filter-mapping>-->
     <!-- END ENCODING FILTER-->
 
-    <!-- FILTER -->
-
-    <filter>
+    <!--Authorization filter-->
+    <!--<filter>
         <filter-name>AuthorizationFilter</filter-name>
-        <filter-class>servlets.filters.AuthorizationFilter</filter-class>
+        <filter-class>controllers.filters.AuthorizationFilter</filter-class>
     </filter>
-
     <filter-mapping>
         <filter-name>AuthorizationFilter</filter-name>
         <url-pattern>/*</url-pattern>
+    </filter-mapping>-->
+
+    <filter>
+        <filter-name>springSecurityFilterChain</filter-name>
+        <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>springSecurityFilterChain</filter-name>
+        <url-pattern>/*</url-pattern>
     </filter-mapping>
-
-    <!--    SERVLET    -->
-
-    <servlet>
-        <servlet-name>AuthorizationServlet</servlet-name>
-        <servlet-class>servlets.AuthorizationServlet</servlet-class>
-    </servlet>
-
-    <servlet>
-        <servlet-name>RegistrationServlet</servlet-name>
-        <servlet-class>servlets.RegistrationServlet</servlet-class>
-    </servlet>
-
-    <servlet>
-        <servlet-name>AdminCabinetServlet</servlet-name>
-        <servlet-class>servlets.admin.AdministratorCabinetServlet</servlet-class>
-    </servlet>
-
-    <servlet>
-        <servlet-name>ClassesListServlet</servlet-name>
-        <servlet-class>servlets.admin.lists.ClassesListServlet</servlet-class>
-    </servlet>
-
-    <servlet>
-        <servlet-name>TeacherListServlet</servlet-name>
-        <servlet-class>servlets.admin.lists.TeacherListServlet</servlet-class>
-    </servlet>
-
-    <servlet>
-        <servlet-name>CreateClassServlet</servlet-name>
-        <servlet-class>servlets.admin.CreateClassServlet</servlet-class>
-    </servlet>
-
-    <servlet>
-        <servlet-name>CreateSchoolServlet</servlet-name>
-        <servlet-class>servlets.admin.SchoolServlet</servlet-class>
-    </servlet>
-
-    <servlet>
-        <servlet-name>SchoolListServlet</servlet-name>
-        <servlet-class>servlets.admin.lists.SchoolListServlet</servlet-class>
-    </servlet>
-    <!--
-    <servlet>
-        <servlet-name>RegionsListServlet</servlet-name>
-        <servlet-class>servlets.admin.lists.RegionsListServlet</servlet-class>
-    </servlet>
-    -->
-    <!--    SERVLET MAPPING    -->
-
-    <servlet-mapping>
-        <servlet-name>AuthorizationServlet</servlet-name>
-        <url-pattern>/auth</url-pattern>
-    </servlet-mapping>
-
-    <servlet-mapping>
-        <servlet-name>RegistrationServlet</servlet-name>
-        <url-pattern>/register</url-pattern>
-        <url-pattern>/register/*</url-pattern>
-    </servlet-mapping>
-
-    <servlet-mapping>
-        <servlet-name>AdminCabinetServlet</servlet-name>
-        <url-pattern>/admin/cabinet</url-pattern>
-    </servlet-mapping>
-
-    <servlet-mapping>
-        <servlet-name>ClassesListServlet</servlet-name>
-        <url-pattern>/admin/classes</url-pattern>
-    </servlet-mapping>
-
-    <servlet-mapping>
-        <servlet-name>TeacherListServlet</servlet-name>
-        <url-pattern>/admin/teachers</url-pattern>
-    </servlet-mapping>
-
-    <servlet-mapping>
-        <servlet-name>CreateClassServlet</servlet-name>
-        <url-pattern>/admin/class</url-pattern>
-    </servlet-mapping>
-
-   <servlet-mapping>
-        <servlet-name>SchoolListServlet</servlet-name>
-        <url-pattern>/admin/schools</url-pattern>
-    </servlet-mapping>
-    <!--
-    <servlet-mapping>
-        <servlet-name>RegionsListServlet</servlet-name>
-        <url-pattern>/admin/regions</url-pattern>
-    </servlet-mapping>
-    -->
-
-
-    <servlet-mapping>
-        <servlet-name>CreateSchoolServlet</servlet-name>
-        <url-pattern>/admin/school</url-pattern>
-    </servlet-mapping>
-
 
     <servlet-mapping>
         <servlet-name>default</servlet-name>
@@ -148,12 +56,31 @@
         <servlet-name>default</servlet-name>
         <url-pattern>/fonts/*</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+
+    <servlet-name>default</servlet-name>
+        <url-pattern>/img/*</url-pattern>
+    </servlet-mapping>
+    <!-- SCPRING MVC -->
+
+    <servlet>
+        <servlet-name>DispatcherServlet</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DispatcherServlet</servlet-name>
+        <url-pattern>/</url-pattern>
+    </servlet-mapping>
 
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
     <context-param>
         <param-name>contextConfigLocation</param-name>
-        <param-value>WEB-INF/bean.xml</param-value>
+        <param-value>
+            /WEB-INF/DispatcherServlet-servlet.xml
+            /WEB-INF/spring-security.xml
+        </param-value>
     </context-param>
+
 </web-app>

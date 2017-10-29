@@ -16,4 +16,12 @@ public class Subject {
     public String getName() {
         return name;
     }
+
+    public boolean sameAs(Subject that) {
+        if (!name.equals(that.getName())) {
+            return false;
+        }
+        return true;
+    }
+
 }

@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="css/bootstrap.css"/>
     <link rel="stylesheet" href="css/bootstrap-responsive.css"/>
     <script type="text/javascript" src="js/jquery.js"></script>
-    <script type="text/javascript" src="js/bootstrap.js"></script>
+    <script type="text/javascript" src="../../../../../../auth/src/main/webapp/js/bootstrap.js"></script>
 
     <style>
         .form-actions {

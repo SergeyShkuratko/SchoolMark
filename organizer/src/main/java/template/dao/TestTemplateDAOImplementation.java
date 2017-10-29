@@ -1,32 +1,41 @@
 package template.dao;
 
-import classes.Question;
 import classes.Subject;
 import connectionmanager.ConnectionPool;
 import connectionmanager.TomcatConnectionPool;
-import template.dto.Test;
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 import template.dto.TestQuestion;
 import template.dto.TestTemplate;
 import template.dto.TestVariant;
 
-import javax.xml.transform.Templates;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by nkm on 15.10.2017.
- */
+@Repository
 public class TestTemplateDAOImplementation {
+    private static final Logger logger = Logger.getLogger(TestTemplateDAOImplementation.class);
     public static ConnectionPool connectionManager = TomcatConnectionPool.getInstance();
 
-    public static TestTemplate getTemplateByIdCascade(int templateId) {
+    final SubjectDAOImplementation subjectDAOImplementation;
+    final TestVariantDAOImplementation testVariantDAOImplementation;
+
+    @Autowired
+    public TestTemplateDAOImplementation(SubjectDAOImplementation subjectDAOImplementation, TestVariantDAOImplementation testVariantDAOImplementation) {
+        this.subjectDAOImplementation = subjectDAOImplementation;
+        this.testVariantDAOImplementation = testVariantDAOImplementation;
+    }
+
+    public TestTemplate getTemplateByIdCascade(int templateId) {
         TestTemplate testTemplate = null;
         try (Connection connection = connectionManager.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(
-                    "SELECT  *, name AS subject_name, test_templates.id as test_templates_id\n" +
+                    "SELECT  *, name AS subject_name, questions.id as questions_id, test_templates.id as test_templates_id\n" +
                             "FROM question_verification_criterions  RIGHT JOIN questions\n" +
                             "    ON question_verification_criterions.question_id = questions.id\n" +
                             "  RIGHT JOIN template_variants\n" +
@@ -36,7 +45,7 @@ public class TestTemplateDAOImplementation {
                             "  RIGHT JOIN subjects\n" +
                             "    ON test_templates.subject_id = subjects.id\n" +
                             "WHERE test_templates.id = ?\n" +
-                            "ORDER BY variant, question, criterion");
+                            "ORDER BY variant, question_id, question_verification_criterions.id;");
 
             preparedStatement.setInt(1, templateId);
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -71,7 +80,7 @@ public class TestTemplateDAOImplementation {
                 TestVariant testVariant;
                 int testVariantId = resultSet.getInt("template_variant_id");
                 String testVariantName = resultSet.getString("variant");
-                if(testVariantName == null){
+                if (testVariantName == null) {
                     continue;
                 }
                 if (variantsMap.containsKey(testVariantId)) {
@@ -85,10 +94,10 @@ public class TestTemplateDAOImplementation {
                 }
 
                 TestQuestion testQuestion;
-                int questionId = resultSet.getInt("question_id");
+                int questionId = resultSet.getInt("questions_id");
                 String questionText = resultSet.getString("question");
                 String questionAnswerText = resultSet.getString("answer");
-                if (questionText == null || questionAnswerText == null){
+                if (questionText == null || questionAnswerText == null) {
                     continue;
                 }
                 if (questionsMap.containsKey(questionId)) {
@@ -104,7 +113,7 @@ public class TestTemplateDAOImplementation {
 
                 //каждая новая строчка - это критерий
                 String criterionText = resultSet.getString("criterion");
-                if (criterionText == null){
+                if (criterionText == null) {
                     continue;
                 }
                 testQuestion.getCriterians().add(criterionText);
@@ -114,13 +123,13 @@ public class TestTemplateDAOImplementation {
             return testTemplate;
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }
         return testTemplate;
     }
 
     //TODO передавать учителя, который сейчас в сессии (пока возвращаются вообще все шаблоны)
-    public static List<TestTemplate> getAllTemplatesByTeacher() {
+    public List<TestTemplate> getAllTemplatesByTeacher() {
         List<TestTemplate> templates = new ArrayList<>();
         try (Connection connection = connectionManager.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(
@@ -159,14 +168,15 @@ public class TestTemplateDAOImplementation {
                 //return templates;
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }
         return templates;
     }
 
 
     //Cascade означает, что мы также создаем критерии, вопросы и варианты данного шаблона
-    public static int createTestTemplateCascade(TestTemplate testTemplate) {
+    public int createTestTemplateCascade(TestTemplate testTemplate) {
+        int templateId = 0;
         try (Connection connection = connectionManager.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(
                     "INSERT INTO test_templates(topic, description, class_number, subject_id, difficulty, creation_date) " +
@@ -175,7 +185,7 @@ public class TestTemplateDAOImplementation {
             preparedStatement.setString(1, testTemplate.getTopic());
             preparedStatement.setString(2, "описание"); //TODO поднять вопрос о целесообразности поля
             preparedStatement.setInt(3, testTemplate.getClassNum());
-            preparedStatement.setInt(4, SubjectDAOImplementation.getSubjectId(testTemplate.getSubject()));
+            preparedStatement.setInt(4, subjectDAOImplementation.getSubjectId(testTemplate.getSubject()));
             preparedStatement.setString(5, testTemplate.getDifficulty());
             preparedStatement.setDate(6, Date.valueOf(testTemplate.getCreationDate()));
 
@@ -184,20 +194,23 @@ public class TestTemplateDAOImplementation {
                 ResultSet resultSet = preparedStatement.getGeneratedKeys();
                 resultSet.next();
                 //получаем id только что добавленного темплейта
-                int templateId = resultSet.getInt(1);
-                //создаем варианты заданий данного шаблона
-                for (TestVariant testVariant : testTemplate.getTestVariants()) {
-                    TestVariantDAOImplementation.createTestVariant(testVariant, templateId);
-                }
-                return templateId;
+                templateId = resultSet.getInt(1);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }
-        return 0;
+
+        if (templateId != 0) {
+            //создаем варианты заданий данного шаблона
+            for (TestVariant testVariant : testTemplate.getTestVariants()) {
+                testVariantDAOImplementation.createTestVariantCascade(testVariant, templateId);
+            }
+        }
+
+        return templateId;
     }
 
-    public static boolean setStatusDisabled(TestTemplate oldTemplate) {
+    public boolean setStatusDisabled(TestTemplate oldTemplate) {
         try (Connection connection = connectionManager.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(
                     "UPDATE test_templates SET status = 'disabled' where id = ?;");
@@ -206,7 +219,7 @@ public class TestTemplateDAOImplementation {
             return preparedStatement.executeUpdate() == 1;
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }
         return false;
     }

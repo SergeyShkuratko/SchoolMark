@@ -1,6 +1,7 @@
 function validateAndSubmit() {
-    var formValid = true;
-    $('input').each(function () {
+    var formValid =  true;
+
+    $('input').each(function (idx, elt) {
         var error = false;
         var errorDiv = $(this).parent('.has-feedback').next('.error-text');
         var span = errorDiv.children();
@@ -27,23 +28,24 @@ function validateAndSubmit() {
                 error = true;
             }
         }
+
         if (!error) {
             if ($(this).attr('required') != null && $(this).val().length == 0) {
                 errorDiv.addClass('has-error')
                 var text = "Поле обязательно для заполнения";
                 span.eq(0).text(text);
                 formValid = false;
-            } else if ($(this).attr('minlength') > $(this).val().length) {
+             } else if ($(this).attr('minlength') > $(this).val().length) {
                 errorDiv.addClass('has-error')
                 var text = "Длина поля должна быть не менее " + $(this).attr("minlength") + " символов";
                 span.eq(0).text(text);
                 formValid = false;
-            } else if ($(this).attr('min') > $(this).val()) {
+            } else if (Number($(this).attr('min')) > Number($(this).val())) {
                 errorDiv.addClass('has-error')
                 var text = "Значение должно быть больше или равно " + $(this).attr("min");
                 span.eq(0).text(text);
                 formValid = false;
-            } else if ($(this).attr('max') < $(this).val()) {
+            } else if (Number($(this).attr('max')) < Number($(this).val())) {
                 errorDiv.addClass('has-error')
                 var text = "Значение должно быть меньше или равно " + $(this).attr("max");
                 span.eq(0).text(text);
@@ -52,6 +54,8 @@ function validateAndSubmit() {
                 errorDiv.removeClass('has-error')
                 span.eq(0).text("");
             }
+        }else{
+            formValid = false;
         }
     });
     if (formValid) {

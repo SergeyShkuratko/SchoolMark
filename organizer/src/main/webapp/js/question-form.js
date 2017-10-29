@@ -23,11 +23,13 @@ function removeQuestionBlock(variantId) {
 
 function removeCriteriaElement(element) {
 
-    var questionDivElement = $(element).closest('.question').first();
-    var bootstrapPostfix = "form-control";
-    var criterionClass = "criterion";
-    var lastCritNum = document.getElementsByClassName(criterionClass + " " + bootstrapPostfix).length;
-    document.getElementsByClassName(criterionClass + " " + bootstrapPostfix)[lastCritNum-1].remove();
+    $(element).closest('.question').first().children('.criterion').last().remove();
+
+    // var questionDivElement = $(element).closest('.question').last();
+    // var bootstrapPostfix = "form-control";
+    // var criterionClass = "criterion";
+    // var lastCritNum = document.getElementsByClassName(criterionClass + " " + bootstrapPostfix).length;
+    // document.getElementsByClassName(criterionClass + " " + bootstrapPostfix)[lastCritNum-1].remove();
 }
 
 //function generateID(parentDivId) {

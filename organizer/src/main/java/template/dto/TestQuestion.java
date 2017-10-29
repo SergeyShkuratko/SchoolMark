@@ -3,9 +3,6 @@ package template.dto;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by nkm on 15.10.2017.
- */
 public class TestQuestion {
     private int id;
     private String questionText;

@@ -155,7 +155,12 @@
                     <span class="container">
                     <ul id="variantTab" class="nav nav-tabs">
                         <c:forEach items="${testTemplate.getTestVariants()}" var="variant" varStatus="tempVarCount">
-                            <li><a href="#variant${tempVarCount.count}" data-toggle="tab">Вариант ${tempVarCount.count}</a></li>
+                            <c:if test="${tempVarCount.count == 1}">
+                                <li><a href="#variant${tempVarCount.count}" data-toggle="tab">Вариант ${tempVarCount.count}</a></li>
+                            </c:if>
+                            <c:if test="${tempVarCount.count != 1}">
+                                <li><a href="#variant${tempVarCount.count}" data-toggle="tab">Вариант ${tempVarCount.count} <button class="close" type="button" title="Удалить вариант">×</button></a></li>
+                            </c:if>
                         </c:forEach>
                     </ul>
                 </span>
