@@ -38,7 +38,7 @@ public class TestTemplateController {
 
         session.setAttribute("templateSaved", false);
 
-        return new ModelAndView("/test-template.jsp", model);
+        return new ModelAndView("/test-template", model);
     }
 
     @RequestMapping(params = {"templateFormButton=endInputQuestions"}, method = RequestMethod.POST)
@@ -75,7 +75,7 @@ public class TestTemplateController {
 
     @RequestMapping(params = {"templateFormButton=cancel"}, method = RequestMethod.POST)
     public String cancel() {
-        return "/test-template.jsp";
+        return "/test-template";
     }
 
     private TestTemplate createTemplateFromPrototype(HttpServletRequest req) {

@@ -71,7 +71,7 @@ public class CalendarController {
     }
 
     private ModelAndView fillSuccessModelAndView(Object calendar, LocalDate date) {
-        ModelAndView modelAndView = new ModelAndView("/calendar.jsp");
+        ModelAndView modelAndView = new ModelAndView("/calendar");
         modelAndView.addObject("calendar", calendar);
         modelAndView.addObject("beginData", date);
         modelAndView.addObject("monthName", getMonthNameInUpperCase(date));

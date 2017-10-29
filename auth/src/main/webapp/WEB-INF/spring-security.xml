@@ -17,13 +17,13 @@
         <intercept-url pattern="/calendar*" access="hasAnyRole('TEACHER','ADMIN')"/>
         <intercept-url pattern="/controller/*" access="hasAnyRole('TEACHER','ADMIN')"/>
         <intercept-url pattern="/controller*" access="hasAnyRole('TEACHER','ADMIN')"/>
+        <intercept-url pattern="/testlist*" access="hasRole('STUDENT')"/>
         <intercept-url pattern="/test*" access="hasAnyRole('TEACHER','ADMIN')"/>
         <intercept-url pattern="/director*" access="hasAnyRole('DIRECTOR','ADMIN')"/>
         <intercept-url pattern="/register/*" access="permitAll()"/>
         <intercept-url pattern="/register*" access="permitAll()"/>
-        <intercept-url pattern="/admin/**" access="hasAnyRole('ADMIN')"/>
-        <intercept-url pattern="/testlist*" access="hasAnyRole('STUDENT')"/>
-        <intercept-url pattern="/workload*" access="hasAnyRole('STUDENT')"/>
+        <intercept-url pattern="/admin/**" access="hasRole('ADMIN')"/>
+        <intercept-url pattern="/workload*" access="hasRole('STUDENT')"/>
         <intercept-url pattern="/**" access="isAuthenticated()"/>
 
         <form-login login-page="/authorization.jsp" username-parameter="login" password-parameter="password"

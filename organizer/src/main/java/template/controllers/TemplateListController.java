@@ -25,7 +25,7 @@ public class TemplateListController {
     @RequestMapping(value = "/template-list", method = RequestMethod.GET)
     public ModelAndView getTemplateListGet() {
         List<TestTemplate> templates = testTemplateService.getAllTemplatesByTeacher();
-        return new ModelAndView("/template-list.jsp").addObject("templates", templates);
+        return new ModelAndView("/template-list").addObject("templates", templates);
     }
 
     @RequestMapping(value = "/template-list", method = RequestMethod.POST)
