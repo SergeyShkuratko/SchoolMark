@@ -18,7 +18,7 @@ public interface TestStatisticService {
      * @param dateTo на какой дате заканчивается выборка (включая), null для игнорирования параметра
      * @return список TestStatisticDto содержащий краткую инфрмацию о тесте
      */
-    List<TestStatisticDto> getTestsStatistic(LocalDate dateFrom, LocalDate dateTo);
+    List<TestStatisticDto> getTestsStatistic(int userId, LocalDate dateFrom, LocalDate dateTo);
 
     /**
      * Получение информации по тестам за указанный период с группировкой по учителю, проводившему контрольную
@@ -27,7 +27,8 @@ public interface TestStatisticService {
      * @return Map, в котором ключ это имя учителя, проводившего контрольную,
      *  а значение это список TestStatisticDto содержащий краткую инфрмацию о тесте
      */
-    Map<String, List<TestStatisticWithoutOrganizerDto>> getTestsStatisticGroupedByOwner(LocalDate dateFrom,
+    Map<String, List<TestStatisticWithoutOrganizerDto>> getTestsStatisticGroupedByOwner(int userId,
+                                                                                        LocalDate dateFrom,
                                                                                         LocalDate dateTo);
 
     /**
