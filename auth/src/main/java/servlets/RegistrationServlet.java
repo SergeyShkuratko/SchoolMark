@@ -5,11 +5,12 @@ import classes.User;
 import exceptions.RegisterUrlNotFoundException;
 import exceptions.RoleDAOException;
 import exceptions.UserDAOException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 import services.AuthorizationService;
 import services.RegistrationService;
-import services.impl.AuthorizationServiceImpl;
-import services.impl.RegistrationServiceImpl;
 
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -21,9 +22,24 @@ import static utils.ForwardRequestHelper.getErrorDispatcher;
 import static utils.Settings.*;
 
 public class RegistrationServlet extends HttpServlet {
+    private RegistrationService registrationService;
+    private AuthorizationService authService;
 
-    private static RegistrationService service = new RegistrationServiceImpl();
-    private static AuthorizationService authService = new AuthorizationServiceImpl();
+    @Autowired
+    public void setRegistrationService(RegistrationService registrationService) {
+        this.registrationService = registrationService;
+    }
+
+    @Autowired
+    public void setAuthService(AuthorizationService authService) {
+        this.authService = authService;
+    }
+
+    @Override
+    public void init(ServletConfig config) throws ServletException {
+        super.init(config);
+        SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
+    }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -36,7 +52,7 @@ public class RegistrationServlet extends HttpServlet {
             } else {
                 reqId = reqId.substring(lastIndex);
                 try {
-                    Role role = service.getRoleFromUrl(reqId);
+                    Role role = registrationService.getRoleFromUrl(reqId);
                     req.getSession().setAttribute("role", role);
                 } catch (RoleDAOException e) {
                     getErrorDispatcher(req, DB_ERROR).forward(req, resp);
@@ -61,7 +77,7 @@ public class RegistrationServlet extends HttpServlet {
         if (login != null && password != null && role != null) {
             User user = null;
             try {
-                user = service.register(login, password, role);
+                user = registrationService.register(login, password, role);
                 if (user != null) {
                     authService.saveUserToSession(user, req.getSession());
                     resp.sendRedirect(DEPLOY_PATH + MAIN_PAGE);

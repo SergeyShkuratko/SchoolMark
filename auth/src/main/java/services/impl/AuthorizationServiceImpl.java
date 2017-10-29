@@ -6,6 +6,7 @@ import dao.UserDAOImpl;
 import exceptions.UserDAOException;
 import exceptions.UserNotFoundException;
 import interfaces.dao.UserDAO;
+import org.springframework.stereotype.Service;
 import services.AuthorizationService;
 
 import javax.servlet.http.HttpSession;
@@ -13,9 +14,13 @@ import javax.servlet.http.HttpSession;
 import static classes.CommonSettings.*;
 import static utils.PasswordEncoder.encode;
 
+@Service
 public class AuthorizationServiceImpl implements AuthorizationService {
+    private UserDAO userDAO;
 
-    private static UserDAO userDAO = new UserDAOImpl();
+    public AuthorizationServiceImpl(UserDAO userDAO) {
+        this.userDAO = userDAO;
+    }
 
     @Override
     public User auth(String login, String password) throws UserNotFoundException, UserDAOException {

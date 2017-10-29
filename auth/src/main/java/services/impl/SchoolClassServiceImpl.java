@@ -1,16 +1,21 @@
 package services.impl;
 
 import classes.dto.SchoolClassDTO;
-import dao.SchoolClassDAOImpl;
 import exceptions.SchoolClassDAOException;
 import interfaces.dao.SchoolClassDAO;
 import org.apache.log4j.Logger;
+import org.springframework.stereotype.Service;
 import services.SchoolClassService;
 
+@Service
 public class SchoolClassServiceImpl implements SchoolClassService {
-
-    private static SchoolClassDAO schoolClassDAO = new SchoolClassDAOImpl();
     private static Logger logger = Logger.getLogger(SchoolClassServiceImpl.class);
+
+    private static SchoolClassDAO schoolClassDAO;
+
+    public SchoolClassServiceImpl(SchoolClassDAO schoolClassDAO) {
+        this.schoolClassDAO = schoolClassDAO;
+    }
 
     @Override
     public boolean add(int schoolId, int classNum, String letter) throws SchoolClassDAOException {

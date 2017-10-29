@@ -1,4 +1,4 @@
-package services;
+package servlets.admin.lists.builder;
 
 import classes.Region;
 import dao.RegionDAOImpl;
@@ -14,13 +14,13 @@ import java.io.InputStream;
 import java.util.List;
 import java.util.Properties;
 
-public class ServiceDAORegion {
+public class RegionHtmlPartBuilder {
 
-    private static final Logger logger = Logger.getLogger(ServiceDAORegion.class);
+    private static final Logger logger = Logger.getLogger(RegionHtmlPartBuilder.class);
     private static String region_row_tpl;
     private ServletContext servletContext;
 
-    public ServiceDAORegion (ServletContext servletContext)
+    public RegionHtmlPartBuilder(ServletContext servletContext)
             throws IOException, ServicesAuthGetPropertyNotFoundException {
         this.servletContext = servletContext;
         try {

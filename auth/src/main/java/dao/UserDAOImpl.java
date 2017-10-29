@@ -9,15 +9,12 @@ import exceptions.UserDAOException;
 import exceptions.UserNotFoundException;
 import interfaces.dao.UserDAO;
 import org.apache.log4j.Logger;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+import org.springframework.stereotype.Component;
 
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
-import javax.sql.DataSource;
 import java.sql.*;
 import java.time.LocalDate;
 
+@Component
 public class UserDAOImpl implements UserDAO {
 
     private static Logger logger = Logger.getLogger(UserDAOImpl.class);
@@ -83,12 +80,12 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public boolean update(User user) throws UserDAOException {
-        throw new NotImplementedException();
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public User insert(User user) throws UserDAOException {
-        throw new NotImplementedException();
+        throw new UnsupportedOperationException();
     }
 
     private User userFromResultSet(ResultSet set) throws UserDAOException {

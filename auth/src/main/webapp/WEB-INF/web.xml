@@ -22,13 +22,13 @@
     <!-- FILTER -->
 
     <filter>
-        <filter-name>AdminFilter</filter-name>
-        <filter-class>servlets.filters.AdminFilter</filter-class>
+        <filter-name>AuthorizationFilter</filter-name>
+        <filter-class>servlets.filters.AuthorizationFilter</filter-class>
     </filter>
 
     <filter-mapping>
-        <filter-name>AdminFilter</filter-name>
-        <url-pattern>/admin/*</url-pattern>
+        <filter-name>AuthorizationFilter</filter-name>
+        <url-pattern>/*</url-pattern>
     </filter-mapping>
 
     <!--    SERVLET    -->
@@ -61,6 +61,11 @@
     <servlet>
         <servlet-name>CreateClassServlet</servlet-name>
         <servlet-class>servlets.admin.CreateClassServlet</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>CreateSchoolServlet</servlet-name>
+        <servlet-class>servlets.admin.SchoolServlet</servlet-class>
     </servlet>
 
     <servlet>
@@ -106,7 +111,7 @@
         <url-pattern>/admin/class</url-pattern>
     </servlet-mapping>
 
-    <servlet-mapping>
+   <servlet-mapping>
         <servlet-name>SchoolListServlet</servlet-name>
         <url-pattern>/admin/schools</url-pattern>
     </servlet-mapping>
@@ -116,6 +121,14 @@
         <url-pattern>/admin/regions</url-pattern>
     </servlet-mapping>
     -->
+
+
+    <servlet-mapping>
+        <servlet-name>CreateSchoolServlet</servlet-name>
+        <url-pattern>/admin/school</url-pattern>
+    </servlet-mapping>
+
+
     <servlet-mapping>
         <servlet-name>default</servlet-name>
         <url-pattern>/mystatic/*</url-pattern>
@@ -136,4 +149,11 @@
         <url-pattern>/fonts/*</url-pattern>
     </servlet-mapping>
 
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>WEB-INF/bean.xml</param-value>
+    </context-param>
 </web-app>
