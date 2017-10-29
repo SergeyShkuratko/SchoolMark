@@ -1,25 +1,33 @@
 package com.inno.db.dao;
 
 import com.inno.db.dto.*;
+import com.inno.utils.DateConverter;
+import com.inno.utils.DefaultDateConverter;
 
 import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 
 public class FakeTestStatisticDao implements TestStatisticDao {
+    private DateConverter dc;
+
+    public FakeTestStatisticDao() {
+        this.dc = new DefaultDateConverter();
+    }
+
     @Override
-    public List<TestStatisticDto> getTestsStatistic(LocalDate dateFrom, LocalDate dateTo) {
+    public List<TestStatisticDto> getTestsStatistic(int userId, LocalDate dateFrom, LocalDate dateTo) {
         List<TestStatisticDto> result = new ArrayList<>(2);
 
-        result.add(new TestStatisticDto(1, LocalDate.of(2017, 5, 23),
+        result.add(new TestStatisticDto(1, "23.05.2017",
                 "Иванов Иван Иванович", "Математика", "5a", 4.5f));
-        result.add(new TestStatisticDto(2, LocalDate.of(2017, 7, 14),
+        result.add(new TestStatisticDto(2, "14.07.2017",
                 "Иванов Иван Иванович", "Биология", "7б", 3.7f));
-        result.add(new TestStatisticDto(3, LocalDate.of(2017, 2, 2),
+        result.add(new TestStatisticDto(3, "02.02.2017",
                 "Петр Петрович Петров", "Математика", "3a", 4.3f));
 
         return result.stream()
-                .filter(it -> isInDateRange(it.getDate(), dateFrom, dateTo))
+                .filter(it -> isInDateRange(dc.parseStringToLocalDate(it.getDate()), dateFrom, dateTo))
                 .collect(Collectors.toList());
     }
 

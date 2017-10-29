@@ -2,8 +2,10 @@ package com.inno.db.dao;
 
 import com.inno.db.dto.*;
 import com.inno.db.exception.DaoException;
+import com.inno.utils.DateConverter;
 import connectionmanager.ConnectionPool;
 import connectionmanager.TomcatConnectionPool;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.sql.*;
@@ -13,37 +15,57 @@ import java.util.*;
 
 @Repository
 public class PgTestStatisticDao implements TestStatisticDao {
-    private ConnectionPool connectionManager;
+    private DateConverter dc;
 
-    public PgTestStatisticDao() {
-        this.connectionManager = TomcatConnectionPool.getInstance();
+    @Autowired
+    public void setDc(DateConverter dc) {
+        this.dc = dc;
     }
 
-    @Override
-    public List<TestStatisticDto> getTestsStatistic(LocalDate dateFrom, LocalDate dateTo) {
-        String sql = "SELECT t.id AS test_id, t.start_date_time::DATE AS date, " +
+    private ConnectionPool connectionManager;
+    private final String sqlTestStatistic =
+            "SELECT t.id AS test_id, t.start_date_time::DATE AS date, " +
                 "concat_ws(' ', tr.last_name, tr.first_name, tr.patronymic) AS organizer, " +
                 "sbj.name AS subject, cl.name AS class_name, AVG(vr.mark) AS average_mark " +
-                "FROM tests t " +
+            "FROM tests t " +
                 "JOIN teachers tr ON t.owner_id = tr.id " +
                 "JOIN works w ON w.test_id = t.id " +
                 "JOIN test_templates tt ON t.test_template_id = tt.id " +
                 "JOIN school_classes cl ON t.school_class_id = cl.id " +
                 "JOIN verification_results vr ON vr.work_id = w.id " +
                 "JOIN subjects sbj ON tt.subject_id = sbj.id " +
-                "WHERE (?::date IS NULL OR t.start_date_time::date >= ?) AND " +
-                "(?::date IS NULL OR t.start_date_time::date <= ?) " +
-                "GROUP BY t.id, date, organizer, subject, class_name";
+            "WHERE tr.school_id = (SELECT school_id " +
+                                    "FROM directors " +
+                                    "WHERE user_id=?) " +
+                "AND (t.start_date_time::date >= ?) " +
+                "AND (t.start_date_time::date <= ?) " +
+            "GROUP BY t.id, date, organizer, subject, class_name";
 
+    private final String sqlTestAndWorksInfo =
+            "SELECT q.id AS question_id, q.question, q.answer, qvc.id AS criterion_id, qvc.criterion, " +
+                "w.id AS work_id, concat_ws(' ', st.last_name, st.first_name, st.patronymic) AS student, " +
+                "vr.mark, w.status = 'reverification' AS was_appellation, tv.variant, tv.id AS test_variant_id " +
+            "FROM tests t " +
+                "JOIN works w ON w.test_id = t.id " +
+                "JOIN test_templates tt ON t.test_template_id = tt.id " +
+                "JOIN template_variants tv ON tv.template_id = tt.id " +
+                "JOIN questions q ON q.template_variant_id = tv.id " +
+                "JOIN students st ON w.student_id = st.id " +
+                "JOIN verification_results vr ON vr.work_id = w.id " +
+                "JOIN question_verification_criterions qvc ON qvc.question_id = q.id " +
+            "WHERE t.id = ?";
+
+    public PgTestStatisticDao() {
+        this.connectionManager = TomcatConnectionPool.getInstance();
+    }
+
+    @Override
+    public List<TestStatisticDto> getTestsStatistic(int user_id, LocalDate dateFrom, LocalDate dateTo) {
         try (Connection connection = connectionManager.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql)) {
-            Date sqlDateFrom = convertToSqlDate(dateFrom);
-            statement.setDate(1, sqlDateFrom);
-            statement.setDate(2, sqlDateFrom);
-
-            Date sqlDateTo = convertToSqlDate(dateTo);
-            statement.setDate(3, sqlDateTo);
-            statement.setDate(4, sqlDateTo);
+             PreparedStatement statement = connection.prepareStatement(sqlTestStatistic)) {
+            statement.setInt(1, user_id);
+            statement.setDate(2, convertToSqlDate(dateFrom));
+            statement.setDate(3, convertToSqlDate(dateTo));
 
             ResultSet resultSet = statement.executeQuery();
 
@@ -52,7 +74,7 @@ public class PgTestStatisticDao implements TestStatisticDao {
                 result.add(
                         new TestStatisticDto(
                                 resultSet.getInt("test_id"),
-                                resultSet.getDate("date").toLocalDate(),
+                                dc.formatLocalDateToString(resultSet.getDate("date").toLocalDate()),
                                 resultSet.getString("organizer"),
                                 resultSet.getString("subject"),
                                 resultSet.getString("class_name"),
@@ -71,21 +93,9 @@ public class PgTestStatisticDao implements TestStatisticDao {
 
     @Override
     public TestAndWorksInfoDto getTestAndWorksInfo(int testId) {
-        String sql = "SELECT q.id AS question_id, q.question, q.answer, qvc.id AS criterion_id, qvc.criterion, " +
-                "w.id AS work_id, concat_ws(' ', st.last_name, st.first_name, st.patronymic) AS student, " +
-                "vr.mark, w.status = 'reverification' AS was_appellation, tv.variant, tv.id AS test_variant_id " +
-                "FROM tests t " +
-                "JOIN works w ON w.test_id = t.id " +
-                "JOIN test_templates tt ON t.test_template_id = tt.id " +
-                "JOIN template_variants tv ON tv.template_id = tt.id " +
-                "JOIN questions q ON q.template_variant_id = tv.id " +
-                "JOIN students st ON w.student_id = st.id " +
-                "JOIN verification_results vr ON vr.work_id = w.id " +
-                "JOIN question_verification_criterions qvc ON qvc.question_id = q.id " +
-                "WHERE t.id = ?";
 
         try (Connection connection = connectionManager.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql);) {
+             PreparedStatement statement = connection.prepareStatement(sqlTestAndWorksInfo);) {
             statement.setInt(1, testId);
             ResultSet resultSet = statement.executeQuery();
 
