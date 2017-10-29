@@ -24,7 +24,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <!-- Custom styles for this template -->
 
-    <link rel="stylesheet" href="static/dashboard.css" type="text/css">
+    <link rel="stylesheet" href="../../static/dashboard.css" type="text/css">
     <meta http-equiv="Cache-Control" content="no-cache"/>
 </head>
 <body>

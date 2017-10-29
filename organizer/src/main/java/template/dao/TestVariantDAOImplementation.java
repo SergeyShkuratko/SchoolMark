@@ -3,29 +3,37 @@ package template.dao;
 import connectionmanager.ConnectionPool;
 import connectionmanager.TomcatConnectionPool;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 import template.dto.TestQuestion;
 import template.dto.TestVariant;
 
 import java.sql.*;
 
-/**
- * Created by nkm on 15.10.2017.
- */
+@Repository
 public class TestVariantDAOImplementation {
     private static final Logger logger = Logger.getLogger(TestVariantDAOImplementation.class);
     public static ConnectionPool connectionManager = TomcatConnectionPool.getInstance();
 
-    public static int createTestVariantCascade(TestVariant testVariant, int templateId) {
+    final
+    TestQuestionDAOImplementation testQuestionDAOImplementation;
+
+    @Autowired
+    public TestVariantDAOImplementation(TestQuestionDAOImplementation testQuestionDAOImplementation) {
+        this.testQuestionDAOImplementation = testQuestionDAOImplementation;
+    }
+
+    public int createTestVariantCascade(TestVariant testVariant, int templateId) {
         int variantId = 0;
         try (Connection connection = connectionManager.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(
                     "INSERT INTO template_variants(variant, template_id) " +
                             "VALUES (?,?)",
-                                Statement.RETURN_GENERATED_KEYS);
+                    Statement.RETURN_GENERATED_KEYS);
             preparedStatement.setString(1, testVariant.getVariant()); //TODO поднять вопрос о целесообразности поля
             preparedStatement.setInt(2, templateId);
 
-            if (preparedStatement.executeUpdate() == 1){
+            if (preparedStatement.executeUpdate() == 1) {
                 ResultSet resultSet = preparedStatement.getGeneratedKeys();
                 resultSet.next();
                 //возвращаем id только что добавленного вопроса
@@ -35,10 +43,10 @@ public class TestVariantDAOImplementation {
             logger.error(e.getMessage());
         }
 
-        if(variantId != 0){
+        if (variantId != 0) {
             //создаем варианты данного шаблона
             for (TestQuestion testQuestion : testVariant.getTestQuestions()) {
-                TestQuestionDAOImplementation.createTestQuestionCascade(testQuestion, variantId);
+                testQuestionDAOImplementation.createTestQuestionCascade(testQuestion, variantId);
             }
         }
 

@@ -4,6 +4,7 @@ import classes.User;
 import connectionmanager.ConnectionPool;
 import connectionmanager.TomcatConnectionPool;
 import org.apache.log4j.Logger;
+import org.springframework.stereotype.Repository;
 import template.dto.Teacher;
 
 import java.sql.Connection;
@@ -11,14 +12,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-/**
- * Created by nkm on 20.10.2017.
- */
+@Repository
 public class TeacherDAOImplementation {
     private static final Logger logger = Logger.getLogger(TeacherDAOImplementation.class);
     public static ConnectionPool connectionManager = TomcatConnectionPool.getInstance();
 
-    public static Teacher getTeacherByUser(User user) {
+    public Teacher getTeacherByUser(User user) {
         Teacher teacher = null;
 
         try (Connection connection = connectionManager.getConnection()) {
@@ -41,11 +40,10 @@ public class TeacherDAOImplementation {
         } catch (SQLException e) {
             logger.error(e.getMessage());
         }
-
         return teacher;
     }
 
-    public static Teacher getTeacherByUserId(int userId) {
+    public Teacher getTeacherByUserId(int userId) {
         Teacher teacher = null;
 
         try (Connection connection = connectionManager.getConnection()) {
