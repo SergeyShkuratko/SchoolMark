@@ -38,20 +38,20 @@
             <input class="form-check-input" type="checkbox"
                    name="groupByOrganization" ${param['groupByOrganization'] == "on" ? 'checked' : ''}
                    onclick="this.form.submit()">
-            Группировать по организации
+            Группировать по организаторам
         </label>
     </div>
 
-    <div class="input-group date col-md-2 ml-auto" data-provide="datepicker">
+    <div class="input-group date col-md-2 ml-auto" data-provide="datepicker" data-date-format = "dd.mm.yyyy">
         <input type="text" class="form-control" placeholder="Дата с" name="dateFrom"
-               value="${param['dateFrom']}">
+               value="${dateFrom}"  lang = "ru">
         <div class="input-group-addon">
             <span class="fa fa-th"></span>
         </div>
     </div>
-    <div class="input-group date col-md-2 ml-2" data-provide="datepicker">
+    <div class="input-group date col-md-2 ml-2" data-provide="datepicker" data-date-format = "dd.mm.yyyy">
         <input type="text" class="form-control" placeholder="Дата по" name="dateTo"
-               value="${param['dateTo']}">
+               value="${dateTo}" lang = "ru">
         <div class="input-group-addon">
             <span class="fa fa-th"></span>
         </div>
@@ -154,5 +154,6 @@
 </c:if>
 
 <%@include file="/mystatic/pagefooter.jsp" %>
+
 </body>
 </html>
