@@ -3,6 +3,7 @@ package service;
 
 import dao.DAOStudentWork;
 import dto.DTOFile;
+import dto.DTOVariant;
 import dto.DTOWork;
 import org.apache.log4j.Logger;
 
@@ -108,4 +109,21 @@ public class WorkService {
         return workDAO.setWorkStatus(work_id, status);
     }
 
+    public static List<DTOVariant> getVariants(int templ_id) {
+
+        try {
+            return workDAO.getVariants(templ_id);
+        } catch (DAOStudentWork.DAOStudentWorkException e) {
+            logger.error(e.getMessage());
+        }
+        return null;
+    }
+
+    public static void setWorkVariant(int workId, int variantId) {
+        try {
+            workDAO.setWorkVariant(workId, variantId);
+        } catch (DAOStudentWork.DAOStudentWorkException e) {
+            logger.error(e.getMessage());
+        }
+    }
 }

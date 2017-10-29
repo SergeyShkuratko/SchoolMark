@@ -2,6 +2,7 @@ package dao;
 
 import connectionmanager.TomcatConnectionPool;
 import dto.DTOFile;
+import dto.DTOVariant;
 import dto.DTOWork;
 import org.apache.log4j.Logger;
 
@@ -13,6 +14,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DAOStudentWork {
+
+    public int setWorkVariant(int workId, int variantId) throws DAOStudentWorkException {
+        String sql = "UPDATE works" +
+                " SET variant_id = ?" +
+                " WHERE id= ?";
+        try (Connection connection = TomcatConnectionPool.getInstance().getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql))
+        {
+            preparedStatement.setInt(1, variantId);
+            preparedStatement.setInt(2, workId);
+            return preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            logger.error(e.getMessage());
+            throw new DAOStudentWorkException(e.getMessage());
+        }
+    }
 
     public class DAOStudentWorkException extends SQLException {
         public DAOStudentWorkException(String reason) {
@@ -203,6 +220,29 @@ public class DAOStudentWork {
             logger.error(e.getMessage());
             throw new DAOStudentWorkException(e.getMessage());
         }
+    }
+
+    public List<DTOVariant> getVariants(int templ_id) throws DAOStudentWorkException {
+        String sql = "SELECT id, variant " +
+                "FROM template_variants " +
+                "WHERE template_id = ?";
+        List<DTOVariant> variants = new ArrayList<>();
+        try(Connection connection = TomcatConnectionPool.getInstance().getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(sql))
+        {
+            preparedStatement.setInt(1, templ_id);
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+                DTOVariant variant = new DTOVariant(
+                        rs.getInt("id"),
+                        rs.getString("variant"));
+                variants.add(variant);
+            }
+        } catch (SQLException e) {
+            logger.error(e.getMessage());
+            throw new DAOStudentWorkException(e.getMessage());
+        }
+        return variants.size() != 0 ? variants : null;
     }
 
 

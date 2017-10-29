@@ -86,9 +86,47 @@
                 <c:out value="${work.date}"/>)
                 <c:out value="${work.status}"/>
             </li>
+            <li class="dropdown" id="variant_menu">
+                <a id="drop1" href="#" class="dropdown-toggle" data-toggle="dropdown">
+                    Выбор варианта
+                    <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu" >
+                    <c:forEach items="${variants}" var="variant">
+                        <li><a href="/error.jsp" target="_blank" onclick="saveVariant(${variant.id});return false">
+                            <c:out value="${variant.name}"/>
+                        </a></li>
+                    </c:forEach>
+                </ul>
+            </li>
         </ol>
     </div>
+    <script type="text/javascript">
+        function saveVariant(variant)
+        {
+//            alert(variant)
+            var object =
+                {
+                    'variant':variant,
+                    'work':${work.workId},
+                    'command':'setVariant'
+                }
 
+            $.post('/SM/workload', object, function(data){
+                location.reload();
+            });
+
+        }
+
+//        $("#variant_menu").onclick(function(event) {
+//            // Предотвращаем обычную отправку формы
+//            event.preventDefault();
+//            $.post('ajax.php', {'login':$('#login').val(), 'password' : $('#password').val()},
+//                function(data) {
+//                    $('#result').html(data);
+//                });
+//        });
+    </script>
     <div class="panel panel-default">
         <div class="panel-body text-left">
             <c:forEach items="${questions}" var="question">
