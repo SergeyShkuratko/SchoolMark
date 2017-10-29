@@ -6,11 +6,13 @@ import calendar.utils.CalendarCell;
 import classes.CommonSettings;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import security.CustomUser;
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDate;
@@ -32,10 +34,9 @@ public class CalendarController {
     }
 
     @RequestMapping(value={"/calendar", "/organizer/calendar"}, method = RequestMethod.GET)
-    public ModelAndView getCalendar(HttpServletRequest request,
-                                    @RequestParam(required = false) String dayOfMonth) {
+    public ModelAndView getCalendar(@RequestParam(required = false) String dayOfMonth) {
         ModelAndView modelAndView;
-        int userId = getUserIdFromRequestSession(request);
+        int userId = ((CustomUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
         LocalDate date = getDateFromString(dayOfMonth);
         try {
             CalendarCell[][] calendar = calendarService.getCalendarCells(userId, date);
@@ -46,16 +47,6 @@ public class CalendarController {
             modelAndView = fillErrorModelAndView(errorText);
         }
         return modelAndView;
-    }
-
-    private int getUserIdFromRequestSession(HttpServletRequest request) {
-        Object attribute = request.getSession().getAttribute(CommonSettings.AUTH_USER_ATTRIBUTE);
-        if (attribute != null) {
-            return (Integer) attribute;
-        } else {
-            //TODO send to auth
-            return 0;
-        }
     }
 
     private LocalDate getDateFromString(String dayOfMonthString) {
@@ -71,7 +62,7 @@ public class CalendarController {
     }
 
     private ModelAndView fillSuccessModelAndView(Object calendar, LocalDate date) {
-        ModelAndView modelAndView = new ModelAndView("/calendar.jsp");
+        ModelAndView modelAndView = new ModelAndView("/calendar");
         modelAndView.addObject("calendar", calendar);
         modelAndView.addObject("beginData", date);
         modelAndView.addObject("monthName", getMonthNameInUpperCase(date));
