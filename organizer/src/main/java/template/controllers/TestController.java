@@ -57,7 +57,7 @@ public class TestController {
         List<String> classNames = testService.getClassNamesByTeacher(teacher);
         model.put("classNames", classNames);
 
-        return new ModelAndView("test", model);
+        return new ModelAndView("/test.jsp", model);
     }
 
     @RequestMapping(params = {"testFormButton=loadTemplate"}, method = RequestMethod.POST)
