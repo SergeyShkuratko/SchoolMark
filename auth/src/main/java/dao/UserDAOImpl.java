@@ -3,6 +3,8 @@ package dao;
 import classes.Role;
 import classes.User;
 import classes.UserCredentials;
+import connectionmanager.ConnectionPool;
+import connectionmanager.TomcatConnectionPool;
 import exceptions.DAOException;
 import exceptions.UserDAOException;
 import exceptions.UserNotFoundException;
@@ -30,11 +32,7 @@ public class UserDAOImpl implements UserDAO {
                     " (login, password, role, registration_date, last_login_date)" +
                     " VALUES (?, ?, ?::role, ?, ?)";
 
-    private DataSource dataSource;
-
-    public UserDAOImpl(DataSource dataSource) {
-        this.dataSource = dataSource;
-    }
+    private ConnectionPool dataSource = TomcatConnectionPool.getInstance();
 
     @Override
     public User getByCredentials(UserCredentials credentials) throws UserNotFoundException, UserDAOException {

@@ -16,6 +16,10 @@
         <a href="<c:url value='/director-test-list'/>">Статистика</a>
     </sec:authorize>
 
+    <sec:authorize access="hasRole('ADMIN')">
+        <a href="<c:url value='/admin/cabinet'/>">Администрирование</a>
+    </sec:authorize>
+
     <a href="<c:url value='/logout'/>">Выход</a>
 </div>
 

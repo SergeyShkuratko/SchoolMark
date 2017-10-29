@@ -11,6 +11,15 @@
         <intercept-url pattern="/css/**/" access="permitAll()"/>
         <intercept-url pattern="/js/**" access="permitAll()"/>
         <intercept-url pattern="/fonts/**" access="permitAll()"/>
+        <intercept-url pattern="/organizer/*" access="hasAnyRole('TEACHER','ADMIN')"/>
+        <intercept-url pattern="/calendar*" access="hasAnyRole('TEACHER','ADMIN')"/>
+        <intercept-url pattern="/controller/*" access="hasAnyRole('TEACHER','ADMIN')"/>
+        <intercept-url pattern="/director*" access="hasAnyRole('DIRECTOR','ADMIN')"/>
+        <intercept-url pattern="/register/*" access="permitAll()"/>
+        <intercept-url pattern="/register*" access="permitAll()"/>
+        <intercept-url pattern="/admin/**" access="hasAnyRole('ADMIN')"/>
+        <intercept-url pattern="/testlist*" access="hasAnyRole('STUDENT')"/>
+        <intercept-url pattern="/workload*" access="hasAnyRole('STUDENT')"/>
         <intercept-url pattern="/**" access="isAuthenticated()"/>
 
         <form-login login-page="/authorization.jsp" username-parameter="login" password-parameter="password"
@@ -25,12 +34,12 @@
         </authentication-provider>
     </authentication-manager>
 
-    <beans:bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-        <beans:property name="driverClassName" value="org.postgresql.Driver"/>
-        <beans:property name="url" value="jdbc:postgresql://localhost:5432/school_mark"/>
-        <beans:property name="username" value="postgres"/>
-        <beans:property name="password" value="123"/>
-    </beans:bean>
+    <!--<beans:bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">-->
+        <!--<beans:property name="driverClassName" value="org.postgresql.Driver"/>-->
+        <!--<beans:property name="url" value="jdbc:postgresql://localhost:5432/SchoolMark"/>-->
+        <!--<beans:property name="username" value="postgres"/>-->
+        <!--<beans:property name="password" value="7895123"/>-->
+    <!--</beans:bean>-->
 
     <beans:bean id="customUserDetailsService" class="security.CustomUserDetailsService" autowire="constructor"/>
     <beans:bean id="passwordEncoder" class="security.CustomPasswordEncoder"/>
