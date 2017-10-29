@@ -1,18 +1,12 @@
 package template.controllers;
 
-import classes.CommonSettings;
 import classes.Subject;
-import classes.User;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
-import template.dao.ClassDAOImplementation;
-import template.dao.SubjectDAOImplementation;
-import template.dao.TeacherDAOImplementation;
-import template.dao.TestDAOImplementation;
 import template.dto.Teacher;
 import template.dto.Test;
 import template.dto.TestTemplate;
@@ -25,13 +19,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@SuppressWarnings("ALL")
 @Controller
 public class TestController {
     private static final Logger logger = Logger.getLogger(TestController.class);
 
+    private final TestService testService;
+
     @Autowired
-    private TestService testService;
+    public TestController(TestService testService) {
+        this.testService = testService;
+    }
 
     @RequestMapping(value = "/test", method = RequestMethod.GET)
     public ModelAndView getTestServletGet(HttpSession session) {
@@ -42,7 +39,7 @@ public class TestController {
             userId = 1;
         }
 
-        Teacher teacher = TeacherDAOImplementation.getTeacherByUserId(userId);
+        Teacher teacher = testService.getTeacherByUserId(userId);
 //        session.setAttribute("teacher", teacher);
 
         Test test = (Test) session.getAttribute("test");
@@ -51,13 +48,13 @@ public class TestController {
         TestTemplate testTemplate = (TestTemplate) session.getAttribute("testTemplate");
         model.put("testTemplate", testTemplate);
 
-        List<Subject> subjects = SubjectDAOImplementation.getAllSubjects();
+        List<Subject> subjects = testService.getAllSubjects();
         model.put("subjects", subjects);
 
-        List<Integer> classNumbers = ClassDAOImplementation.getClassNumbersByTeacher(teacher);
+        List<Integer> classNumbers = testService.getClassNumbersByTeacher(teacher);
         model.put("classNumbers", classNumbers);
 
-        List<String> classNames = ClassDAOImplementation.getClassNamesByTeacher(teacher);
+        List<String> classNames = testService.getClassNamesByTeacher(teacher);
         model.put("classNames", classNames);
 
         return new ModelAndView("test", model);
@@ -90,7 +87,7 @@ public class TestController {
         } else {
             Test test = testService.getTestFromReq(request);
             test.setTestTemplate(testTemplate);
-            TestDAOImplementation.createTest(test, (Teacher) request.getSession().getAttribute("teacher"));
+            testService.createTest(test, (Teacher) request.getSession().getAttribute("teacher"));
             return new ModelAndView("redirect:/organizer/calendar");
         }
     }

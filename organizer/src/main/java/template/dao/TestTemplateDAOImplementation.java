@@ -4,6 +4,9 @@ import classes.Subject;
 import connectionmanager.ConnectionPool;
 import connectionmanager.TomcatConnectionPool;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 import template.dto.TestQuestion;
 import template.dto.TestTemplate;
 import template.dto.TestVariant;
@@ -14,11 +17,21 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Repository
 public class TestTemplateDAOImplementation {
     private static final Logger logger = Logger.getLogger(TestTemplateDAOImplementation.class);
     public static ConnectionPool connectionManager = TomcatConnectionPool.getInstance();
 
-    public static TestTemplate getTemplateByIdCascade(int templateId) {
+    final SubjectDAOImplementation subjectDAOImplementation;
+    final TestVariantDAOImplementation testVariantDAOImplementation;
+
+    @Autowired
+    public TestTemplateDAOImplementation(SubjectDAOImplementation subjectDAOImplementation, TestVariantDAOImplementation testVariantDAOImplementation) {
+        this.subjectDAOImplementation = subjectDAOImplementation;
+        this.testVariantDAOImplementation = testVariantDAOImplementation;
+    }
+
+    public TestTemplate getTemplateByIdCascade(int templateId) {
         TestTemplate testTemplate = null;
         try (Connection connection = connectionManager.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(
@@ -67,7 +80,7 @@ public class TestTemplateDAOImplementation {
                 TestVariant testVariant;
                 int testVariantId = resultSet.getInt("template_variant_id");
                 String testVariantName = resultSet.getString("variant");
-                if(testVariantName == null){
+                if (testVariantName == null) {
                     continue;
                 }
                 if (variantsMap.containsKey(testVariantId)) {
@@ -84,7 +97,7 @@ public class TestTemplateDAOImplementation {
                 int questionId = resultSet.getInt("questions_id");
                 String questionText = resultSet.getString("question");
                 String questionAnswerText = resultSet.getString("answer");
-                if (questionText == null || questionAnswerText == null){
+                if (questionText == null || questionAnswerText == null) {
                     continue;
                 }
                 if (questionsMap.containsKey(questionId)) {
@@ -100,7 +113,7 @@ public class TestTemplateDAOImplementation {
 
                 //каждая новая строчка - это критерий
                 String criterionText = resultSet.getString("criterion");
-                if (criterionText == null){
+                if (criterionText == null) {
                     continue;
                 }
                 testQuestion.getCriterians().add(criterionText);
@@ -116,7 +129,7 @@ public class TestTemplateDAOImplementation {
     }
 
     //TODO передавать учителя, который сейчас в сессии (пока возвращаются вообще все шаблоны)
-    public static List<TestTemplate> getAllTemplatesByTeacher() {
+    public List<TestTemplate> getAllTemplatesByTeacher() {
         List<TestTemplate> templates = new ArrayList<>();
         try (Connection connection = connectionManager.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(
@@ -162,7 +175,7 @@ public class TestTemplateDAOImplementation {
 
 
     //Cascade означает, что мы также создаем критерии, вопросы и варианты данного шаблона
-    public static int createTestTemplateCascade(TestTemplate testTemplate) {
+    public int createTestTemplateCascade(TestTemplate testTemplate) {
         int templateId = 0;
         try (Connection connection = connectionManager.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(
@@ -172,7 +185,7 @@ public class TestTemplateDAOImplementation {
             preparedStatement.setString(1, testTemplate.getTopic());
             preparedStatement.setString(2, "описание"); //TODO поднять вопрос о целесообразности поля
             preparedStatement.setInt(3, testTemplate.getClassNum());
-            preparedStatement.setInt(4, SubjectDAOImplementation.getSubjectId(testTemplate.getSubject()));
+            preparedStatement.setInt(4, subjectDAOImplementation.getSubjectId(testTemplate.getSubject()));
             preparedStatement.setString(5, testTemplate.getDifficulty());
             preparedStatement.setDate(6, Date.valueOf(testTemplate.getCreationDate()));
 
@@ -187,17 +200,17 @@ public class TestTemplateDAOImplementation {
             logger.error(e.getMessage());
         }
 
-        if(templateId != 0){
+        if (templateId != 0) {
             //создаем варианты заданий данного шаблона
             for (TestVariant testVariant : testTemplate.getTestVariants()) {
-                TestVariantDAOImplementation.createTestVariantCascade(testVariant, templateId);
+                testVariantDAOImplementation.createTestVariantCascade(testVariant, templateId);
             }
         }
 
         return templateId;
     }
 
-    public static boolean setStatusDisabled(TestTemplate oldTemplate) {
+    public boolean setStatusDisabled(TestTemplate oldTemplate) {
         try (Connection connection = connectionManager.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(
                     "UPDATE test_templates SET status = 'disabled' where id = ?;");

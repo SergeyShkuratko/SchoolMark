@@ -1,21 +1,34 @@
 package template.services;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import template.dao.TestTemplateDAOImplementation;
 import template.dto.TestQuestion;
+import template.dto.TestTemplate;
 import template.dto.TestVariant;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 @Service
 public class TestTemplateService {
+    final
+    TestTemplateDAOImplementation testTemplateDAOImplementation;
+
+    @Autowired
+    public TestTemplateService(TestTemplateDAOImplementation testTemplateDAOImplementation) {
+        this.testTemplateDAOImplementation = testTemplateDAOImplementation;
+    }
 
     public List<TestVariant> getTestVariantsFromReq(HttpServletRequest req) {
         Map<String, TestVariant> testVariants = new TreeMap<>();
         Map<String, TestQuestion> testQuestions = new TreeMap<>();
 
         for (Map.Entry<String, String[]> param : req.getParameterMap().entrySet()) {
-            if(!param.getKey().contains("question"))
+            if (!param.getKey().contains("question"))
                 continue;
             String[] paramTypes = param.getKey().split("_");
             String variant = paramTypes[0];
@@ -45,10 +58,9 @@ public class TestTemplateService {
 
     private TestQuestion getTestQuestion(Map<String, TestQuestion> testQuestions, String question, TestVariant testVariant) {
         TestQuestion testQuestion;
-        if (testQuestions.containsKey(question)){
+        if (testQuestions.containsKey(question)) {
             testQuestion = testQuestions.get(question);
-        }
-        else {
+        } else {
             testQuestion = new TestQuestion();
             testQuestions.put(question, testQuestion);
             testVariant.getTestQuestions().add(testQuestion);
@@ -62,9 +74,25 @@ public class TestTemplateService {
             testVariant = testVariants.get(variant);
         } else {
             testVariant = new TestVariant();
-            testVariant.setVariant("Вариант №" + variant.replace("variant",""));
+            testVariant.setVariant("Вариант №" + variant.replace("variant", ""));
             testVariants.put(variant, testVariant);
         }
         return testVariant;
+    }
+
+    public int createTestTemplateCascade(TestTemplate testTemplate) {
+        return testTemplateDAOImplementation.createTestTemplateCascade(testTemplate);
+    }
+
+    public boolean setStatusDisabled(TestTemplate oldTemplate) {
+        return testTemplateDAOImplementation.setStatusDisabled(oldTemplate);
+    }
+
+    public List<TestTemplate> getAllTemplatesByTeacher() {
+        return testTemplateDAOImplementation.getAllTemplatesByTeacher();
+    }
+
+    public TestTemplate getTemplateByIdCascade(int templateId) {
+        return testTemplateDAOImplementation.getTemplateByIdCascade(templateId);
     }
 }

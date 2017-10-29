@@ -4,6 +4,7 @@ import classes.SchoolClass;
 import connectionmanager.ConnectionPool;
 import connectionmanager.TomcatConnectionPool;
 import org.apache.log4j.Logger;
+import org.springframework.stereotype.Repository;
 import template.dto.Teacher;
 
 import java.sql.Connection;
@@ -13,11 +14,12 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+@Repository
 public class ClassDAOImplementation {
     private static final Logger logger = Logger.getLogger(ClassDAOImplementation.class);
     private static ConnectionPool connectionManager = TomcatConnectionPool.getInstance();
 
-    public static List<Integer> getClassNumbersByTeacher(Teacher teacher){
+    public List<Integer> getClassNumbersByTeacher(Teacher teacher) {
         List<Integer> schoolClassNumbers = new ArrayList<>();
         try (Connection connection = connectionManager.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(
@@ -29,7 +31,7 @@ public class ClassDAOImplementation {
             preparedStatement.setInt(3, teacher.getMaxClassNumber());
 
             ResultSet resultSet = preparedStatement.executeQuery();
-            while(resultSet.next()) {
+            while (resultSet.next()) {
                 schoolClassNumbers.add(resultSet.getInt("number"));
             }
             return schoolClassNumbers;
@@ -41,7 +43,7 @@ public class ClassDAOImplementation {
         return schoolClassNumbers;
     }
 
-    public static List<String> getClassNamesByTeacher(Teacher teacher){
+    public List<String> getClassNamesByTeacher(Teacher teacher) {
         List<String> schoolClassNames = new ArrayList<>();
         try (Connection connection = connectionManager.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(
@@ -53,7 +55,7 @@ public class ClassDAOImplementation {
             preparedStatement.setInt(3, teacher.getMaxClassNumber());
 
             ResultSet resultSet = preparedStatement.executeQuery();
-            while(resultSet.next()) {
+            while (resultSet.next()) {
                 schoolClassNames.add(resultSet.getString("name"));
             }
             return schoolClassNames;
@@ -66,7 +68,7 @@ public class ClassDAOImplementation {
     }
 
 
-    public static SchoolClass getClassByNumAndName(int number, String letter, int schoolId) {
+    public SchoolClass getClassByNumAndName(int number, String letter, int schoolId) {
         SchoolClass schoolClass = null;
         try (Connection connection = connectionManager.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(
