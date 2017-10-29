@@ -2,21 +2,30 @@ package template.dao;
 
 import connectionmanager.ConnectionPool;
 import connectionmanager.TomcatConnectionPool;
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 import template.dto.Teacher;
 import template.dto.Test;
 
 import java.sql.*;
 
-/**
- * Created by nkm on 15.10.2017.
- */
+@Repository
 public class TestDAOImplementation {
+    private static final Logger logger = Logger.getLogger(TestDAOImplementation.class);
     public static ConnectionPool connectionManager = TomcatConnectionPool.getInstance();
 
-    public static int createTest(Test test, Teacher teacher) {
+    final TestTemplateDAOImplementation testTemplateDAOImplementation;
+
+    @Autowired
+    public TestDAOImplementation(TestTemplateDAOImplementation testTemplateDAOImplementation) {
+        this.testTemplateDAOImplementation = testTemplateDAOImplementation;
+    }
+
+    public int createTest(Test test, Teacher teacher) {
         int testTemplateId = test.getTestTemplate().getId();
-        if(testTemplateId == 0){
-            testTemplateId = TestTemplateDAOImplementation.createTestTemplateCascade(test.getTestTemplate());
+        if (testTemplateId == 0) { //значит шаблон не загружали, значит его нет в БД, тогда создаем
+            testTemplateId = testTemplateDAOImplementation.createTestTemplateCascade(test.getTestTemplate());
         }
 
         try (Connection connection = connectionManager.getConnection()) {
@@ -32,14 +41,14 @@ public class TestDAOImplementation {
             preparedStatement.setString(6, "new");
             preparedStatement.setString(7, test.getTestDescription());
 
-            if (preparedStatement.executeUpdate() == 1){
+            if (preparedStatement.executeUpdate() == 1) {
                 ResultSet resultSet = preparedStatement.getGeneratedKeys();
                 resultSet.next();
                 //получаем и возвращаем id только что добавленного теста
                 return resultSet.getInt(1);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }
         return 0;
     }
