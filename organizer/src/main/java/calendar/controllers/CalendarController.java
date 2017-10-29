@@ -2,7 +2,6 @@ package calendar.controllers;
 
 import calendar.dao.exceptions.TestDAOException;
 import calendar.services.CalendarService;
-import calendar.services.CalendarServiceImpl;
 import calendar.utils.CalendarCell;
 import classes.CommonSettings;
 import org.apache.log4j.Logger;
@@ -72,7 +71,7 @@ public class CalendarController {
     }
 
     private ModelAndView fillSuccessModelAndView(Object calendar, LocalDate date) {
-        ModelAndView modelAndView = new ModelAndView("calendar");
+        ModelAndView modelAndView = new ModelAndView("/calendar.jsp");
         modelAndView.addObject("calendar", calendar);
         modelAndView.addObject("beginData", date);
         modelAndView.addObject("monthName", getMonthNameInUpperCase(date));

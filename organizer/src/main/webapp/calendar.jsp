@@ -97,10 +97,10 @@
         <%--padding: 2px !important;--%>
     <%--}</style>--%>
 
-    <%@include file="mystatic/menustyles.jsp" %>
+    <%@include file="WEB-INF/pages/mystatic/menustyles.jsp" %>
 </head>
 <body>
-    <%@include file="mystatic/pageheader.jsp" %>
+    <%@include file="WEB-INF/pages/mystatic/pageheader.jsp" %>
 
 <form method="get" action="${pageContext.request.contextPath}/organizer/calendar" id="mainForm">
     <input type="hidden" name="dayOfMonth" id="dayOfMonth" value="${beginData}"/>
@@ -148,6 +148,6 @@
         </table>
     </form>
 
-    <%@include file="mystatic/pagefooter.jsp" %>
+    <%@include file="WEB-INF/pages/mystatic/pagefooter.jsp" %>
 </body>
 </html>

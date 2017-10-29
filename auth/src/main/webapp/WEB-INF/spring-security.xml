@@ -8,6 +8,8 @@
 
     <http auto-config="true">
         <intercept-url pattern="/authorization.jsp" access="permitAll()"/>
+        <intercept-url pattern="/registration.jsp" access="permitAll()"/>
+
         <intercept-url pattern="/css/**/" access="permitAll()"/>
         <intercept-url pattern="/js/**" access="permitAll()"/>
         <intercept-url pattern="/fonts/**" access="permitAll()"/>
