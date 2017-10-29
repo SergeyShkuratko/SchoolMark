@@ -27,7 +27,7 @@ public class AuthorizationController {
 
     @RequestMapping(value = "/auth", method = RequestMethod.GET)
     public String doGet() {
-        return AUTH_JSP;
+        return "redirect:/";
     }
 
     @RequestMapping(value = "/auth", method = RequestMethod.POST)

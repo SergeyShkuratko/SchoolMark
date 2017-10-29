@@ -14,6 +14,8 @@
         <intercept-url pattern="/organizer/*" access="hasAnyRole('TEACHER','ADMIN')"/>
         <intercept-url pattern="/calendar*" access="hasAnyRole('TEACHER','ADMIN')"/>
         <intercept-url pattern="/controller/*" access="hasAnyRole('TEACHER','ADMIN')"/>
+        <intercept-url pattern="/controller*" access="hasAnyRole('TEACHER','ADMIN')"/>
+        <intercept-url pattern="/test*" access="hasAnyRole('TEACHER','ADMIN')"/>
         <intercept-url pattern="/director*" access="hasAnyRole('DIRECTOR','ADMIN')"/>
         <intercept-url pattern="/register/*" access="permitAll()"/>
         <intercept-url pattern="/register*" access="permitAll()"/>
@@ -23,7 +25,7 @@
         <intercept-url pattern="/**" access="isAuthenticated()"/>
 
         <form-login login-page="/authorization.jsp" username-parameter="login" password-parameter="password"
-                    authentication-success-forward-url="/mainmenu.jsp"/>
+                    authentication-success-forward-url="/auth" />
         <logout logout-url="/logout" logout-success-url="/authorization.jsp"/>
         <csrf disabled="true"/>
     </http>

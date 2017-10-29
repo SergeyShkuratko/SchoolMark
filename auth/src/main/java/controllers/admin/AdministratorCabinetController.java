@@ -26,6 +26,7 @@ public class AdministratorCabinetController {
 
     @RequestMapping("/admin/cabinet")
     public ModelAndView doGet(){
+
         ModelAndView mv = new ModelAndView();
         try {
             List<SchoolDTO> schools = schoolService.getAllSchools();

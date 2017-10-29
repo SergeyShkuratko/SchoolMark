@@ -1,5 +1,5 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
-
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <div class="sidenav">
 
     <sec:authorize access="hasRole('STUDENT')">
@@ -17,7 +17,7 @@
     </sec:authorize>
 
     <sec:authorize access="hasRole('ADMIN')">
-        <a href="<c:url value='/admin/cabinet'/>">Администрирование</a>
+        <a href="<c:url value='/admin/cabinet'/>">Кабинет администратора</a>
     </sec:authorize>
 
     <a href="<c:url value='/logout'/>">Выход</a>

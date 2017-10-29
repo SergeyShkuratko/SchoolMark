@@ -56,7 +56,11 @@
         <servlet-name>default</servlet-name>
         <url-pattern>/fonts/*</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
 
+    <servlet-name>default</servlet-name>
+        <url-pattern>/img/*</url-pattern>
+    </servlet-mapping>
     <!-- SCPRING MVC -->
 
     <servlet>
