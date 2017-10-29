@@ -17,12 +17,11 @@ import java.util.Calendar;
 public class DirectorModuleController {
 
     private TestStatisticService testStatisticService;
-    private DateConverter dc;
-    private int userId = 11;
+    private DateConverter dateConverter;
 
     @Autowired
-    public void setDc(DateConverter dc) {
-        this.dc = dc;
+    public void setDateConverter(DateConverter dateConverter) {
+        this.dateConverter = dateConverter;
     }
 
     @Autowired
@@ -36,29 +35,39 @@ public class DirectorModuleController {
                                         @RequestParam(name = "dateTo", required = false) String dateToStr) {
 
         if (dateFromStr == null) {
-            dateFromStr = "01.01."+Calendar.getInstance().get(Calendar.YEAR);
+            dateFromStr = getFirstSchoolDay();
         }
-        LocalDate dateFrom = dc.parseStringToLocalDate(dateFromStr);
+        LocalDate dateFrom = dateConverter.parseStringToLocalDate(dateFromStr);
 
         LocalDate dateTo;
         if (dateToStr == null) {
             dateTo = LocalDate.now();
         } else {
-            dateTo = dc.parseStringToLocalDate(dateToStr);
+            dateTo = dateConverter.parseStringToLocalDate(dateToStr);
         }
 
         ModelAndView modelAndView = new ModelAndView("director-test-list");
-        modelAndView.addObject("dateFrom", dc.formatLocalDateToString(dateFrom));
-        modelAndView.addObject("dateTo", dc.formatLocalDateToString(dateTo));
-
+        modelAndView.addObject("dateFrom", dateConverter.formatLocalDateToString(dateFrom));
+        modelAndView.addObject("dateTo", dateConverter.formatLocalDateToString(dateTo));
+        int userId = ((CustomUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
         if (!"on".equals(groupByOrganization)) {
             modelAndView.addObject("tests",
-                    testStatisticService.getTestsStatistic(userId, dateFrom, dateTo));
+                    testStatisticService.getTestsStatisticByUserId(userId, dateFrom, dateTo));
         } else {
             modelAndView.addObject("teacherTestsMap",
                     testStatisticService.getTestsStatisticGroupedByOwner(userId, dateFrom, dateTo));
         }
         return modelAndView;
+    }
+
+    private String getFirstSchoolDay() {
+        Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        if (month < 9) {
+            --year;
+        }
+        return "01.09." + (year);
     }
 
     @RequestMapping(value = "/director-test-view", method = RequestMethod.GET)
