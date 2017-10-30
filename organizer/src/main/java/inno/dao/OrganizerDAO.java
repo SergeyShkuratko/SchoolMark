@@ -32,7 +32,7 @@ public class OrganizerDAO {
      * @throws OrganizerDAOexception
      */
     public TestDTO getTestById(int testId) throws OrganizerDAOexception {
-        final String SQL = "SELECT t.id, t.status, tt.topic, tt.description, sc.id AS school_class_id " +
+        final String SQL = "SELECT t.id, t.status, tt.topic, t.description, t.owner_id, sc.id AS school_class_id " +
                 "FROM tests AS t " +
                 "JOIN test_templates AS tt ON t.test_template_id = tt.id " +
                 "JOIN school_classes AS sc ON t.school_class_id = sc.id " +
@@ -50,7 +50,8 @@ public class OrganizerDAO {
                         rs.getString("status"),
                         rs.getString("topic"),
                         rs.getString("description"),
-                        rs.getInt("school_class_id")
+                        rs.getInt("school_class_id"),
+                        rs.getInt("owner_id")
                 );
             }
         } catch (SQLException e) {
