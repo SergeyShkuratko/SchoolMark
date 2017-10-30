@@ -1,12 +1,10 @@
 package inno.dao;
 
-import classes.Teacher;
 import classes.dto.TeacherDTO;
 import connectionmanager.ConnectionPool;
 import connectionmanager.TomcatConnectionPool;
 import dao.SchoolDAOImpl;
 import exceptions.SchoolTeacherDAOException;
-import interfaces.dao.SchoolTeacherDAO;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 
@@ -18,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class SchoolTeacherDAOImpl2 {
+public class SchoolTeacherDAO {
     private static Logger logger = Logger.getLogger(SchoolDAOImpl.class);
 
     private static final String GET_ALL_TEACHER = "SELECT * FROM teachers t" +
@@ -27,18 +25,16 @@ public class SchoolTeacherDAOImpl2 {
     private static ConnectionPool pool = TomcatConnectionPool.getInstance();
 
 
-    public List<TeacherDTO> getAllTeacher(int organiserId) throws SchoolTeacherDAOException {
-        List<TeacherDTO> teachers = null;
+    public List<TeacherDTO> getAllTeacherWithoutOrganizer(int organiserId) throws SchoolTeacherDAOException {
         try (Connection connection = pool.getConnection();
              PreparedStatement statement = connection.prepareStatement(GET_ALL_TEACHER)) {
             statement.setInt(1,organiserId);
             ResultSet set = statement.executeQuery();
-            teachers = setToTeachers(set);
+            return setToTeachers(set);
         } catch (SQLException e) {
             logger.error(e.getMessage(), e);
             throw new SchoolTeacherDAOException(e);
         }
-        return teachers;
     }
 
 
