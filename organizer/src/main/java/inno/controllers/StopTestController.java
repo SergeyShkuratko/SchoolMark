@@ -1,6 +1,6 @@
 package inno.controllers;
 
-import inno.service.StopTestService;
+import inno.service.statusTestService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,11 +16,11 @@ public class StopTestController {
 
     private static Logger logger;
 
-    private final StopTestService stopTestService;
+    private final statusTestService statusTestService;
 
     @Autowired
-    public StopTestController(StopTestService stopTestService) {
-        this.stopTestService = stopTestService;
+    public StopTestController(statusTestService statusTestService) {
+        this.statusTestService = statusTestService;
         logger = Logger.getLogger(StopTestController.class);
     }
 
@@ -29,7 +29,7 @@ public class StopTestController {
     protected String stopWork(@RequestParam("test_id") Integer testId){
 
 //      testId = testId != null ? testId : 0;
-        if (stopTestService.stopTest(testId)) {
+        if (statusTestService.stopTest(testId)) {
             return "test_stop";
         }
 
