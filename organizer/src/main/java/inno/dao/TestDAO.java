@@ -20,6 +20,7 @@ public class TestDAO {
         this.logger = Logger.getLogger(TestDAO.class);
         this.pool = TomcatConnectionPool.getInstance();
     }
+
     /**
      * Обновляет статус контрольной работы
      *
@@ -28,45 +29,18 @@ public class TestDAO {
      * @return true если обновилось, false если нет
      * @throws OrganizerDAOexception
      */
-    public boolean updateTestStatusByID(int id, String status) throws OrganizerDAOexception {
-        System.out.println("go");
+    public boolean updateTestStatusById(int id, String status) throws OrganizerDAOexception {
         final String sql = "UPDATE tests SET status = ? WHERE id= ?";
+
         try (Connection connection = pool.getConnection();
              PreparedStatement ps = connection.prepareStatement(sql)) {
 
             ps.setInt(2, id);
+
             PGobject status_var = new PGobject();
             status_var.setType("test_status");
             status_var.setValue(status);
-            ps.setObject(1, status_var);
-            return ps.executeUpdate() > 0;
-        } catch (SQLException e) {
-            logger.error(e);
-            throw new OrganizerDAOexception(e);
-        }
-    }
 
-    /**
-     * Устанавливает тест как завершенный
-     *
-     * @param id
-     * @return
-     * @throws OrganizerDAOexception
-     */
-    public boolean doneTest(int id) throws OrganizerDAOexception {
-        final String sql = "UPDATE tests SET status = ?, verification_deadline = ?  WHERE id= ?";
-
-        try (Connection connection = pool.getConnection();
-             PreparedStatement ps = connection.prepareStatement(sql)) {
-
-            ps.setInt(3, id);
-
-            PGobject status_var = new PGobject();
-            status_var.setType("test_status");
-            status_var.setValue("uploaded");
-
-            //Устанавливаем дэдлайн проверки - текущая дата + неделя
-            ps.setDate(2, java.sql.Date.valueOf(LocalDate.now().plusDays(7)));
 
             ps.setObject(1, status_var);
 
@@ -81,4 +55,24 @@ public class TestDAO {
     }
 
 
+    public boolean getTestByStatusAndId(Integer testId, String status) throws OrganizerDAOexception{
+        final String SQL = "SELECT 1 FROM tests WHERE id=? and status = ?::test_status";
+
+        try (Connection connection = pool.getConnection();
+             PreparedStatement statement = connection.prepareStatement(SQL)) {
+
+            statement.setInt(1, testId);
+            statement.setString(2, status);
+
+            ResultSet rs = statement.executeQuery();
+
+            if (rs.next()) {
+                return true;
+            }
+        } catch (SQLException e) {
+            logger.error(e);
+            throw new OrganizerDAOexception(e);
+        }
+        return false;
+    }
 }
