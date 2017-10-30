@@ -3,6 +3,7 @@ package inno.dao;
 import connectionmanager.ConnectionPool;
 import connectionmanager.TomcatConnectionPool;
 import inno.classes.WorkStatus;
+import inno.dto.WorkDTO;
 import inno.exceptions.OrganizerDAOexception;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Repository;
@@ -37,6 +38,26 @@ public class WorkDAO {
             ps.setBoolean(1, presence);
             ps.setInt(2, workId);
             return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            logger.error(e);
+            throw new OrganizerDAOexception(e);
+        }
+    }
+
+    public List<Integer> getAllWorksIdByTestId(int testId) throws OrganizerDAOexception {
+        final String SQL = "SELECT id FROM works WHERE test_id=?";
+        List<Integer> workIdList = new ArrayList<>();
+
+        try (Connection connection = pool.getConnection();
+             PreparedStatement statement = connection.prepareStatement(SQL)) {
+
+            statement.setInt(1, testId);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+
+                workIdList.add(rs.getInt("id"));
+            }
+            return workIdList;
         } catch (SQLException e) {
             logger.error(e);
             throw new OrganizerDAOexception(e);
@@ -114,6 +135,20 @@ public class WorkDAO {
              PreparedStatement ps = connection.prepareStatement(sql)) {
 
             ps.setString(1, status);
+            ps.setInt(2, id);
+            return ps.executeUpdate();
+        } catch (SQLException e) {
+            logger.error(e);
+            throw new OrganizerDAOexception(e);
+        }
+    }
+
+    public int updateWorkVerifierByWorkId(int id, int verifierId) throws OrganizerDAOexception {
+        String sql = "UPDATE works SET verifier_id = ? WHERE id= ?";
+        try (Connection connection = pool.getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
+
+            ps.setInt(1, verifierId);
             ps.setInt(2, id);
             return ps.executeUpdate();
         } catch (SQLException e) {
