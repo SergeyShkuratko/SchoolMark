@@ -40,7 +40,7 @@ public class TestController {
         }
 
         Teacher teacher = testService.getTeacherByUserId(userId);
-//        session.setAttribute("teacher", teacher);
+        session.setAttribute("teacher", teacher);
 
         Test test = (Test) session.getAttribute("test");
         model.put("test", test);

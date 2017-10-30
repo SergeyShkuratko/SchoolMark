@@ -75,7 +75,7 @@ public class TestTemplateController {
 
     @RequestMapping(params = {"templateFormButton=cancel"}, method = RequestMethod.POST)
     public String cancel() {
-        return "/test-template";
+        return "redirect:/test-template";
     }
 
     private TestTemplate createTemplateFromPrototype(HttpServletRequest req) {
