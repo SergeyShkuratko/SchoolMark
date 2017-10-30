@@ -59,9 +59,9 @@ $(":button.send-result").click(function () {
     $.post(ac + '/persistVerificationResult', data, function (data) {
         var result = JSON.parse(data);
         if (result.result === 'ok') {
-            alert('all ok')
+            $.notify("Сохранено");
         } else {
-            alert('error')
+            $.notify("Ошибка сохранения");
         }
     })
     // if (value) {

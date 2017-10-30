@@ -115,7 +115,7 @@
 <script src="${context}/js/vendor/jquery.ui.widget.js"></script>
 <script src="${context}/js/jquery.iframe-transport.js"></script>
 <script src="${context}/js/jquery.fileupload.js"></script>
-
+<script src="${context}/js/notify.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script>
     $(function () {
