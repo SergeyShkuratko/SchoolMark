@@ -4,7 +4,7 @@ import classes.dto.TeacherDTO;
 import exceptions.SchoolTeacherDAOException;
 import inno.dao.OrganizerDAO;
 
-import inno.dao.SchoolTeacherDAOImpl2;
+import inno.dao.SchoolTeacherDAO;
 import inno.dao.TestDAO;
 import inno.dao.WorkDAO;
 import inno.dto.TestDTO;
@@ -22,13 +22,13 @@ public class StopTestService {
     private Logger logger;
 
     private final TestDAO testDAO;
-    private final SchoolTeacherDAOImpl2 teacherDAO;
+    private final SchoolTeacherDAO teacherDAO;
     private final OrganizerDAO organizerDAO;
     private final WorkDAO workDAO;
 
 
     @Autowired
-    public StopTestService(TestDAO testDAO, SchoolTeacherDAOImpl2 teacherDAO, OrganizerDAO organizerDAO, WorkDAO workDAO) {
+    public StopTestService(TestDAO testDAO, SchoolTeacherDAO teacherDAO, OrganizerDAO organizerDAO, WorkDAO workDAO) {
         this.testDAO = testDAO;
         this.teacherDAO = teacherDAO;
         this.organizerDAO = organizerDAO;
@@ -44,16 +44,7 @@ public class StopTestService {
 
         try {
             boolean b = testDAO.doneTest(testId);
-            TestDTO testDTO = organizerDAO.getTestById(testId);
-            List<TeacherDTO> teachers = teacherDAO.getAllTeacher(testDTO.getOwnerId());
-            Random rnd = new Random();
-            int index = rnd.nextInt(teachers.size());
-            int teacherId = teachers.get(index).getId();
-            List<Integer> workIdList = workDAO.getAllWorksIdByTestId(testId);
-            for(int workId : workIdList) {
-                workDAO.updateWorkVerifierByWorkId(workId, teacherId);
-            }
-
+            setWorkVerifier(testId);
             return b;
         } catch (OrganizerDAOexception organizerDAOexception) {
             logger.error(organizerDAOexception);
@@ -61,5 +52,17 @@ public class StopTestService {
             e.printStackTrace();
         }
         return false;
+    }
+
+    private void setWorkVerifier(int testId) throws OrganizerDAOexception, SchoolTeacherDAOException {
+        TestDTO test = organizerDAO.getTestById(testId);
+        List<TeacherDTO> teachers = teacherDAO.getAllTeacherWithoutOrganizer(test.getOwnerId());
+        Random rnd = new Random();
+        int index = rnd.nextInt(teachers.size());
+        int teacherId = teachers.get(index).getId();
+        List<Integer> workIdList = workDAO.getAllWorksIdByTestId(testId);
+        for(int workId : workIdList) {
+            workDAO.updateWorkVerifierByWorkId(workId, teacherId);
+        }
     }
 }
