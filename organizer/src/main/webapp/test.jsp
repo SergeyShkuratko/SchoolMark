@@ -12,11 +12,11 @@
     <script type="text/javascript" src="../../../../../../auth/src/main/webapp/js/bootstrap.js"></script>
     <script type="text/javascript">
 
-//        function funcTrunk(element) {
-//            if (element.value.length > 100) {
-//                element.value = element.value.substring(0, 100);
-//            }
-//        }
+        //        function funcTrunk(element) {
+        //            if (element.value.length > 100) {
+        //                element.value = element.value.substring(0, 100);
+        //            }
+        //        }
 
         $(document).ready(function () {
             document.getElementById('testDate').valueAsDate = new Date();
@@ -28,21 +28,57 @@
                     this.value = this.value.substring(0, maxLength);
                 }
             });
-//
-//            $('#testDate').on('input', function () {
-//                var curDate = element.value;
-//                var moreDay = new Date();
-//                moreDay.setDate(curDate.getDate() + 1);
-//                this.value = moreDay;
-//            });
+
         });
-//
-//        function addDay(element) {
-//            var curDate = element.value;
-//            var moreDay = new Date();
-//            moreDay.setDate(curDate.getDate() + 1); // add one day
-//            return (moreDay);
-//        }
+
+        $(document)
+            .on('blur', '#testDate', function (evt) {
+                console.log($(this).val());
+                var chosenDate = new Date($(this).val());
+                if (chosenDate == "Invalid Date") {
+                    chosenDate = new Date();
+                }
+                console.log(chosenDate);
+                var toDay = new Date();
+                if (chosenDate > toDay.setDate(toDay.getDate() + 365) || chosenDate < (new Date())) {
+                    chosenDate = new Date();
+                }
+
+                var currDay = ('0' + chosenDate.getDate()).slice(-2);
+                var currMonth = ('0' + (chosenDate.getMonth() + 1)).slice(-2);
+                var currYear = chosenDate.getFullYear();
+                $('#testDate').val(currYear + "-" + currMonth + "-" + currDay);
+
+                chosenDate.setDate(chosenDate.getDate() + 1);
+                var day = ('0' + chosenDate.getDate()).slice(-2);
+                var month = ('0' + (chosenDate.getMonth() + 1)).slice(-2);
+                var year = chosenDate.getFullYear();
+                $('#deadlineDate').val(year + "-" + month + "-" + day);
+            });
+
+        $(document)
+            .on('blur', '#deadlineDate', function (evt) {
+                console.log($(this).val());
+                var chosenTestDate = new Date($('#testDate').val());
+                var chosenDealineDate = new Date($(this).val());
+                if (chosenDealineDate == "Invalid Date") {
+                    chosenDealineDate = new Date();
+                    chosenDealineDate.setDate(chosenTestDate.getDate() + 1);
+                }
+                var date = new Date(chosenTestDate);
+                if (chosenDealineDate > date.setDate(chosenTestDate.getDate() + 60)) {
+                    chosenDealineDate = new Date();
+                    chosenDealineDate.setDate(chosenTestDate.getDate() + 1);
+                }
+                if (chosenDealineDate < chosenTestDate) {
+                    chosenDealineDate = new Date();
+                    chosenDealineDate.setDate(chosenTestDate.getDate() + 1);
+                }
+                var day = ('0' + chosenDealineDate.getDate()).slice(-2);
+                var month = ('0' + (chosenDealineDate.getMonth() + 1)).slice(-2);
+                var year = chosenDealineDate.getFullYear();
+                $('#deadlineDate').val(year + "-" + month + "-" + day);
+            });
 
 
     </script>
