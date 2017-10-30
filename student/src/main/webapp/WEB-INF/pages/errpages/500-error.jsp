@@ -1,3 +1,4 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -53,24 +54,26 @@ body {
 <div class="container">
   <!-- Jumbotron -->
   <div class="jumbotron">
-    <h1><span class="glyphicon glyphicon-fire red"></span> 500 Internal Server Error</h1>
-    <p class="lead">The web server is returning an internal error for <em><span id="display-domain"></span></em>.</p>
-    <a href="javascript:document.location.reload(true);" class="btn btn-default btn-lg text-center"><span class="green">Try This Page Again</span></a>
+    <h1><span class="glyphicon glyphicon-fire red"></span> 500 Внутренняя ошибка сервера</h1>
+    <p class="lead">Сервер вернул внутреннюю ошибку для <em><span id="display-domain"></span></em>.</p>
+    <a href="javascript:document.location.reload(true);" class="btn btn-default btn-lg text-center"><span class="green">Попробовать снова</span></a>
   </div>
 </div>
 <div class="container">
   <div class="body-content">
     <div class="row">
       <div class="col-md-6">
-        <h2>What happened?</h2>
-        <p class="lead">A 500 error status implies there is a problem with the web server's software causing it to malfunction.</p>
+        <h2>Что случилось?</h2>
+        <p class="lead">
+            ${whatHappened}
+        </p>
       </div>
       <div class="col-md-6">
-        <h2>What can I do?</h2>
-        <p class="lead">If you're a site vistor</p>
-        <p> Nothing you can do at the moment. If you need immediate assistance, please send us an email instead. We apologize for any inconvenience.</p>
-        <p class="lead">If you're the site owner</p>
-         <p>This error can only be fixed by server admins, please contact your website provider.</p>
+        <h2>Что я могу сделать?</h2>
+        <p class="lead">Если вы посетитель сайта</p>
+        <p> Вы ничего не можете сделать в данный момент. Если Вам необходима срочная помощь, пожалуйста напишите нам на электронную почту. Мы извиняемся за возможные неудобства.</p>
+        <p class="lead">Если Вы собственник сайта</p>
+         <p>Эта ошибка может быть устранена только администраторами сайта, пожалуйста свяжитесь с службой поддержки сайта.</p>
      </div>
     </div>
   </div>

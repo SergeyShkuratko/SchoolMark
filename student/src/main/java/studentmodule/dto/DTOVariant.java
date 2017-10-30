@@ -1,4 +1,4 @@
-package student.dto;
+package studentmodule.dto;
 
 public class DTOVariant {
     private int id;

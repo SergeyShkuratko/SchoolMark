@@ -1,11 +1,11 @@
-package student.service;
+package studentmodule.service;
 
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
-import student.dao.DAOStudentWork;
-import student.dto.DTOFile;
-import student.dto.DTOWork;
-import student.exception.DAOStudentWorkException;
+import studentmodule.dao.DAOStudentWork;
+import studentmodule.dto.DTOFile;
+import studentmodule.dto.DTOWork;
+import studentmodule.exception.DAOStudentWorkException;
 
 import java.util.List;
 
@@ -13,10 +13,10 @@ import java.util.List;
 public class WorkService {
 
     private static final Logger logger = Logger.getLogger(WorkService.class);
-    private static DAOStudentWork workDAO;
+    private final DAOStudentWork workDAO;
 
-    static {
-        workDAO = new DAOStudentWork();
+    public WorkService(DAOStudentWork workDAO) {
+        this.workDAO = workDAO;
     }
 
     /**
@@ -66,8 +66,8 @@ public class WorkService {
         return null;
     }
 
-    public static void addStudentFileToBD(int work_id, String file) throws DAOStudentWorkException {
-        workDAO.addStudentFile(work_id, file);
+    public int addStudentFileToBD(int work_id, String file) throws DAOStudentWorkException {
+        return workDAO.addStudentFile(work_id, file);
     }
 
     public boolean delStudentFile(int file_id) throws DAOStudentWorkException {
@@ -106,8 +106,22 @@ public class WorkService {
 
     }
 
-    public static int setWorkStatus(int work_id, String status) throws DAOStudentWorkException {
+    public int setWorkStatus(int work_id, String status) throws DAOStudentWorkException {
         return workDAO.setWorkStatus(work_id, status);
+    }
+
+    public DTOFile getStudentFileUrlById(int fileid)
+            throws DAOStudentWorkException {
+        return workDAO.getStudentFileUrlById(fileid);
+    }
+
+    public DTOFile getStudentFileUrlByIdAndDeleteRecord(int fileid)
+            throws DAOStudentWorkException {
+        DTOFile dtoFile = workDAO.getStudentFileUrlById(fileid);
+        if(dtoFile != null) {
+            workDAO.delStudentFile(dtoFile.getId());
+        }
+        return dtoFile;
     }
 
 }

@@ -6,11 +6,11 @@
          version="3.1">
     <student.servlet>
         <student.servlet-name>director-test-list</student.servlet-name>
-        <student.servlet-class>com.inno.student.servlet.DirectorTestListServlet</student.servlet-class>
+        <student.servlet-class>com.inno.studentmodule.servlet.DirectorTestListServlet</student.servlet-class>
     </student.servlet>
     <student.servlet>
         <student.servlet-name>director-test-view</student.servlet-name>
-        <student.servlet-class>com.inno.student.servlet.DirectorTestViewServlet</student.servlet-class>
+        <student.servlet-class>com.inno.studentmodule.servlet.DirectorTestViewServlet</student.servlet-class>
     </student.servlet>
 
     <student.servlet-mapping>

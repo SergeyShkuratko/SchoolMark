@@ -1,7 +1,7 @@
 package services;
 
 import classes.City;
-import student.dao.CityDAOImpl;
+import studentmodule.dao.CityDAOImpl;
 import exceptions.CityDAOException;
 import org.apache.log4j.Logger;
 

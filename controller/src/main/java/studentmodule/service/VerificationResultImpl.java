@@ -1,8 +1,8 @@
-package student.service;
+package studentmodule.service;
 
-import student.dao.dto.VerificationResultDTO;
-import student.dao.VerificationDAO;
-import student.dao.daoimplementation.VerificationDAOImpl;
+import studentmodule.dao.dto.VerificationResultDTO;
+import studentmodule.dao.VerificationDAO;
+import studentmodule.dao.daoimplementation.VerificationDAOImpl;
 
 public class VerificationResultImpl implements VerificationService {
     VerificationDAO verificationDAO = new VerificationDAOImpl();

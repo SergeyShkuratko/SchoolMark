@@ -1,6 +1,6 @@
-package student.service;
+package studentmodule.service;
 
-import student.dao.dto.TestsDTO;
+import studentmodule.dao.dto.TestsDTO;
 
 import java.util.List;
 

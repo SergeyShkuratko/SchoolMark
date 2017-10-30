@@ -1,8 +1,8 @@
 package servlets;
 
 import classes.CommonSettings;
-import student.dao.dto.TestsDTO;
-import student.service.TestServiceImpl;
+import studentmodule.dao.dto.TestsDTO;
+import studentmodule.service.TestServiceImpl;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;

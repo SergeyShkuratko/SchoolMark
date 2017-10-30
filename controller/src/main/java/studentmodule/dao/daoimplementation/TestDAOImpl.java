@@ -1,12 +1,12 @@
-package student.dao.daoimplementation;
+package studentmodule.dao.daoimplementation;
 
 import com.google.common.base.Strings;
 import connectionmanager.ConnectionPool;
 import connectionmanager.TomcatConnectionPool;
-import student.dao.TestDAO;
-import student.dao.dto.TestDTO;
-import student.dao.dto.TestsDTO;
-import student.dao.dto.WorkPageDTO;
+import studentmodule.dao.TestDAO;
+import studentmodule.dao.dto.TestDTO;
+import studentmodule.dao.dto.TestsDTO;
+import studentmodule.dao.dto.WorkPageDTO;
 import org.apache.log4j.Logger;
 
 import java.sql.Date;

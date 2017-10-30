@@ -27,6 +27,6 @@
     <script src="js/bootstrap.min.js"></script>
     <script src="js/notify.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
-    <script src="js/auth/auth.script.js"></script>
+    <script src="js/auth/auth.student.script.js"></script>
     <!-- scripts end -->
 </head>

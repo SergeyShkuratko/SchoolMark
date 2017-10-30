@@ -1,4 +1,4 @@
-package student.dao.dto;
+package studentmodule.dao.dto;
 
 import java.sql.Date;
 

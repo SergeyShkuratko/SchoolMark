@@ -3,137 +3,137 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
          version="3.1">
-    <welcome-file-list>
-        <welcome-file>auth</welcome-file>
-    </welcome-file-list>
+    <!--<welcome-file-list>-->
+        <!--<welcome-file>auth</welcome-file>-->
+    <!--</welcome-file-list>-->
 
-    <!--ENCODING FILTER-->
-    <filter>
-        <filter-name>encodingFilter</filter-name>
-        <filter-class>servlets.filters.CharacterEncodingFilter</filter-class>
-    </filter>
+    <!--&lt;!&ndash;ENCODING FILTER&ndash;&gt;-->
+    <!--<filter>-->
+        <!--<filter-name>encodingFilter</filter-name>-->
+        <!--<filter-class>servlets.filters.CharacterEncodingFilter</filter-class>-->
+    <!--</filter>-->
 
-    <filter-mapping>
-        <filter-name>encodingFilter</filter-name>
-        <url-pattern>/*</url-pattern>
-    </filter-mapping>
-    <!-- END ENCODING FILTER-->
+    <!--<filter-mapping>-->
+        <!--<filter-name>encodingFilter</filter-name>-->
+        <!--<url-pattern>/*</url-pattern>-->
+    <!--</filter-mapping>-->
+    <!--&lt;!&ndash; END ENCODING FILTER&ndash;&gt;-->
 
-    <!-- FILTER -->
+    <!--&lt;!&ndash; FILTER &ndash;&gt;-->
 
-    <filter>
-        <filter-name>AdminFilter</filter-name>
-        <filter-class>servlets.filters.AdminFilter</filter-class>
-    </filter>
+    <!--<filter>-->
+        <!--<filter-name>AdminFilter</filter-name>-->
+        <!--<filter-class>servlets.filters.AdminFilter</filter-class>-->
+    <!--</filter>-->
 
-    <filter-mapping>
-        <filter-name>AdminFilter</filter-name>
-        <url-pattern>/admin/*</url-pattern>
-    </filter-mapping>
+    <!--<filter-mapping>-->
+        <!--<filter-name>AdminFilter</filter-name>-->
+        <!--<url-pattern>/admin/*</url-pattern>-->
+    <!--</filter-mapping>-->
 
-    <!--    SERVLET    -->
+    <!--&lt;!&ndash;    SERVLET    &ndash;&gt;-->
 
-    <student.servlet>
-        <student.servlet-name>AuthorizationServlet</student.servlet-name>
-        <student.servlet-class>servlets.AuthorizationServlet</student.servlet-class>
-    </student.servlet>
+    <!--<studentmodule.servlet>-->
+        <!--<studentmodule.servlet-name>AuthorizationServlet</studentmodule.servlet-name>-->
+        <!--<studentmodule.servlet-class>servlets.AuthorizationServlet</studentmodule.servlet-class>-->
+    <!--</studentmodule.servlet>-->
 
-    <student.servlet>
-        <student.servlet-name>RegistrationServlet</student.servlet-name>
-        <student.servlet-class>servlets.RegistrationServlet</student.servlet-class>
-    </student.servlet>
+    <!--<studentmodule.servlet>-->
+        <!--<studentmodule.servlet-name>RegistrationServlet</studentmodule.servlet-name>-->
+        <!--<studentmodule.servlet-class>servlets.RegistrationServlet</studentmodule.servlet-class>-->
+    <!--</studentmodule.servlet>-->
 
-    <student.servlet>
-        <student.servlet-name>AdminCabinetServlet</student.servlet-name>
-        <student.servlet-class>servlets.admin.AdministratorCabinetServlet</student.servlet-class>
-    </student.servlet>
+    <!--<studentmodule.servlet>-->
+        <!--<studentmodule.servlet-name>AdminCabinetServlet</studentmodule.servlet-name>-->
+        <!--<studentmodule.servlet-class>servlets.admin.AdministratorCabinetServlet</studentmodule.servlet-class>-->
+    <!--</studentmodule.servlet>-->
 
-    <student.servlet>
-        <student.servlet-name>ClassesListServlet</student.servlet-name>
-        <student.servlet-class>servlets.admin.lists.ClassesListServlet</student.servlet-class>
-    </student.servlet>
+    <!--<studentmodule.servlet>-->
+        <!--<studentmodule.servlet-name>ClassesListServlet</studentmodule.servlet-name>-->
+        <!--<studentmodule.servlet-class>servlets.admin.lists.ClassesListServlet</studentmodule.servlet-class>-->
+    <!--</studentmodule.servlet>-->
 
-    <student.servlet>
-        <student.servlet-name>TeacherListServlet</student.servlet-name>
-        <student.servlet-class>servlets.admin.lists.TeacherListServlet</student.servlet-class>
-    </student.servlet>
+    <!--<studentmodule.servlet>-->
+        <!--<studentmodule.servlet-name>TeacherListServlet</studentmodule.servlet-name>-->
+        <!--<studentmodule.servlet-class>servlets.admin.lists.TeacherListServlet</studentmodule.servlet-class>-->
+    <!--</studentmodule.servlet>-->
 
-    <student.servlet>
-        <student.servlet-name>CreateClassServlet</student.servlet-name>
-        <student.servlet-class>servlets.admin.CreateClassServlet</student.servlet-class>
-    </student.servlet>
+    <!--<studentmodule.servlet>-->
+        <!--<studentmodule.servlet-name>CreateClassServlet</studentmodule.servlet-name>-->
+        <!--<studentmodule.servlet-class>servlets.admin.CreateClassServlet</studentmodule.servlet-class>-->
+    <!--</studentmodule.servlet>-->
 
-    <student.servlet>
-        <student.servlet-name>SchoolListServlet</student.servlet-name>
-        <student.servlet-class>servlets.admin.lists.SchoolListServlet</student.servlet-class>
-    </student.servlet>
-    <!--
-    <student.servlet>
-        <student.servlet-name>RegionsListServlet</student.servlet-name>
-        <student.servlet-class>servlets.admin.lists.RegionsListServlet</student.servlet-class>
-    </student.servlet>
-    -->
-    <!--    SERVLET MAPPING    -->
+    <!--<studentmodule.servlet>-->
+        <!--<studentmodule.servlet-name>SchoolListServlet</studentmodule.servlet-name>-->
+        <!--<studentmodule.servlet-class>servlets.admin.lists.SchoolListServlet</studentmodule.servlet-class>-->
+    <!--</studentmodule.servlet>-->
+    <!--&lt;!&ndash;-->
+    <!--<studentmodule.servlet>-->
+        <!--<studentmodule.servlet-name>RegionsListServlet</studentmodule.servlet-name>-->
+        <!--<studentmodule.servlet-class>servlets.admin.lists.RegionsListServlet</studentmodule.servlet-class>-->
+    <!--</studentmodule.servlet>-->
+    <!--&ndash;&gt;-->
+    <!--&lt;!&ndash;    SERVLET MAPPING    &ndash;&gt;-->
 
-    <student.servlet-mapping>
-        <student.servlet-name>AuthorizationServlet</student.servlet-name>
-        <url-pattern>/auth</url-pattern>
-    </student.servlet-mapping>
+    <!--<studentmodule.servlet-mapping>-->
+        <!--<studentmodule.servlet-name>AuthorizationServlet</studentmodule.servlet-name>-->
+        <!--<url-pattern>/auth</url-pattern>-->
+    <!--</studentmodule.servlet-mapping>-->
 
-    <student.servlet-mapping>
-        <student.servlet-name>RegistrationServlet</student.servlet-name>
-        <url-pattern>/register</url-pattern>
-        <url-pattern>/register/*</url-pattern>
-    </student.servlet-mapping>
+    <!--<studentmodule.servlet-mapping>-->
+        <!--<studentmodule.servlet-name>RegistrationServlet</studentmodule.servlet-name>-->
+        <!--<url-pattern>/register</url-pattern>-->
+        <!--<url-pattern>/register/*</url-pattern>-->
+    <!--</studentmodule.servlet-mapping>-->
 
-    <student.servlet-mapping>
-        <student.servlet-name>AdminCabinetServlet</student.servlet-name>
-        <url-pattern>/admin/cabinet</url-pattern>
-    </student.servlet-mapping>
+    <!--<studentmodule.servlet-mapping>-->
+        <!--<studentmodule.servlet-name>AdminCabinetServlet</studentmodule.servlet-name>-->
+        <!--<url-pattern>/admin/cabinet</url-pattern>-->
+    <!--</studentmodule.servlet-mapping>-->
 
-    <student.servlet-mapping>
-        <student.servlet-name>ClassesListServlet</student.servlet-name>
-        <url-pattern>/admin/classes</url-pattern>
-    </student.servlet-mapping>
+    <!--<studentmodule.servlet-mapping>-->
+        <!--<studentmodule.servlet-name>ClassesListServlet</studentmodule.servlet-name>-->
+        <!--<url-pattern>/admin/classes</url-pattern>-->
+    <!--</studentmodule.servlet-mapping>-->
 
-    <student.servlet-mapping>
-        <student.servlet-name>TeacherListServlet</student.servlet-name>
-        <url-pattern>/admin/teachers</url-pattern>
-    </student.servlet-mapping>
+    <!--<studentmodule.servlet-mapping>-->
+        <!--<studentmodule.servlet-name>TeacherListServlet</studentmodule.servlet-name>-->
+        <!--<url-pattern>/admin/teachers</url-pattern>-->
+    <!--</studentmodule.servlet-mapping>-->
 
-    <student.servlet-mapping>
-        <student.servlet-name>CreateClassServlet</student.servlet-name>
-        <url-pattern>/admin/class</url-pattern>
-    </student.servlet-mapping>
+    <!--<studentmodule.servlet-mapping>-->
+        <!--<studentmodule.servlet-name>CreateClassServlet</studentmodule.servlet-name>-->
+        <!--<url-pattern>/admin/class</url-pattern>-->
+    <!--</studentmodule.servlet-mapping>-->
 
-    <student.servlet-mapping>
-        <student.servlet-name>SchoolListServlet</student.servlet-name>
-        <url-pattern>/admin/schools</url-pattern>
-    </student.servlet-mapping>
-    <!--
-    <student.servlet-mapping>
-        <student.servlet-name>RegionsListServlet</student.servlet-name>
-        <url-pattern>/admin/regions</url-pattern>
-    </student.servlet-mapping>
-    -->
-    <student.servlet-mapping>
-        <student.servlet-name>default</student.servlet-name>
-        <url-pattern>/mystatic/*</url-pattern>
-    </student.servlet-mapping>
+    <!--<studentmodule.servlet-mapping>-->
+        <!--<studentmodule.servlet-name>SchoolListServlet</studentmodule.servlet-name>-->
+        <!--<url-pattern>/admin/schools</url-pattern>-->
+    <!--</studentmodule.servlet-mapping>-->
+    <!--&lt;!&ndash;-->
+    <!--<studentmodule.servlet-mapping>-->
+        <!--<studentmodule.servlet-name>RegionsListServlet</studentmodule.servlet-name>-->
+        <!--<url-pattern>/admin/regions</url-pattern>-->
+    <!--</studentmodule.servlet-mapping>-->
+    <!--&ndash;&gt;-->
+    <!--<studentmodule.servlet-mapping>-->
+        <!--<studentmodule.servlet-name>default</studentmodule.servlet-name>-->
+        <!--<url-pattern>/mystatic/*</url-pattern>-->
+    <!--</studentmodule.servlet-mapping>-->
 
-    <student.servlet-mapping>
-        <student.servlet-name>default</student.servlet-name>
-        <url-pattern>/js/*</url-pattern>
-    </student.servlet-mapping>
+    <!--<studentmodule.servlet-mapping>-->
+        <!--<studentmodule.servlet-name>default</studentmodule.servlet-name>-->
+        <!--<url-pattern>/js/*</url-pattern>-->
+    <!--</studentmodule.servlet-mapping>-->
 
-    <student.servlet-mapping>
-        <student.servlet-name>default</student.servlet-name>
-        <url-pattern>/css/*</url-pattern>
-    </student.servlet-mapping>
+    <!--<studentmodule.servlet-mapping>-->
+        <!--<studentmodule.servlet-name>default</studentmodule.servlet-name>-->
+        <!--<url-pattern>/css/*</url-pattern>-->
+    <!--</studentmodule.servlet-mapping>-->
 
-    <student.servlet-mapping>
-        <student.servlet-name>default</student.servlet-name>
-        <url-pattern>/fonts/*</url-pattern>
-    </student.servlet-mapping>
+    <!--<studentmodule.servlet-mapping>-->
+        <!--<studentmodule.servlet-name>default</studentmodule.servlet-name>-->
+        <!--<url-pattern>/fonts/*</url-pattern>-->
+    <!--</studentmodule.servlet-mapping>-->
 
 </web-app>

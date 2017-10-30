@@ -1,9 +1,9 @@
-package student.dao.daoimplementation;
+package studentmodule.dao.daoimplementation;
 
 import connectionmanager.ConnectionPool;
 import connectionmanager.TomcatConnectionPool;
-import student.dao.VerificationDAO;
-import student.dao.dto.VerificationResultDTO;
+import studentmodule.dao.VerificationDAO;
+import studentmodule.dao.dto.VerificationResultDTO;
 import org.apache.log4j.Logger;
 
 import java.sql.PreparedStatement;

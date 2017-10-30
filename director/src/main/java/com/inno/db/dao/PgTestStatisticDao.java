@@ -121,7 +121,7 @@ public class PgTestStatisticDao implements TestStatisticDao {
 
     private void addWork(Set<WorkDto> workList, ResultSet resultSet) throws SQLException {
         WorkDto work = new WorkDto(resultSet.getInt("work_id"),
-                resultSet.getString("student"), resultSet.getInt("mark"),
+                resultSet.getString("studentmodule"), resultSet.getInt("mark"),
                 resultSet.getBoolean("was_appellation"));
         workList.add(work);
     }

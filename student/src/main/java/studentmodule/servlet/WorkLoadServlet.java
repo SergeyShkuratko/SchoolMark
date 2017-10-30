@@ -1,40 +1,29 @@
-package student.servlet;
+package studentmodule.servlet;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestParam;
-import student.exception.DAOStudentWorkException;
+import studentmodule.exception.DAOStudentWorkException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.apache.log4j.Logger;
-import student.service.WorkService;
+import studentmodule.service.WorkService;
 import javax.servlet.ServletContext;
-import java.io.File;
-import java.util.Random;
+
+import static studentmodule.constants.ControllersConstants.RESPONSE_ERROR_MESSAGE;
 
 @Controller
 public class WorkLoadServlet {
 
     private static final Logger logger = Logger.getLogger(WorkLoadServlet.class);
-    final private String errMessage = "" +
-            "Во время загрузки контрольной работы произошла непридвиденная ошибка! " +
-            "Обратитесь к администратору. ";
-
-    @Value("#{new java.util.Random()}")
-    private Random random;
-
-    private WorkService workService;
-    private ServletContext servletContext;
+    private final WorkService workService;
+    private final ServletContext servletContext;
 
     @Autowired
-    public void setWorkService(WorkService workService) {
+    public WorkLoadServlet(WorkService workService, ServletContext servletContext) {
         this.workService = workService;
-    }
-
-    @Autowired
-    public void setServletContext(ServletContext servletContext) {
         this.servletContext = servletContext;
     }
 
@@ -52,98 +41,48 @@ public class WorkLoadServlet {
             model.addAttribute("teacher_files",
                     workService.getVerificationFilesByVerificationId(id));
         } catch (Exception e) {
-            logger.error(errMessage + e.getMessage());
-            model.addAttribute("whatHappened", errMessage + e.getMessage());
+            logger.error(RESPONSE_ERROR_MESSAGE + e.getMessage());
+            model.addAttribute("whatHappened", RESPONSE_ERROR_MESSAGE + e.getMessage());
             return "errpages/500-error";
         }
         return "student/work_load";
     }
 
-    @RequestMapping(value = "/workload/sendwork", method = RequestMethod.POST)
-    public String sendWork(
-            @RequestParam(name = "workId") String workId,
-            ModelMap model
-    ) {
-        try {
-            return sendWork(Integer.valueOf(workId), model);
-        } catch(NumberFormatException nfe) {
-            logger.error(errMessage + nfe.getMessage());
-            model.addAttribute("whatHappened", errMessage + nfe.getMessage());
-            return "errpages/500-error";
-        }
-    }
-
-    private String sendWork(Integer workId, ModelMap model) {
-        try {
-            workService.setWorkStatus(workId, "uploaded");
-        } catch (DAOStudentWorkException e) {
-            logger.error(errMessage + e.getMessage());
-            model.addAttribute("whatHappened", errMessage + e.getMessage());
-            return "errpages/500-error";
-        }
-        return "redirect:/testlist";
-    }
-
-    @RequestMapping(value = "/workload/sendtorecheck", method = RequestMethod.POST)
-    public String sendToRecheck(
-            @RequestParam(name = "workId") String workId,
-            ModelMap model
-    ) {
-        try {
-            return sendToRecheck(Integer.valueOf(workId), model);
-        } catch(NumberFormatException nfe) {
-            logger.error(errMessage + nfe.getMessage());
-            model.addAttribute("whatHappened", errMessage + nfe.getMessage());
-            return "errpages/500-error";
-        }
-    }
-
-    private String sendToRecheck(Integer workId, ModelMap model) {
-        try {
-            workService.setWorkStatus(workId, "reverification");
-        } catch (DAOStudentWorkException e) {
-            logger.error(errMessage + e.getMessage());
-            model.addAttribute("whatHappened", errMessage + e.getMessage());
-            return "errpages/500-error";
-        }
-        return "redirect:/testlist";
-    }
-
-    @RequestMapping(value = "/workload/delphoto", method = RequestMethod.POST)
-    public String deletePhoto(
-            @RequestParam(name = "referer") String referer,
-            @RequestParam(name = "filename") String filename,
-            @RequestParam(name = "fileId") String fileId,
-            ModelMap model
-    ) {
-        try {
-            return deletePhoto(referer, filename, Integer.valueOf(fileId), model);
-        } catch(NumberFormatException nfe) {
-            logger.error(errMessage + nfe.getMessage());
-            model.addAttribute("whatHappened", errMessage + nfe.getMessage());
-            return "errpages/500-error";
-        }
-    }
-
-    private String deletePhoto(String referer, String fileName, Integer fileId, ModelMap model) {
-        String errorMessage = "Во время удаления файла произошла непредвиденная ошибка. ";
-        try {
-            if (workService.delStudentFile(fileId)) {
-                String path = servletContext.getRealPath(fileName);
-                File file = new File(path);
-                if (!file.delete()) {
-                    logger.error(errorMessage);
-                    throw new DAOStudentWorkException("Не удалось удалить файл!");
-                }
-            }
-        } catch (DAOStudentWorkException e) {
-            model.addAttribute("whatHappened", errorMessage + e.getMessage());
-            return "errpages/500-error";
-        }
-        return "redirect:" + referer;
-    }
-
-
+//    @RequestMapping(value = "/workload/delphoto", method = RequestMethod.POST)
+//    public String deletePhoto(
+//            @RequestParam(name = "referer") String referer,
+//            @RequestParam(name = "filename") String filename,
+//            @RequestParam(name = "fileId") String fileId,
+//            ModelMap model
+//    ) {
+//        try {
+//            return deletePhoto(referer, filename, Integer.valueOf(fileId), model);
+//        } catch(NumberFormatException nfe) {
+//            logger.error(errMessage + nfe.getMessage());
+//            model.addAttribute("whatHappened", errMessage + nfe.getMessage());
+//            return "errpages/500-error";
+//        }
+//    }
+//
+//    private String deletePhoto(String referer, String fileName, Integer fileId, ModelMap model) {
+//        String errorMessage = "Во время удаления файла произошла непредвиденная ошибка. ";
+//        try {
+//            if (workService.delStudentFile(fileId)) {
+//                String path = servletContext.getRealPath(fileName);
+//                File file = new File(path);
+//                if (!file.delete()) {
+//                    logger.error(errorMessage);
+//                    throw new DAOStudentWorkException("Не удалось удалить файл!");
+//                }
+//            }
+//        } catch (DAOStudentWorkException e) {
+//            model.addAttribute("whatHappened", errorMessage + e.getMessage());
+//            return "errpages/500-error";
+//        }
+//        return "redirect:" + referer;
+//    }
+//
+//
 //    private ModelAndView loadPhoto(String referer) {
 //        //проверяем является ли полученный запрос multipart/form-data
 //        boolean isMultipart = ServletFileUpload.isMultipartContent(request);
@@ -161,7 +100,7 @@ public class WorkLoadServlet {
 //        factory.setSizeThreshold(1024 * 1024);
 //
 //        // устанавливаем временную директорию
-//        File tempDir = (File) servletContext.getAttribute("javax.student.servlet.context.tempdir");
+//        File tempDir = (File) servletContext.getAttribute("javax.studentmodule.servlet.context.tempdir");
 //        factory.setRepository(tempDir);
 //
 //        //Создаём сам загрузчик

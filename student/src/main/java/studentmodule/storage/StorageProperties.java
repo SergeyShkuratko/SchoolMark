@@ -1,10 +1,7 @@
-package student.storage;
+package studentmodule.storage;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
-import org.springframework.web.bind.annotation.ModelAttribute;
 
 import javax.servlet.ServletContext;
 
@@ -13,8 +10,9 @@ public class StorageProperties {
 
     @Autowired
     public void setServletContext(ServletContext servletContext) {
-        location = servletContext.getRealPath ("/WEB-INF/upload-dir");
-        System.out.println(location);
+        offsetUri = "/SM";
+        relativeLocation = "/resources/upload-dir";
+        location = servletContext.getRealPath (relativeLocation);
     }
 
     /**
@@ -22,9 +20,17 @@ public class StorageProperties {
      */
     private String location;
 
+    private String offsetUri;
+
+    private String relativeLocation;
+
     public String getLocation() {
         return location;
     }
+
+    public String getRelativeLocation() { return  relativeLocation; }
+
+    public String getOffsetUri() { return offsetUri; }
 
     public void setLocation(String location) {
         this.location = location;

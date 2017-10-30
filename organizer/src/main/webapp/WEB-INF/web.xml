@@ -4,34 +4,34 @@
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
          version="3.1">
 
-    <!--<student.servlet>-->
-        <!--<student.servlet-name>calendar</student.servlet-name>-->
-        <!--<student.servlet-class>calendar.servlets.CalendarServlet</student.servlet-class>-->
-    <!--</student.servlet>-->
-    <!--<student.servlet-mapping>-->
-        <!--<student.servlet-name>calendar</student.servlet-name>-->
+    <!--<studentmodule.servlet>-->
+        <!--<studentmodule.servlet-name>calendar</studentmodule.servlet-name>-->
+        <!--<studentmodule.servlet-class>calendar.servlets.CalendarServlet</studentmodule.servlet-class>-->
+    <!--</studentmodule.servlet>-->
+    <!--<studentmodule.servlet-mapping>-->
+        <!--<studentmodule.servlet-name>calendar</studentmodule.servlet-name>-->
         <!--<url-pattern>/organizer/calendar</url-pattern>-->
-    <!--</student.servlet-mapping>-->
+    <!--</studentmodule.servlet-mapping>-->
 
     <student.servlet-mapping>
         <student.servlet-name>default</student.servlet-name>
         <url-pattern>/img/*</url-pattern>
     </student.servlet-mapping>
 
-    <!--<student.servlet-mapping>-->
-        <!--<student.servlet-name>default</student.servlet-name>-->
+    <!--<studentmodule.servlet-mapping>-->
+        <!--<studentmodule.servlet-name>default</studentmodule.servlet-name>-->
         <!--<url-pattern>/static/*</url-pattern>-->
-    <!--</student.servlet-mapping>-->
+    <!--</studentmodule.servlet-mapping>-->
 
-    <!--<student.servlet>-->
-        <!--<student.servlet-name>OrganizerModule</student.servlet-name>-->
-        <!--<student.servlet-class>inno.OrganizerServlet</student.servlet-class>-->
-    <!--</student.servlet>-->
+    <!--<studentmodule.servlet>-->
+        <!--<studentmodule.servlet-name>OrganizerModule</studentmodule.servlet-name>-->
+        <!--<studentmodule.servlet-class>inno.OrganizerServlet</studentmodule.servlet-class>-->
+    <!--</studentmodule.servlet>-->
 
-    <!--<student.servlet-mapping>-->
-        <!--<student.servlet-name>OrganizerModule</student.servlet-name>-->
+    <!--<studentmodule.servlet-mapping>-->
+        <!--<studentmodule.servlet-name>OrganizerModule</studentmodule.servlet-name>-->
         <!--<url-pattern>/organizer</url-pattern>-->
-    <!--</student.servlet-mapping>-->
+    <!--</studentmodule.servlet-mapping>-->
 
     <student.servlet>
         <student.servlet-name>TemplateList</student.servlet-name>

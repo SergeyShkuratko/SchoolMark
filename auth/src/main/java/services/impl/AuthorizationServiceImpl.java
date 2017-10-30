@@ -2,7 +2,7 @@ package services.impl;
 
 import classes.User;
 import classes.UserCredentials;
-import student.dao.UserDAOImpl;
+import studentmodule.dao.UserDAOImpl;
 import exceptions.UserDAOException;
 import exceptions.UserNotFoundException;
 import interfaces.dao.UserDAO;

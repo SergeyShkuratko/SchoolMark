@@ -1,10 +1,10 @@
-package student.service;
+package studentmodule.service;
 
-import student.dao.dto.TestDTO;
-import student.dao.dto.TestsDTO;
-import student.dao.dto.WorkPageDTO;
-import student.dao.TestDAO;
-import student.dao.daoimplementation.TestDAOImpl;
+import studentmodule.dao.dto.TestDTO;
+import studentmodule.dao.dto.TestsDTO;
+import studentmodule.dao.dto.WorkPageDTO;
+import studentmodule.dao.TestDAO;
+import studentmodule.dao.daoimplementation.TestDAOImpl;
 import jsonconverter.Converter;
 import jsonconverter.JsonConverter;
 

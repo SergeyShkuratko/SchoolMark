@@ -1,4 +1,4 @@
-package student.storage;
+package studentmodule.storage;
 
 public class StorageFileNotFoundException extends StorageException {
 

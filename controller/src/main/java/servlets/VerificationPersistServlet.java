@@ -1,9 +1,9 @@
 package servlets;
 
 import classes.CommonSettings;
-import student.dao.dto.VerificationResultDTO;
-import student.service.VerificationResultImpl;
-import student.service.VerificationService;
+import studentmodule.dao.dto.VerificationResultDTO;
+import studentmodule.service.VerificationResultImpl;
+import studentmodule.service.VerificationService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;

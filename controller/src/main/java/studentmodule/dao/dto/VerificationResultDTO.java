@@ -1,4 +1,4 @@
-package student.dao.dto;
+package studentmodule.dao.dto;
 
 public class VerificationResultDTO {
     private int workId;

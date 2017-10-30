@@ -1,19 +1,18 @@
-package student.dao;
+package studentmodule.dao;
 
 import connectionmanager.TomcatConnectionPool;
 import org.apache.log4j.Logger;
-import student.dto.DTOFile;
-import student.dto.DTOVariant;
-import student.dto.DTOWork;
-import student.exception.DAOStudentWorkException;
+import org.springframework.stereotype.Repository;
+import studentmodule.dto.DTOFile;
+import studentmodule.dto.DTOVariant;
+import studentmodule.dto.DTOWork;
+import studentmodule.exception.DAOStudentWorkException;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Repository
 public class DAOStudentWork {
 
     public int setWorkVariant(int workId, int variantId) throws DAOStudentWorkException {
@@ -145,15 +144,28 @@ public class DAOStudentWork {
         return getFilesByQuery(sql, work_id);
     }
 
-    public boolean addStudentFile(int work_id, String file) throws DAOStudentWorkException {
+    public DTOFile getStudentFileUrlById(int fileid)
+            throws DAOStudentWorkException {
+        String sql = "SELECT * FROM work_pages WHERE id = ?";
+        List<DTOFile> result = getFilesByQuery(sql, fileid);
+        return result.size() != 0 ? result.get(0) : null;
+    }
+
+    public int addStudentFile(int work_id, String file) throws DAOStudentWorkException {
         String sql = "INSERT INTO work_pages (work_id, file_url) \n" +
                 "VALUES (?, ?);";
         try (Connection connection = TomcatConnectionPool.getInstance().getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(sql))
+             PreparedStatement preparedStatement =
+                     connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS))
         {
             preparedStatement.setInt(1, work_id);
             preparedStatement.setString(2, file);
-            return preparedStatement.execute();
+            preparedStatement.execute();
+            ResultSet rs = preparedStatement.getGeneratedKeys();
+            if(rs.next()) {
+                return rs.getInt(1);
+            }
+            throw new DAOStudentWorkException("Unexpected error while insert file!");
         } catch (SQLException e) {
             logger.error(e.getMessage());
             throw new DAOStudentWorkException(e.getMessage());

@@ -1,3 +1,4 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <div class="sidenav">
     <a href="<c:url value='/organizer/calendar'/>">Календарь организатора</a>
     <a href="<c:url value='/testlist'/>">Ученик</a>

@@ -1,4 +1,4 @@
-package student.dto;
+package studentmodule.dto;
 
 public class DTOFile {
     private int id;

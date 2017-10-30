@@ -24,7 +24,7 @@ public interface TestCheck {
     List<Work> getUncheckedWorks(Teacher teacher, int testId);
 
     /**
-     * Set mark for one student's work
+     * Set mark for one studentmodule's work
      *
      * @param work
      * @return true if success, false if error while writing to database

@@ -1,4 +1,4 @@
-package student.dao;
+package studentmodule.dao;
 
 import classes.Teacher;
 import connectionmanager.ConnectionPool;

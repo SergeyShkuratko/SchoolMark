@@ -23,7 +23,7 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap.min.css">
 
     <!-- <link rel="stylesheet" href="static/dashboard.css" type="text/css"> -->
-    <script src="static/script.js"></script>
+    <script src="static/student.script.js"></script>
     <script src="static/notify.min.js"></script>
 
     <meta http-equiv="Cache-Control" content="no-cache"/>
