@@ -23,7 +23,7 @@ public class PgTestStatisticDao implements TestStatisticDao {
     }
 
     private ConnectionPool connectionManager;
-    private final String sqlTestStatistic =
+    private final String SQL_TEST_STATISTIC =
             "SELECT t.id AS test_id, t.start_date_time::DATE AS date, " +
                 "concat_ws(' ', tr.last_name, tr.first_name, tr.patronymic) AS organizer, " +
                 "sbj.name AS subject, cl.name AS class_name, AVG(vr.mark) AS average_mark " +
@@ -41,7 +41,7 @@ public class PgTestStatisticDao implements TestStatisticDao {
                 "AND (t.start_date_time::date <= ?) " +
             "GROUP BY t.id, date, organizer, subject, class_name";
 
-    private final String sqlTestAndWorksInfo =
+    private final String SQL_TEST_AND_WORKS_INFO =
             "SELECT q.id AS question_id, q.question, q.answer, qvc.id AS criterion_id, qvc.criterion, " +
                 "w.id AS work_id, concat_ws(' ', st.last_name, st.first_name, st.patronymic) AS student, " +
                 "vr.mark, w.status = 'reverification' AS was_appellation, tv.variant, tv.id AS test_variant_id " +
@@ -52,7 +52,7 @@ public class PgTestStatisticDao implements TestStatisticDao {
                 "JOIN questions q ON q.template_variant_id = tv.id " +
                 "JOIN students st ON w.student_id = st.id " +
                 "JOIN verification_results vr ON vr.work_id = w.id " +
-                "JOIN question_verification_criterions qvc ON qvc.question_id = q.id " +
+                "LEFT JOIN question_verification_criterions qvc ON qvc.question_id = q.id " +
             "WHERE t.id = ?";
 
     public PgTestStatisticDao() {
@@ -62,7 +62,7 @@ public class PgTestStatisticDao implements TestStatisticDao {
     @Override
     public List<TestStatisticDto> getTestsStatisticByUserId(int userId, LocalDate dateFrom, LocalDate dateTo) {
         try (Connection connection = connectionManager.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sqlTestStatistic)) {
+             PreparedStatement statement = connection.prepareStatement(SQL_TEST_STATISTIC)) {
             statement.setInt(1, userId);
             statement.setDate(2, Date.valueOf(dateFrom));
             statement.setDate(3, Date.valueOf(dateTo));
@@ -91,7 +91,7 @@ public class PgTestStatisticDao implements TestStatisticDao {
     public TestAndWorksInfoDto getTestAndWorksInfo(int testId) {
 
         try (Connection connection = connectionManager.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sqlTestAndWorksInfo);) {
+             PreparedStatement statement = connection.prepareStatement(SQL_TEST_AND_WORKS_INFO)) {
             statement.setInt(1, testId);
             ResultSet resultSet = statement.executeQuery();
 

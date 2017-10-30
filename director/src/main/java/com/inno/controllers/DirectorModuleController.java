@@ -1,5 +1,7 @@
 package com.inno.controllers;
 
+import com.inno.db.dto.TestAndWorksInfoDto;
+import com.inno.db.dto.TestStatisticDto;
 import com.inno.service.TestStatisticService;
 import com.inno.utils.DateConverter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,7 @@ import security.CustomUser;
 
 import java.time.LocalDate;
 import java.util.Calendar;
+import java.util.List;
 
 
 @Controller
@@ -51,10 +54,12 @@ public class DirectorModuleController {
         ModelAndView modelAndView = new ModelAndView("director-test-list");
         modelAndView.addObject("dateFrom", dateConverter.formatLocalDateToString(dateFrom));
         modelAndView.addObject("dateTo", dateConverter.formatLocalDateToString(dateTo));
+
         int userId = ((CustomUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
+
         if (!"on".equals(groupByOrganization)) {
-            modelAndView.addObject("tests",
-                    testStatisticService.getTestsStatisticByUserId(userId, dateFrom, dateTo));
+            List<TestStatisticDto> tests = testStatisticService.getTestsStatisticByUserId(userId, dateFrom, dateTo);
+            modelAndView.addObject("tests",tests);
         } else {
             modelAndView.addObject("teacherTestsMap",
                     testStatisticService.getTestsStatisticGroupedByOwner(userId, dateFrom, dateTo));
@@ -74,7 +79,8 @@ public class DirectorModuleController {
 
     @RequestMapping(value = "/director-test-view", method = RequestMethod.GET)
     public ModelAndView getTestView(@RequestParam("testId") int testId) {
+        TestAndWorksInfoDto testAndWorksInfo = testStatisticService.getTestAndWorksInfo(testId);
         return new ModelAndView("director-test-view")
-                .addObject("testAndWorkInfo", testStatisticService.getTestAndWorksInfo(testId));
+                .addObject("testAndWorkInfo", testAndWorksInfo);
     }
 }
