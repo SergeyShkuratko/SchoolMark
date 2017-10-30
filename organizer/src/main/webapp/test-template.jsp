@@ -176,11 +176,11 @@
                                         <button type="button" class="btn btn-default btn-sm" onclick="removeThisQuestion(this)" title="Удалить вопрос">
                                             <span aria-hidden="true" class="glyphicon glyphicon-remove" style="color:red;"></span></button>
                                         <h2>Вопрос ${questCount.count}</h2>
-                                        <input required type="text" class="form-control input-xxlarge"
+                                        <input maxlength="300" required type="text" class="form-control input-xxlarge"
                                                value="${question.questionText}"
                                                name="variant1_question1_text">
                                         <p></p>
-                                        <textarea required type="text" class="form-control input-xxlarge"
+                                        <textarea maxlength="500" required type="text" class="form-control input-xxlarge"
                                                   value="${question.answerText}"
                                                   name="variant1_question1_answer">${question.answerText}</textarea>
                                         <p></p>
@@ -191,7 +191,7 @@
                                                 <span aria-hidden="true" class="glyphicon glyphicon-minus" style="color:red;"></span></button></label>
                                         <p></p>
                                         <c:forEach items="${question.getCriterians()}" var="criterion" varStatus="criterCount">
-                                            <input required type="text" class="criterion form-control"
+                                            <input maxlength="300" required type="text" class="criterion form-control"
                                                    value="${criterion}">
                                             <p></p>
                                         </c:forEach>
