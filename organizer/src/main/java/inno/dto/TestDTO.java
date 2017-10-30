@@ -8,6 +8,7 @@ public class TestDTO {
    private String topic;
    private String description;
    private int school_class_id;
+   private int ownerId;
    private List<WorkDTO> works;
 
     public TestDTO(int id, String status, String topic, String description, int school_class_id) {
@@ -16,6 +17,15 @@ public class TestDTO {
         this.topic = topic;
         this.description = description;
         this.school_class_id = school_class_id;
+    }
+
+    public TestDTO(int id, String status, String topic, String description, int school_class_id, int ownerId) {
+        this.id = id;
+        this.status = status;
+        this.topic = topic;
+        this.description = description;
+        this.school_class_id = school_class_id;
+        this.ownerId = ownerId;
     }
 
     public int getId() {
@@ -64,5 +74,9 @@ public class TestDTO {
 
     public void setWorks(List<WorkDTO> works) {
         this.works = works;
+    }
+
+    public int getOwnerId() {
+        return ownerId;
     }
 }
