@@ -115,6 +115,7 @@ function createQuestDivFunction(variantTabDiv) {
     questDiv.appendChild(questHeader);
 
     var questTextInput = document.createElement("INPUT");
+    questTextInput.setAttribute("maxlength", "300")
     questTextInput.setAttribute("type", "text");
     questTextInput.setAttribute("class", "form-control input-xxlarge");
     questTextInput.setAttribute("placeholder", "Текст вопроса...");
@@ -124,6 +125,7 @@ function createQuestDivFunction(variantTabDiv) {
     questDiv.appendChild(document.createElement("p"));
 
     var questAnswerInput = document.createElement("TEXTAREA");
+    questAnswerInput.setAttribute("maxlength", "500")
     questAnswerInput.setAttribute("type", "text");
     questAnswerInput.setAttribute("class", "form-control input-xxlarge");
     questAnswerInput.setAttribute("placeholder", "Текст ответа...");
@@ -170,6 +172,7 @@ function addCriteriaElement(elementButton) {
     questCritNum++;
 
     var questCriteriaInput = document.createElement("INPUT");
+    questCriteriaInput.setAttribute("maxlength", "300")
     questCriteriaInput.setAttribute("type", "text");
     questCriteriaInput.setAttribute("placeholder", "Критерий оценки..");
     questCriteriaInput.setAttribute("class", questCritClassName + " " + bootstrapPostfix);
