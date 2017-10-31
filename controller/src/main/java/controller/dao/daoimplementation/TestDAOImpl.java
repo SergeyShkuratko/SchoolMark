@@ -22,9 +22,9 @@ public class TestDAOImpl implements TestDAO {
                     "\tfrom tests t\n" +
                     "\tjoin works w on w.test_id = t.id\n" +
                     "\tjoin school_classes sc on sc.id = t.school_class_id\n" +
-                    "\tjoin test_templates on w.test_id = test_templates.id\n" +
-                    "\tjoin subjects on subjects.id = test_templates.subject_id\n" +
-                    "\tjoin teachers on teachers.id = w.verifier_id\n" +
+                    "\tleft join test_templates on w.test_id = test_templates.id\n" +
+                    "\tleft join subjects on subjects.id = test_templates.subject_id\n" +
+                    "\tleft join teachers on teachers.id = w.verifier_id\n" +
                     "where teachers.user_id = ? order by w.verification_deadline";
 
 
@@ -32,7 +32,7 @@ public class TestDAOImpl implements TestDAO {
             "FROM works\n" +
             "LEFT JOIN tests ON works.test_id = tests.id\n" +
             "LEFT JOIN test_templates ON tests.test_template_id = test_templates.id\n" +
-            "WHERE test_id = ?";
+            "WHERE test_id = ? AND works.status = 'uploaded'";
 
     private static final String SQL_GET_WORK_PAGES_BY_WORK_ID = "SELECT work_pages.file_url from work_pages where work_pages.work_id = ?";
 

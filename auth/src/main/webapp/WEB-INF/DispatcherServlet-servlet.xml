@@ -10,25 +10,40 @@
        http://www.springframework.org/schema/mvc
        http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
-    <context:component-scan base-package="dao services controllers controller com calendar template inno studentmodule"/>
+    <context:component-scan
+            base-package="dao services controllers controller com calendar template inno studentmodule"/>
     <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="prefix" value="/"/>
         <property name="suffix" value=".jsp"/>
-        <property name="order" value="1" />
+        <property name="order" value="1"/>
     </bean>
 
     <bean id="viewResolverStudent" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="prefix" value="/WEB-INF/pages"/>
         <property name="suffix" value=".jsp"/>
-        <property name="order" value="2" />
+        <property name="order" value="2"/>
     </bean>
 
     <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
-    <property name="maxUploadSize" value="1000000"/>
+        <property name="maxUploadSize" value="1000000"/>
     </bean>
 
     <mvc:resources mapping="/resources/**" location="/resources/"/>
 
-    <mvc:annotation-driven />
+    <mvc:annotation-driven/>
 
+    <mvc:annotation-driven>
+        <mvc:message-converters>
+            <bean class="org.springframework.http.converter.StringHttpMessageConverter">
+                <property name="supportedMediaTypes">
+                    <list>
+                        <value>text/plain;charset=UTF-8</value>
+                        <value>text/html;charset=UTF-8</value>
+                        <value>application/json;charset=UTF-8</value>
+                    </list>
+                </property>
+            </bean>
+            <bean class="org.springframework.http.converter.BufferedImageHttpMessageConverter"/>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
 </beans>

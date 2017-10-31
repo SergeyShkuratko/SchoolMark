@@ -4,7 +4,8 @@ var servletName = "/getInfo"
 
 
 $(":button.test").click(function () {
-        $.get(ac + servletName + "?getWorksForTest=" + $(this).attr('testId'), function (data) {
+        $.get(ac + servletName + "?getWorksForTest=" + $(this).attr('testid'), function (data) {
+            console.log(ac + servletName + "?getWorksForTest=" + $(this).attr('testid'))
             $(".works-list").empty();
             $('.description').empty();
             if (data === "") {
@@ -27,10 +28,11 @@ $('#works-list-container').on('click', ':button.work', function () {
         console.log(works)
         $(".work-image").empty();
         $.each(works.urls, function () {
+            var currentUrl = 'http://localhost:8080/SM/' + this
             $(".work-image").append("         <a data-toggle=\"modal\" data-target='#showImage' href='#showImage' class='open-showImage'><li>\n" +
                 "                             <img  alt=\"100%x180\" " +
                 "                             style=\"height: 180px; width: 180px; display: block;\"\n" +
-                "                             src=\"" + this + "\"\n" +
+                "                             src=\"" + 'http://localhost:8080/SM' + this + "\"\n" +
                 "                             data-holder-rendered=\"true\"></li></a>");
         })
 
