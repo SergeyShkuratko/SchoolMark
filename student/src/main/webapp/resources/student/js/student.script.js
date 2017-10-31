@@ -2,7 +2,6 @@ var myapp;
 (function() {
     myapp = {
         init: function () {
-            $.notify("init");
             if($('#drop').length) {
                 $.myapp.dropforminit();
                 $.myapp.imageremove();
