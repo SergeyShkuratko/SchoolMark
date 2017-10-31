@@ -102,6 +102,7 @@ $(document).ready(function () {
     );
 
     $("input[type='checkbox']").change(function () {
+        updateTable();
         if ($(this).is(":checked")) {
             //Запрещаем добавление контрольной, ставим флаг отсутствия у ученика на работу
             $.ajax({
@@ -139,6 +140,7 @@ $(document).ready(function () {
     $('#refresh').click(function () {
         updateTable();
     });
+
     var autorefresh = false;
     setInterval(function () {
         autorefresh = $('input[name=autorefresh]').is(':checked');
@@ -160,24 +162,36 @@ $(document).ready(function () {
             },
         })
             .done(function (data) {
+                var success = true;
                 $.each(data, function (index, entry) {
+
                     if (entry.status == 'uploaded') {
                         $('#work_' + entry.id + '_status').html('Да,  <a data-toggle="modal" data-target="#myModal" style="cursor: pointer;">Просмотреть </a>');
                         $('#work_' + entry.id + '_confirm').html('Нет');
                         $('#work_' + entry.id + '').addClass('success');
-
+                        if ($('#check' + entry.id + '').is(':checked')) {
+                            success = false;
+                        }
                     } else if (entry.status == 'confirmed') {
                         $('#work_' + entry.id + '_status').html('Да, <a data-toggle="modal" data-target="#myModal" style="cursor: pointer;">Просмотреть </a>');
                         $('#work_' + entry.id + '_confirm').html('Да');
                         $('#work_' + entry.id + '').addClass('success');
-
                     } else {
                         $('#work_' + entry.id + '_status').html('Нет');
                         $('#work_' + entry.id + '_confirm').html('Нет');
                         $('#work_' + entry.id + '').removeClass('success');
+                        if ($('#check' + entry.id + '').is(':checked')) {
+                            success = false;
+                        }
                     }
 
+
                 });
+                if (!success) {
+                    $('#submit').prop('disabled', true);
+                } else {
+                    $('#submit').prop('disabled', false);
+                }
 
             });
     }
