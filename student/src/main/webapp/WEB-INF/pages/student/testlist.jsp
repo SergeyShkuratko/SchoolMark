@@ -12,7 +12,7 @@
 <%@include file="_head.jsp" %>
 <body>
 <%@include file="_header.jsp" %>
-<div class="main">
+<%--<div class="main">--%>
     <div class="row panel panel-default margin-bottom-null">
         <div class="col-xs-12 col-sm-12 text-center">
             <h1 class="control-work-title text-danger">Выполняется контрольная работа</h1>
@@ -48,7 +48,8 @@
             </table>
         </div>
     </div>
-</div>
+<%--</div>--%>
+<%@include file="/mystatic/pagefooter.jsp" %>
 <%@include file="_footer.jsp" %>
 </body>
 </html>

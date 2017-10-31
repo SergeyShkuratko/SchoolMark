@@ -12,7 +12,7 @@
 <%@include file="_head.jsp" %>
 <body>
 <%@include file="_header.jsp" %>
-<div class="main">
+<%--<div class="main">--%>
     <c:set var="work" value="${work}"/>
     <%--<c:set var="subjectName" value="${work.subject}"/>--%>
     <div class="row panel panel-default margin-bottom-null">
@@ -191,7 +191,8 @@
             </c:if>
         </div>
     </div>
-</div>
+<%--</div>--%>
+<%@include file="/mystatic/pagefooter.jsp" %>
 <%@include file="_footer.jsp" %>
 </body>
 </html>
