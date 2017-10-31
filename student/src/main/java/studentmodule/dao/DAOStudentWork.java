@@ -110,7 +110,7 @@ public class DAOStudentWork {
             case "in_progressappointed" : return "В обработке";
             case "on_verification" : return "На проверке";
             case "verified" : return "Проверена";
-            case "declined" : return "Отказался";
+            case "declined" : return "Отклонена";
             case "confirmed" : return "Подтверждена";
             case "reverification" : return "На перепроверке";
         }
