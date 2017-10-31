@@ -9,6 +9,7 @@ import inno.service.RunTestService;
 import inno.service.StatusTestService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -43,7 +44,7 @@ public class RunTestController {
         ModelAndView modelAndView = null;
         try {
             //отмечаем контрольную как в процессе
-            if (!StatusTestService.isInProgress(testId)) {
+            //if (!StatusTestService.isInProgress(testId)) {
                 StatusTestService.startTest(testId);
                 //создаем работы для учеников
                 runTestService.createWorksForTestIfNotExist(testId);
@@ -57,11 +58,11 @@ public class RunTestController {
                 modelAndView.addObject("test", test);
                 //добавляем работы
                 modelAndView.addObject("works", organizerDAO.getAllWorksByTestId(test.getId()));
-            } else {
+            /*} else {
                 modelAndView = new ModelAndView("test_in_progress");
                 TestDTO test = organizerDAO.getTestById(testId);
                 modelAndView.addObject("test", test);
-            }
+            }*/
         } catch (OrganizerDAOexception e) {
             logger.error(e);
         }
@@ -70,6 +71,7 @@ public class RunTestController {
     }
 
     @RequestMapping(method = RequestMethod.GET, params = {"work_id", "presence"})
+    @ResponseStatus(HttpStatus.OK)
     protected void processTestUpdatePresence(@RequestParam("work_id") Integer workId,
                                              @RequestParam(value = "presence", required = false) Boolean presence) {
         if (presence != null) {
