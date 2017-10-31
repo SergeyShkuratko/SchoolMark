@@ -4,9 +4,11 @@ import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 import studentmodule.dao.DAOStudentWork;
 import studentmodule.dto.DTOFile;
+import studentmodule.dto.DTOVariant;
 import studentmodule.dto.DTOWork;
 import studentmodule.exception.DAOStudentWorkException;
 
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -122,6 +124,24 @@ public class WorkService {
             workDAO.delStudentFile(dtoFile.getId());
         }
         return dtoFile;
+    }
+
+    public List<DTOVariant> getVariants(int templ_id) {
+
+        try {
+            return workDAO.getVariants(templ_id);
+        } catch (DAOStudentWorkException e) {
+            logger.error(e.getMessage(), e);
+        }
+        return Collections.emptyList();
+    }
+
+    public void setWorkVariant(int workId, int variantId) {
+        try {
+            workDAO.setWorkVariant(workId, variantId);
+        } catch (DAOStudentWorkException e) {
+            logger.error(e.getMessage());
+        }
     }
 
 }

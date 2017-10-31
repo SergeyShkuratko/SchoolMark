@@ -28,8 +28,39 @@
                     <c:out value="${work.date}"/>)
                     <c:out value="${work.status}"/>
                 </li>
+                <c:if test="${(work.status eq 'Новая')}">
+                <li class="dropdown" id="variant_menu">
+                    <a id="drop1" href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        Выбор варианта
+                        <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu" >
+                        <c:forEach items="${variants}" var="variant">
+                            <li><a href="/error.jsp" target="_blank" onclick="saveVariant(${variant.id});return false">
+                                <c:out value="${variant.name}"/>
+                            </a></li>
+                        </c:forEach>
+                    </ul>
+                </li>
+                </c:if>
             </ol>
         </div>
+        <script type="text/javascript">
+            function saveVariant(variant)
+            {
+                var object =
+                    {
+                        'variant':variant,
+                        'work':${work.workId},
+                        'command':'setVariant'
+                    }
+
+                $.post('/SM/save_variant', object, function(data){
+                    location.reload();
+                });
+
+            }
+        </script>
 
         <div class="panel panel-default">
             <div class="panel-body text-left">
@@ -45,7 +76,7 @@
                             <div class="baguetteBoxOne gallery">
                                 <c:forEach items="${files}" var="file" varStatus="forLoop">
                                     <div class="col-sm-4">
-                                        <c:if test="${work.status eq 'Новая'}">
+                                        <c:if test="${(work.status eq 'Новая') || (work.status eq 'Отклонена') }">
                                         <button type="button" class="close" aria-label="Close"
                                            data-fileid="<c:out value="${file.id}"/>">
                                            <span aria-hidden="true">×</span>
@@ -59,7 +90,7 @@
                             </div>
                         </div>
                         <div class="col-sm-2">
-                            <c:if test="${work.status eq 'Новая'}">
+                            <c:if test="${(work.status eq 'Новая') || (work.status eq 'Отклонена')}">
                                 <div class="panel panel-default text-left">
                                     <div class="panel-body">
                                         <form id="drop" class="dropzone" action="${context}/workload" method="post"
@@ -84,7 +115,7 @@
                 <div class="status">0%</div>
             </div>
             <%--Блок с кнопкой отправки на статусе Новая--%>
-            <c:if test="${work.status eq 'Новая'}">
+            <c:if test="${(work.status eq 'Новая') || (work.status eq 'Отклонена')}">
                 <div class="panel panel-default text-left">
                     <div class="panel-body">
                         <form action="${context}/workload/sendwork" method="post">
