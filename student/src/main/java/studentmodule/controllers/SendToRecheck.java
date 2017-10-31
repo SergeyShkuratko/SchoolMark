@@ -32,11 +32,11 @@ public class SendToRecheck {
         } catch(NumberFormatException nfe) {
             logger.error(RESPONSE_ERROR_MESSAGE + nfe.getMessage());
             model.addAttribute("whatHappened", RESPONSE_ERROR_MESSAGE + nfe.getMessage());
-            return "errpages/500-error";
+            return "WEB-INF/pages/errpages/500-error";
         } catch (DAOStudentWorkException e) {
             logger.error(RESPONSE_ERROR_MESSAGE + e.getMessage());
             model.addAttribute("whatHappened", RESPONSE_ERROR_MESSAGE + e.getMessage());
-            return "errpages/500-error";
+            return "WEB-INF/pages/errpages/500-error";
         }
     }
 

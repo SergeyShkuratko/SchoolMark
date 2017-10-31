@@ -107,7 +107,7 @@ public class FileUploadController {
             logger.error("Во время сохранения файла произошла ошибка! " + e.getMessage());
         }
         model.addAttribute("json_text", new JSONObject(output));
-        return "student/_json";
+        return "WEB-INF/pages/student/_json";
     }
 
     @ExceptionHandler(MaxUploadSizeExceededException.class)
