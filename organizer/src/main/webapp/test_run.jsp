@@ -44,12 +44,12 @@
         </div>
         <div class="well">
             <label class="checkbox-inline"><input type="checkbox" name="autorefresh" value=""
-                                                  checked>Автообновление</label>
+                                                  >Автообновление</label>
             <button type="button" class="btn btn-primary btn-md" id="refresh">Обновить</button>
         </div>
         <form action="${context}/test-stop" method="GET">
             <input type="hidden" name="test_id" value="${test.id}" id="test_id">
-            <button type="submit" class="btn btn-danger btn-block btn-lg">Завершить проведение контрольной работы
+            <button id="submit" type="submit" class="btn btn-danger btn-block btn-lg" disabled>Завершить проведение контрольной работы
             </button>
         </form>
         <div class="table-responsive ">
@@ -69,7 +69,7 @@
                         <td>
                             <div class="checkbox">
                                 <label>
-                                    <input type="checkbox" name="${work.id}" checked>
+                                    <input id="check${work.id}" type="checkbox" name="${work.id}" checked>
                                 </label>
                             </div>
                         </td>

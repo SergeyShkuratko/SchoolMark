@@ -45,11 +45,16 @@ public class NewTestController {
                 TestDTO test = organizerDAO.getTestById(testId);
                 //добавляем тест
                 modelAndView.addObject("test", test);
+                if ("new".equals(test.getStatus())) {
+                    modelAndView.addObject("test", test);
+                    return modelAndView;
+                } else {
+                    return new ModelAndView("redirect:/test-run?test_id=" + test.getId());
+                }
             } catch (OrganizerDAOexception e) {
                 logger.error(e);
             }
         }
-
-        return modelAndView;
+        return null;
     }
 }
