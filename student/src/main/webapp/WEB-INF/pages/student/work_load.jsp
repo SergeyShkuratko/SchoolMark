@@ -36,7 +36,7 @@
                     </a>
                     <ul class="dropdown-menu" >
                         <c:forEach items="${variants}" var="variant">
-                            <li><a href="/error.jsp" target="_blank" onclick="saveVariant(${variant.id});return false">
+                            <li><a href="#" target="_blank" onclick="saveVariant(${variant.id});return false">
                                 <c:out value="${variant.name}"/>
                             </a></li>
                         </c:forEach>
