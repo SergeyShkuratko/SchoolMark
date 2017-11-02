@@ -36,6 +36,8 @@ public class TestDAOImpl implements TestDAO {
 
     private static final String SQL_GET_WORK_PAGES_BY_WORK_ID = "SELECT work_pages.file_url from work_pages where work_pages.work_id = ?";
 
+    private static final String SQL_SET_WORK_STATUS_CONFIRMED = "UPDATE works SET status='verified' WHERE id = ?";
+
     private static final Logger logger = Logger.getLogger(TestDAOImpl.class);
     private static ConnectionPool manager;
 
@@ -121,5 +123,21 @@ public class TestDAOImpl implements TestDAO {
             logger.error(e.getMessage(), e);
         }
         return result;
+    }
+
+    @Override
+    public boolean setWorkStatusVerified(int workId) {
+        try (Connection connection = manager.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SQL_SET_WORK_STATUS_CONFIRMED)) {
+
+            preparedStatement.setInt(1, workId);
+            int result = preparedStatement.executeUpdate();
+            if (result == 1) {
+                return true;
+            }
+        } catch (SQLException e) {
+            logger.error(e.getMessage(), e);
+        }
+        return false;
     }
 }

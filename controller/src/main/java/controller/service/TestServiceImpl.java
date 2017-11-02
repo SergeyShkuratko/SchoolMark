@@ -1,13 +1,10 @@
 package controller.service;
 
+import controller.dao.TestDAO;
 import controller.dao.dto.TestDTO;
 import controller.dao.dto.TestsDTO;
 import controller.dao.dto.WorkPageDTO;
-import controller.dao.TestDAO;
-import controller.dao.daoimplementation.TestDAOImpl;
 import controller.jsonconverter.Converter;
-import controller.jsonconverter.JsonConverter;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -45,5 +42,10 @@ public class TestServiceImpl implements TestService {
             return "";
         }
         return convert;
+    }
+
+    @Override
+    public boolean setWorkStatusVerified(int workId) {
+        return testDAO.setWorkStatusVerified(workId);
     }
 }

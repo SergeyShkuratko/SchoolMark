@@ -12,4 +12,6 @@ public interface TestDAO {
     TestDTO getTestInfoAndWorkIdsByTestId(int testId);
 
     WorkPageDTO getWorkPagesByWorkId(int workId);
+
+    boolean setWorkStatusVerified(int workId);
 }

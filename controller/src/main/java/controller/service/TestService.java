@@ -10,4 +10,6 @@ public interface TestService {
     String getTestInfoJsonByTestId(int testId);
 
     String getWorkPagesJsonByWorkId(int workId);
+
+    boolean setWorkStatusVerified(int workId);
 }

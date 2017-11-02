@@ -62,11 +62,10 @@ $(":button.send-result").click(function () {
         var result = JSON.parse(data);
         if (result.result === 'ok') {
             $.notify("Сохранено");
+            $('button[workid=' + selectedWorkId + ']').remove();
+            selectedWorkId = -1
         } else {
             $.notify("Ошибка сохранения");
         }
     })
-    // if (value) {
-    //     alert(value);
-    // }
 })

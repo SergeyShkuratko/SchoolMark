@@ -90,7 +90,7 @@
                             </div>
                         </div>
                         <div class="col-sm-2">
-                            <c:if test="${(work.status eq 'Новая') || (work.status eq 'Отклонена')}">
+                            <c:if test="${(!blockLoad) && ((work.status eq 'Новая') || (work.status eq 'Отклонена'))}">
                                 <div class="panel panel-default text-left">
                                     <div class="panel-body">
                                         <form id="drop" class="dropzone" action="${context}/workload" method="post"
