@@ -23,12 +23,10 @@ public class WorkLoadServlet {
 
     private static final Logger logger = Logger.getLogger(WorkLoadServlet.class);
     private final WorkService workService;
-    private final ServletContext servletContext;
 
     @Autowired
-    public WorkLoadServlet(WorkService workService, ServletContext servletContext) {
+    public WorkLoadServlet(WorkService workService) {
         this.workService = workService;
-        this.servletContext = servletContext;
     }
 
     @RequestMapping(value = "/workload", method = RequestMethod.GET)
@@ -39,6 +37,9 @@ public class WorkLoadServlet {
             int id = Integer.valueOf(inpId);
             DTOWork work = workService.getWorkById(id);
             int variant_id = work.getVariantId();
+            if (variant_id==0) {
+                model.addAttribute("blockLoad", true);
+            }
             List<DTOVariant>  variants = workService.getVariants(work.getTemplId());
             model.addAttribute("variants", variants);
             model.addAttribute("questions",

@@ -6,6 +6,12 @@ var myapp;
                 $.myapp.dropforminit();
                 $.myapp.imageremove();
             }
+            $.myapp.initbaguette();
+        },
+        initbaguette: function() {
+            if($('.baguetteBoxOne').length) {
+                baguetteBox.run('.baguetteBoxOne');
+            }
         },
         imageremove: function() {
             $(document).on('click', '[aria-label=Close]', function(evt){

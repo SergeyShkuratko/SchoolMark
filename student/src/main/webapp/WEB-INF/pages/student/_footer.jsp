@@ -15,8 +15,3 @@
 <script src="<spring:url value="/resources/student/js/notify.min.js"/>"></script>
 <script src="<spring:url value="/resources/student/js/student.script.js"/>"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.8.1/baguetteBox.min.js"></script>
-<script>
-    if(baguetteBox.length) {
-        baguetteBox.run('.baguetteBoxOne');
-    }
-</script>

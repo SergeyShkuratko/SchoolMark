@@ -36,7 +36,7 @@
                     </a>
                     <ul class="dropdown-menu" >
                         <c:forEach items="${variants}" var="variant">
-                            <li><a href="/error.jsp" target="_blank" onclick="saveVariant(${variant.id});return false">
+                            <li><a href="#" target="_blank" onclick="saveVariant(${variant.id});return false">
                                 <c:out value="${variant.name}"/>
                             </a></li>
                         </c:forEach>
@@ -90,7 +90,7 @@
                             </div>
                         </div>
                         <div class="col-sm-2">
-                            <c:if test="${(work.status eq 'Новая') || (work.status eq 'Отклонена')}">
+                            <c:if test="${(!blockLoad) && ((work.status eq 'Новая') || (work.status eq 'Отклонена'))}">
                                 <div class="panel panel-default text-left">
                                     <div class="panel-body">
                                         <form id="drop" class="dropzone" action="${context}/workload" method="post"
