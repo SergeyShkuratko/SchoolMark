@@ -8,8 +8,9 @@
     <!--<link href="css/form.css" rel="stylesheet" type="text/css">-->
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.css"/>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap-responsive.css"/>
-    <script type="text/javascript" src="js/jquery.js"></script>
-    <script type="text/javascript" src="../../../../../../auth/src/main/webapp/js/bootstrap.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/static/notify.min.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/js/bootstrap.js"></script>
     <script type="text/javascript">
 
         //        function funcTrunk(element) {
@@ -19,8 +20,8 @@
         //        }
 
         $(document).ready(function () {
-            document.getElementById('testDate').valueAsDate = new Date();
-            document.getElementById('deadlineDate').valueAsDate = new Date();
+//            document.getElementById('testDate').valueAsDate = new Date();
+//            document.getElementById('deadlineDate').valueAsDate = new Date();
 
             $('input').on('input', function () {
                 var maxLength = 100;
@@ -31,55 +32,74 @@
 
         });
 
-        $(document)
-            .on('blur', '#testDate', function (evt) {
-                console.log($(this).val());
-                var chosenDate = new Date($(this).val());
-                if (chosenDate == "Invalid Date") {
-                    chosenDate = new Date();
-                }
-                console.log(chosenDate);
-                var toDay = new Date();
-                if (chosenDate > toDay.setDate(toDay.getDate() + 365) || chosenDate < (new Date())) {
-                    chosenDate = new Date();
-                }
+                $(document)
+                    .on('blur', '#testDate', function (evt) {
+                        console.log($(this).val());
+                        var chosenDate = new Date($(this).val());
+                        if (chosenDate == "Invalid Date") {
+                            chosenDate = new Date();
+                        }
+                        console.log(chosenDate);
+                        var toDay = new Date();
+                        if (chosenDate > toDay.setDate(toDay.getDate() + 365) || chosenDate < (new Date())) {
+                            chosenDate = new Date();
+                        }
 
-                var currDay = ('0' + chosenDate.getDate()).slice(-2);
-                var currMonth = ('0' + (chosenDate.getMonth() + 1)).slice(-2);
-                var currYear = chosenDate.getFullYear();
-                $('#testDate').val(currYear + "-" + currMonth + "-" + currDay);
+                        var currDay = ('0' + chosenDate.getDate()).slice(-2);
+                        var currMonth = ('0' + (chosenDate.getMonth() + 1)).slice(-2);
+                        var currYear = chosenDate.getFullYear();
+                        $('#testDate').val(currYear + "-" + currMonth + "-" + currDay);
 
-                chosenDate.setDate(chosenDate.getDate() + 1);
-                var day = ('0' + chosenDate.getDate()).slice(-2);
-                var month = ('0' + (chosenDate.getMonth() + 1)).slice(-2);
-                var year = chosenDate.getFullYear();
-                $('#deadlineDate').val(year + "-" + month + "-" + day);
-            });
+                        chosenDate.setDate(chosenDate.getDate() + 1);
+                        var day = ('0' + chosenDate.getDate()).slice(-2);
+                        var month = ('0' + (chosenDate.getMonth() + 1)).slice(-2);
+                        var year = chosenDate.getFullYear();
+                        $('#deadlineDate').val(year + "-" + month + "-" + day);
+                    });
 
-        $(document)
-            .on('blur', '#deadlineDate', function (evt) {
-                console.log($(this).val());
-                var chosenTestDate = new Date($('#testDate').val());
-                var chosenDealineDate = new Date($(this).val());
-                if (chosenDealineDate == "Invalid Date") {
-                    chosenDealineDate = new Date();
-                    chosenDealineDate.setDate(chosenTestDate.getDate() + 1);
-                }
-                var date = new Date(chosenTestDate);
-                if (chosenDealineDate > date.setDate(chosenTestDate.getDate() + 60)) {
-                    chosenDealineDate = new Date();
-                    chosenDealineDate.setDate(chosenTestDate.getDate() + 1);
-                }
-                if (chosenDealineDate < chosenTestDate) {
-                    chosenDealineDate = new Date();
-                    chosenDealineDate.setDate(chosenTestDate.getDate() + 1);
-                }
-                var day = ('0' + chosenDealineDate.getDate()).slice(-2);
-                var month = ('0' + (chosenDealineDate.getMonth() + 1)).slice(-2);
-                var year = chosenDealineDate.getFullYear();
-                $('#deadlineDate').val(year + "-" + month + "-" + day);
-            });
+                $(document)
+                    .on('blur', '#deadlineDate', function (evt) {
+                        console.log($(this).val());
+                        var chosenTestDate = new Date($('#testDate').val());
+                        var chosenDealineDate = new Date($(this).val());
+                        if (chosenDealineDate == "Invalid Date") {
+                            chosenDealineDate = new Date();
+                            chosenDealineDate.setDate(chosenTestDate.getDate() + 1);
+                        }
+                        var date = new Date(chosenTestDate);
+                        if (chosenDealineDate > date.setDate(chosenTestDate.getDate() + 60)) {
+                            chosenDealineDate = new Date();
+                            chosenDealineDate.setDate(chosenTestDate.getDate() + 1);
+                        }
+                        if (chosenDealineDate < chosenTestDate) {
+                            chosenDealineDate = new Date();
+                            chosenDealineDate.setDate(chosenTestDate.getDate() + 1);
+                        }
+                        var day = ('0' + chosenDealineDate.getDate()).slice(-2);
+                        var month = ('0' + (chosenDealineDate.getMonth() + 1)).slice(-2);
+                        var year = chosenDealineDate.getFullYear();
+                        $('#deadlineDate').val(year + "-" + month + "-" + day);
+                    });
 
+        function checkAndSubmit() {
+            var allOk = true;
+            var chosenTestDate = new Date($('#testDate').val());
+            var chosenDealineDate = new Date($('#deadlineDate').val());
+            var toDay = new Date();
+            toDay.setDate(toDay.getDate() - 1);
+            if (chosenDealineDate < chosenTestDate) {
+                allOk = false;
+                $.notify('Дата проверки не может быть меньше даты самой контрольной');
+//                $('#deadlineDate').val('');
+            }
+            if (chosenTestDate <= toDay) {
+                allOk = false;
+                $.notify('Нельзя назначить контрольную на прошедшую дату');
+            }
+            if (allOk) {
+//                $('#templateForm').submit();
+            }
+        }
 
     </script>
     <style>
@@ -216,56 +236,105 @@
                 </select>
             </div>
             </c:if>
-    </form>
-    <form id="testForm" action="#" method="post">
-        <div class="form-group">
-            <label for="className">Буква</label>
-            <select required class="form-control input-xxlarge" id="className" name="className">
-                <option value="" selected>Выберите букву класса..</option>
-                <c:forEach items="${classNames}" var="className">
-                    <option><c:out value="${className}"/></option>
-                </c:forEach>
-            </select>
-        </div>
+            <%--</form>--%>
+            <%--<form id="testForm" action="#" method="post">--%>
+            <c:if test="${test == null}">
+            <div class="form-group">
+                <label for="className">Буква</label>
+                <select required class="form-control input-xxlarge" id="className" name="className">
+                    <option value="" selected>Выберите букву класса..</option>
+                    <c:forEach items="${classNames}" var="className">
+                        <option><c:out value="${className}"/></option>
+                    </c:forEach>
+                </select>
+            </div>
 
-        <div class="form-group form-icon">
-            <label for="testDate">Дата контрольной работы</label>
-            <input type="date" oninput="addDay(this)" class="form-control input-xxlarge" id="testDate" name="testDate">
-            <i class="glyphicon glyphicon-calendar input-icon" aria-hidden="true"></i>
-        </div>
-        <div class="form-group form-icon">
-            <label for="deadlineDate">Крайний срок проверки</label>
-            <input type="date" onblur="addDay(this)" class="form-control input-xxlarge" id="deadlineDate"
-                   name="deadlineDate">
-            <i class="glyphicon glyphicon-calendar input-icon" aria-hidden="true"></i>
-        </div>
+            <div class="form-group form-icon">
+                <label for="testDate">Дата контрольной работы</label>
+                <input type="date" oninput="" class="form-control input-xxlarge" id="testDate" name="testDate">
+                <i class="glyphicon glyphicon-calendar input-icon" aria-hidden="true"></i>
+            </div>
+            <div class="form-group form-icon">
+                <label for="deadlineDate">Крайний срок проверки</label>
+                <input type="date" onblur="" class="form-control input-xxlarge" id="deadlineDate"
+                       name="deadlineDate">
+                <i class="glyphicon glyphicon-calendar input-icon" aria-hidden="true"></i>
+            </div>
 
-        <label for="testTheme">Название контрольной работы</label>
-        <input required type="text" class="input-xxlarge form-control"
-               placeholder="Название контрольной..."
-               id="testTheme" name="testTheme"/>
+            <label for="testTheme">Название контрольной работы</label>
+            <input required type="text" class="input-xxlarge form-control"
+                   placeholder="Название контрольной..."
+                   id="testTheme" name="testTheme"/>
+            </c:if>
+                <c:if test="${test != null}">
 
+                <div class="form-group">
+                    <label for="className">Буква</label>
+                    <select required class="form-control input-xxlarge" id="className" name="className">
+                        <option value="" selected>Выберите букву класса..</option>
+                        <c:forEach items="${classNames}" var="className">
+                            <option ${className == test.schoolClass.name ? 'selected' : ''}>
+                                <c:out value="${className}"/></option>
+                            <%--<option><c:out value="${className}"/></option>--%>
+                        </c:forEach>
+                    </select>
+                </div>
+
+                <div class="form-group form-icon">
+                    <label for="testDate">Дата контрольной работы</label>
+                    <input type="date" oninput=""
+                           value="${test.testDate}"
+                           class="form-control input-xxlarge" id="testDate" name="testDate">
+                    <i class="glyphicon glyphicon-calendar input-icon" aria-hidden="true"></i>
+                </div>
+                <div class="form-group form-icon">
+                    <label for="deadlineDate">Крайний срок проверки</label>
+                    <input type="date" onblur=""
+                           value="${test.deadlineDate}"
+                           class="form-control input-xxlarge" id="deadlineDate"
+                           name="deadlineDate">
+                    <i class="glyphicon glyphicon-calendar input-icon" aria-hidden="true"></i>
+                </div>
+
+                <label for="testTheme">Название контрольной работы</label>
+                <input required type="text" class="input-xxlarge form-control"
+                       value="${test.testDescription}"
+                       id="testTheme" name="testTheme"/>
+
+                </c:if>
     </form>
 </div>
 
 
 <div class="form-actions">
-    <button form="testForm" type="submit" class="btn btn-primary " name="testFormButton" value="createTest">Создать
-        контрольную
-        работу
-    </button>
+    <c:if test="${testTemplate.testVariants.size() > 0}">
+        <button form="templateForm" type="submit" onclick="checkAndSubmit()" class="btn btn-primary "
+                name="testFormButton"
+                value="createTest">Создать
+            контрольную
+            работу
+        </button>
+    </c:if>
     <c:if test="${testTemplate == null}">
-        <button form="templateForm" type="submit" class="btn btn-primary " name="testFormButton" value="inputQuestions">
+        <button form="templateForm" type="submit" onclick="checkAndSubmit()" class="btn btn-primary "
+                name="testFormButton" value="inputQuestions">
             Перейти к вводу
             вопросов
         </button>
     </c:if>
-    <c:if test="${testTemplate != null}">
-        <button form="templateForm" type="submit" class="btn btn-primary " name="testFormButton" value="inputQuestions">
+    <c:if test="${testTemplate != null && testTemplate.testVariants.size() == 0}">
+        <button form="templateForm" type="submit" onclick="checkAndSubmit()" class="btn btn-primary "
+                name="testFormButton" value="inputQuestions">
+            Перейти к вводу
+            вопросов
+        </button>
+    </c:if>
+    <c:if test="${testTemplate.testVariants.size() > 0}">
+        <button form="templateForm" type="submit" onclick="checkAndSubmit()" class="btn btn-primary " name="testFormButton" value="inputQuestions">
             Редактировать вопросы
         </button>
     </c:if>
-    <button type="button" class="btn btn-default ">Вернуться без сохранения</button>
+    <%--<button type="button" class="btn btn-default ">Вернуться без сохранения</button>--%>
 </div>
 
 <%@include file="/mystatic/pagefooter.jsp" %>

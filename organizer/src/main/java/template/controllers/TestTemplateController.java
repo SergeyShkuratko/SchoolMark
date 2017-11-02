@@ -5,8 +5,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+import template.dto.Teacher;
+import template.dto.Test;
 import template.dto.TestTemplate;
 import template.dto.TestVariant;
+import template.services.TestService;
 import template.services.TestTemplateService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -20,10 +23,12 @@ import java.util.Map;
 public class TestTemplateController {
 
     private final TestTemplateService testTemplateService;
+    private final TestService testService;
 
     @Autowired
-    public TestTemplateController(TestTemplateService testTemplateService) {
+    public TestTemplateController(TestTemplateService testTemplateService, TestService testService) {
         this.testTemplateService = testTemplateService;
+        this.testService = testService;
     }
 
     @RequestMapping(method = RequestMethod.GET)
@@ -66,6 +71,26 @@ public class TestTemplateController {
             session.setAttribute("testTemplate", newTemplate);
         }
         return "redirect:/test";
+    }
+
+    @RequestMapping(params = {"templateFormButton=createTest"}, method = RequestMethod.POST)
+    public String createTest(HttpServletRequest request, HttpSession session) {
+        TestTemplate testTemplate = (TestTemplate) session.getAttribute("testTemplate");
+        if (testTemplate == null) {
+            testTemplate = createTemplateFromPrototype(request);
+            testTemplate.setId(testTemplateService.createTestTemplateCascade(testTemplate));
+        } else {
+            TestTemplate newTemplate = createTemplateFromPrototype(request);
+            if (!testTemplate.sameAs(newTemplate)) {
+                testTemplateService.setStatusDisabled(testTemplate);
+                newTemplate.setId(testTemplateService.createTestTemplateCascade(newTemplate));
+                testTemplate = newTemplate;
+            }
+        }
+        Test test = (Test) session.getAttribute("test");
+        test.setTestTemplate(testTemplate);
+        testService.createTest(test, (Teacher) session.getAttribute("teacher"));
+        return ("redirect:/organizer/calendar");
     }
 
     @RequestMapping(params = {"templateFormButton=returnWithoutSave"}, method = RequestMethod.POST)

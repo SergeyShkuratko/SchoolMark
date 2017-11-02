@@ -13,7 +13,9 @@ import template.dto.TestTemplate;
 import template.services.TestService;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -46,6 +48,9 @@ public class TestController {
         model.put("test", test);
 
         TestTemplate testTemplate = (TestTemplate) session.getAttribute("testTemplate");
+        if (testTemplate == null){
+            testTemplate = (TestTemplate) session.getAttribute("templatePrototype");
+        }
         model.put("testTemplate", testTemplate);
 
         List<Subject> subjects = testService.getAllSubjects();
@@ -66,23 +71,28 @@ public class TestController {
     }
 
     @RequestMapping(params = {"testFormButton=createTest"}, method = RequestMethod.POST)
-    public ModelAndView createTest(HttpServletRequest request) {
-        TestTemplate testTemplate = (TestTemplate) request.getSession().getAttribute("testTemplate");
+    public ModelAndView createTest(HttpServletRequest request, HttpSession session) {
+        TestTemplate testTemplate = (TestTemplate) session.getAttribute("testTemplate");
         if (testTemplate == null) {
             request.setAttribute("questionsNotLoaded", true);
-            return new ModelAndView("/test");
+            return new ModelAndView("test");
         } else {
             Test test = testService.getTestFromReq(request);
             test.setTestTemplate(testTemplate);
-            testService.createTest(test, (Teacher) request.getSession().getAttribute("teacher"));
+            testService.createTest(test, (Teacher) session.getAttribute("teacher"));
             return new ModelAndView("redirect:/organizer/calendar");
         }
     }
 
     @RequestMapping(params = {"testFormButton=inputQuestions"}, method = RequestMethod.POST)
-    public ModelAndView getInputQuestions(HttpServletRequest request) {
+    public ModelAndView getInputQuestions(HttpSession session, HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
+
         TestTemplate testTemplate = testService.getTestTemplateFromReq(request);
-        request.getSession().setAttribute("templatePrototype", testTemplate);
+        session.setAttribute("templatePrototype", testTemplate);
+        Test test = testService.getTestFromReq(request);
+        test.setTestTemplate(testTemplate);
+
+        session.setAttribute("test", test);
         return new ModelAndView("redirect:/test-template");
     }
 }

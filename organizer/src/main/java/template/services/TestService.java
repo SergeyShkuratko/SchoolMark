@@ -60,6 +60,9 @@ public class TestService {
 
     public SchoolClass getSchoolClassFromReq(HttpServletRequest req) {
         TestTemplate testTemplate = (TestTemplate) req.getSession().getAttribute("testTemplate");
+        if (testTemplate == null){
+            testTemplate = (TestTemplate) req.getSession().getAttribute("templatePrototype");
+        }
         Teacher teacher = (Teacher) req.getSession().getAttribute("teacher");
 
         SchoolClass schoolClass = classDAOImplementation.getClassByNumAndName(

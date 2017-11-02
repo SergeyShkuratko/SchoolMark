@@ -209,9 +209,11 @@
                 <button form="emptyForm" class="btn btn-default" type="submit" name="templateFormButton" value="returnWithoutSave">Вернуться без сохранения</button>
                 <c:if test="${testTemplate == null}">
                     <button form="mainform" class="btn btn-primary" type="submit" name="templateFormButton" value="endInputQuestions" onclick="generateId()">Завершить ввод вопросов</button>
-                    <button form="mainform" class="btn btn-primary" type="submit" name="templateFormButton" value="saveAsTemplate" onclick="generateId()">Сохранить как шаблон</button>
+                    <button form="mainform" class="btn btn-primary" type="submit" name="templateFormButton" value="createTest" onclick="generateId()">Создать контрольную</button>
+                    <%--<button form="mainform" class="btn btn-primary" type="submit" name="templateFormButton" value="saveAsTemplate" onclick="generateId()">Сохранить как шаблон</button>--%>
                 </c:if>
                 <c:if test="${testTemplate != null}">
+                    <button form="mainform" class="btn btn-primary" type="submit" name="templateFormButton" value="createTest" onclick="generateId()">Создать контрольную</button>
                     <button form="mainform" class="btn btn-primary" type="submit" name="templateFormButton" value="saveChanges" onclick="generateId()">Сохранить изменения</button>
                 </c:if>
                 <button form="emptyForm" class="btn btn-default" type="submit" name="templateFormButton" value="cancel">Сбросить изменения</button>
