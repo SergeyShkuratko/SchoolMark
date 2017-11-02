@@ -32,7 +32,7 @@ public class TestDAOImpl implements TestDAO {
             "FROM works\n" +
             "LEFT JOIN tests ON works.test_id = tests.id\n" +
             "LEFT JOIN test_templates ON tests.test_template_id = test_templates.id\n" +
-            "WHERE test_id = ? AND works.status = 'uploaded'";
+            "WHERE test_id = ? AND works.status = 'confirmed' ";
 
     private static final String SQL_GET_WORK_PAGES_BY_WORK_ID = "SELECT work_pages.file_url from work_pages where work_pages.work_id = ?";
 
